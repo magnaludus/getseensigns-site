@@ -2,6 +2,8 @@
 (function(){
   var y=document.getElementById('yr'); if(y) y.textContent=new Date().getFullYear();
   var f=document.getElementById('quote-form'); if(!f) return;
+  // ?product=Name preselects the product (links from the product pages)
+  try{var want=new URLSearchParams(location.search).get('product');if(want){var sel=f.elements.product;for(var i=0;i<sel.options.length;i++){if(sel.options[i].text===want){sel.selectedIndex=i;break;}}}}catch(_){}
   var status=f.querySelector('.form-status');
   var labels={name:'Name',email:'Email',product:'Product',quantity:'Quantity',size:'Size',needed_by:'Needed by',details:'Details'};
   function say(msg,err){status.textContent=msg;status.className='form-status'+(err?' err':'');}
