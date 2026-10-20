@@ -338,11 +338,12 @@ print('gameday ok', 'hero real' if hero_real else 'hero fallback')
 posts_cards=''
 for b in BLOG:
     path=f'/blog/{b["slug"]}/'; items=[('Home','/'),('Guides','/blog/'),(b['h1'],path)]
-    og='/assets/img/g-02-bulk-yard-signs-2.jpg' if 'election' in b['slug'] else '/assets/img/g-12-senior-night-banner-2.jpg'
-    art={"@type":"BlogPosting","headline":b['h1'],"description":b['desc'],"datePublished":b['date'],"dateModified":TODAY,"inLanguage":"en-US",
+    og=b['img']
+    art={"@type":"BlogPosting","headline":b['h1'],"description":b['desc'],"datePublished":b['date'],"dateModified":max(b['date'],TODAY),"inLanguage":"en-US",
          "author":{"@id":ORG_ID},"publisher":{"@id":ORG_ID},"mainEntityOfPage":BASE+path,"image":BASE+og}
     nodes=[art, crumbs(items)]
-    img=pic(og[:-4],'Example campaign yard signs stacked for a school board race' if 'election' in b['slug'] else 'Example senior night banner on a ballfield fence',900,675,eager=True)
+    img=pic(og[:-4],b['img_alt'],900,675,eager=True)
+    d=datetime.date.fromisoformat(b['date'])
     page=head(b['title'],b['desc'],path,ld(*nodes),og_img=og,og_w=900,og_h=675,otype='article',preload=og[:-4]+'.webp')+NAV+f'''<main id="main">
 <article>
 <section class="phero ink">
@@ -350,7 +351,7 @@ for b in BLOG:
     {bc_html(items)}
     <div class="phero-in">
       <div>
-        <p class="eyebrow">{e(b["kicker"])} · <time datetime="{b["date"]}">October 17, 2026</time></p>
+        <p class="eyebrow">{e(b["kicker"])} · <time datetime="{b["date"]}">{d:%B} {d.day}, {d.year}</time></p>
         <h1 class="h1-post">{e(b["h1"])}</h1>
         <p class="lede">{e(b["lede"])}</p>
       </div>
@@ -360,14 +361,14 @@ for b in BLOG:
 </section>
 <section class="sec paper"><div class="wrap prose">{b["html"]}</div></section>
 </article>
-{quote_cta("Bulk Yard Signs" if "election" in b["slug"] else "Senior Night Banner")}
+{quote_cta(b["quote"])}
 </main>
 '''+foot()
     write(path,page)
     posts_cards+=f'<a class="post" href="{path}"><div class="card-img">{pic(og[:-4],"",900,675)}</div><div class="card-body"><p class="eyebrow">{e(b["kicker"])}</p><h3>{e(b["h1"])}</h3><p>{e(b["desc"])}</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></div></a>'
 path='/blog/'; items=[('Home','/'),('Guides','/blog/')]
 title='Sign Guides & How-Tos | Get Seen Signs'
-desc='Practical guides from Get Seen Signs: Alabama and Georgia election yard sign rules, senior night banner ideas, and how to pick the right sign.'
+desc='Practical guides from Get Seen Signs: Christmas family name banner ideas, Alabama and Georgia election yard sign rules, senior night banner ideas, and how to pick the right sign.'
 page=head(title,desc,path,ld(crumbs(items),{"@type":"Blog","@id":BASE+path,"url":BASE+path,"name":"Get Seen Signs Guides","publisher":{"@id":ORG_ID}}))+NAV+f'''<main id="main">
 <section class="phero ink"><div class="wrap">{bc_html(items)}<h1>Sign <span class="block">guides.</span></h1><p class="lede">Straight answers for people buying signs: the rules, the sizes and the timing.</p></div></section>
 <section class="sec paper"><div class="wrap"><div class="posts">{posts_cards}</div></div></section>
@@ -376,8 +377,10 @@ page=head(title,desc,path,ld(crumbs(items),{"@type":"Blog","@id":BASE+path,"url"
 write(path,page)
 
 # ---------- sitemap, robots ----------
+LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
+LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
 urls=['/']+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/privacy']
-sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{TODAY}</lastmod></url>\n' for u in urls)+'</urlset>\n'
+sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)
 open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
 json.dump(urls,open(SRC+'/urls.json','w'),indent=1)
