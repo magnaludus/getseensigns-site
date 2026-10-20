@@ -83,11 +83,67 @@ dict(
 
 BLOG = [
 dict(
+ slug='christmas-family-name-banner-ideas',
+ title='Christmas Family Name Banner and Yard Sign Ideas | Get Seen Signs',
+ desc='Christmas family name banner and yard sign ideas: what to put on it, which size fits a porch, garage or fence, design tips that read from the street, and the Dec 10 order date.',
+ h1='Christmas family name banner and yard sign ideas',
+ date='2026-10-20', kicker='Holidays',
+ img='/assets/img/g-11-christmas-family-banner-2.jpg', img_alt='Example Christmas family name banner hung on a front porch',
+ quote='Christmas Family Banner',
+ lede="Your family name, out front where the whole street can see it. Here's what to put on a Christmas banner or yard sign, which size fits where, how to make it readable from the road, and the date that matters most: order and approve your proof by December 10.",
+ html='''
+<h2>What goes on a Christmas family name banner</h2>
+<ul class="ticks">
+<li><b>The family name, big.</b> "The Carters" or "Carter Family." This is what people read from the street, so it gets most of the space.</li>
+<li><b>A short greeting.</b> Merry Christmas, Happy Holidays, Season's Greetings, or Joy. One line is plenty.</li>
+<li><b>Optional "Est." year.</b> "Est. 2014" under the name. It's the detail people ask about.</li>
+<li><b>A style.</b> Our <a href="/holiday-yard-signs/">Christmas family name banner</a> comes in Classic Red, Evergreen and Plaid.</li>
+</ul>
+<p>Keep it to those three or four things. Every extra word makes the name smaller.</p>
+<h2>Ideas that work</h2>
+<h3>The porch rail banner</h3>
+<p>A 2×4 ft banner zip-tied to the porch rail or hung beside the front door. It's the size most families start with, and it's right at eye level for anyone walking up.</p>
+<h3>The garage door or fence banner</h3>
+<p>A 3×6 ft banner across the garage, a privacy fence or a split-rail fence along the road. If your house sits back from the street, go with this size so the name still reads from a car.</p>
+<h3>The "Est." banner for newlyweds and new homes</h3>
+<p>First Christmas married or first Christmas in a new house? Put the name and the year front and center: "The Nguyens, Est. 2026." It also makes a good gift for grandparents or a couple you know. Put their name on it, not yours.</p>
+<h3>The welcome home banner</h3>
+<p>Family flying in for the holidays, a college kid home for break, or a service member home on leave. A banner that says "Welcome Home, Jake" on the porch is the first thing they see when they pull in. Order it as a <a href="/vinyl-banners/">custom vinyl banner</a> in any of our sizes.</p>
+<h3>The yard sign by the driveway</h3>
+<p>No porch rail? A <a href="/custom-yard-signs/">custom yard sign</a> goes in the grass by the mailbox or driveway with a metal H-stake. 18×24 in is the standard size, 24×36 in if you want it bigger. Yard signs print on one side, so face it toward the street.</p>
+<h3>The matching set</h3>
+<p>Banner on the porch, yard sign at the end of the driveway, same colors and same name. It looks planned, and it ties the whole front yard together.</p>
+<h2>Which size goes where</h2>
+<ul class="ticks">
+<li><b>2×4 ft banner, from $44:</b> porch rails, beside the front door, a balcony.</li>
+<li><b>3×6 ft banner, $59:</b> garage doors, fences, houses set back from the road.</li>
+<li><b>18×24 in yard sign with stake, $44:</b> by the mailbox, driveway or front walk.</li>
+<li><b>24×36 in yard sign with stake, $59:</b> corner lots and long driveways.</li>
+</ul>
+<p>Every price includes free shipping in the lower 48 and a free digital proof.</p>
+<h2>Design tips that read from the street</h2>
+<ul class="ticks">
+<li><b>Big, simple letters.</b> Thin script fonts look nice up close and disappear from the road. Use a bold font for the name and save the script for a small greeting, if any.</li>
+<li><b>Strong contrast.</b> White on red, white on dark green, or dark text on a light background. Avoid red on green: from a distance the two blend together.</li>
+<li><b>Fewer words.</b> Name, greeting, year. Skip the full family roster unless it's a 3×6.</li>
+<li><b>Check the spelling on the proof.</b> Especially names with apostrophes. "The Smiths" is plural. "The Smith's" isn't a family name.</li>
+</ul>
+<h2>Hanging it and saving it for next year</h2>
+<p>Banners come with metal grommets. Use a zip tie or bungee at every grommet so the wind can't catch a loose corner. After the holidays, store the banner rolled, not folded, and the yard sign flat, somewhere dry. They'll be ready next season.</p>
+<h2>When to order</h2>
+<p>You get a proof within 1 business day. After you approve it, it takes 3 to 5 business days to make, plus 2 to 5 days of ground shipping. <b>Order and approve your proof by December 10</b> for delivery by Christmas in the lower 48. If you want it up for Thanksgiving weekend, order in early November.</p>
+<p>Live around <a href="/signs-columbus-ga-phenix-city/">Columbus, Phenix City</a> or Smiths Station? We're a veteran-owned shop in Smiths Station, Alabama, and the same timeline applies: proof, print, and free shipping to your door.</p>
+<p><a href="https://www.etsy.com/listing/4597121675" target="_blank" rel="noopener">Order the Christmas family name banner on Etsy</a>, or send a quote request below for a custom size or a different design.</p>
+''',
+),
+dict(
  slug='election-yard-sign-rules-alabama-georgia',
  title='Election Yard Sign Rules: Alabama & Georgia (2026)',
  desc='Where campaign yard signs can go in Alabama and Georgia: polling place distances, road right-of-way, Columbus rules and "paid for by" lines. Sourced.',
  h1='Election yard sign rules in Alabama and Georgia',
  date='2026-10-17', kicker='Campaigns',
+ img='/assets/img/g-02-bulk-yard-signs-2.jpg', img_alt='Example campaign yard signs stacked for a school board race',
+ quote='Bulk Yard Signs',
  lede='Georgia and Alabama vote on November 3, 2026, and Georgia has a general election runoff on December 1. Here\'s where campaign yard signs can go, where they can\'t, and what to print on them, with a link to the source for every rule.',
  html='''
 <p class="note"><b>Not legal advice.</b> This is a plain-English summary for sign buyers, current as of October 17, 2026. Laws and local ordinances change. Check with your county election office, city code office, or campaign attorney before you rely on it.</p>
@@ -127,6 +183,8 @@ dict(
  desc='Senior night banner ideas for football, basketball, volleyball, soccer, baseball, softball and cheer: what to put on it, photo tips, sizes and when to order.',
  h1='Senior night banner ideas by sport',
  date='2026-10-17', kicker='Teams',
+ img='/assets/img/g-12-senior-night-banner-2.jpg', img_alt='Example senior night banner on a ballfield fence',
+ quote='Senior Night Banner',
  lede='Football senior nights are happening now, basketball comes in late January and February, and spring sports follow in April and May. Here are layout ideas that work for every sport, plus the details parents and booster clubs usually forget.',
  html='''
 <h2>What goes on a senior night banner</h2>
