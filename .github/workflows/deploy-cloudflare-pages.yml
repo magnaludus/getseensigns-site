@@ -1,0 +1,36 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: cloudflare-pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: 11487cc8a96e004d001720d1dae5245a
+    steps:
+      - name: Skip if token secret is not configured
+        if: env.CLOUDFLARE_API_TOKEN == ''
+        run: echo "CLOUDFLARE_API_TOKEN secret not set; skipping deploy."
+
+      - uses: actions/checkout@v4
+        if: env.CLOUDFLARE_API_TOKEN != ''
+
+      - name: Stage site files (exclude dotfiles)
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        run: |
+          mkdir -p ../_deploy
+          rsync -a --exclude='.*' ./ ../_deploy/
+
+      - name: Deploy with Wrangler
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        run: npx --yes wrangler@4 pages deploy ../_deploy --project-name=getseensigns --branch=${{ github.ref_name }} --commit-hash=${{ github.sha }} --commit-dirty=true
