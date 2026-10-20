@@ -275,7 +275,7 @@ h2{font-size:clamp(42px,5.6vw,76px)}
 .foot-prods{grid-template-columns:1fr 1fr;column-gap:22px}
 .foot-prods h4{grid-column:1/-1}
 .foot h4.mt{margin-top:14px}
-.local-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.local-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 @media (max-width:1000px){.local-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.local-grid{grid-template-columns:1fr}}
 .lcard{display:flex;flex-direction:column;gap:10px;background:#fff;border:2px solid var(--ink);border-radius:var(--r);padding:22px;text-decoration:none;box-shadow:5px 5px 0 var(--ink);transition:transform .15s,box-shadow .15s}

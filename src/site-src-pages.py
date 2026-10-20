@@ -112,7 +112,7 @@ def foot():
     </div>
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
-      <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
+      <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
       <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/#quote">Get a quote</a><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/privacy">Privacy</a></div>
     </div>
   </div>
@@ -436,6 +436,7 @@ LOCALSEC='''
       <a class="lcard" href="/signs-columbus-ga-phenix-city/"><h3>Columbus, GA &amp; Phenix City</h3><p>Campaign signs for the Dec 1 Georgia runoff, senior night banners, contractor magnets, and the local sign rules.</p><span class="go">Columbus &amp; Phenix City <span aria-hidden="true">→</span></span></a>
       <a class="lcard" href="/signs-auburn-opelika-al/"><h3>Auburn &amp; Opelika</h3><p>Tailgate tents, realtor signs, grand opening banners and booth displays for Lee County.</p><span class="go">Auburn &amp; Opelika <span aria-hidden="true">→</span></span></a>
       <a class="lcard" href="/tailgate-and-gameday-signs/"><h3>Tailgate &amp; gameday</h3><p>Tailgate tents, table throws, House Divided and Game Day yard signs in your colors.</p><span class="go">Gameday signs <span aria-hidden="true">→</span></span></a>
+      <a class="lcard" href="/blog/christmas-family-name-banner-ideas/"><h3>Guide: Christmas sign ideas</h3><p>Family name banners and yard signs: what to print, which size fits where, and the Dec 10 order date.</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></a>
       <a class="lcard" href="/blog/election-yard-sign-rules-alabama-georgia/"><h3>Guide: election sign rules</h3><p>Polling place distances, right-of-way rules and "paid for by" lines in Alabama and Georgia, with sources.</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></a>
       <a class="lcard" href="/blog/senior-night-banner-ideas/"><h3>Guide: senior night ideas</h3><p>Layouts by sport, photo tips, sizes and when booster clubs should order.</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></a>
     </div>
