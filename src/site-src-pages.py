@@ -160,11 +160,11 @@ def write(path, s):
 # ---------- product pages ----------
 ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per listing
  '01-custom-yard-sign':('Example 18×24 custom yard sign for a lawn care business on a metal H-stake','Close-up of a coroplast yard sign on its wire H-stake in grass'),
- '02-bulk-yard-signs':('Stack of printed campaign yard signs for a school board race','Bundle of metal H-stakes on a stack of coroplast signs'),
+ '02-bulk-yard-signs':('Stack of printed campaign yard signs for a school board race','Stack of printed VOTE PAT HOLLOWAY campaign signs with a bundle of H-stakes'),
  '03-vinyl-banner':('Yellow Now Open vinyl banner hung outside a hardware store','Close-up of a hemmed vinyl banner edge with a metal grommet and tie'),
  '04-feather-flag':('Two red Sale feather flags in a parking lot','Close-up of a feather flag sleeve on its pole'),
  '05-retractable-banner':('Retractable banner stand for a dental office at an event','Retractable banner base with the print rolled out of the aluminum cassette'),
- '06-car-magnet':('Custom car door magnet for a plumbing company on a van','Hand peeling back the corner of a rounded car magnet'),
+ '06-car-magnet':('Custom car door magnet for a plumbing company on a van','Hand pressing a SUMMIT PLUMBING car magnet flat onto a white truck door'),
  '07-real-estate-sign':('For sale real estate sign with an Open House rider in a front yard','Close-up of a real estate sign hanging from a post frame'),
  '08-step-and-repeat':('Guests posing in front of a step and repeat logo backdrop at a gala','Close-up of a step and repeat backdrop on its telescoping stand'),
  '09-table-throw':('Green logo table throw on a farmers market vendor table','Close-up of the corner of a fitted table throw'),
