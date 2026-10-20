@@ -282,8 +282,8 @@ dict(
  included='Grommets (banners) or metal H-stake (yard signs), free custom design and digital proof',
  days='3-5',
  body=[
-  ('Holiday order cutoffs', 'Christmas: order and approve your proof by December 10 for delivery by Christmas (ground shipping, lower 48). Thanksgiving: order by November 16. Halloween: order by October 22.'),
-  ('Three Christmas styles', 'Classic Red, Evergreen and Plaid, with your family name and an optional "Est." year. Hang the 2×4 on a porch rail or the 3×6 across a garage or fence.'),
+  ('Holiday order cutoffs', 'Christmas: order and approve your proof by December 10 for delivery by Christmas (ground shipping, lower 48). Thanksgiving: order by November 13. Halloween: order by October 22.'),
+  ('Three Christmas styles', 'Classic Red, Evergreen and Plaid, with your family name and an optional "Est." year. Hang the 2×4 on a porch rail or the 3×6 across a garage or fence. For layouts and sizing, see our <a href="/blog/christmas-family-name-banner-ideas/">Christmas banner and yard sign ideas</a>.'),
   ('Halloween and Thanksgiving', 'Family-name yard signs in Purple or Orange for Halloween, and Harvest or Rustic for Thanksgiving. Same 18×24 coroplast and H-stake as our <a href="/custom-yard-signs/">custom yard signs</a>.'),
  ],
  faqs=[
