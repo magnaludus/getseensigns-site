@@ -1,1 +1,4 @@
 preview-*.png
+__pycache__/
+*.pyc
+src/urls.json
