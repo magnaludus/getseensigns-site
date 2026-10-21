@@ -60,7 +60,7 @@ dict(
 <h2>Tailgate tents and gameday signs for Auburn and Opelika</h2>
 <p>Home game weekends fill every lot in town. A printed tent, a table throw and a flag make your spot easy to find. We make a tailgate tent for Auburn, AL and Opelika crews in your colors, with your group's name on the valance.</p>
 <ul class="ticks">
-<li><b>Tailgate HQ tent.</b> 10×10 printed top and valance from $809. Back wall and full kits too. See <a href="/custom-canopy-tents/">canopy tents</a>.</li>
+<li><b>Tailgate HQ tent.</b> 10×10 printed top and valance from $649. Back wall and full kits too. See <a href="/custom-canopy-tents/">canopy tents</a>.</li>
 <li><b>Home of the Fans table throw.</b> Fits a 6 ft table, from $229. See <a href="/table-throws/">table throws</a>.</li>
 <li><b>Game Day and House Divided yard signs.</b> 18×24 with a stake, from $44.</li>
 <li><b>Family name banners.</b> THE [NAME]S, GAME DAY, EST. [YEAR]. 2×4 from $44.</li>
@@ -225,7 +225,7 @@ dict(
 <li>18×24 is the standard lawn size, and it fits a regular H-stake.</li>
 </ul>
 <h2>5. Order timing</h2>
-<p>We make yard signs in 3–5 business days after you approve the proof, plus shipping. Our <a href="/bulk-campaign-signs/">bulk campaign sign packs</a> (5 to 100, stakes included) start at $74 for 5, or $199 for 25. For a runoff, order the day you know you're in it. For one-off signs, see <a href="/custom-yard-signs/">custom yard signs</a>.</p>
+<p>We make yard signs in 3–5 business days after you approve the proof, plus shipping. Our <a href="/bulk-campaign-signs/">bulk campaign sign packs</a> (5 to 100, stakes included) start at $74 for 5, or $189 for 25. For a runoff, order the day you know you're in it. For one-off signs, see <a href="/custom-yard-signs/">custom yard signs</a>.</p>
 <h2>6. After the election</h2>
 <p>There's no single statewide removal deadline for every political sign. Cities and counties set their own rules, and signs in the right-of-way can be removed at any time. Pull yours up the week after the election and recycle or store the stakes for next time.</p>
 ''',
@@ -287,7 +287,7 @@ GAMEDAY=dict(
  colors=[('Orange &amp; Navy','#F26A21','#1B2A4A'),('Red &amp; Black','#C8102E','#111111'),('Crimson &amp; White','#9E1B32','#FFFFFF'),('Navy &amp; Red','#13274F','#CE1141')],
  products=[
   # (image base, fallback base, alt, name, wording, price html, link)
-  ('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2','Navy 10×10 canopy tent with an orange TAILGATE HQ valance at a tailgate','Tailgate HQ canopy tent','TAILGATE HQ on the valance. Add a back wall with THE [NAME] CREW.','<b>$809</b> top and valance · $1,049 with back wall · $1,419 full kit','/custom-canopy-tents/'),
+  ('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2','Navy 10×10 canopy tent with an orange TAILGATE HQ valance at a tailgate','Tailgate HQ canopy tent','TAILGATE HQ on the valance. Add a back wall with THE [NAME] CREW.','<b>$649</b> top and valance · $1,049 with back wall · $1,419 full kit','/custom-canopy-tents/'),
   ('gd-table-throw-navy-red','g-09-table-throw-2','Navy table throw with a red band and HOME OF THE FANS at a tailgate','Home of the Fans table throw','HOME OF THE FANS, or THE [NAME]S TAILGATE.','<b>$229</b> 6 ft · $279 8 ft (3-sided)','/table-throws/'),
   ('gd-game-day-yard-sign-red-black','g-01-custom-yard-sign-2','Black and red GAME DAY family name yard sign in a front yard','Game Day yard sign','GAME DAY / THE [NAME]S / EST. [YEAR]','<b>$44</b> 18×24 · $59 24×36, stake included','/custom-yard-signs/'),
   ('gd-house-divided-yard-sign','g-01-custom-yard-sign-3','HOUSE DIVIDED yard sign split into a red half and a navy half','House Divided yard sign','HOUSE DIVIDED / THE [NAME]S. Two color blocks, you pick both.','<b>$44</b> 18×24 · $59 24×36, stake included','/custom-yard-signs/'),
@@ -295,7 +295,7 @@ GAMEDAY=dict(
   (None,'g-03-vinyl-banner-2','Example vinyl banner with grommets','Family name gameday banner','THE [NAME]S / GAME DAY / EST. [YEAR]. Porch, garage or tent rail.','<b>$44</b> 2×4 · $59 3×6','/vinyl-banners/'),
   (None,'g-12-senior-night-banner-2','Example senior night banner on a ballfield fence','Senior night banner','SENIOR NIGHT / [NAME] #[NO.] / CLASS OF 2027, with a photo.','<b>$42</b> 2×3 · $59 3×5 · $89 4×6','/senior-night-banners/'),
   (None,'g-12-senior-night-banner-3','Vinyl banner zip-tied to a chain-link fence','Ballfield fence banner','HOME OF THE FANS or PLAY BALL, plus your rec team name.','<b>$99</b> 3×10 · $95 4×8','/vinyl-banners/'),
-  (None,'g-02-bulk-yard-signs-2','Stack of printed yard signs','Player yard signs, team pack','GAME DAY / A PLAYER LIVES HERE. One design for the whole team.','<b>$199</b> for 25 with stakes','/bulk-campaign-signs/'),
+  (None,'g-02-bulk-yard-signs-2','Stack of printed yard signs','Player yard signs, team pack','GAME DAY / A PLAYER LIVES HERE. One design for the whole team.','<b>$189</b> for 25 with stakes','/bulk-campaign-signs/'),
  ],
  html='''
 <h2>Built for game day around here</h2>

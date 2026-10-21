@@ -41,7 +41,7 @@ dict(
  days='3-5',
  body=[
   ('Campaign season checklist', 'Before you approve the proof, check three things: the "paid for by" line your race requires, the spelling of every name, and the color contrast from 30 feet away. We wrote up the placement and disclaimer rules for Alabama and Georgia in our <a href="/blog/election-yard-sign-rules-alabama-georgia/">election yard sign guide</a>.'),
-  ('Pricing by pack', 'Packs bring the per-sign price down as the count goes up. The 5-pack is $74 and the 25-pack is $199, stakes included. 10, 50 and 100 packs and two-sided options are on the Etsy listing. Need 200 or more, or a mix of two designs? Send a quote request.'),
+  ('Pricing by pack', 'Packs bring the per-sign price down as the count goes up. The 5-pack is $74 and the 25-pack is $189, stakes included. 10, 50 and 100 packs and two-sided options are on the Etsy listing. Need 200 or more, or a mix of two designs? Send a quote request.'),
   ('Runoffs and short timelines', 'Production is 3–5 business days after you approve the proof, plus shipping. If you are planning for a runoff, order as soon as you know you are in it, and tell us your date in the quote form.'),
  ],
  faqs=[
@@ -223,10 +223,10 @@ dict(
  related=['custom-canopy-tents','retractable-banners','feather-flags'],
 ),
 dict(
- slug='custom-canopy-tents', key='10-canopy-tent', etsy='4597142098', price=809, unit='kit', base='10×10 frame, printed top and valance',
+ slug='custom-canopy-tents', key='10-canopy-tent', etsy='4597142098', price=649, unit='kit', base='10×10 frame, printed top and valance',
  name='Custom Canopy Tents', short='10×10 Canopy Tent',
  title='Custom 10x10 Canopy Tents with Logo | Get Seen Signs',
- desc='Custom printed 10x10 canopy tents on a heavy-duty aluminum hex frame. 600D polyester, fire-retardant (CPAI-84), wheeled bag. Packages from $809, free shipping.',
+ desc='Custom printed 10x10 canopy tents on a heavy-duty aluminum hex frame. 600D polyester, fire-retardant (CPAI-84), wheeled bag. Packages from $649, free shipping.',
  h1=('Custom canopy tents', 'your team can find from the parking lot.'),
  lede='A 10×10 pop-up tent with your logo printed on a 600D polyester top and valance (fire-retardant, CPAI-84), on a heavy-duty aluminum hex frame with a wheeled carry bag. Ballfields, tailgates, vendor fairs and church events.',
  sizes=['10×10 ft'],
@@ -234,12 +234,12 @@ dict(
  included='Frame, printed top and valance, wheeled carry bag. Packages: top + valance; + back wall; full kit (walls, flag and table throw)',
  days='5-10',
  body=[
-  ('Three packages', 'Start with the printed top and valance on the frame (from $809). Add a printed back wall, or go with the full kit, which adds walls, a feather flag and a table throw so everything matches.'),
+  ('Three packages', 'Start with the printed top and valance on the frame (from $649). Add a printed back wall, or go with the full kit, which adds walls, a feather flag and a table throw so everything matches.'),
   ('Lead time', 'Tents take 5–10 business days to make after you approve the proof, plus shipping. For a season opener or a festival date, order a few weeks early.'),
   ('Anchor it', 'Pop-up tents catch wind like a sail. Always stake or weight every leg. Don\'t set up in high wind.'),
  ],
  faqs=[
-  ('What does "from $809" include?', 'The 10×10 aluminum hex frame, the printed top and valance, and a wheeled carry bag. Back wall and full-kit packages cost more and are on the Etsy listing.'),
+  ('What does "from $649" include?', 'The 10×10 aluminum hex frame, the printed top and valance, and a wheeled carry bag. Back wall and full-kit packages cost more and are on the Etsy listing.'),
   ('Is the canopy fire retardant?', 'Yes. The printed 600D polyester is fire-retardant to CPAI-84. Some venues ask for proof of that, so tell us if you need documentation.'),
   ('Can you match our team colors?', 'Yes. Send your logo and colors and we match them on the proof.'),
  ],
