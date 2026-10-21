@@ -83,6 +83,59 @@ dict(
 
 BLOG = [
 dict(
+ slug='welcome-home-military-retirement-banners',
+ title='Welcome Home and Military Retirement Banner Ideas | Get Seen Signs',
+ desc='Welcome home and military retirement banner ideas: what to print, which size fits a porch, garage or fence, how to plan around a moving return date, and when to order.',
+ h1='Welcome home and military retirement banner ideas',
+ date='2026-10-21', kicker='Family',
+ img='/assets/img/g-03-vinyl-banner-3.jpg', img_alt='Close-up of a vinyl banner grommet zip-tied to a chain-link fence',
+ quote='Vinyl Banner',
+ lede="Someone you love is coming home, or hanging up the uniform after a career of service. A banner out front tells them, and the whole street, that people were waiting. Here's what to print, which size fits where, and how to plan when the return date keeps moving.",
+ html='''
+<h2>What to put on a welcome home banner</h2>
+<ul class="ticks">
+<li><b>The name, big.</b> First name, or rank and last name if that's how the family says it ("Welcome Home, SGT Ramirez"). The name is what they look for from the car.</li>
+<li><b>One short line.</b> "Welcome Home," "We Missed You," "Welcome Home, Daddy" or "Finally Home." Short reads from the street.</li>
+<li><b>Optional details.</b> The kids' names, "Love, the Ramirez Family," or a photo. Keep dates off unless you're sure of them.</li>
+<li><b>Colors that read.</b> Red, white and blue, or the family's favorite colors, with strong contrast between the letters and the background.</li>
+</ul>
+<p>Skip branch seals, emblems and unit insignia. They're protected marks, and we don't print them. Plain words and the family's own photos work just as well.</p>
+<h2>Ideas that work</h2>
+<h3>The driveway or garage banner</h3>
+<p>A 3×6 or 4×8 ft banner across the garage door or along the fence is the first thing they see when they pull in. Go big on the name and keep everything else small.</p>
+<h3>The porch rail banner</h3>
+<p>A 2×4 ft banner zip-tied to the porch rail, right where everyone takes the homecoming photo. Hang it at eye level so it lands in the picture.</p>
+<h3>The yard sign by the mailbox</h3>
+<p>A <a href="/custom-yard-signs/">custom yard sign</a> on a metal H-stake by the mailbox or the end of the driveway: "Welcome Home, Jake." It's easy to set up the morning of, and it's easy to move.</p>
+<h3>The retirement party banner</h3>
+<p>For a retirement ceremony or party, a long 3×10 ft banner behind the head table or across the pavilion: "Happy Retirement, MSG Carter" with the years served ("1998–2026") underneath. Add "Thank you for your service" or a line from the family.</p>
+<h3>The matching set</h3>
+<p>Banner on the house, yard sign at the street, same colors and same name. Neighbors know the day has come, and it looks planned in every photo.</p>
+<h2>When the return date keeps moving</h2>
+<p>Homecoming dates change. Plan for it:</p>
+<ul class="ticks">
+<li>Leave the date off the banner. "Welcome Home" works whether they land on a Tuesday or three weeks later.</li>
+<li>Order as soon as you have a rough window, not the final date. A banner can wait in the closet. A late one can't be rushed after the fact.</li>
+<li>Store it rolled, not folded, until the day, so there are no creases in the photos.</li>
+</ul>
+<h2>Which size goes where</h2>
+<p>All of our <a href="/vinyl-banners/">vinyl banners</a> are 13 oz outdoor vinyl with metal grommets.</p>
+<ul class="ticks">
+<li><b>2×4 ft, from $44:</b> porch rails, front doors, balconies.</li>
+<li><b>3×6 ft, $59:</b> garage doors and fences.</li>
+<li><b>4×8 ft, $95:</b> the big statement on a garage or the side of the house.</li>
+<li><b>3×10 ft, $99:</b> retirement parties, pavilions, head tables and long fences.</li>
+<li><b>18×24 yard sign with stake, $44;</b> 24×36, $59: mailbox, driveway and front walk.</li>
+</ul>
+<p>Every price includes free shipping in the lower 48 and a free digital proof.</p>
+<h2>Hanging it</h2>
+<p>Use a zip tie or bungee at every grommet so the wind can't catch a corner. On brick or siding, use outdoor removable hooks, not nails. Hang it the night before so it's up when the car pulls in.</p>
+<h2>When to order</h2>
+<p>You get a proof within 1 business day. After you approve it, it takes 3 to 5 business days to make, plus 2 to 5 days of ground shipping. Order <b>at least two weeks before</b> the earliest date they might be home. For the holidays, order and approve your proof by <b>December 10</b> for delivery before Christmas.</p>
+<p>We're a veteran-owned sign shop in Smiths Station, Alabama, near Columbus and Fort Benning. If you're local to <a href="/signs-columbus-ga-phenix-city/">Columbus or Phenix City</a>, it's the same timeline: proof, print, and free shipping to your door.</p>
+''',
+),
+dict(
  slug='christmas-family-name-banner-ideas',
  title='Christmas Family Name Banner and Yard Sign Ideas | Get Seen Signs',
  desc='Christmas family name banner and yard sign ideas: what to put on it, which size fits a porch, garage or fence, design tips that read from the street, and the Dec 10 order date.',

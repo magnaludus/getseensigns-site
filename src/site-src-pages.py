@@ -112,7 +112,7 @@ def foot():
     </div>
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
-      <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
+      <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
       <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/#quote">Get a quote</a><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/privacy">Privacy</a></div>
     </div>
   </div>
@@ -368,7 +368,7 @@ for b in BLOG:
     posts_cards+=f'<a class="post" href="{path}"><div class="card-img">{pic(og[:-4],"",900,675)}</div><div class="card-body"><p class="eyebrow">{e(b["kicker"])}</p><h3>{e(b["h1"])}</h3><p>{e(b["desc"])}</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></div></a>'
 path='/blog/'; items=[('Home','/'),('Guides','/blog/')]
 title='Sign Guides & How-Tos | Get Seen Signs'
-desc='Practical guides from Get Seen Signs: Christmas family name banner ideas, Alabama and Georgia election yard sign rules, senior night banner ideas, and how to pick the right sign.'
+desc='Practical guides from Get Seen Signs: welcome home and military retirement banners, Christmas family name banner ideas, Alabama and Georgia election yard sign rules, senior night banner ideas, and how to pick the right sign.'
 page=head(title,desc,path,ld(crumbs(items),{"@type":"Blog","@id":BASE+path,"url":BASE+path,"name":"Get Seen Signs Guides","publisher":{"@id":ORG_ID}}))+NAV+f'''<main id="main">
 <section class="phero ink"><div class="wrap">{bc_html(items)}<h1>Sign <span class="block">guides.</span></h1><p class="lede">Straight answers for people buying signs: the rules, the sizes and the timing.</p></div></section>
 <section class="sec paper"><div class="wrap"><div class="posts">{posts_cards}</div></div></section>
