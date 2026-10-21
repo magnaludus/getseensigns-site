@@ -8,7 +8,7 @@ Cloudflare Pages publishes `main` automatically about a minute after every merge
 
 | File | What it holds |
 |---|---|
-| `src/seo_products.py` | Product page copy, FAQs and the "from" prices (`price=`). `price=None` shows no price and adds no Offer (feather flags). |
+| `src/seo_products.py` | Product page copy, FAQs and the "from" prices (`price=`). `price=None` shows no price and adds no Offer. |
 | `src/seo_pages.py` | Local landing pages, blog posts and the gameday page. |
 | `src/site-src-index.tpl.html` | Home page body (between `<main>` and `</main>`). |
 | `src/site-src-pages.py` | Builds every HTML page, sitemap.xml, robots.txt and 404.html. Shared head, nav, footer and the shipping schema (`shipping_details`, `TRANSIT`, `RETURNS`). |

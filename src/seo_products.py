@@ -1,6 +1,6 @@
 # Product category page content for getseensignsco.com.
 # PRICES: "from" prices = live Etsy prices. Change them here, then rebuild.
-#   None = no public price on the site (feather flags: pricing pending).
+#   None = no public price and no Offer in structured data.
 # Facts only from listings.md / spec sheets / shop policies. No reviews, no ratings, no invented stats.
 P = [
 dict(
@@ -41,14 +41,14 @@ dict(
  days='3-5',
  body=[
   ('Campaign season checklist', 'Before you approve the proof, check three things: the "paid for by" line your race requires, the spelling of every name, and the color contrast from 30 feet away. We wrote up the placement and disclaimer rules for Alabama and Georgia in our <a href="/blog/election-yard-sign-rules-alabama-georgia/">election yard sign guide</a>.'),
-  ('Pricing by pack', 'Packs bring the per-sign price down as the count goes up. The 5-pack is $74 and the 25-pack is $189, stakes included. 10, 50 and 100 packs and two-sided options are on the Etsy listing. Need 200 or more, or a mix of two designs? Send a quote request.'),
+  ('Pricing by pack', 'One-sided packs, stakes included: 5 for $74, 10 for $79, 25 for $189, 50 for $319 and 100 for $489. Two-sided packs: 5 for $79, 25 for $209 and 100 for $579. Two-sided packs of 10 and 50 are not available. Need 200 or more, or a mix of two designs? Send a quote request.'),
   ('Runoffs and short timelines', 'Production is 3–5 business days after you approve the proof, plus shipping. If you are planning for a runoff, order as soon as you know you are in it, and tell us your date in the quote form.'),
  ],
  faqs=[
   ('Do all signs in a pack have to be the same design?', 'The pack price is for one design. If you need two or more designs, send a quote request with the split and we\'ll price it.'),
   ('Are stakes included in bulk packs?', 'Yes. One metal H-stake ships with every sign in the pack.'),
   ('Do you add the "paid for by" disclaimer?', 'We\'ll place whatever disclaimer text you give us on the design. The exact wording your race needs is your campaign\'s call. Check with your treasurer or the state agency that runs your race.'),
-  ('Can I get double-sided campaign signs?', 'Not right now. Bulk signs are printed on one side.'),
+  ('Can I get double-sided campaign signs?', 'Yes. Two-sided packs are 5 for $79, 25 for $209 and 100 for $579. Two-sided packs of 10 and 50 are not available.'),
  ],
  kw=['bulk yard signs','campaign signs','political yard signs','election signs','yard signs bulk'],
  related=['custom-yard-signs','vinyl-banners','car-magnets'],
@@ -65,7 +65,7 @@ dict(
  included='Metal grommets or pole pockets (your choice), free custom design and digital proof',
  days='3-5',
  body=[
-  ('Which size?', '2×4 ft fits a table front, a doorway or a small fence panel. 3×6 ft is the go-to for storefronts and "Now Open" banners. 4×8 ft and 3×10 ft are for building faces, long fences and anywhere people read from across a parking lot.'),
+  ('Which size?', '2×4 ft is $44 and fits a table front, a doorway or a small fence panel. 3×6 ft is $59, the go-to for storefronts and "Now Open" banners. 4×8 ft is $94 and 3×10 ft is $99, for building faces, long fences and anywhere people read from across a parking lot.'),
   ('Grommets or pole pockets?', 'Grommets are for tying or zip-tying the banner to a fence, railing or wall. Pole pockets are sleeves at the top and bottom for hanging on poles or a banner stand.'),
   ('Related', 'For indoor trade shows, a <a href="/retractable-banners/">retractable banner</a> stands on its own. For holiday banners with your family name, see <a href="/holiday-yard-signs/">holiday signs and banners</a>.'),
  ],
@@ -79,20 +79,21 @@ dict(
  related=['retractable-banners','feather-flags','step-and-repeat-backdrops'],
 ),
 dict(
- slug='feather-flags', key='04-feather-flag', etsy='4597138642', price=None, unit='kit', base='',
+ slug='feather-flags', key='04-feather-flag', etsy='4597138642', price=129, unit='kit', base='10.5 ft with ground spike',
  name='Custom Feather Flags', short='Feather Flag Kit',
- title='Custom Feather Flags, 10-15 ft Kits | Get Seen Signs',
- desc='Custom printed feather flags in 10, 12 and 15 ft heights. Dye-sublimated polyester, pole, ground spike or cross base, and carry bag included. Free design proof.',
+ title='Custom Feather Flags, 10.5-18 ft Kits | Get Seen Signs',
+ desc='Custom feather flags in 10.5, 14 and 18 ft kits. Dye-sublimated polyester, pole, ground spike or cross base, and carry bag. From $129, free shipping.',
  h1=('Custom feather flags', 'that move when nothing else does.'),
  lede='Dye-sublimated polyester on a fiberglass/aluminum pole, with a ground spike or a cross base and water bag. Roadside, car lots, open houses, tailgates and vendor booths.',
- sizes=['10 ft','12 ft','15 ft'],
+ sizes=['10.5 ft','14 ft','18 ft'],
  material='Dye-sublimated polyester flag, fiberglass/aluminum pole',
  included='Flag, pole, base (ground spike, or cross base + water bag) and carry bag; free custom design and digital proof',
  days='3-5',
  body=[
   ('Spike or cross base?', 'Use the ground spike on grass and dirt. Use the cross base with a water bag on pavement, sidewalks and indoors, where you can\'t push anything into the ground.'),
-  ('Which height?', '10 ft works for storefronts and booths. 12 ft and 15 ft flags are for roadside spots where drivers need to see you from farther back.'),
-  ('Pricing', 'Feather flag pricing is being updated. See the current price on the Etsy listing, or send a quote request for a team or multi-flag order.'),
+  ('Which height?', '10.5 ft works for storefronts and booths. 14 ft and 18 ft flags are for roadside spots where drivers need to see you from farther back.'),
+  ('Pricing', '10.5 ft is $129 with a ground spike or $139 with a cross base. 14 ft is $139 with a ground spike or $149 with a cross base. 18 ft is $149 with a ground spike or $169 with a cross base. Each kit includes the flag, pole, base and carry bag.'),
+  ('Booth kit', 'The <a href="/vendor-booth-kit/">vendor booth kit</a> is $339 and includes a 10.5 ft flag with a ground spike, a 6 ft 3-sided table throw and a 33×81 retractable banner.'),
  ],
  faqs=[
   ('Does the kit come with everything?', 'Yes: flag, pole, your choice of base, and a carry bag.'),
@@ -100,7 +101,7 @@ dict(
   ('Can I use the flag indoors?', 'Yes, on the cross base. The ground spike is for outdoor use only.'),
  ],
  kw=['custom feather flag','feather flag','advertising flag','business flag','swooper flag'],
- related=['custom-canopy-tents','vinyl-banners','table-throws'],
+ related=['vendor-booth-kit','table-throws','custom-canopy-tents'],
 ),
 dict(
  slug='retractable-banners', key='05-retractable-banner', etsy='4597118225', price=109, unit='each', base='33×81 in stand',
@@ -115,8 +116,8 @@ dict(
  days='3-5',
  body=[
   ('Designing for a pull-up banner', 'People read these at eye level and from a few steps away. Put your logo and main message in the top half. The bottom 10 inches or so sit behind tables and feet, so keep anything important out of that zone.'),
-  ('33 or 47 inches wide?', '33×81 is the common trade show size and fits beside a table. 47×81 is for when you want a wall of brand behind you, or when the stand is the only display.'),
-  ('Pair it with', 'A <a href="/table-throws/">logo table throw</a> for the booth table and a <a href="/step-and-repeat-backdrops/">step and repeat</a> for photo walls.'),
+  ('33 or 47 inches wide?', '33×81 is $109. It is the common trade show size and fits beside a table. 47×81 is $249, for when you want a wall of brand behind you, or when the stand is the only display.'),
+  ('Pair it with', 'A <a href="/table-throws/">logo table throw</a> for the booth table and a <a href="/step-and-repeat-backdrops/">step and repeat</a> for photo walls. The <a href="/vendor-booth-kit/">vendor booth kit</a> is $339 and includes this 33×81 stand, a 6 ft 3-sided table throw and a 10.5 ft feather flag.'),
  ],
  faqs=[
   ('Is the stand included?', 'Yes. The price includes the aluminum base, the printed banner, the pole and a padded bag.'),
@@ -124,7 +125,7 @@ dict(
   ('How long does setup take?', 'About a minute. Pull the banner up out of the base and hook it to the top of the pole.'),
  ],
  kw=['retractable banner','pull up banner','roll up banner','banner stand','trade show banner'],
- related=['table-throws','step-and-repeat-backdrops','vinyl-banners'],
+ related=['vendor-booth-kit','table-throws','step-and-repeat-backdrops'],
 ),
 dict(
  slug='car-magnets', key='06-car-magnet', etsy='4597140402', price=74, unit='pair', base='12×18 pair',
@@ -133,7 +134,7 @@ dict(
  desc='Custom car door magnets: 30 mil vehicle-grade magnet, UV laminate, rounded corners. 12x18 or 18x24, sold as a pair. Free proof. From $74, free shipping.',
  h1=('Custom car magnets', 'turn your truck into a sign.'),
  lede='30 mil vehicle-grade magnet with a UV laminate and rounded corners, sold as a pair for the driver and passenger doors. Your business name, logo and phone number everywhere you drive, then off when you don\'t want it.',
- sizes=['12×18 in pair','18×24 in pair'],
+ sizes=['12×18 in pair ($74)','18×24 in pair ($99)'],
  material='30 mil vehicle-grade magnet, UV laminate, rounded corners',
  included='2 magnets (driver + passenger door), free custom design and digital proof',
  days='3-5',
@@ -143,7 +144,7 @@ dict(
   ('Care', 'Apply to a clean, dry door. We recommend removing and wiping the magnet and the door every week or so, and taking it off before an automatic car wash.'),
  ],
  faqs=[
-  ('Is the price for one magnet or two?', 'Two. Car magnets are sold as a pair.'),
+  ('Is the price for one magnet or two?', 'Two. Car magnets are sold as a pair. A 12×18 pair is $74. An 18×24 pair is $99.'),
   ('Will a magnet stick to my vehicle?', 'Only to flat steel panels. Test with a fridge magnet first. Many newer trucks use aluminum panels, and magnets will not stick to those.'),
   ('Can I put a phone number and website on it?', 'Yes. Keep it short and big: name, what you do, and one way to reach you is easiest to read in traffic.'),
  ],
@@ -199,10 +200,10 @@ dict(
  related=['retractable-banners','table-throws','custom-canopy-tents'],
 ),
 dict(
- slug='table-throws', key='09-table-throw', etsy='4597120773', price=229, unit='each', base='6 ft, 3-sided',
+ slug='table-throws', key='09-table-throw', etsy='4597120773', price=139, unit='each', base='6 ft, 3-sided',
  name='Custom Table Throws', short='Table Throw',
  title='Custom Logo Table Throws, 6 & 8 ft | Get Seen Signs',
- desc='Custom logo table throws for 6 or 8 ft tables. Machine-washable, wrinkle-resistant polyester, 3-sided or 4-sided. From $229, free shipping.',
+ desc='Custom logo table throws for 6 or 8 ft tables. Machine-washable, wrinkle-resistant polyester, 3-sided or 4-sided. From $139, free shipping.',
  h1=('Logo table throws', 'that make a folding table look like a booth.'),
  lede='Dye-sublimated polyester tablecloths with your logo on the front panel. Machine washable, wrinkle resistant, and cut for 6 ft or 8 ft folding tables in a 3-sided (open back) or 4-sided style.',
  sizes=['6 ft table','8 ft table'],
@@ -210,9 +211,9 @@ dict(
  included='Full-color front panel, free custom design and digital proof',
  days='3-5',
  body=[
-  ('3-sided or 4-sided?', 'A 3-sided throw has an open back, so whoever sits behind the table can reach boxes and bags underneath. A 4-sided throw covers all the way around, which looks better when people walk around the table.'),
+  ('3-sided or 4-sided?', 'A 3-sided throw has an open back, so whoever sits behind the table can reach boxes and bags underneath. A 4-sided throw covers all the way around, which looks better when people walk around the table. 6 ft 3-sided is $139 and 6 ft 4-sided is $169. 8 ft 3-sided is $159 and 8 ft 4-sided is $189.'),
   ('Where they show up', 'Vendor fairs, farmers markets, school sign-up nights, church welcome tables, career fairs and trade shows.'),
-  ('Complete the booth', 'Add a <a href="/custom-canopy-tents/">custom canopy tent</a> outside or a <a href="/retractable-banners/">retractable banner</a> inside.'),
+  ('Complete the booth', 'Add a <a href="/custom-canopy-tents/">custom canopy tent</a> outside or a <a href="/retractable-banners/">retractable banner</a> inside. The <a href="/vendor-booth-kit/">vendor booth kit</a> is $339 and includes a 6 ft 3-sided throw, a 33×81 retractable banner and a 10.5 ft feather flag.'),
  ],
  faqs=[
   ('Will it fit my table?', 'Throws are cut for standard 6 ft and 8 ft rectangular folding tables. Pick the size that matches your table length.'),
@@ -220,7 +221,7 @@ dict(
   ('Is the logo printed on all sides?', 'The full-color print is on the front panel. Ask in a quote if you need more.'),
  ],
  kw=['custom tablecloth','tablecloth with logo','table throw','logo tablecloth','vendor tablecloth'],
- related=['custom-canopy-tents','retractable-banners','feather-flags'],
+ related=['vendor-booth-kit','custom-canopy-tents','retractable-banners'],
 ),
 dict(
  slug='custom-canopy-tents', key='10-canopy-tent', etsy='4597142098', price=649, unit='kit', base='10×10 frame, printed top and valance',
@@ -234,12 +235,12 @@ dict(
  included='Frame, printed top and valance, wheeled carry bag. Packages: top + valance; + back wall; full kit (walls, flag and table throw)',
  days='5-10',
  body=[
-  ('Three packages', 'Start with the printed top and valance on the frame (from $649). Add a printed back wall, or go with the full kit, which adds walls, a feather flag and a table throw so everything matches.'),
+  ('Three packages', 'Start with the printed top and valance on the frame for $649. Add a printed back wall for $849. The full kit is $1,459 and adds walls, a feather flag and a table throw so everything matches.'),
   ('Lead time', 'Tents take 5–10 business days to make after you approve the proof, plus shipping. For a season opener or a festival date, order a few weeks early.'),
   ('Anchor it', 'Pop-up tents catch wind like a sail. Always stake or weight every leg. Don\'t set up in high wind.'),
  ],
  faqs=[
-  ('What does "from $649" include?', 'The 10×10 aluminum hex frame, the printed top and valance, and a wheeled carry bag. Back wall and full-kit packages cost more and are on the Etsy listing.'),
+  ('What does "from $649" include?', 'The $649 price is the 10×10 aluminum hex frame, the printed top and valance, and a wheeled carry bag. Top plus a back wall is $849. The full kit, with walls, a feather flag and a table throw, is $1,459.'),
   ('Is the canopy fire retardant?', 'Yes. The printed 600D polyester is fire-retardant to CPAI-84. Some venues ask for proof of that, so tell us if you need documentation.'),
   ('Can you match our team colors?', 'Yes. Send your logo and colors and we match them on the proof.'),
  ],
@@ -247,10 +248,36 @@ dict(
  related=['table-throws','feather-flags','step-and-repeat-backdrops'],
 ),
 dict(
- slug='senior-night-banners', key='12-senior-night-banner', etsy='4597122075', price=42, unit='each', base='2×3 ft',
+ slug='vendor-booth-kit', key='15-vendor-booth-kit', etsy='4600470595', price=339, unit='kit', base='6 ft throw, 33×81 banner, 10.5 ft flag',
+ name='Vendor Booth Kit', short='Vendor Booth Kit',
+ title='Vendor Booth Kit: Throw, Banner & Flag | Get Seen Signs',
+ desc='Vendor booth kit with a custom 6 ft 3-sided table throw, a 33x81 retractable banner and a 10.5 ft feather flag. One price, $339, with free shipping.',
+ h1=('Vendor booth kit', 'throw, banner and flag, matched.'),
+ lede='Everything your booth needs, matched to your logo, for one price. A 6 ft 3-sided table throw, a 33×81 retractable banner stand and a 10.5 ft feather flag.',
+ sizes=['6 ft 3-sided table throw (open back)', '33×81 in retractable banner stand', '10.5 ft feather flag with ground spike'],
+ material='Table throw: dye-sublimated polyester, machine washable and wrinkle resistant. Banner: printed retractable with an aluminum base. Flag: single-sided print with pole and ground spike.',
+ included='6 ft 3-sided table throw, 33×81 retractable banner with aluminum base and carry bag, 10.5 ft feather flag with pole and ground spike, free custom design and digital proof',
+ days='3-5',
+ body=[
+  ('What\'s in the kit', 'The table throw is dye-sublimated polyester, machine washable and wrinkle resistant, with a full-color front and an open back. The retractable banner stand includes the printed banner, an aluminum base and a carry bag. The feather flag is a single-sided 10.5 ft print with a pole and a ground spike.'),
+  ('One price', 'Bought separately, the 6 ft 3-sided throw, the 33×81 banner and the 10.5 ft flag with a ground spike run $377. The kit is $339, so you save $38. Free shipping in the lower 48.'),
+  ('How it works', 'Tell us your business name, colors and the text for the throw, the banner and the flag. Send logos or photos in Etsy Messages. You get a free digital proof within 12 hours, 7 days a week, 3 revisions included. Approve it, and we print and ship. Most kits arrive 3 to 8 business days after approval. Pieces may ship separately.'),
+  ('Need a different size?', 'Need an 8 ft or 4-sided throw, a bigger banner or a taller flag? Message us for a kit quote.'),
+ ],
+ faqs=[
+  ('What do I need to send?', 'Your business name or logo, your colors, and the text you want on the throw, the banner and the flag. Send logo or photo files in Etsy Messages.'),
+  ('Do the three pieces ship together?', 'They may ship separately. Most kits arrive 3 to 8 business days after you approve the proof.'),
+  ('Can I change a piece?', 'This kit is the 6 ft 3-sided throw, the 33×81 banner and the 10.5 ft flag with a ground spike. For an 8 ft or 4-sided throw, a bigger banner or a taller flag, message us for a kit quote.'),
+  ('Can I return it?', 'Kits are made to order, so we don\'t take returns. Misprints and damage are reprinted free.'),
+ ],
+ kw=['vendor booth kit','trade show display','custom table throw','retractable banner','feather flag'],
+ related=['table-throws','retractable-banners','feather-flags'],
+),
+dict(
+ slug='senior-night-banners', key='12-senior-night-banner', etsy='4597122075', price=39, unit='each', base='2×3 ft',
  name='Senior Night Banners', short='Senior Night Banner',
  title='Senior Night Banners with Photo | Get Seen Signs',
- desc='Custom senior night banners with your athlete\'s photo, name, number and sport. 13 oz vinyl, 2x3, 3x5 or 4x6 ft. Team pricing for 10+. From $42.',
+ desc='Custom senior night banners with your athlete\'s photo, name, number and sport. 13 oz vinyl, 2x3, 3x5 or 4x6 ft. Team pricing for 10+. From $39.',
  h1=('Senior night banners', 'for the last home game.'),
  lede='Your senior\'s photo, name, number, team and sport on heavy 13 oz vinyl with hemmed edges and metal grommets. Hang it on the fence on senior night, then they keep it.',
  sizes=['2×3 ft','3×5 ft','4×6 ft'],
@@ -258,7 +285,7 @@ dict(
  included='Metal grommets, free custom design and digital proof',
  days='3-5',
  body=[
-  ('Ordering for the whole team?', 'Booster clubs and team parents: send one quote request with the roster, photos and sizes, and we\'ll set up matching banners with team pricing for 10 or more.'),
+  ('Ordering for the whole team?', 'A single banner is $39 for 2×3, $59 for 3×5 and $89 for 4×6. Booster clubs and team parents: send one quote request with the roster, photos and sizes, and we\'ll set up matching banners with team pricing for 10 or more.'),
   ('Photo tips', 'Use the largest version of the photo you have. School portraits and media-day photos print best. Screenshots from social media are usually too small. We\'ll tell you on the proof if a photo will print soft.'),
   ('Ideas', 'Need layout ideas? Read <a href="/blog/senior-night-banner-ideas/">senior night banner ideas by sport</a>.'),
  ],

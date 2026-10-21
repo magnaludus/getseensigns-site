@@ -14,7 +14,7 @@ dict(
 <li><b>Senior night and team banners</b> for high school football, basketball, baseball and soccer. See <a href="/senior-night-banners/">senior night banners</a>.</li>
 <li><b>Grand opening and storefront banners.</b> <a href="/vinyl-banners/">Vinyl banners</a> from 2×4 to 3×10 ft.</li>
 <li><b>Contractor and service trucks.</b> <a href="/car-magnets/">Car door magnets</a> and <a href="/custom-yard-signs/">job-site yard signs</a>.</li>
-<li><b>Vendor booths and ballfield tents.</b> <a href="/custom-canopy-tents/">10×10 canopy tents</a>, <a href="/table-throws/">table throws</a> and <a href="/feather-flags/">feather flags</a>.</li>
+<li><b>Vendor booths and ballfield tents.</b> <a href="/custom-canopy-tents/">10×10 canopy tents</a>, <a href="/table-throws/">table throws</a>, <a href="/feather-flags/">feather flags</a> and the <a href="/vendor-booth-kit/">vendor booth kit</a> ($339).</li>
 <li><b>Military homecomings and retirements.</b> Custom <a href="/vinyl-banners/">vinyl banners</a> for a welcome home or a retirement. Our founder is a retired Army and Marine veteran.</li>
 </ul>
 <h2>Gameday and tailgate signs for Columbus and Phenix City</h2>
@@ -23,7 +23,7 @@ dict(
 <li><b>Game Day yard signs.</b> 18×24 with a stake, your name and year. <a href="/tailgate-and-gameday-signs/">From $44</a>.</li>
 <li><b>House Divided signs.</b> Two color blocks for the family that can't agree. Same price as a yard sign.</li>
 <li><b>Fence and dugout banners</b> for rec leagues and travel ball. A 3×10 <a href="/vinyl-banners/">vinyl banner</a> is $99.</li>
-<li><b>Senior night banners</b> with photo, name and number, from $42. See <a href="/senior-night-banners/">senior night banners</a>.</li>
+<li><b>Senior night banners</b> with photo, name and number, from $39. See <a href="/senior-night-banners/">senior night banners</a>.</li>
 </ul>
 <p>We use your colors and your words. We don't print team, school or league names, logos or slogans. See the full <a href="/tailgate-and-gameday-signs/">gameday and tailgate line</a>.</p>
 <h2>Know the local sign rules</h2>
@@ -32,7 +32,7 @@ dict(
 <p><b>Phenix City and Alabama highways.</b> ALDOT treats unofficial signs on state right-of-way as encroachments, removes them and stores them for up to 90 days (<a href="https://www.dot.state.al.us/publications/Maintenance/pdf/MiscellaneousGuideSignManual.pdf" rel="noopener">ALDOT sign manual</a>). Check with Phenix City about city streets before placing signs.</p>
 <p>The simple rule on both sides of the river: put signs on private property, with the owner's permission. More in our <a href="/blog/election-yard-sign-rules-alabama-georgia/">Alabama and Georgia election sign guide</a>.</p>
 <h2>How ordering works from here</h2>
-<p>We don't have a storefront. Everything is made to order and ships to you. Order on Etsy or send a quote request. You get a digital proof within 1 business day with 2 revisions included, and nothing prints until you approve it. Most items are made in 3–5 business days after approval, tents and backdrops in 5–10, and shipping is free in the lower 48. Need it sooner? Ask about a rush.</p>
+<p>We don't have a storefront. Everything is made to order and ships to you. Order on Etsy or send a quote request. You get a free digital proof within 12 hours, 7 days a week, 3 revisions included, and nothing prints until you approve it. Most items are made in 3–5 business days after approval, tents and backdrops in 5–10, and shipping is free in the lower 48. Need it sooner? Ask about a rush.</p>
 ''',
  faqs=[
   ('Do you have a shop in Columbus or Phenix City?', 'No. We\'re an online shop based in Smiths Station, Alabama, and we ship to Columbus, Phenix City and everywhere else in the lower 48 for free.'),
@@ -53,7 +53,7 @@ dict(
 <li><b>Tailgate and game-day tents.</b> A <a href="/custom-canopy-tents/">custom 10×10 canopy tent</a> with your family or business name, plus a <a href="/feather-flags/">feather flag</a> so your group can find you.</li>
 <li><b>Realtor signs.</b> <a href="/real-estate-signs/">Real estate signs</a> in coroplast or aluminum, with riders and post frames, and <a href="/car-magnets/">car magnets</a> for agents.</li>
 <li><b>Shops and restaurants.</b> <a href="/vinyl-banners/">Grand opening banners</a>, <a href="/custom-yard-signs/">yard signs</a> for sales, and <a href="/retractable-banners/">retractable banners</a> for events.</li>
-<li><b>Vendors and nonprofits.</b> <a href="/table-throws/">Logo table throws</a> and <a href="/step-and-repeat-backdrops/">step and repeat backdrops</a> for galas, banquets and fundraisers.</li>
+<li><b>Vendors and nonprofits.</b> <a href="/table-throws/">Logo table throws</a>, the <a href="/vendor-booth-kit/">vendor booth kit</a> ($339) and <a href="/step-and-repeat-backdrops/">step and repeat backdrops</a> for galas, banquets and fundraisers.</li>
 <li><b>High school teams.</b> <a href="/senior-night-banners/">Senior night banners</a> with team pricing for 10 or more.</li>
 <li><b>Campaigns.</b> <a href="/bulk-campaign-signs/">Bulk yard signs</a> for city council, school board and county races.</li>
 </ul>
@@ -61,7 +61,7 @@ dict(
 <p>Home game weekends fill every lot in town. A printed tent, a table throw and a flag make your spot easy to find. We make a tailgate tent for Auburn, AL and Opelika crews in your colors, with your group's name on the valance.</p>
 <ul class="ticks">
 <li><b>Tailgate HQ tent.</b> 10×10 printed top and valance from $649. Back wall and full kits too. See <a href="/custom-canopy-tents/">canopy tents</a>.</li>
-<li><b>Home of the Fans table throw.</b> Fits a 6 ft table, from $229. See <a href="/table-throws/">table throws</a>.</li>
+<li><b>Home of the Fans table throw.</b> Fits a 6 ft table, from $139. See <a href="/table-throws/">table throws</a>.</li>
 <li><b>Game Day and House Divided yard signs.</b> 18×24 with a stake, from $44.</li>
 <li><b>Family name banners.</b> THE [NAME]S, GAME DAY, EST. [YEAR]. 2×4 from $44.</li>
 </ul>
@@ -71,7 +71,7 @@ dict(
 <h2>Sign placement in Lee County</h2>
 <p>ALDOT treats unofficial signs on state highway right-of-way as encroachments and removes them (<a href="https://www.dot.state.al.us/publications/Maintenance/pdf/MiscellaneousGuideSignManual.pdf" rel="noopener">ALDOT sign manual</a>). Auburn and Opelika each have their own sign rules for city streets and businesses, so check with the city's planning or code office before you put up a permanent business sign. Campaign signers: see our <a href="/blog/election-yard-sign-rules-alabama-georgia/">Alabama and Georgia election sign guide</a>.</p>
 <h2>How ordering works</h2>
-<p>We don't have a storefront. Everything is made to order and ships to you. You get a digital proof within 1 business day with 2 revisions included, and nothing prints until you approve it. Most items are made in 3–5 business days after approval, tents and backdrops in 5–10, and shipping is free in the lower 48.</p>
+<p>We don't have a storefront. Everything is made to order and ships to you. You get a free digital proof within 12 hours, 7 days a week, 3 revisions included, and nothing prints until you approve it. Most items are made in 3–5 business days after approval, tents and backdrops in 5–10, and shipping is free in the lower 48.</p>
 ''',
  faqs=[
   ('Are you located in Auburn?', 'We\'re based in Smiths Station, also in Lee County. We\'re an online shop with no storefront, and we ship free to Auburn, Opelika and the rest of the lower 48.'),
@@ -123,7 +123,7 @@ dict(
 <ul class="ticks">
 <li><b>2×4 ft, from $44:</b> porch rails, front doors, balconies.</li>
 <li><b>3×6 ft, $59:</b> garage doors and fences.</li>
-<li><b>4×8 ft, $95:</b> the big statement on a garage or the side of the house.</li>
+<li><b>4×8 ft, $94:</b> the big statement on a garage or the side of the house.</li>
 <li><b>3×10 ft, $99:</b> retirement parties, pavilions, head tables and long fences.</li>
 <li><b>18×24 yard sign with stake, $44;</b> 24×36, $59: mailbox, driveway and front walk.</li>
 </ul>
@@ -131,7 +131,7 @@ dict(
 <h2>Hanging it</h2>
 <p>Use a zip tie or bungee at every grommet so the wind can't catch a corner. On brick or siding, use outdoor removable hooks, not nails. Hang it the night before so it's up when the car pulls in.</p>
 <h2>When to order</h2>
-<p>You get a proof within 1 business day. After you approve it, it takes 3 to 5 business days to make, plus 2 to 5 days of ground shipping. Order <b>at least two weeks before</b> the earliest date they might be home. For the holidays, order and approve your proof by <b>December 10</b> for delivery before Christmas.</p>
+<p>You get a free digital proof within 12 hours, 7 days a week, 3 revisions included. After you approve it, it takes 3 to 5 business days to make, plus 2 to 5 days of ground shipping. Order <b>at least two weeks before</b> the earliest date they might be home. For the holidays, order and approve your proof by <b>December 10</b> for delivery before Christmas.</p>
 <p>We're a veteran-owned sign shop in Smiths Station, Alabama, near Columbus and Fort Benning. If you're local to <a href="/signs-columbus-ga-phenix-city/">Columbus or Phenix City</a>, it's the same timeline: proof, print, and free shipping to your door.</p>
 ''',
 ),
@@ -184,7 +184,7 @@ dict(
 <h2>Hanging it and saving it for next year</h2>
 <p>Banners come with metal grommets. Use a zip tie or bungee at every grommet so the wind can't catch a loose corner. After the holidays, store the banner rolled, not folded, and the yard sign flat, somewhere dry. They'll be ready next season.</p>
 <h2>When to order</h2>
-<p>You get a proof within 1 business day. After you approve it, it takes 3 to 5 business days to make, plus 2 to 5 days of ground shipping. <b>Order and approve your proof by December 10</b> for delivery by Christmas in the lower 48. If you want it up for Thanksgiving weekend, order in early November.</p>
+<p>You get a free digital proof within 12 hours, 7 days a week, 3 revisions included. After you approve it, it takes 3 to 5 business days to make, plus 2 to 5 days of ground shipping. <b>Order and approve your proof by December 10</b> for delivery by Christmas in the lower 48. If you want it up for Thanksgiving weekend, order in early November.</p>
 <p>Live around <a href="/signs-columbus-ga-phenix-city/">Columbus, Phenix City</a> or Smiths Station? We're a veteran-owned shop in Smiths Station, Alabama, and the same timeline applies: proof, print, and free shipping to your door.</p>
 <p><a href="https://www.etsy.com/listing/4597121675" target="_blank" rel="noopener">Order the Christmas family name banner on Etsy</a>, or send a quote request below for a custom size or a different design.</p>
 ''',
@@ -268,7 +268,7 @@ dict(
 <li>We check every photo on the proof and tell you if it'll print soft before anything is made.</li>
 </ul>
 <h2>Sizes</h2>
-<p>Our <a href="/senior-night-banners/">senior night banners</a> come in <b>2×3, 3×5 and 4×6 ft</b> on heavy 13 oz outdoor vinyl with hemmed edges and metal grommets, from $42. 2×3 suits indoor gyms and bleacher rails. 3×5 is the most popular fence size, and 4×6 is the statement piece.</p>
+<p>Our <a href="/senior-night-banners/">senior night banners</a> come in <b>2×3, 3×5 and 4×6 ft</b> on heavy 13 oz outdoor vinyl with hemmed edges and metal grommets, from $39. 2×3 suits indoor gyms and bleacher rails. 3×5 is the most popular fence size, and 4×6 is the statement piece.</p>
 <h2>Booster clubs: order once for the whole team</h2>
 <p>Collect every senior's photo, name, number and position in one shared folder, pick one design for the whole class, and send it all in a single <a href="/#quote">quote request</a>. Team pricing applies at 10 or more banners, and matching designs look better lined up on the fence.</p>
 <h2>When to order</h2>
@@ -287,19 +287,19 @@ GAMEDAY=dict(
  colors=[('Orange &amp; Navy','#F26A21','#1B2A4A'),('Red &amp; Black','#C8102E','#111111'),('Crimson &amp; White','#9E1B32','#FFFFFF'),('Navy &amp; Red','#13274F','#CE1141')],
  products=[
   # (image base, fallback base, alt, name, wording, price html, link)
-  ('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2','Navy 10×10 canopy tent with an orange TAILGATE HQ valance at a tailgate','Tailgate HQ canopy tent','TAILGATE HQ on the valance. Add a back wall with THE [NAME] CREW.','<b>$649</b> top and valance · $1,049 with back wall · $1,419 full kit','/custom-canopy-tents/'),
-  ('gd-table-throw-navy-red','g-09-table-throw-2','Navy table throw with a red band and HOME OF THE FANS at a tailgate','Home of the Fans table throw','HOME OF THE FANS, or THE [NAME]S TAILGATE.','<b>$229</b> 6 ft · $279 8 ft (3-sided)','/table-throws/'),
+  ('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2','Navy 10×10 canopy tent with an orange TAILGATE HQ valance at a tailgate','Tailgate HQ canopy tent','TAILGATE HQ on the valance. Add a back wall with THE [NAME] CREW.','<b>$649</b> top and valance · $849 with back wall · $1,459 full kit','/custom-canopy-tents/'),
+  ('gd-table-throw-navy-red','g-09-table-throw-2','Navy table throw with a red band and HOME OF THE FANS at a tailgate','Home of the Fans table throw','HOME OF THE FANS, or THE [NAME]S TAILGATE.','<b>$139</b> 6 ft · $159 8 ft (3-sided)','/table-throws/'),
   ('gd-game-day-yard-sign-red-black','g-01-custom-yard-sign-2','Black and red GAME DAY family name yard sign in a front yard','Game Day yard sign','GAME DAY / THE [NAME]S / EST. [YEAR]','<b>$44</b> 18×24 · $59 24×36, stake included','/custom-yard-signs/'),
   ('gd-house-divided-yard-sign','g-01-custom-yard-sign-3','HOUSE DIVIDED yard sign split into a red half and a navy half','House Divided yard sign','HOUSE DIVIDED / THE [NAME]S. Two color blocks, you pick both.','<b>$44</b> 18×24 · $59 24×36, stake included','/custom-yard-signs/'),
-  ('gd-feather-flag-navy-orange','g-04-feather-flag-2','Navy and orange TAILGATE HQ feather flag at a tailgate lot','Tailgate feather flag','TAILGATE HQ, or FIND THE [NAME]S.','Price on Etsy or by quote','/feather-flags/'),
+  ('gd-feather-flag-navy-orange','g-04-feather-flag-2','Navy and orange TAILGATE HQ feather flag at a tailgate lot','Tailgate feather flag','TAILGATE HQ, or FIND THE [NAME]S.','<b>$129</b> 10.5 ft · $139 14 ft · $149 18 ft (ground spike)','/feather-flags/'),
   (None,'g-03-vinyl-banner-2','Example vinyl banner with grommets','Family name gameday banner','THE [NAME]S / GAME DAY / EST. [YEAR]. Porch, garage or tent rail.','<b>$44</b> 2×4 · $59 3×6','/vinyl-banners/'),
-  (None,'g-12-senior-night-banner-2','Example senior night banner on a ballfield fence','Senior night banner','SENIOR NIGHT / [NAME] #[NO.] / CLASS OF 2027, with a photo.','<b>$42</b> 2×3 · $59 3×5 · $89 4×6','/senior-night-banners/'),
-  (None,'g-12-senior-night-banner-3','Vinyl banner zip-tied to a chain-link fence','Ballfield fence banner','HOME OF THE FANS or PLAY BALL, plus your rec team name.','<b>$99</b> 3×10 · $95 4×8','/vinyl-banners/'),
+  (None,'g-12-senior-night-banner-2','Example senior night banner on a ballfield fence','Senior night banner','SENIOR NIGHT / [NAME] #[NO.] / CLASS OF 2027, with a photo.','<b>$39</b> 2×3 · $59 3×5 · $89 4×6','/senior-night-banners/'),
+  (None,'g-12-senior-night-banner-3','Vinyl banner zip-tied to a chain-link fence','Ballfield fence banner','HOME OF THE FANS or PLAY BALL, plus your rec team name.','<b>$99</b> 3×10 · $94 4×8','/vinyl-banners/'),
   (None,'g-02-bulk-yard-signs-2','Stack of printed yard signs','Player yard signs, team pack','GAME DAY / A PLAYER LIVES HERE. One design for the whole team.','<b>$189</b> for 25 with stakes','/bulk-campaign-signs/'),
  ],
  html='''
 <h2>Built for game day around here</h2>
-<p>Columbus, Phenix City, Smiths Station, Auburn and Opelika take football and baseball seriously. So do we. Pick a product, pick your colors, tell us your name. We send a free proof within 1 business day.</p>
+<p>Columbus, Phenix City, Smiths Station, Auburn and Opelika take football and baseball seriously. So do we. Pick a product, pick your colors, tell us your name. We send a free digital proof within 12 hours, 7 days a week, 3 revisions included.</p>
 <h2>Who orders gameday signs</h2>
 <ul class="ticks">
 <li><b>Tailgate crews</b> who want to be found from the parking lot. Tent, flag and table throw that match.</li>

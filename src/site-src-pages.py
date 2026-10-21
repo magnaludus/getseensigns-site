@@ -7,7 +7,7 @@ from seo_products import P, BY
 from seo_pages import LOCAL, BLOG, GAMEDAY
 SRC=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(SRC); SITE=ROOT  # repo root: built pages are written here
 BASE='https://getseensignsco.com'
-TODAY=datetime.date(2026,10,19).isoformat()
+TODAY=datetime.date(2026,10,21).isoformat()
 ETSY='https://www.etsy.com/shop/GetSeenSigns'
 ORG_ID=BASE+'/#org'; SITE_ID=BASE+'/#website'
 AREAS=['Columbus, GA','Phenix City, AL','Auburn, AL','Opelika, AL','Smiths Station, AL','Fort Benning, GA']
@@ -171,6 +171,7 @@ ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per 
  '10-canopy-tent':('Orange custom 10×10 canopy tent with a printed valance at an outdoor event','Close-up of a canopy tent leg and printed top corner'),
  '11-christmas-family-banner':('Red Merry Christmas family name banner on a porch rail','Close-up of a red vinyl banner tied to a porch rail with grommets'),
  '12-senior-night-banner':('Navy senior night banner with name, number and class year on a ballfield fence','Close-up of a vinyl banner zip-tied to a chain-link fence through grommets'),
+ '15-vendor-booth-kit':('Vendor booth kit with a custom table throw, a retractable banner and a feather flag', None),
  '13-halloween-yard-sign':('Happy Halloween family name yard sign with pumpkins',None),
  '14-thanksgiving-yard-sign':('Give Thanks family name yard sign with fall pumpkins',None),
 }
@@ -192,7 +193,7 @@ for p in P:
 <div><dt>Material</dt><dd>{e(p["material"])}</dd></div>
 <div><dt>Included</dt><dd>{e(p["included"])}</dd></div>
 <div><dt>Turnaround</dt><dd>{days} business days to make after you approve your proof, plus shipping. Rush on request.</dd></div>
-<div><dt>Proof</dt><dd>Free digital proof within 1 business day, 2 revisions included. Nothing prints until you approve.</dd></div>
+<div><dt>Proof</dt><dd>Free digital proof within 12 hours, 7 days a week, 3 revisions included. Nothing prints until you approve.</dd></div>
 <div><dt>Shipping</dt><dd>Free in the lower 48</dd></div>
 <div><dt>Your artwork</dt><dd>Logos, photos and text you send are your responsibility. You confirm you have the right to use them. We don't print team, school or league names, logos or slogans.</dd></div>
 </dl>'''
@@ -395,18 +396,19 @@ main=main.replace('href="#quote"','href="#quote"')
 SHORT={'01-custom-yard-sign':('custom-yard-signs','18×24 or 24×36 coroplast, H-stake included.'),
  '02-bulk-yard-signs':('bulk-campaign-signs','5 to 100 packs for campaigns, crews and realtors.'),
  '03-vinyl-banner':('vinyl-banners','13 oz outdoor vinyl, hemmed with grommets. 2×4 up to 3×10 ft.'),
- '04-feather-flag':('feather-flags','10, 12 or 15 ft. Pole, base and bag included.'),
+ '04-feather-flag':('feather-flags','10.5, 14 or 18 ft. Pole, ground spike or cross base, and bag included.'),
  '05-retractable-banner':('retractable-banners','Pull-up stand. Sets up in 60 seconds.'),
  '06-car-magnet':('car-magnets','Vehicle-grade magnets for both doors.'),
  '07-real-estate-sign':('real-estate-signs','Coroplast or aluminum. Riders and post frames.'),
  '08-step-and-repeat':('step-and-repeat-backdrops','8×8 or 10×8 with stand and case.'),
  '09-table-throw':('table-throws','Fits 6 or 8 ft tables. Washable, wrinkle resistant.'),
  '10-canopy-tent':('custom-canopy-tents','Printed top and valance on a heavy-duty frame.'),
+ '15-vendor-booth-kit':('vendor-booth-kit','6 ft table throw, 33×81 banner and 10.5 ft flag. One price.'),
  '11-christmas-family-banner':('holiday-yard-signs','Your family name, three classic styles.'),
  '12-senior-night-banner':('senior-night-banners','Photo, name and number. Team pricing for 10+.'),
  '13-halloween-yard-sign':('holiday-yard-signs','Family-name sign with stake.'),
  '14-thanksgiving-yard-sign':('holiday-yard-signs','Harvest or rustic, with your name.')}
-NAMES={'01-custom-yard-sign':'Custom Yard Sign','02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','13-halloween-yard-sign':'Halloween Yard Sign','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
+NAMES={'01-custom-yard-sign':'Custom Yard Sign','02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-vendor-booth-kit':'Vendor Booth Kit','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','13-halloween-yard-sign':'Halloween Yard Sign','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
 def price_of(k):
     for p in P:
         if p.get('extra'):
@@ -423,7 +425,8 @@ def hcard(k):
   <div class="card-body"><h3>{n}</h3><p>{d}</p>
   <div class="card-foot">{price}<span class="go">Sizes &amp; details <span aria-hidden="true">→</span></span></div></div>
 </a>'''
-BIZK=[k for k in NAMES if int(k[:2])<=10]; SEAK=[k for k in NAMES if int(k[:2])>10]
+BIZ_EXTRA={'15-vendor-booth-kit'}
+BIZK=[k for k in NAMES if int(k[:2])<=10 or k in BIZ_EXTRA]; SEAK=[k for k in NAMES if int(k[:2])>10 and k not in BIZ_EXTRA]
 options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<option>Election / campaign signs</option><option>Birthday or graduation sign</option><option>Something else</option>'
 main=main.replace('{{BIZ}}','\n'.join(hcard(k) for k in BIZK)).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options)
 main=main.replace('Every price includes a free custom design proof and free shipping in the lower 48. Tap a product to order on Etsy.','Every price includes a free custom design proof and free shipping in the lower 48. Tap a product for sizes, materials and FAQs, then order on Etsy or get a quote.')
