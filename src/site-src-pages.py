@@ -172,7 +172,6 @@ ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per 
  '11-christmas-family-banner':('Red Merry Christmas family name banner on a porch rail','Close-up of a red vinyl banner tied to a porch rail with grommets'),
  '12-senior-night-banner':('Navy senior night banner with name, number and class year on a ballfield fence','Close-up of a vinyl banner zip-tied to a chain-link fence through grommets'),
  '15-vendor-booth-kit':('Vendor booth kit with a custom table throw, a retractable banner and a feather flag', None),
- '13-halloween-yard-sign':('Happy Halloween family name yard sign with pumpkins',None),
  '14-thanksgiving-yard-sign':('Give Thanks family name yard sign with fall pumpkins',None),
 }
 for p in P:
@@ -406,9 +405,8 @@ SHORT={'01-custom-yard-sign':('custom-yard-signs','18×24 or 24×36 coroplast, H
  '15-vendor-booth-kit':('vendor-booth-kit','6 ft table throw, 33×81 banner and 10.5 ft flag. One price.'),
  '11-christmas-family-banner':('holiday-yard-signs','Your family name, three classic styles.'),
  '12-senior-night-banner':('senior-night-banners','Photo, name and number. Team pricing for 10+.'),
- '13-halloween-yard-sign':('holiday-yard-signs','Family-name sign with stake.'),
  '14-thanksgiving-yard-sign':('holiday-yard-signs','Harvest or rustic, with your name.')}
-NAMES={'01-custom-yard-sign':'Custom Yard Sign','02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-vendor-booth-kit':'Vendor Booth Kit','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','13-halloween-yard-sign':'Halloween Yard Sign','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
+NAMES={'01-custom-yard-sign':'Custom Yard Sign','02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-vendor-booth-kit':'Vendor Booth Kit','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
 def price_of(k):
     for p in P:
         if p.get('extra'):
