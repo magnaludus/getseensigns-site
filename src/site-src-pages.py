@@ -145,7 +145,7 @@ def card(p):
     k=p['key']; pr=f'<span class="price"><small>from</small> {money(p["price"])}<small class="unit"> {p["unit"]}</small></span>' if p['price'] else '<span class="price price-na">See price on Etsy</span>'
     alt=HERO_ALT.get(k, p["name"]+" by Get Seen Signs")
     return f'''<a class="card" href="/{p["slug"]}/">
-  <div class="card-img">{pic("/assets/img/p-"+k, alt, 1200, 900, sm="/assets/img/p-"+k+"-sm", sizes="(max-width: 760px) 46vw, (max-width: 1180px) 30vw, 260px")}</div>
+  <div class="card-img sq">{pic("/assets/img/p-"+k, alt, 1024, 1024, sm="/assets/img/p-"+k+"-sm", sizes="(max-width: 760px) 46vw, (max-width: 1180px) 30vw, 260px")}</div>
   <div class="card-body"><h3>{p["name"]}</h3>
   <div class="card-foot">{pr}<span class="go">Sizes &amp; details <span aria-hidden="true">→</span></span></div></div>
 </a>'''
@@ -180,19 +180,19 @@ ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per 
 }
 # Alt text for the current Etsy listing main photo (p-*.jpg). Gallery shots that Etsy did not expose stay on their own alts above.
 HERO_ALT={
- '02-bulk-yard-signs':'Stack of yellow and navy Dana Mitchell city council yard signs on metal H-stakes in a lawn',
- '03-vinyl-banner':'Yellow Now Open vinyl banner for Ridgeline Roofing hung on a storefront rail',
- '04-feather-flag':'Red Grand Opening feather flag for Ridgeline Roofing on a ground spike in a parking lot',
- '05-retractable-banner':'Black retractable banner stand for Oak and Iron Realty at a trade show',
- '06-car-magnet':'Pair of white Summit Plumbing car door magnets on a white service truck',
- '07-real-estate-sign':'White Oak and Iron Realty for-sale sign with an Open House rider in a front yard',
- '08-step-and-repeat':'Black and gold step and repeat backdrop on a telescoping stand',
- '09-table-throw':'Green Magnolia Coffee Co. logo table throw on a vendor table',
- '10-canopy-tent':'Orange Ridgeline Roofing 10 by 10 canopy tent with a printed valance at an outdoor event',
- '11-christmas-family-banner':'Red Merry Christmas banner for the Bennett family on a porch rail',
- '12-senior-night-banner':'Navy senior night banner for Jordan Hale, number 12, class of 2027, zip-tied to a fence',
- '14-thanksgiving-yard-sign':'Harvest Give Thanks yard sign for the Bennett family, with pumpkins, on a stake in a lawn',
- '15-vendor-booth-kit':'Vendor booth with a navy Magnolia Coffee Co. table throw, matching retractable banner and feather flag',
+ '02-bulk-yard-signs':'Five Vote Maria Lopez school board yard signs with eagles lined along a suburban sidewalk',
+ '03-vinyl-banner':'Riverside Tigers 12U baseball champions vinyl banner zip-tied to a ballfield fence',
+ '04-feather-flag':'Two orange Taco Loco Now Open feather flags outside a strip-mall storefront',
+ '05-retractable-banner':'Aqua Pro Plumbing retractable banner stand at an indoor expo',
+ '06-car-magnet':'Bulldog Lawn Care car magnet on a white pickup truck door',
+ '07-real-estate-sign':'Lionheart Realty for-sale sign with an Open House Sunday rider in a front yard',
+ '08-step-and-repeat':'Purple Westview Wolves Spring Gala 2026 step and repeat backdrop on a red carpet in a gym',
+ '09-table-throw':'Yellow Buzz Bros Honey table throw at an outdoor vendor market',
+ '10-canopy-tent':'Green Northside Hornets soccer canopy tent with a Go Hornets back wall at a tournament',
+ '11-christmas-family-banner':'Merry Christmas from the Martinez Family snowman banner on a decorated porch rail',
+ '12-senior-night-banner':'Senior night banner for Jake Morrison, number 12, Oak Ridge Rams, on a football field fence',
+ '14-thanksgiving-yard-sign':'Happy Thanksgiving yard sign for the Johnsons in a leafy fall yard',
+ '15-vendor-booth-kit':"Smokin' Joe's BBQ vendor booth with a matching table throw, retractable banner and feather flag at a farmers market",
 }
 for p in P:
     path=f'/{p["slug"]}/'; k=p['key']; items=[('Home','/'),(p['name'],path)]
@@ -232,7 +232,7 @@ for p in P:
         buy=''
         etsy_btn=f'<a class="btn btn-y" href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy <span aria-hidden="true">→</span></a>'
     rel=''.join(card(BY[s]) for s in p['related'])
-    hero_img=pic(f'/assets/img/p-{k}', HERO_ALT.get(k, f'{p["name"]} by Get Seen Signs'), 1200, 900, eager=True)
+    hero_img=pic(f'/assets/img/p-{k}', HERO_ALT.get(k, f'{p["name"]} by Get Seen Signs'), 1024, 1024, eager=True)
     page=head(p['title'],p['desc'],path,ld(*nodes),og_img=f'/assets/img/g-{k}-2.jpg',og_w=900,og_h=675,otype='product',preload=f'/assets/img/p-{k}.webp')+NAV+f'''<main id="main">
 <section class="phero ink">
   <div class="wrap">
@@ -244,7 +244,7 @@ for p in P:
         {price_html}
         <div class="cta-row">{etsy_btn}<a class="btn btn-ghost" href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a></div>
       </div>
-      <figure class="phero-img">{hero_img}</figure>
+      <figure class="phero-img sq">{hero_img}</figure>
     </div>
   </div>
 </section>
@@ -448,7 +448,7 @@ def hcard(k):
     price=f'<span class="price"><small>from</small> {money(pr)}<small class="unit"> {u}</small></span>' if pr else '<span class="price price-na">See price on Etsy</span>'
     alt=HERO_ALT.get(k, html.unescape(n)+" by Get Seen Signs")
     return f'''<a class="card" href="/{slug}/">
-  <div class="card-img">{pic("/assets/img/p-"+k, alt, 1200, 900, sm="/assets/img/p-"+k+"-sm", sizes="(max-width: 760px) 46vw, (max-width: 1180px) 30vw, 230px")}{tag}</div>
+  <div class="card-img sq">{pic("/assets/img/p-"+k, alt, 1024, 1024, sm="/assets/img/p-"+k+"-sm", sizes="(max-width: 760px) 46vw, (max-width: 1180px) 30vw, 230px")}{tag}</div>
   <div class="card-body"><h3>{n}</h3><p>{d}</p>
   <div class="card-foot">{price}<span class="go">Sizes &amp; details <span aria-hidden="true">→</span></span></div></div>
 </a>'''
