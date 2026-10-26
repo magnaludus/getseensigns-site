@@ -1,0 +1,16 @@
+{
+  "id": "band-stripe",
+  "product": "throw",
+  "name": "Band",
+  "category": "events",
+  "palette": {"primary": "#FFF6F2", "accent": "#E36A5D", "ink": "#3A1D1A"},
+  "sample": {"name": "SUNPORCH", "line2": "FLOWERS", "phone": "334-555-0198", "web": "sunporch.example"},
+  "font": "oswald",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Band", "region": "art", "box": [0, 0.28, 1, 0.44], "fill": "@accent"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.0, 0.1, 0.13, 0.8], "square": true},
+    {"type": "text", "region": "safe", "box": [0.15, 0.3, 0.7, 0.4], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 14}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.3, 0.76, 0.4, 0.2], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 5}, "bind": "line2"}
+  ]
+}

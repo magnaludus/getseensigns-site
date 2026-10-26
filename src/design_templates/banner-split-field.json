@@ -1,0 +1,17 @@
+{
+  "id": "split-field",
+  "product": "banner",
+  "name": "Split field",
+  "category": "business",
+  "palette": {"primary": "#6B2D12", "accent": "#F3D5A0", "ink": "#FFF6E8"},
+  "sample": {"name": "CEDAR POST", "line2": "BUILDING SUPPLY", "phone": "334-555-0112", "web": "cedarpost.example"},
+  "font": "archivo",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Left block", "region": "art", "box": [0, 0, 0.3, 1], "fill": "@accent"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.0, 0.1, 0.26, 0.8], "square": true},
+    {"type": "text", "region": "safe", "box": [0.32, 0.06, 0.66, 0.5], "fill": "@ink", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 12}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.32, 0.6, 0.66, 0.18], "fill": "@accent", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 6}, "bind": "line2"},
+    {"type": "text", "region": "safe", "box": [0.32, 0.82, 0.66, 0.16], "fill": "@ink", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 3.4}, "bind": "phone"}
+  ]
+}

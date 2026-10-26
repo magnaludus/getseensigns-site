@@ -1,0 +1,18 @@
+{
+  "id": "bold-center",
+  "product": "banner",
+  "name": "Big type",
+  "category": "business",
+  "palette": {"primary": "#FFD100", "accent": "#14161A", "ink": "#14161A"},
+  "sample": {"name": "NOW OPEN", "line2": "RIVERBEND HARDWARE", "phone": "334-555-0167", "web": "riverbend.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Top bar", "region": "art", "box": [0, 0, 1, 0.06], "fill": "@accent"},
+    {"type": "shape", "kind": "rect", "name": "Bottom bar", "region": "art", "box": [0, 0.94, 1, 0.06], "fill": "@accent"},
+    {"type": "text", "region": "safe", "box": [0, 0.02, 1, 0.52], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 14}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.05, 0.56, 0.9, 0.2], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 6}, "bind": "line2"},
+    {"type": "text", "region": "safe", "box": [0, 0.8, 0.5, 0.18], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 3.4}, "bind": "phone"},
+    {"type": "text", "region": "safe", "box": [0.5, 0.8, 0.5, 0.18], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 3.4}, "bind": "web"}
+  ]
+}

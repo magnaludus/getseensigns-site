@@ -1,0 +1,17 @@
+{
+  "id": "band-stripe",
+  "product": "yard",
+  "name": "Band",
+  "category": "events",
+  "palette": {"primary": "#F4F0E6", "accent": "#143D6B", "ink": "#143D6B"},
+  "sample": {"name": "RIDGELINE", "line2": "ROOFING", "phone": "334-555-0186", "web": "ridgeline.example"},
+  "font": "oswald",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Band", "region": "art", "box": [0, 0.36, 1, 0.3], "fill": "@accent"},
+    {"type": "text", "region": "safe", "box": [0.02, 0.35, 0.96, 0.32], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 7}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0, 0.06, 1, 0.2], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 4.5}, "bind": "line2"},
+    {"type": "text", "region": "safe", "box": [0, 0.76, 1, 0.12], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2.4}, "bind": "phone"},
+    {"type": "text", "region": "safe", "box": [0, 0.9, 1, 0.08], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 1.4}, "bind": "web"}
+  ]
+}

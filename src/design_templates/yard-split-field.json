@@ -1,0 +1,18 @@
+{
+  "id": "split-field",
+  "product": "yard",
+  "name": "Split field",
+  "category": "business",
+  "palette": {"primary": "#9E2A2B", "accent": "#F3EFE6", "ink": "#FFFFFF"},
+  "sample": {"name": "THE ALDERS", "line2": "EST. 2014", "phone": "334-555-0158", "web": "alders.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Right field", "region": "art", "box": [0.6, 0, 0.4, 1], "fill": "@accent"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.62, 0.08, 0.38, 0.5], "square": true},
+    {"type": "text", "region": "safe", "box": [0, 0.12, 0.57, 0.52], "fill": "@ink", "align": "left", "valign": "middle", "fit": {"lines": 2, "max": 7}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0, 0.66, 0.57, 0.12], "fill": "@accent", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 2.6}, "bind": "line2"},
+    {"type": "text", "region": "safe", "box": [0.62, 0.7, 0.38, 0.12], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2.2}, "bind": "phone"},
+    {"type": "text", "region": "safe", "box": [0.62, 0.84, 0.38, 0.08], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 1.4}, "bind": "web"}
+  ]
+}

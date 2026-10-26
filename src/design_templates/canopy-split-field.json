@@ -1,0 +1,19 @@
+{
+  "id": "split-field",
+  "product": "canopy",
+  "name": "Split field",
+  "category": "business",
+  "palette": {"primary": "#1C1A17", "accent": "#E24B2B", "ink": "#FFFFFF"},
+  "sample": {"name": "HARBOR & RYE", "line2": "COFFEE ROASTERS", "phone": "334-555-0152", "web": "harborrye.example"},
+  "font": "barlow",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Top field", "region": "roofarea", "box": [0, 0, 1, 0.42], "fill": "@accent"},
+    {"type": "shape", "kind": "rect", "name": "Valance bar", "region": "valancebar", "box": [0, 0, 1, 1], "fill": "@accent"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "peak", "box": [0.3, 0, 0.4, 0.46], "square": true},
+    {"type": "text", "region": "peak", "box": [0, 0.5, 1, 0.3], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 30}, "bind": "name"},
+    {"type": "text", "region": "peak", "box": [0.1, 0.84, 0.8, 0.16], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 12}, "bind": "line2"},
+    {"type": "text", "region": "valance", "box": [0, 0, 0.55, 1], "fill": "@primary", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 9}, "bind": "name", "name": "Valance name"},
+    {"type": "text", "region": "valance", "box": [0.55, 0, 0.45, 1], "fill": "@primary", "align": "right", "valign": "middle", "fit": {"lines": 1, "max": 9}, "bind": "phone", "name": "Valance phone"}
+  ]
+}

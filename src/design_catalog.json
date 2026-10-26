@@ -1,9 +1,71 @@
 {
   "fonts": [
-    {"id": "condensed", "label": "Barlow Condensed", "family": "Barlow Condensed", "weight": "900"},
-    {"id": "barlow", "label": "Barlow", "family": "Barlow", "weight": "700"},
-    {"id": "oswald", "label": "Oswald", "family": "Oswald", "weight": "700"},
-    {"id": "archivo", "label": "Archivo Black", "family": "Archivo Black", "weight": "400"}
+    {
+      "id": "condensed",
+      "label": "Barlow Condensed",
+      "family": "Barlow Condensed",
+      "weight": "900",
+      "cap": 0.7,
+      "asc": 1.0,
+      "desc": 0.2,
+      "file": "/assets/fonts/barlow-condensed-900.woff2",
+      "license": "OFL-1.1"
+    },
+    {
+      "id": "barlow",
+      "label": "Barlow",
+      "family": "Barlow",
+      "weight": "700",
+      "cap": 0.7,
+      "asc": 1.0,
+      "desc": 0.2,
+      "file": "/assets/fonts/barlow-700.woff2",
+      "license": "OFL-1.1"
+    },
+    {
+      "id": "oswald",
+      "label": "Oswald",
+      "family": "Oswald",
+      "weight": "700",
+      "cap": 0.81,
+      "asc": 1.193,
+      "desc": 0.289,
+      "file": "/assets/fonts/oswald-700.woff2",
+      "license": "OFL-1.1"
+    },
+    {
+      "id": "archivo",
+      "label": "Archivo Black",
+      "family": "Archivo Black",
+      "weight": "400",
+      "cap": 0.688,
+      "asc": 0.878,
+      "desc": 0.21,
+      "file": "/assets/fonts/archivo-black-400.woff2",
+      "license": "OFL-1.1"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "studio",
+      "label": "Studio",
+      "plate": null,
+      "bestFor": ["canopy", "feather", "yard", "throw", "banner"],
+      "phase": 1
+    },
+    {"id": "yard", "label": "Front yard", "plate": null, "bestFor": ["yard"], "phase": 1},
+    {"id": "storefront", "label": "Storefront", "plate": null, "bestFor": ["feather", "banner"], "phase": 1}
+  ],
+  "sceneDefault": "studio",
+  "rush": {"enabled": false},
+  "bundles": {"enabled": false, "discount": null},
+  "palettes": [
+    {"id": "forest-gold", "name": "Forest and gold", "primary": "#12372B", "accent": "#FFD100", "ink": "#FFFFFF"},
+    {"id": "ink-red", "name": "Black and red", "primary": "#14161A", "accent": "#E10600", "ink": "#FFFFFF"},
+    {"id": "navy-white", "name": "Navy and white", "primary": "#0B3A66", "accent": "#FFFFFF", "ink": "#FFFFFF"},
+    {"id": "cream-blue", "name": "Cream and blue", "primary": "#F4F0E6", "accent": "#143D6B", "ink": "#143D6B"},
+    {"id": "orange-teal", "name": "Teal and orange", "primary": "#0E3A4D", "accent": "#F26B21", "ink": "#FFFFFF"},
+    {"id": "plum-gold", "name": "Plum and gold", "primary": "#3D1020", "accent": "#F2C14E", "ink": "#FFFFFF"}
   ],
   "products": [
     {
@@ -11,13 +73,16 @@
       "name": "10×10 pop-up canopy tent",
       "short": "Canopy tent",
       "page": "/custom-canopy-tents/",
-      "mockup": "canopy",
-      "art": {"w": 1600, "h": 220},
+      "slug": "canopy-tent",
+      "designPage": "/design/canopy-tent/",
       "sides": {
+        "mode": "fixed",
+        "names": ["Front", "Right", "Back", "Left"],
         "sameLabel": "Same on all 4 sides",
-        "eachLabel": "Different text each side",
-        "names": ["Front", "Right", "Back", "Left"]
+        "eachLabel": "Each side different"
       },
+      "qty": {"min": 1, "max": 20, "unit": "tent"},
+      "view": "tent",
       "groups": [
         {
           "id": "package",
@@ -31,40 +96,40 @@
       ],
       "prices": [
         {"when": {"package": "valance"}, "source": "custom-canopy-tents", "offer": "10×10 top and valance"},
-        {"when": {"package": "back"}, "source": "custom-canopy-tents", "offer": "10×10 top, valance and back wall", "note": "The preview is the front valance. The back wall is laid out on your free proof."},
-        {"when": {"package": "kit"}, "source": "custom-canopy-tents", "offer": "Full kit: walls, feather flag and table throw", "note": "The preview is the front valance. Walls, the feather flag and the table throw are laid out on your free proof."}
+        {
+          "when": {"package": "back"},
+          "source": "custom-canopy-tents",
+          "offer": "10×10 top, valance and back wall",
+          "note": "The preview is the front valance. The back wall is laid out on your free proof."
+        },
+        {
+          "when": {"package": "kit"},
+          "source": "custom-canopy-tents",
+          "offer": "Full kit: walls, feather flag and table throw",
+          "note": "The preview is the front valance. Walls, the feather flag and the table throw are laid out on your free proof."
+        }
       ],
-      "templates": [
-        {"id": "block", "name": "Big type", "layout": "center", "headline": "NORTHLINE", "secondary": "334-555-0148", "colors": ["#12372B", "#FFD100", "#FFFFFF"]},
-        {"id": "split", "name": "Split", "layout": "split", "headline": "HARBOR & RYE", "secondary": "COFFEE ROASTERS", "colors": ["#1C1A17", "#E24B2B", "#FFFFFF"]},
-        {"id": "band", "name": "Band", "layout": "band", "headline": "RED CLAY", "secondary": "CATERING", "colors": ["#F4F0E6", "#143D6B", "#143D6B"]},
-        {"id": "badge", "name": "Badge", "layout": "badge", "headline": "LANTERN LAWN", "secondary": "334-555-0174", "colors": ["#2A241C", "#F0A202", "#FFF8EA"]}
-      ]
+      "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]
     },
     {
       "id": "feather",
       "name": "Feather flag",
       "short": "Feather flag",
       "page": "/feather-flags/",
-      "mockup": "feather",
-      "art": {"w": 520, "h": 1480},
+      "slug": "feather-flag",
+      "designPage": "/design/feather-flag/",
+      "sides": {"mode": "fixed", "names": ["Flag"]},
+      "qty": {"min": 1, "max": 20, "unit": "flag"},
       "groups": [
         {
           "id": "height",
           "label": "Height",
-          "choices": [
-            {"id": "10.5", "label": "10.5 ft"},
-            {"id": "14", "label": "14 ft"},
-            {"id": "18", "label": "18 ft"}
-          ]
+          "choices": [{"id": "10.5", "label": "10.5 ft"}, {"id": "14", "label": "14 ft"}, {"id": "18", "label": "18 ft"}]
         },
         {
           "id": "base",
           "label": "Base",
-          "choices": [
-            {"id": "spike", "label": "Ground spike"},
-            {"id": "cross", "label": "Cross base"}
-          ]
+          "choices": [{"id": "spike", "label": "Ground spike"}, {"id": "cross", "label": "Cross base"}]
         }
       ],
       "prices": [
@@ -75,20 +140,23 @@
         {"when": {"height": "18", "base": "spike"}, "source": "feather-flags", "offer": "18 ft with ground spike"},
         {"when": {"height": "18", "base": "cross"}, "source": "feather-flags", "offer": "18 ft with cross base"}
       ],
-      "templates": [
-        {"id": "block", "name": "Big type", "layout": "center", "headline": "MAPLE STREET", "secondary": "OPEN DAILY", "colors": ["#0E3A4D", "#F26B21", "#FFFFFF"]},
-        {"id": "split", "name": "Split", "layout": "split", "headline": "BRIGHTPATH", "secondary": "TUTORING", "colors": ["#F7F3EA", "#1F6B4A", "#16382A"]},
-        {"id": "band", "name": "Band", "layout": "band", "headline": "COPPERLINE", "secondary": "334-555-0166", "colors": ["#3D1020", "#F2C14E", "#FFFFFF"]},
-        {"id": "badge", "name": "Badge", "layout": "badge", "headline": "MEADOWBROOK", "secondary": "BAKERY", "colors": ["#EFE7D6", "#B42318", "#2A120E"]}
-      ]
+      "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]
     },
     {
       "id": "yard",
       "name": "18×24 yard sign",
       "short": "Yard sign",
       "page": "/bulk-campaign-signs/",
-      "mockup": "yard",
-      "art": {"w": 720, "h": 960},
+      "slug": "yard-signs",
+      "designPage": "/design/yard-signs/",
+      "sides": {
+        "mode": "by_choice",
+        "group": "print",
+        "names": {"1": ["Front"], "2": ["Front", "Back"]},
+        "sameLabel": "Same on both sides",
+        "eachLabel": "Each side different"
+      },
+      "qty": null,
       "groups": [
         {
           "id": "pack",
@@ -104,76 +172,122 @@
         {
           "id": "print",
           "label": "Print",
-          "choices": [
-            {"id": "1", "label": "One side"},
-            {"id": "2", "label": "Two sides"}
-          ]
+          "choices": [{"id": "1", "label": "One side"}, {"id": "2", "label": "Two sides"}]
         }
       ],
       "prices": [
-        {"when": {"pack": "5", "print": "1"}, "source": "bulk-campaign-signs", "offer": "5 signs, one side, 18×24, stakes included"},
-        {"when": {"pack": "10", "print": "1"}, "source": "bulk-campaign-signs", "offer": "10 signs, one side, 18×24, stakes included"},
-        {"when": {"pack": "25", "print": "1"}, "source": "bulk-campaign-signs", "offer": "25 signs, one side, 18×24, stakes included"},
-        {"when": {"pack": "50", "print": "1"}, "source": "bulk-campaign-signs", "offer": "50 signs, one side, 18×24, stakes included"},
-        {"when": {"pack": "100", "print": "1"}, "source": "bulk-campaign-signs", "offer": "100 signs, one side, 18×24, stakes included"},
-        {"when": {"pack": "5", "print": "2"}, "source": "bulk-campaign-signs", "offer": "5 signs, two sides, 18×24, stakes included", "note": "The preview is the front. Two-sided packs use this design on both sides."},
-        {"when": {"pack": "10", "print": "2"}, "source": "bulk-campaign-signs", "offer": "10 signs, two sides, 18×24, stakes included", "note": "The preview is the front. Two-sided packs use this design on both sides."},
-        {"when": {"pack": "25", "print": "2"}, "source": "bulk-campaign-signs", "offer": "25 signs, two sides, 18×24, stakes included", "note": "The preview is the front. Two-sided packs use this design on both sides."},
-        {"when": {"pack": "50", "print": "2"}, "source": "bulk-campaign-signs", "offer": "50 signs, two sides, 18×24, stakes included", "note": "The preview is the front. Two-sided packs use this design on both sides."},
-        {"when": {"pack": "100", "print": "2"}, "source": "bulk-campaign-signs", "offer": "100 signs, two sides, 18×24, stakes included", "note": "The preview is the front. Two-sided packs use this design on both sides."}
+        {
+          "when": {"pack": "5", "print": "1"},
+          "source": "bulk-campaign-signs",
+          "offer": "5 signs, one side, 18×24, stakes included"
+        },
+        {
+          "when": {"pack": "10", "print": "1"},
+          "source": "bulk-campaign-signs",
+          "offer": "10 signs, one side, 18×24, stakes included"
+        },
+        {
+          "when": {"pack": "25", "print": "1"},
+          "source": "bulk-campaign-signs",
+          "offer": "25 signs, one side, 18×24, stakes included"
+        },
+        {
+          "when": {"pack": "50", "print": "1"},
+          "source": "bulk-campaign-signs",
+          "offer": "50 signs, one side, 18×24, stakes included"
+        },
+        {
+          "when": {"pack": "100", "print": "1"},
+          "source": "bulk-campaign-signs",
+          "offer": "100 signs, one side, 18×24, stakes included"
+        },
+        {
+          "when": {"pack": "5", "print": "2"},
+          "source": "bulk-campaign-signs",
+          "offer": "5 signs, two sides, 18×24, stakes included",
+          "note": "The preview is the front. Two-sided packs use this design on both sides."
+        },
+        {
+          "when": {"pack": "10", "print": "2"},
+          "source": "bulk-campaign-signs",
+          "offer": "10 signs, two sides, 18×24, stakes included",
+          "note": "The preview is the front. Two-sided packs use this design on both sides."
+        },
+        {
+          "when": {"pack": "25", "print": "2"},
+          "source": "bulk-campaign-signs",
+          "offer": "25 signs, two sides, 18×24, stakes included",
+          "note": "The preview is the front. Two-sided packs use this design on both sides."
+        },
+        {
+          "when": {"pack": "50", "print": "2"},
+          "source": "bulk-campaign-signs",
+          "offer": "50 signs, two sides, 18×24, stakes included",
+          "note": "The preview is the front. Two-sided packs use this design on both sides."
+        },
+        {
+          "when": {"pack": "100", "print": "2"},
+          "source": "bulk-campaign-signs",
+          "offer": "100 signs, two sides, 18×24, stakes included",
+          "note": "The preview is the front. Two-sided packs use this design on both sides."
+        }
       ],
-      "templates": [
-        {"id": "block", "name": "Big type", "layout": "center", "headline": "SAM RIVERA", "secondary": "CITY COUNCIL", "colors": ["#14161A", "#FFD100", "#FFD100"]},
-        {"id": "split", "name": "Split", "layout": "split", "headline": "THE HARPERS", "secondary": "EST. 2014", "colors": ["#F3EFE6", "#9E2A2B", "#1A1A1A"]},
-        {"id": "band", "name": "Band", "layout": "band", "headline": "SUMMIT RIDGE", "secondary": "ROOFING", "colors": ["#0B3A66", "#FFFFFF", "#FFFFFF"]},
-        {"id": "badge", "name": "Badge", "layout": "badge", "headline": "LITTLE PINES", "secondary": "DAYCARE", "colors": ["#1E3A2F", "#D6F25C", "#F4FFE0"]}
-      ]
+      "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]
     },
     {
       "id": "throw",
       "name": "Table throw",
       "short": "Table throw",
       "page": "/table-throws/",
-      "mockup": "table",
-      "art": {"w": 1200, "h": 480},
+      "slug": "table-throw",
+      "designPage": "/design/table-throw/",
+      "sides": {"mode": "fixed", "names": ["Front panel"]},
+      "qty": {"min": 1, "max": 20, "unit": "throw"},
       "groups": [
-        {
-          "id": "length",
-          "label": "Table",
-          "choices": [
-            {"id": "6", "label": "6 ft"},
-            {"id": "8", "label": "8 ft"}
-          ]
-        },
+        {"id": "length", "label": "Table", "choices": [{"id": "6", "label": "6 ft"}, {"id": "8", "label": "8 ft"}]},
         {
           "id": "style",
           "label": "Style",
-          "choices": [
-            {"id": "3", "label": "3-sided"},
-            {"id": "4", "label": "4-sided"}
-          ]
+          "choices": [{"id": "3", "label": "3-sided"}, {"id": "4", "label": "4-sided"}]
         }
       ],
       "prices": [
-        {"when": {"length": "6", "style": "3"}, "source": "table-throws", "offer": "6 ft, 3-sided", "art": {"w": 1100, "h": 460}, "note": "Front panel preview. A 3-sided throw has an open back. The full-color print is on the front panel."},
-        {"when": {"length": "6", "style": "4"}, "source": "table-throws", "offer": "6 ft, 4-sided", "art": {"w": 1100, "h": 460}, "note": "Front panel preview. A 4-sided throw covers all the way around. The full-color print is on the front panel."},
-        {"when": {"length": "8", "style": "3"}, "source": "table-throws", "offer": "8 ft, 3-sided", "art": {"w": 1400, "h": 440}, "note": "Front panel preview. A 3-sided throw has an open back. The full-color print is on the front panel."},
-        {"when": {"length": "8", "style": "4"}, "source": "table-throws", "offer": "8 ft, 4-sided", "art": {"w": 1400, "h": 440}, "note": "Front panel preview. A 4-sided throw covers all the way around. The full-color print is on the front panel."}
+        {
+          "when": {"length": "6", "style": "3"},
+          "source": "table-throws",
+          "offer": "6 ft, 3-sided",
+          "note": "Front panel preview. A 3-sided throw has an open back. The full-color print is on the front panel."
+        },
+        {
+          "when": {"length": "6", "style": "4"},
+          "source": "table-throws",
+          "offer": "6 ft, 4-sided",
+          "note": "Front panel preview. A 4-sided throw covers all the way around. The full-color print is on the front panel."
+        },
+        {
+          "when": {"length": "8", "style": "3"},
+          "source": "table-throws",
+          "offer": "8 ft, 3-sided",
+          "note": "Front panel preview. A 3-sided throw has an open back. The full-color print is on the front panel."
+        },
+        {
+          "when": {"length": "8", "style": "4"},
+          "source": "table-throws",
+          "offer": "8 ft, 4-sided",
+          "note": "Front panel preview. A 4-sided throw covers all the way around. The full-color print is on the front panel."
+        }
       ],
-      "templates": [
-        {"id": "block", "name": "Big type", "layout": "center", "headline": "HONEYDROP", "secondary": "APIARY", "colors": ["#F6C445", "#1F1A17", "#1F1A17"]},
-        {"id": "split", "name": "Split", "layout": "split", "headline": "FIDDLEHEAD", "secondary": "FARMS", "colors": ["#1B4332", "#E7F0C3", "#F3FFE4"]},
-        {"id": "band", "name": "Band", "layout": "band", "headline": "SUNPORCH", "secondary": "FLOWERS", "colors": ["#FFF6F2", "#E36A5D", "#3A1D1A"]},
-        {"id": "badge", "name": "Badge", "layout": "badge", "headline": "KEEL & CO", "secondary": "SEAFOOD", "colors": ["#0E2A3A", "#F28C28", "#FFFFFF"]}
-      ]
+      "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]
     },
     {
       "id": "banner",
       "name": "Vinyl banner",
       "short": "Vinyl banner",
       "page": "/vinyl-banners/",
-      "mockup": "banner",
-      "art": {"w": 1200, "h": 600},
+      "slug": "vinyl-banner",
+      "designPage": "/design/vinyl-banner/",
+      "sides": {"mode": "fixed", "names": ["Banner"]},
+      "qty": {"min": 1, "max": 20, "unit": "banner"},
       "groups": [
         {
           "id": "size",
@@ -187,17 +301,12 @@
         }
       ],
       "prices": [
-        {"when": {"size": "2x4"}, "source": "vinyl-banners", "offer": "2×4 ft with grommets", "art": {"w": 1200, "h": 600}},
-        {"when": {"size": "3x6"}, "source": "vinyl-banners", "offer": "3×6 ft", "art": {"w": 1200, "h": 600}},
-        {"when": {"size": "4x8"}, "source": "vinyl-banners", "offer": "4×8 ft", "art": {"w": 1200, "h": 600}},
-        {"when": {"size": "3x10"}, "source": "vinyl-banners", "offer": "3×10 ft", "art": {"w": 1500, "h": 450}}
+        {"when": {"size": "2x4"}, "source": "vinyl-banners", "offer": "2×4 ft with grommets"},
+        {"when": {"size": "3x6"}, "source": "vinyl-banners", "offer": "3×6 ft"},
+        {"when": {"size": "4x8"}, "source": "vinyl-banners", "offer": "4×8 ft"},
+        {"when": {"size": "3x10"}, "source": "vinyl-banners", "offer": "3×10 ft"}
       ],
-      "templates": [
-        {"id": "block", "name": "Big type", "layout": "center", "headline": "NOW OPEN", "secondary": "RIVERBEND HARDWARE", "colors": ["#FFD100", "#14161A", "#14161A"]},
-        {"id": "split", "name": "Split", "layout": "split", "headline": "CEDAR POST", "secondary": "BUILDING SUPPLY", "colors": ["#6B2D12", "#F3D5A0", "#FFF6E8"]},
-        {"id": "band", "name": "Band", "layout": "band", "headline": "MARLOW FEED", "secondary": "WEEKEND SALE", "colors": ["#F4F1EA", "#2F6FED", "#172033"]},
-        {"id": "badge", "name": "Badge", "layout": "badge", "headline": "MILE MARKER", "secondary": "AUTO REPAIR", "colors": ["#101820", "#E10600", "#FFFFFF"]}
-      ]
+      "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]
     }
   ]
 }

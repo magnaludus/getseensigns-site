@@ -1,0 +1,16 @@
+{
+  "id": "bold-center",
+  "product": "throw",
+  "name": "Big type",
+  "category": "business",
+  "palette": {"primary": "#F6C445", "accent": "#1F1A17", "ink": "#1F1A17"},
+  "sample": {"name": "HONEYDROP", "line2": "APIARY", "phone": "334-555-0139", "web": "honeydrop.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Top bar", "region": "art", "box": [0, 0, 1, 0.1], "fill": "@accent"},
+    {"type": "shape", "kind": "rect", "name": "Bottom bar", "region": "art", "box": [0, 0.9, 1, 0.1], "fill": "@accent"},
+    {"type": "text", "region": "safe", "box": [0.04, 0.08, 0.92, 0.56], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 16}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.2, 0.68, 0.6, 0.2], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 6}, "bind": "line2"}
+  ]
+}

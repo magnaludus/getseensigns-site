@@ -1,0 +1,18 @@
+{
+  "id": "band-stripe",
+  "product": "canopy",
+  "name": "Band",
+  "category": "events",
+  "palette": {"primary": "#F4F0E6", "accent": "#143D6B", "ink": "#143D6B"},
+  "sample": {"name": "RED CLAY", "line2": "CATERING", "phone": "334-555-0119", "web": "redclay.example"},
+  "font": "oswald",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Band", "region": "roofarea", "box": [0, 0.43, 1, 0.31], "fill": "@accent"},
+    {"type": "shape", "kind": "rect", "name": "Valance bar", "region": "valancebar", "box": [0, 0, 1, 1], "fill": "@accent"},
+    {"type": "text", "region": "peak", "box": [0, 0, 1, 0.62], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 30}, "bind": "name"},
+    {"type": "text", "region": "peak", "box": [0.1, 0.74, 0.8, 0.24], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 14}, "bind": "line2"},
+    {"type": "text", "region": "valance", "box": [0, 0, 0.55, 1], "fill": "@primary", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 9}, "bind": "name", "name": "Valance name"},
+    {"type": "text", "region": "valance", "box": [0.55, 0, 0.45, 1], "fill": "@primary", "align": "right", "valign": "middle", "fit": {"lines": 1, "max": 9}, "bind": "phone", "name": "Valance phone"}
+  ]
+}

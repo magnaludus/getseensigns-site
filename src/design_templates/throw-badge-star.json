@@ -1,0 +1,16 @@
+{
+  "id": "badge-star",
+  "product": "throw",
+  "name": "Badge",
+  "category": "business",
+  "palette": {"primary": "#0E2A3A", "accent": "#F28C28", "ink": "#FFFFFF"},
+  "sample": {"name": "KEEL & CO", "line2": "SEAFOOD", "phone": "334-555-0145", "web": "keelandco.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "badge", "name": "Seal", "region": "safe", "box": [0.38, 0.0, 0.24, 1], "fill": "@accent", "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.4, 0.1, 0.2, 0.8], "square": true},
+    {"type": "text", "region": "safe", "box": [0.0, 0.1, 0.35, 0.8], "fill": "@ink", "align": "right", "valign": "middle", "fit": {"lines": 2, "max": 12}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.65, 0.1, 0.35, 0.8], "fill": "@accent", "align": "left", "valign": "middle", "fit": {"lines": 2, "max": 9}, "bind": "line2"}
+  ]
+}
