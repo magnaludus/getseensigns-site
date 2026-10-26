@@ -1,0 +1,80 @@
+/* Design preview. Loaded only on /design/. Oswald and Archivo Black are SIL OFL latin subsets. */
+@font-face{font-family:'Oswald';font-style:normal;font-weight:700;font-display:swap;src:url(/assets/fonts/oswald-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Archivo Black';font-style:normal;font-weight:400;font-display:swap;src:url(/assets/fonts/archivo-black-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+.designer-hero{padding:18px 0 42px}
+.designer-hero h1{font-size:clamp(40px,6vw,74px);margin-bottom:14px}
+.designer-hero .lede{margin-bottom:0}
+.designer-sec{padding-top:22px}
+.designer-loading{font-weight:600}
+
+.designer-layout{display:grid;grid-template-columns:minmax(300px,.86fr) minmax(0,1.14fr);gap:28px;align-items:start}
+.designer-stage-col{position:sticky;top:84px}
+.designer-stage-card{background:#fff;border:3px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:16px 16px 18px}
+.designer-stage-top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.designer-view{font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:14px;color:var(--muted);margin:0}
+.designer-price{font-family:var(--hd);font-weight:900;font-size:42px;line-height:.9;color:var(--ink);margin:0}
+.designer-opt{margin:4px 0 12px;color:var(--muted);font-size:14.5px}
+.designer-stage-card canvas{width:100%;max-width:100%;height:auto;margin:0 auto;background:var(--paper);border-radius:12px;display:block}
+.designer-note{margin:12px 0 0;font-size:14.5px;color:#33363C}
+.designer-fine{margin:8px 0 0;font-size:13.5px;color:var(--muted)}
+.designer-details{display:inline-block;margin-top:10px;font-weight:700;text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:3px;text-underline-offset:3px}
+
+.designer-controls{display:grid;gap:18px}
+.designer-controls fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
+.designer-controls legend{font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:15px;padding:0}
+.d-help{font-size:14.5px;color:var(--muted);margin:0}
+.d-chips,.d-sides{display:flex;flex-wrap:wrap;gap:8px}
+.d-chips button,.d-sides button,.d-font button{
+  font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.03em;font-size:16px;line-height:1.1;
+  background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:8px;padding:10px 12px;cursor:pointer;
+}
+.d-chips button[aria-pressed="true"],.d-sides button[aria-pressed="true"],.d-font button[aria-pressed="true"]{background:var(--y);box-shadow:3px 3px 0 var(--ink)}
+.d-templates{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.d-templates button{display:grid;gap:6px;padding:8px;text-align:left;background:#fff;border:2px solid var(--ink);border-radius:10px;cursor:pointer;color:var(--ink)}
+.d-templates button[aria-pressed="true"]{background:var(--y)}
+.d-templates canvas{width:100%;height:auto;background:#E7E1D4;border-radius:6px;display:block}
+.d-templates span{font-family:var(--hd);font-weight:800;text-transform:uppercase;font-size:16px;letter-spacing:.03em}
+.d-fields{display:grid;gap:10px}
+.d-fields label,.d-contact label{display:grid;gap:6px;font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:15px}
+.designer input,.designer textarea{scroll-margin-bottom:120px}
+.designer input[type="text"],.designer input[type="email"],.designer input[type="tel"],.designer textarea{
+  font:500 16px/1.4 var(--bd);color:var(--ink);background:var(--paper);border:2px solid #CFC8B8;border-radius:10px;padding:12px 13px;width:100%;min-width:0;text-transform:none;letter-spacing:0;
+}
+.designer textarea{resize:vertical}
+.designer input:focus,.designer textarea:focus{outline:none;border-color:var(--ink);background:#fff;box-shadow:0 0 0 3px var(--y)}
+.designer [aria-invalid="true"]{border-color:#C62828}
+.d-colors{display:grid;gap:8px}
+.d-color{display:grid;grid-template-columns:108px 52px minmax(0,1fr);gap:8px;align-items:center}
+.d-color span{font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:14px}
+.d-color input[type="color"]{width:52px;height:44px;padding:4px;border:2px solid var(--ink);border-radius:10px;background:#fff;cursor:pointer}
+.d-color input[type="text"]{font:600 16px/1 var(--bd);text-transform:uppercase}
+.d-font{display:flex;flex-wrap:wrap;gap:8px}
+.d-logo{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.d-logo input[type="file"]{font:500 14px/1.3 var(--bd);max-width:100%}
+.d-logo-name{font-size:14px;color:var(--muted)}
+.designer-controls .btn{width:100%}
+.d-fallback{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.d-fallback .btn{width:auto}
+.designer-dock{display:none}
+
+@media (max-width:900px){
+  .designer-layout{grid-template-columns:1fr}
+  .designer-stage-col{position:static;order:-1}
+  .designer-price{font-size:34px}
+  .designer-dock{
+    display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;
+    background:var(--ink);color:#fff;padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+    gap:10px;align-items:center;border-top:3px solid var(--y);
+  }
+  .designer-dock strong{font-family:var(--hd);font-weight:900;font-size:28px;line-height:1;color:var(--y)}
+  .designer-dock span{display:block;font-size:12px;color:#D9D6CE;max-width:42vw;line-height:1.25}
+  .designer-dock .btn{margin-left:auto;width:auto;font-size:15px;padding:12px 12px;flex:none}
+  .d-color{grid-template-columns:1fr 52px}
+  .d-color span{grid-column:1/-1}
+  .designer{padding-bottom:86px}
+}
+@media (max-width:520px){
+  .d-templates{grid-template-columns:1fr 1fr;gap:8px}
+  .designer-stage-card{padding:12px;box-shadow:5px 5px 0 var(--ink)}
+}

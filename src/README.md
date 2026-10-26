@@ -12,6 +12,10 @@ Cloudflare Pages publishes `main` automatically about a minute after every merge
 | `src/seo_pages.py` | Local landing pages, blog posts and the gameday page. |
 | `src/site-src-index.tpl.html` | Home page body (between `<main>` and `</main>`). |
 | `src/site-src-pages.py` | Builds every HTML page, sitemap.xml, robots.txt and 404.html. Shared head, nav, footer and the shipping schema (`shipping_details`, `TRANSIT`, `RETURNS`). |
+| `src/design_catalog.json` | Design-preview products, options and templates. Prices are not stored here. |
+| `src/design_catalog.py` | Copies each option's price from `seo_products.py` `offer_rows` at build time. The build stops if an offer string does not match. |
+| `assets/design/` | Designer JS and CSS, loaded only on `/design/`. `catalog.json` is generated. |
+| `functions/api/design-proof.js` | Optional Pages Function for proof requests. Off unless `DESIGN_PROOF_ENABLED=true`. |
 | `assets/style.css` | CSS source. It is inlined into every page at build time, so a style change needs a rebuild. |
 | `assets/` | Images, fonts (Barlow, OFL) and brand files, already built. |
 
@@ -35,6 +39,43 @@ Then check `git diff`: only the pages you meant to change should differ.
 - Keep the sitemap entry and breadcrumb for every page. Keep `privacy.html` as the file name (it serves at /privacy).
 - Never hand-edit a built page; the next rebuild overwrites it. Edit `src/` and rebuild.
 - Nothing private goes in this repo: no costs, margins, supplier names or quotes, passwords, tokens or account details.
+
+## Design preview (`/design/`)
+
+Customers pick a product and a template, set words and colors, upload a logo, and see a live preview. Then they request a free proof. The preview is not a print file, and there is no checkout.
+
+Products in v1: 10×10 canopy tent (front valance, same on all 4 sides or different text each side), feather flag (10.5 / 14 / 18 ft, ground spike or cross base), 18×24 yard sign (packs from `bulk-campaign-signs`), table throw (6 or 8 ft, 3-sided or 4-sided, front panel), and vinyl banner (2×4, 3×6, 4×8, 3×10). To add another product that already has `offer_rows`, copy a product in `src/design_catalog.json`, point every `source` / `offer` pair at an existing offer string, pick a `mockup` (`canopy`, `feather`, `yard`, `table`, `banner`, or `flat`) and 3–4 templates (`center`, `split`, `band`, `badge`), then rebuild. A new mockup shape needs a draw function in `assets/design/editor.js`.
+
+Sample words in the templates are fictional. Do not put real team, school or league names in them.
+
+### Sending a proof request
+
+Today the form does not need a server. It tries `POST /api/design-proof`. Until that function is switched on, it answers 503 and the page falls back to the same idea as the quote form:
+
+- It downloads `get-seen-preview.png` (the preview, with the product and price on it).
+- It opens a `mailto:sales@getseensignsco.com` message with the design summary.
+- The customer attaches the PNG, and their logo file if they uploaded one. Browsers cannot attach files to a mailto link for them.
+
+Nothing prints until they approve the real proof (within 12 hours, 7 days a week, 3 revisions).
+
+### Turn on the Pages Function
+
+Do this in the Cloudflare account that already hosts the site. Do not create a new service, and do not put secrets in the repo. Leave the flag off and the site still deploys; the mailto path keeps working.
+
+1. Create a private R2 bucket, for example `getseen-design-proofs`. Do not turn on public access or r2.dev.
+2. Pages project → Settings → Bindings → add an R2 bucket binding. Variable name: `PROOFS`.
+3. Optional email, using Cloudflare Email Routing on `getseensignsco.com` (no extra product to buy):
+   - Verify the destination mailbox `sales@getseensignsco.com`.
+   - Add a `send_email` binding named `SEND_EMAIL` that is allowed to send to that mailbox.
+4. Pages → Settings → Environment variables, for Production (and Preview if you want to try it there):
+   - `DESIGN_PROOF_ENABLED` = `true`
+   - `DESIGN_PROOF_TO` = `sales@getseensignsco.com`
+   - `DESIGN_PROOF_FROM` = an address on this domain that Email Routing can send as, for example `proofs@getseensignsco.com`
+5. Redeploy (a merge to `main` does that).
+
+While the flag is anything other than `true`, `POST /api/design-proof` returns `{"ok":false,"enabled":false}` with status 503 and the page uses mailto. When the flag is on, the function stores files in the private bucket at `design-proofs/YYYY-MM-DD/<id>/` (`design.json`, `request.json`, `preview.png`, and `logo` if one was uploaded) and sends a summary email if `SEND_EMAIL`, `DESIGN_PROOF_TO` and `DESIGN_PROOF_FROM` are all set. The preview and logo are attached when together they are under about 1.5 MB. The page shows a success message only when that email is sent. If storage works but email does not, the customer still gets the mailto fallback, and the saved reference id is included when the function stored the files.
+
+The bucket holds customer names, emails, phone numbers and artwork. Keep it private.
 
 ## Publishing
 

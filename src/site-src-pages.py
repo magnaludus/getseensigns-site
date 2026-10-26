@@ -5,12 +5,20 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(__file__))
 from seo_products import P, BY
 from seo_pages import LOCAL, BLOG, GAMEDAY
+from design_catalog import build_catalog
 SRC=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(SRC); SITE=ROOT  # repo root: built pages are written here
 BASE='https://getseensignsco.com'
 TODAY=datetime.date(2026,10,26).isoformat()
 ETSY='https://www.etsy.com/shop/GetSeenSigns'
 ORG_ID=BASE+'/#org'; SITE_ID=BASE+'/#website'
 AREAS=['Columbus, GA','Phenix City, AL','Auburn, AL','Opelika, AL','Smiths Station, AL','Fort Benning, GA']
+DESIGN_IDS={
+  'custom-canopy-tents':'canopy',
+  'feather-flags':'feather',
+  'bulk-campaign-signs':'yard',
+  'table-throws':'throw',
+  'vinyl-banners':'banner',
+}
 e=html.escape
 import re as _r0
 CSS=_r0.sub(r'\s*\n\s*','',open(SITE+'/assets/style.css').read()).replace('/*','\n/*')
@@ -99,8 +107,9 @@ NAV='''<header class="nav">
   <div class="wrap nav-in">
     <a class="nav-logo" href="/" aria-label="Get Seen Signs home"><img src="/assets/brand/getseen-wordmark-only-for-dark-bg.svg" alt="Get Seen Signs" width="150" height="58"></a>
     <nav class="nav-links" aria-label="Main">
-      <a href="/#products">Products</a><a href="/signs-columbus-ga-phenix-city/">Columbus</a><a href="/signs-auburn-opelika-al/">Auburn</a><a href="/blog/">Guides</a><a href="/#faq">FAQ</a>
+      <a href="/#products">Products</a><a href="/design/">Design</a><a href="/signs-columbus-ga-phenix-city/">Columbus</a><a href="/signs-auburn-opelika-al/">Auburn</a><a href="/blog/">Guides</a><a href="/#faq">FAQ</a>
     </nav>
+    <a class="nav-design" href="/design/">Design</a>
     <a class="btn btn-y btn-sm" href="/#quote">Get a quote</a>
   </div>
 </header>
@@ -116,7 +125,7 @@ def foot():
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
       <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
-      <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/#quote">Get a quote</a><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/privacy">Privacy</a></div>
+      <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/privacy">Privacy</a></div>
     </div>
   </div>
   <div class="wrap legal">
@@ -232,6 +241,7 @@ for p in P:
         buy=''
         etsy_btn=f'<a class="btn btn-y" href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy <span aria-hidden="true">→</span></a>'
     rel=''.join(card(BY[s]) for s in p['related'])
+    design_btn=(f'<a class="btn btn-ghost" href="/design/?product={DESIGN_IDS[p["slug"]]}">Design yours online</a>' if p['slug'] in DESIGN_IDS else '')
     hero_img=pic(f'/assets/img/p-{k}', HERO_ALT.get(k, f'{p["name"]} by Get Seen Signs'), 1024, 1024, eager=True)
     page=head(p['title'],p['desc'],path,ld(*nodes),og_img=f'/assets/img/g-{k}-2.jpg',og_w=900,og_h=675,otype='product',preload=f'/assets/img/p-{k}.webp')+NAV+f'''<main id="main">
 <section class="phero ink">
@@ -242,7 +252,7 @@ for p in P:
         <h1>{e(p["h1"][0])} <span class="block">{e(p["h1"][1])}</span></h1>
         <p class="lede">{e(p["lede"])}</p>
         {price_html}
-        <div class="cta-row">{etsy_btn}<a class="btn btn-ghost" href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a></div>
+        <div class="cta-row">{etsy_btn}{design_btn}<a class="btn btn-ghost" href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a></div>
       </div>
       <figure class="phero-img sq">{hero_img}</figure>
     </div>
@@ -398,10 +408,59 @@ page=head(title,desc,path,ld(crumbs(items),{"@type":"Blog","@id":BASE+path,"url"
 '''+foot()
 write(path,page)
 
+# ---------- design preview ----------
+CATALOG=build_catalog()
+os.makedirs(SITE+'/assets/design', exist_ok=True)
+with open(SITE+'/assets/design/catalog.json','w',encoding='utf-8') as _cat:
+    json.dump(CATALOG, _cat, ensure_ascii=False, indent=2)
+    _cat.write('\n')
+print('design prices:', ', '.join(p['id']+' $'+str(p['prices'][0]['price']) for p in CATALOG['products']))
+_blob=json.dumps(CATALOG, ensure_ascii=False, separators=(',',':')).replace('<','\\u003c').replace('>','\\u003e').replace('&','\\u0026')
+path='/design/'; items=[('Home','/'),('Design online',path)]
+title='Design Your Sign Online | Get Seen Signs'
+desc='Preview a canopy tent, feather flag, yard sign, table throw or vinyl banner with your words, colors and logo. Then request a free proof.'
+design_faqs=[
+ ('Is this preview the file you print?','No. It shows your words, colors and logo on the product. We build the real print file during your free proof. Nothing prints until you approve.'),
+ ('How fast is the free proof?','You get a free digital proof within 12 hours, 7 days a week, with 3 revisions included.'),
+ ('Which products can I design here?','A 10×10 canopy tent (front valance, same on all 4 sides or different text on each), feather flags in 10.5, 14 and 18 ft, 18×24 yard signs sold in packs of 5 or more, 6 ft and 8 ft table throws, and vinyl banners in the sizes we sell.'),
+ ('What do you need from me?','Your name, email and phone. Add a logo if you have one. We use what you send only to make your proof.'),
+]
+page=head(title, desc, path, ld(crumbs(items), faqpage(design_faqs), {"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":title,"description":desc,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}))
+page=page.replace('</head>','<link rel="stylesheet" href="/assets/design/editor.css">\n</head>',1)
+page+=NAV+f'''<main id="main">
+<section class="phero ink designer-hero">
+  <div class="wrap">
+    {bc_html(items)}
+    <h1>Design it here. <span class="block">We'll proof it.</span></h1>
+    <p class="lede">Pick a tent, flag, yard sign, table throw or banner. Set your words and colors, add a logo, and send it. We turn the preview into a real proof within 12 hours.</p>
+  </div>
+</section>
+<section class="sec paper designer-sec">
+  <div class="wrap">
+    <script type="application/json" id="design-catalog">__CATALOG__</script>
+    <div id="designer" class="designer" data-endpoint="/api/design-proof" data-mailto="sales@getseensignsco.com">
+      <noscript><p>The designer needs JavaScript. Email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a> and we will make the proof with you.</p></noscript>
+      <p class="designer-loading">Loading the designer…</p>
+    </div>
+  </div>
+</section>
+<section class="sec paper2">
+  <div class="wrap faq-in">
+    <div class="sec-head"><p class="eyebrow">FAQ</p><h2>About the preview</h2></div>
+    {faq_html(design_faqs)}
+  </div>
+</section>
+</main>
+'''
+page=page.replace('__CATALOG__', _blob)
+page+=foot()
+page=page.replace('</body>','<script src="/assets/design/editor.js" defer></script>\n</body>',1)
+write(path, page)
+
 # ---------- sitemap, robots ----------
 LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
-urls=['/']+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/privacy']
+urls=['/','/design/']+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/privacy']
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)
 open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
@@ -485,6 +544,6 @@ write('/',page)
 nf=head('Page not found | Get Seen Signs','That page is not here. Browse custom signs, banners, flags and tents from Get Seen Signs.','/404.html','')
 nf=nf.replace('<meta name="robots" content="index,follow,max-image-preview:large">','<meta name="robots" content="noindex">').replace('<link rel="canonical" href="'+BASE+'/404.html">\n','')
 links=''.join(f'<a href="/{p["slug"]}/">{p["name"]}</a>' for p in P)
-nf+=NAV+f'<main id="main"><section class="phero ink"><div class="wrap"><h1>Page not <span class="block">found.</span></h1><p class="lede">That page isn\'t here. Try one of these:</p><div class="cta-row"><a class="btn btn-y" href="/">Home</a><a class="btn btn-ghost" href="/#quote">Get a quote</a></div></div></section><section class="sec paper"><div class="wrap"><div class="link-cloud">{links}</div></div></section></main>'+foot()
+nf+=NAV+f'<main id="main"><section class="phero ink"><div class="wrap"><h1>Page not <span class="block">found.</span></h1><p class="lede">That page isn\'t here. Try one of these:</p><div class="cta-row"><a class="btn btn-y" href="/">Home</a><a class="btn btn-ghost" href="/design/">Design online</a><a class="btn btn-ghost" href="/#quote">Get a quote</a></div></div></section><section class="sec paper"><div class="wrap"><div class="link-cloud">{links}</div></div></section></main>'+foot()
 open(SITE+'/404.html','w').write(nf)
 print('home ok')
