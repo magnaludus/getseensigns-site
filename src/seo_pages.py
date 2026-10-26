@@ -13,16 +13,16 @@ dict(
 <li><b>Campaign signs.</b> <a href="/bulk-campaign-signs/">Bulk yard sign packs</a> of 5 to 100 with stakes. Georgia's general election runoff is <a href="https://georgia.gov/events/2026-12-01/election-day-general-election-runoff" rel="noopener">December 1, 2026</a>, so plan runoff signs early.</li>
 <li><b>Senior night and team banners</b> for high school football, basketball, baseball and soccer. See <a href="/senior-night-banners/">senior night banners</a>.</li>
 <li><b>Grand opening and storefront banners.</b> <a href="/vinyl-banners/">Vinyl banners</a> from 2×4 to 3×10 ft.</li>
-<li><b>Contractor and service trucks.</b> <a href="/car-magnets/">Car door magnets</a> and <a href="/custom-yard-signs/">job-site yard signs</a>.</li>
+<li><b>Contractor and service trucks.</b> <a href="/car-magnets/">Car door magnets</a> and <a href="/bulk-campaign-signs/">job-site yard signs</a> (packs start at 5).</li>
 <li><b>Vendor booths and ballfield tents.</b> <a href="/custom-canopy-tents/">10×10 canopy tents</a>, <a href="/table-throws/">table throws</a>, <a href="/feather-flags/">feather flags</a> and the <a href="/vendor-booth-kit/">vendor booth kit</a> ($339).</li>
 <li><b>Military homecomings and retirements.</b> Custom <a href="/vinyl-banners/">vinyl banners</a> for a welcome home or a retirement. Our founder is a retired Army and Marine veteran.</li>
 </ul>
 <h2>Gameday and tailgate signs for Columbus and Phenix City</h2>
 <p>Friday nights, Saturday tailgates and ballpark summers. We make gameday banners, tailgate tents and yard signs for Columbus, GA and Phenix City, AL in your colors, with your family or group name on them.</p>
 <ul class="ticks">
-<li><b>Game Day yard signs.</b> 18×24 with a stake, your name and year. <a href="/tailgate-and-gameday-signs/">From $44</a>.</li>
+<li><b>Game Day yard signs.</b> 18×24 with a stake, your name and year. <a href="/bulk-campaign-signs/">Packs of 5 from $74</a>.</li>
 <li><b>House Divided signs.</b> Two color blocks for the family that can't agree. Same price as a yard sign.</li>
-<li><b>Fence and dugout banners</b> for rec leagues and travel ball. A 3×10 <a href="/vinyl-banners/">vinyl banner</a> is $99.</li>
+<li><b>Fence and dugout banners</b> for rec leagues and travel ball. A 3×10 <a href="/vinyl-banners/">vinyl banner</a> is $79.</li>
 <li><b>Senior night banners</b> with photo, name and number, from $39. See <a href="/senior-night-banners/">senior night banners</a>.</li>
 </ul>
 <p>We use your colors and your words. We don't print team, school or league names, logos or slogans. See the full <a href="/tailgate-and-gameday-signs/">gameday and tailgate line</a>.</p>
@@ -52,7 +52,7 @@ dict(
 <ul class="ticks">
 <li><b>Tailgate and game-day tents.</b> A <a href="/custom-canopy-tents/">custom 10×10 canopy tent</a> with your family or business name, plus a <a href="/feather-flags/">feather flag</a> so your group can find you.</li>
 <li><b>Realtor signs.</b> <a href="/real-estate-signs/">Real estate signs</a> in coroplast or aluminum, with riders and post frames, and <a href="/car-magnets/">car magnets</a> for agents.</li>
-<li><b>Shops and restaurants.</b> <a href="/vinyl-banners/">Grand opening banners</a>, <a href="/custom-yard-signs/">yard signs</a> for sales, and <a href="/retractable-banners/">retractable banners</a> for events.</li>
+<li><b>Shops and restaurants.</b> <a href="/vinyl-banners/">Grand opening banners</a>, <a href="/bulk-campaign-signs/">yard sign packs</a> for sales, and <a href="/retractable-banners/">retractable banners</a> for events.</li>
 <li><b>Vendors and nonprofits.</b> <a href="/table-throws/">Logo table throws</a>, the <a href="/vendor-booth-kit/">vendor booth kit</a> ($339) and <a href="/step-and-repeat-backdrops/">step and repeat backdrops</a> for galas, banquets and fundraisers.</li>
 <li><b>High school teams.</b> <a href="/senior-night-banners/">Senior night banners</a> with team pricing for 10 or more.</li>
 <li><b>Campaigns.</b> <a href="/bulk-campaign-signs/">Bulk yard signs</a> for city council, school board and county races.</li>
@@ -62,7 +62,7 @@ dict(
 <ul class="ticks">
 <li><b>Tailgate HQ tent.</b> 10×10 printed top and valance from $649. Back wall and full kits too. See <a href="/custom-canopy-tents/">canopy tents</a>.</li>
 <li><b>Home of the Fans table throw.</b> Fits a 6 ft table, from $139. See <a href="/table-throws/">table throws</a>.</li>
-<li><b>Game Day and House Divided yard signs.</b> 18×24 with a stake, from $44.</li>
+<li><b>Game Day and House Divided yard signs.</b> 18×24 with a stake. Packs of 5 from $74.</li>
 <li><b>Family name banners.</b> THE [NAME]S, GAME DAY, EST. [YEAR]. 2×4 from $44.</li>
 </ul>
 <p>See the full <a href="/tailgate-and-gameday-signs/">gameday and tailgate line</a>.</p>
@@ -106,7 +106,7 @@ dict(
 <h3>The porch rail banner</h3>
 <p>A 2×4 ft banner zip-tied to the porch rail, right where everyone takes the homecoming photo. Hang it at eye level so it lands in the picture.</p>
 <h3>The yard sign by the mailbox</h3>
-<p>A <a href="/custom-yard-signs/">custom yard sign</a> on a metal H-stake by the mailbox or the end of the driveway: "Welcome Home, Jake." It's easy to set up the morning of, and it's easy to move.</p>
+<p>A <a href="/bulk-campaign-signs/">yard sign pack</a> on metal H-stakes by the mailbox or the end of the driveway: "Welcome Home, Jake." Signs start at 5 for $74. They're easy to set up the morning of, and easy to move.</p>
 <h3>The retirement party banner</h3>
 <p>For a retirement ceremony or party, a long 3×10 ft banner behind the head table or across the pavilion: "Happy Retirement, MSG Carter" with the years served ("1998–2026") underneath. Add "Thank you for your service" or a line from the family.</p>
 <h3>The matching set</h3>
@@ -123,9 +123,9 @@ dict(
 <ul class="ticks">
 <li><b>2×4 ft, from $44:</b> porch rails, front doors, balconies.</li>
 <li><b>3×6 ft, $59:</b> garage doors and fences.</li>
-<li><b>4×8 ft, $94:</b> the big statement on a garage or the side of the house.</li>
-<li><b>3×10 ft, $99:</b> retirement parties, pavilions, head tables and long fences.</li>
-<li><b>18×24 yard sign with stake, $44;</b> 24×36, $59: mailbox, driveway and front walk.</li>
+<li><b>4×8 ft, $89:</b> the big statement on a garage or the side of the house.</li>
+<li><b>3×10 ft, $79:</b> retirement parties, pavilions, head tables and long fences.</li>
+<li><b>18×24 yard signs, pack of 5 for $74</b> (stakes included): mailbox, driveway and front walk. One-off yard signs are not sold.</li>
 </ul>
 <p>Every price includes free shipping in the lower 48 and a free digital proof.</p>
 <h2>Hanging it</h2>
@@ -163,15 +163,14 @@ dict(
 <h3>The welcome home banner</h3>
 <p>Family flying in for the holidays, a college kid home for break, or a service member home on leave. A banner that says "Welcome Home, Jake" on the porch is the first thing they see when they pull in. Order it as a <a href="/vinyl-banners/">custom vinyl banner</a> in any of our sizes.</p>
 <h3>The yard sign by the driveway</h3>
-<p>No porch rail? A <a href="/custom-yard-signs/">custom yard sign</a> goes in the grass by the mailbox or driveway with a metal H-stake. 18×24 in is the standard size, 24×36 in if you want it bigger. Yard signs print on one side, so face it toward the street.</p>
+<p>No porch rail? <a href="/bulk-campaign-signs/">Yard sign packs</a> go in the grass by the mailbox or driveway with a metal H-stake. 18×24 in is the size, and the smallest pack is 5 signs for $74. Yard signs print on one side, so face them toward the street. For a single Thanksgiving family-name sign, see <a href="/holiday-yard-signs/">holiday signs</a>.</p>
 <h3>The matching set</h3>
 <p>Banner on the porch, yard sign at the end of the driveway, same colors and same name. It looks planned, and it ties the whole front yard together.</p>
 <h2>Which size goes where</h2>
 <ul class="ticks">
 <li><b>2×4 ft banner, from $44:</b> porch rails, beside the front door, a balcony.</li>
 <li><b>3×6 ft banner, $59:</b> garage doors, fences, houses set back from the road.</li>
-<li><b>18×24 in yard sign with stake, $44:</b> by the mailbox, driveway or front walk.</li>
-<li><b>24×36 in yard sign with stake, $59:</b> corner lots and long driveways.</li>
+<li><b>18×24 in yard signs, pack of 5 for $74</b> (stakes included): by the mailbox, driveway or front walk.</li>
 </ul>
 <p>Every price includes free shipping in the lower 48 and a free digital proof.</p>
 <h2>Design tips that read from the street</h2>
@@ -225,7 +224,7 @@ dict(
 <li>18×24 is the standard lawn size, and it fits a regular H-stake.</li>
 </ul>
 <h2>5. Order timing</h2>
-<p>We make yard signs in 3–5 business days after you approve the proof, plus shipping. Our <a href="/bulk-campaign-signs/">bulk campaign sign packs</a> (5 to 100, stakes included) start at $74 for 5, or $189 for 25. For a runoff, order the day you know you're in it. For one-off signs, see <a href="/custom-yard-signs/">custom yard signs</a>.</p>
+<p>We make yard signs in 3–5 business days after you approve the proof, plus shipping. Our <a href="/bulk-campaign-signs/">bulk campaign sign packs</a> (5 to 100, stakes included) start at $74 for 5, or $189 for 25. Five signs is the minimum. For a runoff, order the day you know you're in it.</p>
 <h2>6. After the election</h2>
 <p>There's no single statewide removal deadline for every political sign. Cities and counties set their own rules, and signs in the right-of-way can be removed at any time. Pull yours up the week after the election and recycle or store the stakes for next time.</p>
 ''',
@@ -289,12 +288,12 @@ GAMEDAY=dict(
   # (image base, fallback base, alt, name, wording, price html, link)
   ('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2','Navy 10×10 canopy tent with an orange TAILGATE HQ valance at a tailgate','Tailgate HQ canopy tent','TAILGATE HQ on the valance. Add a back wall with THE [NAME] CREW.','<b>$649</b> top and valance · $849 with back wall · $1,459 full kit','/custom-canopy-tents/'),
   ('gd-table-throw-navy-red','g-09-table-throw-2','Navy table throw with a red band and HOME OF THE FANS at a tailgate','Home of the Fans table throw','HOME OF THE FANS, or THE [NAME]S TAILGATE.','<b>$139</b> 6 ft · $159 8 ft (3-sided)','/table-throws/'),
-  ('gd-game-day-yard-sign-red-black','g-01-custom-yard-sign-2','Black and red GAME DAY family name yard sign in a front yard','Game Day yard sign','GAME DAY / THE [NAME]S / EST. [YEAR]','<b>$44</b> 18×24 · $59 24×36, stake included','/custom-yard-signs/'),
-  ('gd-house-divided-yard-sign','g-01-custom-yard-sign-3','HOUSE DIVIDED yard sign split into a red half and a navy half','House Divided yard sign','HOUSE DIVIDED / THE [NAME]S. Two color blocks, you pick both.','<b>$44</b> 18×24 · $59 24×36, stake included','/custom-yard-signs/'),
+  ('gd-game-day-yard-sign-red-black','g-01-custom-yard-sign-2','Black and red GAME DAY family name yard sign in a front yard','Game Day yard sign','GAME DAY / THE [NAME]S / EST. [YEAR]. Sold in packs of 5.','<b>$74</b> for 5 · 18×24, stakes included','/bulk-campaign-signs/'),
+  ('gd-house-divided-yard-sign','g-01-custom-yard-sign-3','HOUSE DIVIDED yard sign split into a red half and a navy half','House Divided yard sign','HOUSE DIVIDED / THE [NAME]S. Two color blocks, you pick both. Sold in packs of 5.','<b>$74</b> for 5 · 18×24, stakes included','/bulk-campaign-signs/'),
   ('gd-feather-flag-navy-orange','g-04-feather-flag-2','Navy and orange TAILGATE HQ feather flag at a tailgate lot','Tailgate feather flag','TAILGATE HQ, or FIND THE [NAME]S.','<b>$129</b> 10.5 ft · $139 14 ft · $149 18 ft (ground spike)','/feather-flags/'),
   (None,'g-03-vinyl-banner-2','Example vinyl banner with grommets','Family name gameday banner','THE [NAME]S / GAME DAY / EST. [YEAR]. Porch, garage or tent rail.','<b>$44</b> 2×4 · $59 3×6','/vinyl-banners/'),
-  (None,'g-12-senior-night-banner-2','Example senior night banner on a ballfield fence','Senior night banner','SENIOR NIGHT / [NAME] #[NO.] / CLASS OF 2027, with a photo.','<b>$39</b> 2×3 · $59 3×5 · $89 4×6','/senior-night-banners/'),
-  (None,'g-12-senior-night-banner-3','Vinyl banner zip-tied to a chain-link fence','Ballfield fence banner','HOME OF THE FANS or PLAY BALL, plus your rec team name.','<b>$99</b> 3×10 · $94 4×8','/vinyl-banners/'),
+  (None,'g-12-senior-night-banner-2','Example senior night banner on a ballfield fence','Senior night banner','SENIOR NIGHT / [NAME] #[NO.] / CLASS OF 2027, with a photo.','<b>$39</b> 2×3 · $54 3×5 · $84 4×6','/senior-night-banners/'),
+  (None,'g-12-senior-night-banner-3','Vinyl banner zip-tied to a chain-link fence','Ballfield fence banner','HOME OF THE FANS or PLAY BALL, plus your rec team name.','<b>$79</b> 3×10 · $89 4×8','/vinyl-banners/'),
   (None,'g-02-bulk-yard-signs-2','Stack of printed yard signs','Player yard signs, team pack','GAME DAY / A PLAYER LIVES HERE. One design for the whole team.','<b>$189</b> for 25 with stakes','/bulk-campaign-signs/'),
  ],
  html='''
@@ -320,7 +319,7 @@ GAMEDAY=dict(
  faqs=[
   ('Can you put my team\'s logo on a tent or sign?', 'No. We don\'t print college, pro, high school or league logos, names or slogans. We can match your colors and print your own name and words.'),
   ('Which colors can I pick?', 'Any colors. Our most popular combos are orange and navy, red and black, crimson and white, and navy and red. Send color codes if you have them and we match them on the proof.'),
-  ('What is a House Divided sign?', 'A yard sign split into two color blocks with HOUSE DIVIDED and your family name. You pick both colors. It\'s an 18×24 or 24×36 coroplast sign with a stake, printed on one side.'),
+  ('What is a House Divided sign?', 'A yard sign split into two color blocks with HOUSE DIVIDED and your family name. You pick both colors. It\'s an 18×24 coroplast sign with a stake, printed on one side, sold in packs of 5 from $74.'),
   ('How early should I order a tailgate tent?', 'Tents take 5–10 business days to make after you approve the proof, plus 2–5 days shipping. Order about 3 weeks before the game.'),
   ('Do you deliver to the tailgate lot?', 'No. We\'re an online shop based in Smiths Station. Everything ships free to your door in the lower 48.'),
  ],
