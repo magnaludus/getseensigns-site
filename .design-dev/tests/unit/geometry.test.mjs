@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { aabb, corners, pointInBox, hitTest, resizeBox, rotateAngle, pinchBox, snapTargets, computeSnap, alignBoxes, handlePoints, normalizeAngle } from '../../../assets/design/model/geometry.js';
+import { aabb, corners, pointInBox, hitTest, resizeBox, rotateAngle, pinchBox, snapTargets, computeSnap, alignBoxes, alignArea, handlePoints, normalizeAngle } from '../../../assets/design/model/geometry.js';
 
 const near = (a, b, eps = 1e-6) => assert.ok(Math.abs(a - b) < eps, `${a} vs ${b}`);
 
@@ -107,4 +107,22 @@ test('align moves boxes to the area edge', () => {
   near(out.a.x, 45);
   const bottom = alignBoxes([{ id: 'a', box: { x: 5, y: 5, w: 10, h: 10, rot: 0 } }], { x: 0, y: 0, w: 100, h: 50 }, 'bottom');
   near(bottom.a.y, 40);
+});
+
+test('alignArea is the safe box, or the part of a shaped safe line through the element', () => {
+  const safe = { x: 2, y: 2, w: 96, h: 46 };
+  const box = { x: 40, y: 10, w: 10, h: 10, rot: 0 };
+  assert.deepEqual(alignArea({ safe }, box, 'left'), safe);
+  // a diamond: over the box's rows (y 20 to 30) the line runs from x 10 to 90, over its columns (x 40 to 50) from y 5 to 45
+  const safePoly = [[50, 0], [100, 25], [50, 50], [0, 25]];
+  const spec = { safe, safePoly };
+  const wide = alignArea(spec, { x: 40, y: 20, w: 10, h: 10, rot: 0 }, 'left');
+  assert.ok(Math.abs(wide.x - 10) < 1e-9 && Math.abs(wide.w - 80) < 1e-9, JSON.stringify(wide));
+  const tall = alignArea(spec, { x: 40, y: 20, w: 10, h: 10, rot: 0 }, 'top');
+  assert.ok(Math.abs(tall.y - 5) < 1e-9 && Math.abs(tall.h - 40) < 1e-9, JSON.stringify(tall));
+  // aligning left puts the box on the line, not on the safe box edge
+  const out = alignBoxes([{ id: 'a', box: { x: 40, y: 20, w: 10, h: 10, rot: 0 } }], wide, 'left');
+  assert.equal(out.a.x, 10);
+  // a box that leaves the shape falls back to the safe box
+  assert.deepEqual(alignArea(spec, { x: 40, y: -20, w: 10, h: 10, rot: 0 }, 'left'), safe);
 });

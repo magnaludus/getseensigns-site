@@ -21,7 +21,7 @@ EXTRA_REGIONS = {'canopy': {'peak', 'valance', 'valancebar', 'roofarea'}, 'feath
 CATEGORIES = {'business', 'campaign', 'team', 'events', 'holiday'}
 # overlay name -> the variant key that carries its data (None = derived from the artboard)
 OVERLAYS = {'trim': None, 'bleed': None, 'safe': None, 'valance_line': 'valance_line', 'roof': 'roof',
-            'outline': 'outline', 'sleeve': 'pole_sleeve_in', 'grass_line': 'grass_line', 'grommets': 'grommets'}
+            'outline': 'outline', 'sleeve': 'pole_sleeve', 'grass_line': 'grass_line', 'grommets': 'grommets'}
 HEX = re.compile(r'^#[0-9A-Fa-f]{6}$')
 
 
@@ -159,6 +159,16 @@ def _walk_rows(node, inherited, path, problems):
             _walk_rows(value, ok, path + '.' + key, problems)
 
 
+def _check_points(points, art, label):
+    ok = isinstance(points, list) and len(points) >= 3 and all(
+        isinstance(p, list) and len(p) == 2 and all(isinstance(v, (int, float)) for v in p) for p in points)
+    if not ok:
+        _fail(f'{label} needs at least 3 [x, y] points in inches')
+    tol = 0.01
+    if not all(-tol <= x <= art['w'] + tol and -tol <= y <= art['h'] + tol for x, y in points):
+        _fail(f'{label} points must sit inside the {art["w"]} x {art["h"]} in artboard')
+
+
 def build_print_specs(catalog):
     text = open(os.path.join(HERE, 'design_print_specs.json'), encoding='utf-8').read()
     _check_money(text, 'design_print_specs.json')
@@ -211,16 +221,32 @@ def build_print_specs(catalog):
         for extra in ('other_pieces', 'outline_shapes', 'template_sizes', 'profiles', 'table'):
             if extra in spec:
                 _walk_rows(spec[extra], False, pid + '.' + extra, problems)
-        if 'outline' in json.dumps(spec['variants']):
-            shapes = spec.get('outline_shapes', {})
-            for var in spec['variants'].values():
-                shape = var.get('outline', {}).get('shape')
-                if shape and shape not in shapes:
-                    _fail(f'{pid} outline shape {shape} is not defined')
-                if shape:
-                    pts = shapes[shape]['points']
-                    if len(pts) < 3 or not all(0 <= x <= 1 and 0 <= y <= 1 for x, y in pts):
-                        _fail(f'{pid} outline {shape} points must be in the unit square')
+        for key, var in spec['variants'].items():
+            where = f'{pid}/{key}'
+            art = var['artboard']
+            # An outline is either a named unit-square shape or the printer's points in inches.
+            outline = var.get('outline') or {}
+            shape = outline.get('shape')
+            if shape:
+                shapes = spec.get('outline_shapes', {})
+                if shape not in shapes:
+                    _fail(f'{where} outline shape {shape} is not defined')
+                pts = shapes[shape]['points']
+                if len(pts) < 3 or not all(0 <= x <= 1 and 0 <= y <= 1 for x, y in pts):
+                    _fail(f'{where} outline {shape} points must be in the unit square')
+            if outline.get('points') is not None:
+                _check_points(outline['points'], art, f'{where} outline')
+            roof = var.get('roof') or {}
+            if roof.get('points') is not None:
+                _check_points(roof['points'], art, f'{where} roof')
+                if 'valance_line' not in var:
+                    _fail(f'{where} has a roof outline but no valance_line')
+                vy = var['valance_line']['y']
+                if abs(roof['points'][0][1] - vy) > 0.05 or abs(roof['points'][-1][1] - vy) > 0.05:
+                    _fail(f'{where} roof outline must start and end on the valance line (y {vy})')
+            safe = var['safe']
+            if 'x' in safe and not (safe['x'] >= 0 and safe['y'] >= 0 and safe['x'] + safe['w'] <= art['w'] + 0.01 and safe['y'] + safe['h'] <= art['h'] + 0.01):
+                _fail(f'{where} safe box must sit inside the artboard')
     if problems:
         _fail('print spec rows need a source or a status (TODO_SPEC, UX_DEFAULT): ' + ', '.join(problems[:12]))
     return specs

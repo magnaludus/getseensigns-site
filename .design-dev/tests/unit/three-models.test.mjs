@@ -21,7 +21,7 @@ const G = await import('../../../assets/design/three/geom.js');
 const { createMaterials } = await import('../../../assets/design/three/materials.js');
 const { disposeTree } = await import('../../../assets/design/three/build.js');
 const { buildCanopy } = await import('../../../assets/design/three/models/canopy.js');
-const { buildFeather } = await import('../../../assets/design/three/models/feather.js');
+const { buildFeather, flagRowYs } = await import('../../../assets/design/three/models/feather.js');
 const { buildThrow } = await import('../../../assets/design/three/models/throw.js');
 const { buildBanner } = await import('../../../assets/design/three/models/banner.js');
 const { buildYard } = await import('../../../assets/design/three/models/yard.js');
@@ -172,14 +172,14 @@ test('canopy packages add the right walls in the base color', () => {
   assert.ok(model.base[0].color.equals(new THREE.Color('#f2efe6')));
 });
 
-test('feather: flag is cut to the spec outline, left edge on the pole, uv covers the artboard', () => {
+test('feather: flag is cut to the printer outline, hung from the sewn edge, uv covers the artboard', () => {
   for (const height of ['10.5', '14', '18']) {
     const { spec, model } = make('feather', { height, base: 'spike' });
     const { w, h } = spec.artboard;
     const flag = model.pickables[0];
     const p = flag.geometry.attributes.position;
     const uv = flag.geometry.attributes.uv;
-    const rows = G.outlineRows(spec.outline, Math.max(24, Math.ceil(h / 2)), h);
+    const rows = G.outlineRowsAt(spec.outline, flagRowYs(h));
     assert.equal(p.count, rows.length * 11);
     for (let r = 0; r < rows.length; r++) {
       const [y, x0, x1] = rows[r];
@@ -194,7 +194,7 @@ test('feather: flag is cut to the spec outline, left edge on the pole, uv covers
     assert.ok(Math.abs(top - G.poleHeightIn({ height })) < 1.5, `${height}: pole top ${top}`);
     assert.ok(model.box.max[1] >= top && model.box.max[1] - top < 3);
     const flagTop = flag.parent.position.y;
-    assert.ok(G.poleHeightIn({ height }) - flagTop > 1 && G.poleHeightIn({ height }) - flagTop < 8);
+    assert.ok(G.poleHeightIn({ height }) - flagTop > 0.5 && G.poleHeightIn({ height }) - flagTop < 8);
     assert.ok(flagTop - h > 10, 'the flag hangs clear of the ground');
   }
 });
@@ -231,7 +231,7 @@ test('throw: front panel carries the art, the rest is base color, style 3 is ope
     assert.ok(triangles(open.model.group) < triangles(closed.model.group));
     const p = g.attributes.position;
     const uv = g.attributes.uv;
-    const L = open.spec.artboard.w;
+    const L = closed.spec.artboard.w;
     // art group: every triangle faces the viewer on the front or turns the corner, u runs left to right
     const { start, count } = g.groups[0];
     let minU = 1;
@@ -260,7 +260,7 @@ test('throw: front panel carries the art, the rest is base color, style 3 is ope
       }
     }
     assert.ok(upward > 20 && downward === 0, `top plate ${upward} up, ${downward} down`);
-    // size: table length from the spec, 30 in deep, 30 in high, hem about 2 in above the floor
+    // size: table length from the spec, 30 in deep, 30 in high, front panel hanging from the top (hem = 30 minus its height)
     let minY = Infinity;
     let maxY = -Infinity;
     let maxX = 0;
@@ -271,7 +271,7 @@ test('throw: front panel carries the art, the rest is base color, style 3 is ope
       maxX = Math.max(maxX, Math.abs(p.getX(k)));
       maxZ = Math.max(maxZ, Math.abs(p.getZ(k)));
     }
-    assert.ok(Math.abs(minY - 2) < 0.01 && Math.abs(maxY - 30) < 0.01);
+    assert.ok(Math.abs(minY - (30 - closed.spec.artboard.h)) < 0.01 && Math.abs(maxY - 30) < 0.01, `${minY}..${maxY}`);
     assert.ok(maxX > L / 2 - 0.1 && maxX < L / 2 + 1.5 && maxZ > 14.9 && maxZ < 16.5);
   }
 });
@@ -387,13 +387,13 @@ test('canopy follows a changed valance line and roof polygon', () => {
   assert.ok(Math.abs(bottom - (84 - (84.28 - 70))) < 1e-3, `valance bottom ${bottom}`);
 });
 
-test('feather follows a changed outline and sleeve width', () => {
+test('feather follows a changed outline', () => {
   const edited = withSpecs((p) => {
-    p.feather.outline_shapes.feather.points = [[0, 0], [1, 0.5], [0, 1]];
-    p.feather.variants['14'].pole_sleeve_in.value = 6;
+    p.feather.variants['14'].outline.points = [[0, 0], [28, 69], [0, 138]];
   });
   const { spec, model } = makeWith(edited, 'feather', { height: '14', base: 'spike' });
   const { w, h } = spec.artboard;
+  assert.deepEqual(spec.poleEdge, [[0, 138], [0, 0]]);
   const flag = model.pickables[0].geometry.attributes.position;
   let maxX = 0;
   let widest = 0;
@@ -401,10 +401,36 @@ test('feather follows a changed outline and sleeve width', () => {
     maxX = Math.max(maxX, flag.getX(i));
     if (Math.abs(flag.getY(i) + h / 2) < h / 40) widest = Math.max(widest, flag.getX(i));
   }
-  assert.ok(Math.abs(maxX - w) < 1.2, 'the triangle reaches the right edge at mid height');
+  assert.ok(Math.abs(maxX - 28) < 1.2, 'the triangle reaches its point at mid height');
   assert.ok(widest > w * 0.9);
-  const sleeve = model.group.children.find((c) => c.geometry && c.geometry.type === 'CylinderGeometry' && c.geometry.parameters.openEnded);
-  assert.ok(sleeve.geometry.parameters.radiusTop > 1, 'a 6 in sleeve is a fatter tube than the 2.5 in one');
+  // the sleeve follows the sewn edge: as tall as the flag
+  let sleeve = null;
+  model.group.traverse((o) => { if (o.isMesh && o.geometry.type === 'TubeGeometry') sleeve = o; });
+  assert.ok(sleeve, 'a tube for the sleeve');
+  sleeve.geometry.computeBoundingBox();
+  const bb = sleeve.geometry.boundingBox;
+  assert.ok(bb.max.y - bb.min.y > h - 1 && bb.max.y - bb.min.y < h + 3, `sleeve spans ${bb.max.y - bb.min.y}`);
+});
+
+test('feather: the sleeve hugs the curved top and ends where the flag tip does', () => {
+  for (const height of ['10.5', '14', '18']) {
+    const { spec, model } = make('feather', { height, base: 'spike' });
+    let sleeve = null;
+    model.group.traverse((o) => { if (o.isMesh && o.geometry.type === 'TubeGeometry') sleeve = o; });
+    assert.ok(sleeve, 'a tube for the sleeve');
+    const pos = sleeve.geometry.attributes.position;
+    // flag frame: x right, y up from the flag top
+    const flagTop = G.poleHeightIn({ height }) - 1.2;
+    let top = -Infinity;
+    let right = -Infinity;
+    for (let i = 0; i < pos.count; i++) {
+      top = Math.max(top, pos.getY(i) + sleeve.position.y);
+      right = Math.max(right, pos.getX(i));
+    }
+    assert.ok(Math.abs(top - (flagTop + 1.3)) < 1, `${height}: sleeve top ${top}`);
+    // the bent top reaches across to the tip on the right edge
+    assert.ok(right > spec.artboard.w - 2, `${height}: sleeve reaches x ${right}`);
+  }
 });
 
 test('banner grommets follow the spec spacing', () => {

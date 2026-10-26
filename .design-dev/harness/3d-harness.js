@@ -159,6 +159,13 @@ function markers(g, spec, k) {
     box('#8000ff', 2, v + 0.8, 6, 2.7);
     box('#ff00a0', 2, v + 4.5, 6, 2.7);
     box('#c8ff00', w - 8, v + 0.8, 6, 6.4);
+  } else if (spec.outline) {
+    // the flag is cut away at the top left and along the slanted bottom: keep the squares in the straight body
+    const x = w * 0.18;
+    const y = h * 0.45;
+    box('#8000ff', x, y, 3.5, 3.5);
+    box('#ff00a0', x, y + 8, 3.5, 3.5);
+    box('#c8ff00', x + w * 0.5, y + 8, Math.min(6, w * 0.08), 3.5);
   } else {
     box('#8000ff', 2, 2, 3.5, 3.5);
     box('#ff00a0', 2, h - 5.5, 3.5, 3.5);
@@ -182,6 +189,8 @@ const [specs, catalog] = await Promise.all([
 ]);
 const sceneId = q.get('scene') || 'studio';
 const plate = q.get('plate');
+// The harness has no photos of its own: drawn scenes unless a test asks for a plate.
+catalog.scenes.forEach((s) => { s.plate = null; });
 if (plate) catalog.scenes.forEach((s) => { if (s.id === sceneId) s.plate = plate; });
 if (q.get('plateFor')) catalog.scenes.forEach((s) => { if (s.id === q.get('plateFor')) s.plate = q.get('plateName') || 'test-plate'; });
 

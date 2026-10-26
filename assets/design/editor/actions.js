@@ -5,7 +5,7 @@ import {
   findElement, setField, templateOf,
 } from '../model/document.js';
 import { elementBox, layoutText } from '../model/layout.js';
-import { aabb, alignBoxes, center } from '../model/geometry.js';
+import { aabb, alignArea, alignBoxes, center } from '../model/geometry.js';
 import { specFor } from '../model/specs.js';
 
 const TEXT_PRESETS = {
@@ -135,7 +135,7 @@ export function createActions(store) {
       const ids = unlocked();
       if (!ids.length) return;
       const items = ids.map((id) => ({ id, box: elementBox(findElement(side(), id), env.measure, env.fonts) }));
-      let area = spec().safe;
+      let area = alignArea(spec(), items[0].box, edge);
       if (items.length > 1) {
         const boxes = items.map((it) => aabb(it.box));
         const x = Math.min(...boxes.map((b) => b.x));

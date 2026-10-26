@@ -33,8 +33,9 @@ for (const product of catalog.products) {
       let extra = '';
       const t = s.trim;
       extra += `<rect x="${t.x}" y="${t.y}" width="${t.w}" height="${t.h}" fill="none" stroke="#00b3ff" stroke-width="${t.w / 400}"/>`;
-      extra += `<rect x="${s.safe.x}" y="${s.safe.y}" width="${s.safe.w}" height="${s.safe.h}" fill="none" stroke="#00d26a" stroke-dasharray="${t.w / 120}" stroke-width="${t.w / 500}"/>`;
-      if (s.roof) extra += `<polygon points="${s.roof.polygon.map((p) => p.join(',')).join(' ')}" fill="none" stroke="red" stroke-width="${t.w / 300}"/>`;
+      const ring = s.safePoly || [[s.safe.x, s.safe.y], [s.safe.x + s.safe.w, s.safe.y], [s.safe.x + s.safe.w, s.safe.y + s.safe.h], [s.safe.x, s.safe.y + s.safe.h]];
+      extra += `<polygon points="${ring.map((p) => p.join(',')).join(' ')}" fill="none" stroke="#00d26a" stroke-dasharray="${t.w / 120}" stroke-width="${t.w / 500}"/>`;
+      if (s.roof) extra += `<polygon points="${(s.cut || s.roof.polygon).map((p) => p.join(',')).join(' ')}" fill="none" stroke="red" stroke-width="${t.w / 300}"/>`;
       if (s.outline) extra += `<polygon points="${s.outline.map((p) => p.join(',')).join(' ')}" fill="none" stroke="red" stroke-width="${t.w / 200}"/>`;
       markup = markup.replace('</svg>', extra + '</svg>');
     }

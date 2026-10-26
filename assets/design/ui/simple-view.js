@@ -79,21 +79,36 @@ function drawFeather(ctx, art, spec, box) {
   const flagW = spec.artboard.w * s;
   const poleX = box.x + box.w / 2 - flagW / 2;
   const top = ground - poleH * s;
+  const at = (x, y) => [poleX + x * s, top + y * s];
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  // bare pole up to the flag, then the black sleeve along the sewn edge and over the bent top
   ctx.strokeStyle = '#7B8087';
-  ctx.lineWidth = Math.max(2, s * 1.3);
+  ctx.lineWidth = Math.max(2, s * 1.1);
   ctx.beginPath();
   ctx.moveTo(poleX, ground);
-  ctx.lineTo(poleX, top);
+  ctx.lineTo(...at(0, spec.artboard.h));
   ctx.stroke();
   ctx.save();
-  clipPolygon(ctx, spec.outline, (x, y) => [poleX + x * s, top + y * s]);
+  clipPolygon(ctx, spec.outline, at);
   ctx.clip();
   ctx.drawImage(art, poleX, top, flagW, flagH);
   ctx.restore();
   ctx.strokeStyle = 'rgba(20,22,26,.3)';
   ctx.lineWidth = 1;
-  clipPolygon(ctx, spec.outline, (x, y) => [poleX + x * s, top + y * s]);
+  clipPolygon(ctx, spec.outline, at);
   ctx.stroke();
+  if (spec.poleEdge) {
+    ctx.strokeStyle = '#2A2D31';
+    ctx.lineWidth = Math.max(2, s * 1.5);
+    ctx.beginPath();
+    spec.poleEdge.forEach(([x, y], i) => {
+      const p = at(x - 0.6, y - 0.4);
+      if (i) ctx.lineTo(p[0], p[1]);
+      else ctx.moveTo(p[0], p[1]);
+    });
+    ctx.stroke();
+  }
   shadow(ctx, poleX, ground, flagW * 0.6);
 }
 
@@ -125,7 +140,7 @@ function drawThrow(ctx, art, spec, box, base) {
   const w = spec.artboard.w * s;
   const x = box.x + (box.w - w) / 2;
   const ground = box.y + box.h - 2 * s;
-  const frontH = 28 * s;
+  const frontH = spec.artboard.h * s;
   const topH = 5 * s;
   ctx.fillStyle = base;
   ctx.beginPath();
