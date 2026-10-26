@@ -62,7 +62,7 @@
     {
       "id": "yard",
       "label": "Front yard",
-      "plate": null,
+      "plate": "yard",
       "bestFor": [
         "yard"
       ],
@@ -71,7 +71,7 @@
     {
       "id": "storefront",
       "label": "Storefront",
-      "plate": null,
+      "plate": "storefront",
       "bestFor": [
         "feather",
         "banner"
