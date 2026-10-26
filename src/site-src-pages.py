@@ -7,7 +7,7 @@ from seo_products import P, BY
 from seo_pages import LOCAL, BLOG, GAMEDAY
 SRC=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(SRC); SITE=ROOT  # repo root: built pages are written here
 BASE='https://getseensignsco.com'
-TODAY=datetime.date(2026,10,21).isoformat()
+TODAY=datetime.date(2026,10,26).isoformat()
 ETSY='https://www.etsy.com/shop/GetSeenSigns'
 ORG_ID=BASE+'/#org'; SITE_ID=BASE+'/#website'
 AREAS=['Columbus, GA','Phenix City, AL','Auburn, AL','Opelika, AL','Smiths Station, AL','Fort Benning, GA']
@@ -48,9 +48,12 @@ def offer(price, etsy, desc, days='3-5'):
     return {"@type":"Offer","price":f"{price:.2f}","priceCurrency":"USD","availability":"https://schema.org/InStock",
             "url":f"https://www.etsy.com/listing/{etsy}","description":desc,"seller":{"@id":ORG_ID},
             "hasMerchantReturnPolicy":RETURNS,"shippingDetails":shipping_details(days)}
-def product(name, desc, img, url, price, etsy, base, days='3-5'):
+def product(name, desc, img, url, price, etsy, base, days='3-5', offer_rows=None):
     d={"@type":"Product","name":name,"description":desc,"image":[BASE+i for i in img],"url":BASE+url,"brand":{"@type":"Brand","name":"Get Seen Signs"}}
-    if price is not None: d["offers"]=offer(price, etsy, base, days)
+    if offer_rows:
+        d["offers"]=[offer(pr, etsy, text, days) for pr, text in offer_rows]
+    elif price is not None:
+        d["offers"]=offer(price, etsy, base, days)
     return d
 def ld(*nodes):
     return '<script type="application/ld+json">'+json.dumps({"@context":"https://schema.org","@graph":[org(),website(),*nodes]},ensure_ascii=False,separators=(',',':'))+'</script>'
@@ -140,8 +143,9 @@ def faq_html(faqs):
 def money(v): return f'${v:,}'
 def card(p):
     k=p['key']; pr=f'<span class="price"><small>from</small> {money(p["price"])}<small class="unit"> {p["unit"]}</small></span>' if p['price'] else '<span class="price price-na">See price on Etsy</span>'
+    alt=HERO_ALT.get(k, p["name"]+" by Get Seen Signs")
     return f'''<a class="card" href="/{p["slug"]}/">
-  <div class="card-img">{pic("/assets/img/p-"+k, p["name"]+" by Get Seen Signs", 800, 600, sm="/assets/img/p-"+k+"-sm", sizes="(max-width: 760px) 46vw, (max-width: 1180px) 30vw, 260px")}</div>
+  <div class="card-img">{pic("/assets/img/p-"+k, alt, 1200, 900, sm="/assets/img/p-"+k+"-sm", sizes="(max-width: 760px) 46vw, (max-width: 1180px) 30vw, 260px")}</div>
   <div class="card-body"><h3>{p["name"]}</h3>
   <div class="card-foot">{pr}<span class="go">Sizes &amp; details <span aria-hidden="true">→</span></span></div></div>
 </a>'''
@@ -174,16 +178,33 @@ ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per 
  '15-vendor-booth-kit':('Vendor booth kit with a custom table throw, a retractable banner and a feather flag', None),
  '14-thanksgiving-yard-sign':('Give Thanks family name yard sign with fall pumpkins',None),
 }
+# Alt text for the current Etsy listing main photo (p-*.jpg). Gallery shots that Etsy did not expose stay on their own alts above.
+HERO_ALT={
+ '02-bulk-yard-signs':'Stack of yellow and navy Dana Mitchell city council yard signs on metal H-stakes in a lawn',
+ '03-vinyl-banner':'Yellow Now Open vinyl banner for Ridgeline Roofing hung on a storefront rail',
+ '04-feather-flag':'Red Grand Opening feather flag for Ridgeline Roofing on a ground spike in a parking lot',
+ '05-retractable-banner':'Black retractable banner stand for Oak and Iron Realty at a trade show',
+ '06-car-magnet':'Pair of white Summit Plumbing car door magnets on a white service truck',
+ '07-real-estate-sign':'White Oak and Iron Realty for-sale sign with an Open House rider in a front yard',
+ '08-step-and-repeat':'Black and gold step and repeat backdrop on a telescoping stand',
+ '09-table-throw':'Green Magnolia Coffee Co. logo table throw on a vendor table',
+ '10-canopy-tent':'Orange Ridgeline Roofing 10 by 10 canopy tent with a printed valance at an outdoor event',
+ '11-christmas-family-banner':'Red Merry Christmas banner for the Bennett family on a porch rail',
+ '12-senior-night-banner':'Navy senior night banner for Jordan Hale, number 12, class of 2027, zip-tied to a fence',
+ '14-thanksgiving-yard-sign':'Harvest Give Thanks yard sign for the Bennett family, with pumpkins, on a stake in a lawn',
+ '15-vendor-booth-kit':'Vendor booth with a navy Magnolia Coffee Co. table throw, matching retractable banner and feather flag',
+}
 for p in P:
     path=f'/{p["slug"]}/'; k=p['key']; items=[('Home','/'),(p['name'],path)]
     imgs=[f'/assets/img/p-{k}.jpg', f'/assets/img/g-{k}-2.jpg']
     if p.get('extra'):
-        nodes=[product(x['name'], p['desc'], [f'/assets/img/p-{x["key"]}.jpg'], path, x['price'], x['etsy'], x['base'], p['days']) for x in p['extra']]
+        nodes=[product(x['name'], p['desc'], [f'/assets/img/p-{x["key"]}.jpg'], path, x['price'], x['etsy'], x['base'], p['days'], x.get('offer_rows')) for x in p['extra']]
     else:
-        nodes=[product(p['name'], p['desc'], imgs, path, p['price'], p['etsy'], p['base'], p['days'])]
+        nodes=[product(p['name'], p['desc'], imgs, path, p['price'], p['etsy'], p['base'], p['days'], p.get('offer_rows'))]
     nodes+= [crumbs(items), faqpage(p['faqs']), {"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":p['title'],"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}]
     if p['price']:
-        price_html=f'<p class="pp"><span class="price"><small>from</small> {money(p["price"])}<small class="unit"> {p["unit"]}</small></span><span class="pp-note">{e(p["base"]) or "Starting price"} · free shipping, lower 48</span></p>'
+        design=' Design included — no design fee.' if p.get('design_included') else ''
+        price_html=f'<p class="pp"><span class="price"><small>from</small> {money(p["price"])}<small class="unit"> {p["unit"]}</small></span><span class="pp-note">{e(p["base"]) or "Starting price"} · free shipping, lower 48.{design}</span></p>'
     else:
         price_html='<p class="pp"><span class="pp-note">Pricing is being updated. See the current price on Etsy, or get a quote.</span></p>'
     days='5–10' if p['days']=='5-10' else '3–5'
@@ -192,6 +213,7 @@ for p in P:
 <div><dt>Material</dt><dd>{e(p["material"])}</dd></div>
 <div><dt>Included</dt><dd>{e(p["included"])}</dd></div>
 <div><dt>Turnaround</dt><dd>{days} business days to make after you approve your proof, plus shipping. Rush on request.</dd></div>
+{('<div><dt>Design</dt><dd>Design included — no design fee.</dd></div>' if p.get('design_included') else '')}
 <div><dt>Proof</dt><dd>Free digital proof within 12 hours, 7 days a week, 3 revisions included. Nothing prints until you approve.</dd></div>
 <div><dt>Shipping</dt><dd>Free in the lower 48</dd></div>
 <div><dt>Your artwork</dt><dd>Logos, photos and text you send are your responsibility. You confirm you have the right to use them. We don't print team, school or league names, logos or slogans.</dd></div>
@@ -210,7 +232,7 @@ for p in P:
         buy=''
         etsy_btn=f'<a class="btn btn-y" href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy <span aria-hidden="true">→</span></a>'
     rel=''.join(card(BY[s]) for s in p['related'])
-    hero_img=pic(f'/assets/img/p-{k}', f'{p["name"]} by Get Seen Signs', 800, 600, eager=True)
+    hero_img=pic(f'/assets/img/p-{k}', HERO_ALT.get(k, f'{p["name"]} by Get Seen Signs'), 1200, 900, eager=True)
     page=head(p['title'],p['desc'],path,ld(*nodes),og_img=f'/assets/img/g-{k}-2.jpg',og_w=900,og_h=675,otype='product',preload=f'/assets/img/p-{k}.webp')+NAV+f'''<main id="main">
 <section class="phero ink">
   <div class="wrap">
@@ -383,6 +405,12 @@ urls=['/']+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)
 open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
+# Single custom yard signs (Etsy 4597132396) were deactivated Oct 26, 2026. Packs of 5 are the minimum.
+open(SITE+'/_redirects','w').write(
+    '/custom-yard-signs /bulk-campaign-signs/ 301\n'
+    '/custom-yard-signs/ /bulk-campaign-signs/ 301\n'
+    '/custom-yard-signs/index.html /bulk-campaign-signs/ 301\n'
+)
 json.dump(urls,open(SRC+'/urls.json','w'),indent=1)
 print('pages:',len(urls))
 
@@ -392,8 +420,8 @@ main=tpl[tpl.index('<main id="main">'):tpl.index('</main>')+len('</main>')]
 main=main.replace('fetchpriority="high"','fetchpriority="low" decoding="async"').replace('width="700" height="700">','width="700" height="700" fetchpriority="low" decoding="async">')
 main=main.replace('src="assets/','src="/assets/').replace('srcset="assets/','srcset="/assets/')
 main=main.replace('href="#quote"','href="#quote"')
-SHORT={'01-custom-yard-sign':('custom-yard-signs','18×24 or 24×36 coroplast, H-stake included.'),
- '02-bulk-yard-signs':('bulk-campaign-signs','5 to 100 packs for campaigns, crews and realtors.'),
+SHORT={
+ '02-bulk-yard-signs':('bulk-campaign-signs','5 to 100 packs for campaigns, crews and realtors. 5 is the minimum.'),
  '03-vinyl-banner':('vinyl-banners','13 oz outdoor vinyl, hemmed with grommets. 2×4 up to 3×10 ft.'),
  '04-feather-flag':('feather-flags','10.5, 14 or 18 ft. Pole, ground spike or cross base, and bag included.'),
  '05-retractable-banner':('retractable-banners','Pull-up stand. Sets up in 60 seconds.'),
@@ -406,7 +434,7 @@ SHORT={'01-custom-yard-sign':('custom-yard-signs','18×24 or 24×36 coroplast, H
  '11-christmas-family-banner':('holiday-yard-signs','Your family name, three classic styles.'),
  '12-senior-night-banner':('senior-night-banners','Photo, name and number. Team pricing for 10+.'),
  '14-thanksgiving-yard-sign':('holiday-yard-signs','Harvest or rustic, with your name.')}
-NAMES={'01-custom-yard-sign':'Custom Yard Sign','02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-vendor-booth-kit':'Vendor Booth Kit','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
+NAMES={'02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-vendor-booth-kit':'Vendor Booth Kit','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
 def price_of(k):
     for p in P:
         if p.get('extra'):
@@ -418,8 +446,9 @@ def hcard(k):
     days=BY[slug]['days'] if slug in BY else '3-5'
     tag='<span class="tag">Ships in 5-10 days</span>' if (k in ('08-step-and-repeat','10-canopy-tent')) else ''
     price=f'<span class="price"><small>from</small> {money(pr)}<small class="unit"> {u}</small></span>' if pr else '<span class="price price-na">See price on Etsy</span>'
+    alt=HERO_ALT.get(k, html.unescape(n)+" by Get Seen Signs")
     return f'''<a class="card" href="/{slug}/">
-  <div class="card-img">{pic("/assets/img/p-"+k, html.unescape(n)+" by Get Seen Signs", 800, 600, sm="/assets/img/p-"+k+"-sm", sizes="(max-width: 760px) 46vw, (max-width: 1180px) 30vw, 230px")}{tag}</div>
+  <div class="card-img">{pic("/assets/img/p-"+k, alt, 1200, 900, sm="/assets/img/p-"+k+"-sm", sizes="(max-width: 760px) 46vw, (max-width: 1180px) 30vw, 230px")}{tag}</div>
   <div class="card-body"><h3>{n}</h3><p>{d}</p>
   <div class="card-foot">{price}<span class="go">Sizes &amp; details <span aria-hidden="true">→</span></span></div></div>
 </a>'''
@@ -427,7 +456,6 @@ BIZ_EXTRA={'15-vendor-booth-kit'}
 BIZK=[k for k in NAMES if int(k[:2])<=10 or k in BIZ_EXTRA]; SEAK=[k for k in NAMES if int(k[:2])>10 and k not in BIZ_EXTRA]
 options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<option>Election / campaign signs</option><option>Birthday or graduation sign</option><option>Something else</option>'
 main=main.replace('{{BIZ}}','\n'.join(hcard(k) for k in BIZK)).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options)
-main=main.replace('Every price includes a free custom design proof and free shipping in the lower 48. Tap a product to order on Etsy.','Every price includes a free custom design proof and free shipping in the lower 48. Tap a product for sizes, materials and FAQs, then order on Etsy or get a quote.')
 LOCALSEC='''
 <section class="sec paper2" id="local">
   <div class="wrap">
