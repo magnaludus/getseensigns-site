@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><title>webgl smoke</title>
+<body style="margin:0"><canvas id="c" width="320" height="200"></canvas>
+<script type="importmap">{"imports":{"three":"/assets/design/vendor/three.module.min.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+const c=document.getElementById('c');
+const r=new THREE.WebGLRenderer({canvas:c,antialias:true});
+const s=new THREE.Scene(); s.background=new THREE.Color('#dde'); const cam=new THREE.PerspectiveCamera(40,320/200,.1,50); cam.position.set(2,2,4); cam.lookAt(0,0,0);
+const m=new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({color:'#c33'})); s.add(m);
+s.add(new THREE.HemisphereLight('#fff','#556',1.2)); const d=new THREE.DirectionalLight('#fff',2); d.position.set(3,5,2); s.add(d);
+r.render(s,cam); window.__ok = THREE.REVISION + ' ' + r.getContext().getParameter(r.getContext().VERSION);
+</script>

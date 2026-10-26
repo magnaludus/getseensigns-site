@@ -1,0 +1,46 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>template contact sheet</title>
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/design/editor.css">
+<body style="background:#cfcabb;margin:0;padding:14px">
+<div id="sheet" style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap"></div>
+<script type="module">
+import { createMeasurer, loadFonts } from '/assets/design/render/measure.js';
+import { createDocument } from '/assets/design/model/document.js';
+import { sideDisplay } from '/assets/design/render/displaylist.js';
+import { svg } from '/assets/design/render/svg.js';
+
+const q = new URLSearchParams(location.search);
+const only = q.get('product');
+const choicesParam = q.get('choices') ? JSON.parse(q.get('choices')) : {};
+const [catalog, specs, templates] = await Promise.all(['catalog', 'print-specs', 'templates'].map((n) => fetch(`/assets/design/${n}.json`).then((r) => r.json())));
+const measure = createMeasurer(catalog.fonts);
+const env = { catalog, specs, templates, fonts: catalog.fonts, measure };
+await loadFonts(catalog.fonts, measure);
+const sheet = document.getElementById('sheet');
+const width = Number(q.get('w') || 360);
+for (const product of catalog.products) {
+  if (only && product.id !== only) continue;
+  for (const tpl of templates[product.id]) {
+    const doc = createDocument(env, product.id, { templateId: tpl.id, choices: choicesParam });
+    const display = sideDisplay(doc, 0, 0, env, {});
+    const fig = document.createElement('figure');
+    fig.style.cssText = `margin:0;width:${width}px`;
+    let markup = svg(display, { label: tpl.name });
+    const s = display.spec;
+    if (q.get('guides') !== '0') {
+      let extra = '';
+      const t = s.trim;
+      extra += `<rect x="${t.x}" y="${t.y}" width="${t.w}" height="${t.h}" fill="none" stroke="#00b3ff" stroke-width="${t.w / 400}"/>`;
+      extra += `<rect x="${s.safe.x}" y="${s.safe.y}" width="${s.safe.w}" height="${s.safe.h}" fill="none" stroke="#00d26a" stroke-dasharray="${t.w / 120}" stroke-width="${t.w / 500}"/>`;
+      if (s.roof) extra += `<polygon points="${s.roof.polygon.map((p) => p.join(',')).join(' ')}" fill="none" stroke="red" stroke-width="${t.w / 300}"/>`;
+      if (s.outline) extra += `<polygon points="${s.outline.map((p) => p.join(',')).join(' ')}" fill="none" stroke="red" stroke-width="${t.w / 200}"/>`;
+      markup = markup.replace('</svg>', extra + '</svg>');
+    }
+    fig.innerHTML = `<div style="background:#fff;line-height:0">${markup.replace('<svg ', '<svg style="width:100%;height:auto;display:block" ')}</div><figcaption style="font:600 14px sans-serif;padding:4px 0">${product.id} / ${tpl.id} (${tpl.sample.name})</figcaption>`;
+    sheet.appendChild(fig);
+  }
+}
+window.__done = true;
+</script>

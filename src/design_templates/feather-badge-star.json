@@ -1,0 +1,17 @@
+{
+  "id": "badge-star",
+  "product": "feather",
+  "name": "Badge",
+  "category": "business",
+  "palette": {"primary": "#EFE7D6", "accent": "#B42318", "ink": "#2A120E"},
+  "sample": {"name": "MEADOW BROOK", "line2": "BAKERY", "phone": "334-555-0142", "web": "meadowbrook.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "badge", "name": "Seal", "region": "body", "box": [0, 0.04, 0.8, 0.5], "fill": "@accent", "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "body", "box": [0.12, 0.1, 0.56, 0.3], "square": true},
+    {"type": "shape", "kind": "star", "name": "Star", "region": "head", "box": [0, 0, 0.7, 1], "fill": "@accent", "square": true},
+    {"type": "text", "region": "body", "box": [0, 0.58, 1, 0.42], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 8}, "bind": "name"},
+    {"type": "text", "region": "foot", "box": [0, 0.1, 1, 0.55], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 6}, "bind": "line2"}
+  ]
+}

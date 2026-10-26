@@ -1,0 +1,18 @@
+{
+  "id": "bold-center",
+  "product": "yard",
+  "name": "Big type",
+  "category": "business",
+  "palette": {"primary": "#14161A", "accent": "#FFD100", "ink": "#FFFFFF"},
+  "sample": {"name": "YOUR NAME", "line2": "COUNTY COMMISSION", "phone": "334-555-0103", "web": "yourname.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Top bar", "region": "art", "box": [0, 0, 1, 0.1], "fill": "@accent"},
+    {"type": "shape", "kind": "rect", "name": "Bottom bar", "region": "art", "box": [0, 0.9, 1, 0.1], "fill": "@accent"},
+    {"type": "text", "region": "safe", "box": [0.25, 0.07, 0.5, 0.14], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 3.2}, "text": "VOTE", "name": "Vote"},
+    {"type": "text", "region": "safe", "box": [0, 0.24, 1, 0.36], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 7}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.05, 0.64, 0.9, 0.14], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 3.2}, "bind": "line2"},
+    {"type": "text", "region": "safe", "box": [0.2, 0.8, 0.6, 0.1], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2}, "bind": "phone"}
+  ]
+}

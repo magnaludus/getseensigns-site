@@ -1,0 +1,16 @@
+{
+  "id": "split-field",
+  "product": "throw",
+  "name": "Split field",
+  "category": "business",
+  "palette": {"primary": "#1B4332", "accent": "#E7F0C3", "ink": "#F3FFE4"},
+  "sample": {"name": "FIDDLEHEAD", "line2": "FARMS", "phone": "334-555-0124", "web": "fiddlehead.example"},
+  "font": "archivo",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Left block", "region": "art", "box": [0, 0, 0.3, 1], "fill": "@accent"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.0, 0.06, 0.27, 0.88], "square": true},
+    {"type": "text", "region": "safe", "box": [0.32, 0.08, 0.66, 0.54], "fill": "@ink", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 14}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.32, 0.66, 0.66, 0.22], "fill": "@accent", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 7}, "bind": "line2"}
+  ]
+}

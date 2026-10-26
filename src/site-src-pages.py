@@ -5,12 +5,18 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(__file__))
 from seo_products import P, BY
 from seo_pages import LOCAL, BLOG, GAMEDAY
+from design_catalog import build_design_assets
+from design_pages import HUB as DESIGN_HUB, PRODUCTS as DESIGN_PRODUCTS, PROOF as DESIGN_PROOF, start_price as design_start_price
 SRC=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(SRC); SITE=ROOT  # repo root: built pages are written here
 BASE='https://getseensignsco.com'
 TODAY=datetime.date(2026,10,26).isoformat()
 ETSY='https://www.etsy.com/shop/GetSeenSigns'
 ORG_ID=BASE+'/#org'; SITE_ID=BASE+'/#website'
 AREAS=['Columbus, GA','Phenix City, AL','Auburn, AL','Opelika, AL','Smiths Station, AL','Fort Benning, GA']
+DESIGN_SLUGS={p['page']:p['slug'] for p in DESIGN_PRODUCTS}  # product page slug -> /design/<slug>/
+# First-party event counts are off. To turn them on: set DESIGN_EVENTS_ENABLED=true on Cloudflare Pages,
+# set this to True and rebuild (see src/README.md). While False the page makes no analytics requests.
+DESIGN_EVENTS_CLIENT=False
 e=html.escape
 import re as _r0
 CSS=_r0.sub(r'\s*\n\s*','',open(SITE+'/assets/style.css').read()).replace('/*','\n/*')
@@ -99,8 +105,9 @@ NAV='''<header class="nav">
   <div class="wrap nav-in">
     <a class="nav-logo" href="/" aria-label="Get Seen Signs home"><img src="/assets/brand/getseen-wordmark-only-for-dark-bg.svg" alt="Get Seen Signs" width="150" height="58"></a>
     <nav class="nav-links" aria-label="Main">
-      <a href="/#products">Products</a><a href="/signs-columbus-ga-phenix-city/">Columbus</a><a href="/signs-auburn-opelika-al/">Auburn</a><a href="/blog/">Guides</a><a href="/#faq">FAQ</a>
+      <a href="/#products">Products</a><a href="/design/">Design</a><a href="/signs-columbus-ga-phenix-city/">Columbus</a><a href="/signs-auburn-opelika-al/">Auburn</a><a href="/blog/">Guides</a><a href="/#faq">FAQ</a>
     </nav>
+    <a class="nav-design" href="/design/">Design</a>
     <a class="btn btn-y btn-sm" href="/#quote">Get a quote</a>
   </div>
 </header>
@@ -116,7 +123,7 @@ def foot():
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
       <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
-      <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/#quote">Get a quote</a><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/privacy">Privacy</a></div>
+      <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/privacy">Privacy</a></div>
     </div>
   </div>
   <div class="wrap legal">
@@ -232,6 +239,7 @@ for p in P:
         buy=''
         etsy_btn=f'<a class="btn btn-y" href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy <span aria-hidden="true">→</span></a>'
     rel=''.join(card(BY[s]) for s in p['related'])
+    design_btn=(f'<a class="btn btn-ghost" href="/design/{DESIGN_SLUGS[p["slug"]]}/">Design yours online</a>' if p['slug'] in DESIGN_SLUGS else '')
     hero_img=pic(f'/assets/img/p-{k}', HERO_ALT.get(k, f'{p["name"]} by Get Seen Signs'), 1024, 1024, eager=True)
     page=head(p['title'],p['desc'],path,ld(*nodes),og_img=f'/assets/img/g-{k}-2.jpg',og_w=900,og_h=675,otype='product',preload=f'/assets/img/p-{k}.webp')+NAV+f'''<main id="main">
 <section class="phero ink">
@@ -242,7 +250,7 @@ for p in P:
         <h1>{e(p["h1"][0])} <span class="block">{e(p["h1"][1])}</span></h1>
         <p class="lede">{e(p["lede"])}</p>
         {price_html}
-        <div class="cta-row">{etsy_btn}<a class="btn btn-ghost" href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a></div>
+        <div class="cta-row">{etsy_btn}{design_btn}<a class="btn btn-ghost" href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a></div>
       </div>
       <figure class="phero-img sq">{hero_img}</figure>
     </div>
@@ -398,10 +406,116 @@ page=head(title,desc,path,ld(crumbs(items),{"@type":"Blog","@id":BASE+path,"url"
 '''+foot()
 write(path,page)
 
+# ---------- online designer: /design/ and one page per product ----------
+CATALOG, PRINT_SPECS, TEMPLATES = build_design_assets()
+os.makedirs(SITE+'/assets/design', exist_ok=True)
+for _name,_data in (('catalog',CATALOG),('print-specs',PRINT_SPECS),('templates',TEMPLATES)):
+    with open(SITE+f'/assets/design/{_name}.json','w',encoding='utf-8') as _out:
+        json.dump(_data, _out, ensure_ascii=False, indent=2)
+        _out.write('\n')
+print('design prices:', ', '.join(p['id']+' $'+str(p['prices'][0]['price']) for p in CATALOG['products']))
+
+def design_modules(entry='assets/design/main.js'):
+    """Every ES module the page loads up front (static imports only), so they can be preloaded in one go.
+    The 3D stage is imported lazily and is deliberately not in this list."""
+    import re
+    seen=[]; queue=[entry]
+    pat=re.compile(r"""(?:import|export)\s[^;'"]*?\sfrom\s*['"](\.{1,2}/[^'"]+)['"]|import\s*['"](\.{1,2}/[^'"]+)['"]""")
+    while queue:
+        rel=queue.pop(0)
+        if rel in seen: continue
+        seen.append(rel)
+        src=open(f'{SITE}/{rel}',encoding='utf-8').read()
+        for m in pat.finditer(src):
+            queue.append(os.path.normpath(os.path.join(os.path.dirname(rel), m.group(1) or m.group(2))))
+    return seen
+
+_dcss=_r0.sub(r'/\*.*?\*/','',open(SITE+'/assets/design/editor.css',encoding='utf-8').read(),flags=_r0.S)
+_dcss=_r0.sub(r'\s*\n\s*','',_dcss)
+DESIGN_HEAD_HUB=('<style>'+_dcss+'</style>\n'
+  '<script type="importmap">{"imports":{"three":"/assets/design/vendor/three.module.min.js"}}</script>\n')
+DESIGN_HEAD=DESIGN_HEAD_HUB+''.join(f'<link rel="preload" href="/assets/design/{n}.json" as="fetch" crossorigin>\n' for n in ('catalog','print-specs','templates'))
+# Preloading the module graph from the end of the body flattens the request chain without competing with
+# the first paint (modulepreload is allowed in <body>). The hub only loads hub.js, which fetches the editor
+# when a shared link needs it.
+DESIGN_PRELOAD=''.join(f'<link rel="modulepreload" href="/{m}">\n' for m in design_modules())
+
+def design_mock(slug, alt, lazy=True, high=False):
+    k=BY[slug]['key']
+    sm=Image.open(f'{SITE}/assets/img/p-{k}-sm.webp')
+    load='loading="lazy" decoding="async"' if lazy else ('fetchpriority="high" decoding="async"' if high else 'decoding="async"')
+    return f'<picture><source srcset="/assets/img/p-{k}-sm.webp" type="image/webp"><img src="/assets/img/p-{k}.jpg" alt="{e(alt)}" width="{sm.width}" height="{sm.height}" {load}></picture>'
+
+def design_page(path, title, desc, h1, lede, items, pre_html, product_id, copy_html, faqs, hub=False):
+    ldnodes=[crumbs(items), faqpage(faqs), {"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":title,"description":desc,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}]
+    page=head(title, desc, path, ld(*ldnodes))
+    page=page.replace('</head>', (DESIGN_HEAD_HUB if hub else DESIGN_HEAD)+'</head>',1)
+    mount=(f'<div id="designer" class="designer{" designer-hub" if hub else ""}" data-assets="/assets/design/"'
+           +(f' data-product="{product_id}"' if product_id else '')
+           +(' data-events="1"' if DESIGN_EVENTS_CLIENT else '')+'>'+pre_html+'</div>')
+    page+=NAV+f'''<main id="main">
+<section class="phero ink designer-hero">
+  <div class="wrap">
+    {bc_html(items)}
+    <h1>{e(h1[0])} <span class="block">{e(h1[1])}</span></h1>
+    <p class="lede">{e(lede)}</p>
+  </div>
+</section>
+<section class="sec paper designer-sec">
+  <div class="wrap">
+    {mount}
+  </div>
+</section>
+<section class="sec paper2">
+  <div class="wrap two">
+    <div class="designer-copy">{copy_html}</div>
+    <div class="faq-in">
+      <div class="sec-head"><p class="eyebrow">FAQ</p><h2>About the designer</h2></div>
+      {faq_html(faqs)}
+    </div>
+  </div>
+</section>
+</main>
+'''
+    page+=foot()
+    page=page.replace('</body>',('' if hub else DESIGN_PRELOAD)+f'<script type="module" src="/assets/design/{"hub" if hub else "main"}.js"></script>\n</body>',1)
+    write(path, page)
+
+NOSCRIPT='<noscript><p>The designer needs JavaScript. Email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a> and we will make the proof with you.</p></noscript>'
+
+# hub: /design/ lists the five products as plain links. The editor itself lives on the product pages.
+_cards=''.join(
+  f'<a class="dz-card" href="/design/{d["slug"]}/">'
+  f'<span class="dz-card-thumb">{design_mock(d["page"], d["alt"], lazy=i > 2, high=i == 0)}</span>'
+  f'<b>{e(d["short"].capitalize())}</b><span>{e(d["name"][0].upper()+d["name"][1:])}</span>'
+  f'<span class="dz-from">from {money(design_start_price(d["page"]))} · free shipping</span></a>'
+  for i, d in enumerate(DESIGN_PRODUCTS))
+_hub_pre=f'<section class="dz-picker" aria-labelledby="dz-pick-title"><h2 id="dz-pick-title">What are you designing?</h2><p class="dz-help">Pick one. Free design proof within 12 hours, 7 days a week.</p><div class="dz-picker-grid">{_cards}</div></section>'
+_hub_copy=(
+  '<h2>How it works</h2>'
+  '<ol class="designer-steps"><li>Pick a product.</li><li>Choose a layout, then change the words, colors and font and add your logo.</li>'
+  '<li>Turn it around in 3D to check every side.</li><li>Send it. We email '+DESIGN_PROOF+'. Nothing prints until you approve.</li></ol>'
+  '<h2>What you can design</h2><p>'+', '.join(f'<a href="/design/{d["slug"]}/">{e(d["name"])}</a>' for d in DESIGN_PRODUCTS[:-1])+' and <a href="/design/'+DESIGN_PRODUCTS[-1]['slug']+'/">'+e(DESIGN_PRODUCTS[-1]['name'])+'</a>. Prices match our Etsy listings and shipping is free in the lower 48.</p>'
+  '<h2>Good to know</h2><p>The designer shows your words, colors and logo on the product. It is a preview, not the print file: we build that on your free proof. Your logo stays on your device until you send your proof request.</p>')
+design_page('/design/', DESIGN_HUB['title'], DESIGN_HUB['desc'], DESIGN_HUB['h1'], DESIGN_HUB['lede'],
+            [('Home','/'),('Design online','/design/')], _hub_pre, '', _hub_copy, DESIGN_HUB['faqs'], hub=True)
+
+for d in DESIGN_PRODUCTS:
+    path=f'/design/{d["slug"]}/'
+    prod=BY[d['page']]
+    secs=''.join(f'<h2>{e(h)}</h2><p>{e(t.format(price=money(design_start_price(d["page"])), proof=DESIGN_PROOF))}</p>' for h,t in d['sections'])
+    others=''.join(f'<li><a href="/design/{o["slug"]}/">Design a {e(o["short"])}</a></li>' for o in DESIGN_PRODUCTS if o is not d)
+    copy=(secs+f'<p><a class="btn btn-y" href="/{d["page"]}/">See the {e(d["short"])} page</a></p>'
+          +f'<h2>Design something else</h2><ul class="designer-more"><li><a href="/design/">All products</a></li>{others}</ul>')
+    pre=f'<p class="designer-loading">Loading the designer…</p>{NOSCRIPT}'
+    copy=f'<div class="designer-mock">{design_mock(d["page"], d["alt"])}</div>'+copy
+    design_page(path, d['title'], d['desc'], d['h1'], d['lede'],
+                [('Home','/'),('Design online','/design/'),(f'Design a {d["short"]}',path)], pre, d['id'], copy, d['faqs'])
+
 # ---------- sitemap, robots ----------
 LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
-urls=['/']+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/privacy']
+urls=['/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/privacy']
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)
 open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
@@ -485,6 +599,6 @@ write('/',page)
 nf=head('Page not found | Get Seen Signs','That page is not here. Browse custom signs, banners, flags and tents from Get Seen Signs.','/404.html','')
 nf=nf.replace('<meta name="robots" content="index,follow,max-image-preview:large">','<meta name="robots" content="noindex">').replace('<link rel="canonical" href="'+BASE+'/404.html">\n','')
 links=''.join(f'<a href="/{p["slug"]}/">{p["name"]}</a>' for p in P)
-nf+=NAV+f'<main id="main"><section class="phero ink"><div class="wrap"><h1>Page not <span class="block">found.</span></h1><p class="lede">That page isn\'t here. Try one of these:</p><div class="cta-row"><a class="btn btn-y" href="/">Home</a><a class="btn btn-ghost" href="/#quote">Get a quote</a></div></div></section><section class="sec paper"><div class="wrap"><div class="link-cloud">{links}</div></div></section></main>'+foot()
+nf+=NAV+f'<main id="main"><section class="phero ink"><div class="wrap"><h1>Page not <span class="block">found.</span></h1><p class="lede">That page isn\'t here. Try one of these:</p><div class="cta-row"><a class="btn btn-y" href="/">Home</a><a class="btn btn-ghost" href="/design/">Design online</a><a class="btn btn-ghost" href="/#quote">Get a quote</a></div></div></section><section class="sec paper"><div class="wrap"><div class="link-cloud">{links}</div></div></section></main>'+foot()
 open(SITE+'/404.html','w').write(nf)
 print('home ok')

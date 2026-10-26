@@ -36,10 +36,11 @@ p{margin:0}
 .nav{position:sticky;top:0;z-index:50;background:rgba(20,22,26,.94);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
 .nav-in{display:flex;align-items:center;gap:24px;height:68px}
 .nav-logo img{height:40px;width:auto}
-.nav-links{margin-left:auto;display:flex;gap:28px}
+.nav-links{margin-left:auto;display:flex;gap:20px}
+.nav-design{display:none;color:#fff;text-decoration:none;font-weight:700;font-size:15px;letter-spacing:.02em}
 .nav-links a{color:#fff;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:.02em;opacity:.85}
 .nav-links a:hover{opacity:1;color:var(--y)}
-@media (max-width:760px){.nav-links{display:none}.nav .btn{margin-left:auto}.nav-logo img{height:34px}}
+@media (max-width:760px){.nav-links{display:none}.nav-design{display:inline-flex;margin-left:auto;align-items:center}.nav .btn{margin-left:12px}.nav-logo img{height:34px}}
 
 /* hero */
 .hero{background:var(--ink);color:#fff;position:relative;overflow:hidden}
@@ -90,6 +91,8 @@ h2{font-size:clamp(42px,5.6vw,76px)}
 .hl{background:linear-gradient(transparent 58%,var(--y) 58% 92%,transparent 92%);padding:0 .06em}
 .ink .hl{background:none;color:var(--y)}
 .sub{margin-top:16px;font-size:18px;color:var(--muted);max-width:44em}
+.sub a,.steps a{font-weight:700;text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:3px;text-underline-offset:3px}
+.steps a{color:var(--y)}
 @media (max-width:600px){.sec{padding:64px 0}.sec-head{margin-bottom:30px}}
 
 /* products */

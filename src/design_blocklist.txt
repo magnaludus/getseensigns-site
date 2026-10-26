@@ -1,0 +1,76 @@
+# Words and names that must never appear in a design template or its sample text.
+# The build fails if any line below matches (case-insensitive, whole word or phrase).
+# Scott can add team, school and brand names here. One entry per line.
+
+# Leagues and organizations
+Little League
+Pop Warner
+NFL
+NBA
+MLB
+NHL
+NCAA
+FIFA
+UFC
+WWE
+NASCAR
+NRA
+YMCA
+Boy Scouts
+Girl Scouts
+
+# Teams and schools near us
+Auburn
+Alabama
+Crimson Tide
+War Eagle
+Roll Tide
+Georgia Bulldogs
+Clemson
+Ole Miss
+LSU
+
+# Brands
+Nike
+Adidas
+Under Armour
+Coca-Cola
+Pepsi
+Budweiser
+Bud Light
+Coors
+Miller Lite
+Yeti
+Walmart
+Home Depot
+Lowe's
+Amazon
+Google
+Facebook
+Disney
+Marvel
+Nintendo
+Pokemon
+Harley
+Jeep
+Ford
+Chevrolet
+Toyota
+John Deere
+Carhartt
+Realtree
+Mossy Oak
+Smith & Wesson
+Glock
+Remington
+Winchester
+Beretta
+Browning
+Ruger
+Sig Sauer
+
+# Public figures
+Trump
+Biden
+Harris
+Obama

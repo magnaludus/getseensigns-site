@@ -1,0 +1,17 @@
+{
+  "id": "band-stripe",
+  "product": "banner",
+  "name": "Band",
+  "category": "events",
+  "palette": {"primary": "#F4F1EA", "accent": "#2F6FED", "ink": "#172033"},
+  "sample": {"name": "MARLOW FEED", "line2": "WEEKEND SALE", "phone": "334-555-0155", "web": "marlowfeed.example"},
+  "font": "oswald",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Band", "region": "art", "box": [0, 0.3, 1, 0.4], "fill": "@accent"},
+    {"type": "text", "region": "safe", "box": [0.02, 0.27, 0.96, 0.47], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 14}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0, 0.0, 1, 0.2], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 6}, "bind": "line2"},
+    {"type": "text", "region": "safe", "box": [0, 0.8, 0.5, 0.18], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 3.4}, "bind": "phone"},
+    {"type": "text", "region": "safe", "box": [0.5, 0.8, 0.5, 0.18], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 3.4}, "bind": "web"}
+  ]
+}

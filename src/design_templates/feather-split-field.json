@@ -1,0 +1,16 @@
+{
+  "id": "split-field",
+  "product": "feather",
+  "name": "Split field",
+  "category": "business",
+  "palette": {"primary": "#F7F3EA", "accent": "#1F6B4A", "ink": "#16382A"},
+  "sample": {"name": "BRIGHT PATH", "line2": "TUTORING", "phone": "334-555-0127", "web": "brightpath.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Top field", "region": "art", "box": [0, 0, 1, 0.46], "fill": "@accent"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "body", "box": [0.05, 0.04, 0.7, 0.42], "square": true},
+    {"type": "text", "region": "body", "box": [0, 0.56, 1, 0.44], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 8}, "bind": "name"},
+    {"type": "text", "region": "foot", "box": [0, 0.1, 1, 0.55], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 6}, "bind": "line2"}
+  ]
+}

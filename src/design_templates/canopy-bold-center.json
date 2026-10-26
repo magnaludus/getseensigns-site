@@ -1,0 +1,18 @@
+{
+  "id": "bold-center",
+  "product": "canopy",
+  "name": "Big type",
+  "category": "business",
+  "palette": {"primary": "#12372B", "accent": "#FFD100", "ink": "#FFFFFF"},
+  "sample": {"name": "NORTHLINE", "line2": "HOME SERVICES", "phone": "334-555-0148", "web": "northline.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Valance bar", "region": "valancebar", "box": [0, 0, 1, 1], "fill": "@accent"},
+    {"type": "shape", "kind": "rect", "name": "Roof stripe", "region": "roofarea", "box": [0, 0.3, 1, 0.035], "fill": "@accent"},
+    {"type": "text", "region": "peak", "box": [0, 0, 1, 0.62], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 30}, "bind": "name"},
+    {"type": "text", "region": "peak", "box": [0.05, 0.7, 0.9, 0.26], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 14}, "bind": "line2"},
+    {"type": "text", "region": "valance", "box": [0, 0, 0.55, 1], "fill": "@primary", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 9}, "bind": "name", "name": "Valance name"},
+    {"type": "text", "region": "valance", "box": [0.55, 0, 0.45, 1], "fill": "@primary", "align": "right", "valign": "middle", "fit": {"lines": 1, "max": 9}, "bind": "phone", "name": "Valance phone"}
+  ]
+}

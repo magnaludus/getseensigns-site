@@ -1,0 +1,18 @@
+{
+  "id": "badge-star",
+  "product": "canopy",
+  "name": "Badge",
+  "category": "business",
+  "palette": {"primary": "#2A241C", "accent": "#F0A202", "ink": "#FFF8EA"},
+  "sample": {"name": "LANTERN LAWN", "line2": "LAWN CARE", "phone": "334-555-0174", "web": "lanternlawn.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Valance bar", "region": "valancebar", "box": [0, 0, 1, 1], "fill": "@accent"},
+    {"type": "shape", "kind": "badge", "name": "Seal", "region": "peak", "box": [0.2, 0, 0.6, 0.62], "fill": "@accent", "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "peak", "box": [0.3, 0.08, 0.4, 0.46], "square": true},
+    {"type": "text", "region": "peak", "box": [0, 0.68, 1, 0.3], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 30}, "bind": "name"},
+    {"type": "text", "region": "valance", "box": [0, 0, 0.55, 1], "fill": "@primary", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 9}, "bind": "name", "name": "Valance name"},
+    {"type": "text", "region": "valance", "box": [0.55, 0, 0.45, 1], "fill": "@primary", "align": "right", "valign": "middle", "fit": {"lines": 1, "max": 9}, "bind": "phone", "name": "Valance phone"}
+  ]
+}

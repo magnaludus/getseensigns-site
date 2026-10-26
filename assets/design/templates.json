@@ -1,0 +1,2132 @@
+{
+  "canopy": [
+    {
+      "id": "bold-center",
+      "product": "canopy",
+      "name": "Big type",
+      "category": "business",
+      "palette": {
+        "primary": "#12372B",
+        "accent": "#FFD100",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "NORTHLINE",
+        "line2": "HOME SERVICES",
+        "phone": "334-555-0148",
+        "web": "northline.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Valance bar",
+          "region": "valancebar",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Roof stripe",
+          "region": "roofarea",
+          "box": [
+            0,
+            0.3,
+            1,
+            0.035
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "peak",
+          "box": [
+            0,
+            0,
+            1,
+            0.62
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 30
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "peak",
+          "box": [
+            0.05,
+            0.7,
+            0.9,
+            0.26
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 14
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "valance",
+          "box": [
+            0,
+            0,
+            0.55,
+            1
+          ],
+          "fill": "@primary",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 9
+          },
+          "bind": "name",
+          "name": "Valance name"
+        },
+        {
+          "type": "text",
+          "region": "valance",
+          "box": [
+            0.55,
+            0,
+            0.45,
+            1
+          ],
+          "fill": "@primary",
+          "align": "right",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 9
+          },
+          "bind": "phone",
+          "name": "Valance phone"
+        }
+      ]
+    },
+    {
+      "id": "split-field",
+      "product": "canopy",
+      "name": "Split field",
+      "category": "business",
+      "palette": {
+        "primary": "#1C1A17",
+        "accent": "#E24B2B",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "HARBOR & RYE",
+        "line2": "COFFEE ROASTERS",
+        "phone": "334-555-0152",
+        "web": "harborrye.example"
+      },
+      "font": "barlow",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Top field",
+          "region": "roofarea",
+          "box": [
+            0,
+            0,
+            1,
+            0.42
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Valance bar",
+          "region": "valancebar",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "peak",
+          "box": [
+            0.3,
+            0,
+            0.4,
+            0.46
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "peak",
+          "box": [
+            0,
+            0.5,
+            1,
+            0.3
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 30
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "peak",
+          "box": [
+            0.1,
+            0.84,
+            0.8,
+            0.16
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 12
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "valance",
+          "box": [
+            0,
+            0,
+            0.55,
+            1
+          ],
+          "fill": "@primary",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 9
+          },
+          "bind": "name",
+          "name": "Valance name"
+        },
+        {
+          "type": "text",
+          "region": "valance",
+          "box": [
+            0.55,
+            0,
+            0.45,
+            1
+          ],
+          "fill": "@primary",
+          "align": "right",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 9
+          },
+          "bind": "phone",
+          "name": "Valance phone"
+        }
+      ]
+    },
+    {
+      "id": "band-stripe",
+      "product": "canopy",
+      "name": "Band",
+      "category": "events",
+      "palette": {
+        "primary": "#F4F0E6",
+        "accent": "#143D6B",
+        "ink": "#143D6B"
+      },
+      "sample": {
+        "name": "RED CLAY",
+        "line2": "CATERING",
+        "phone": "334-555-0119",
+        "web": "redclay.example"
+      },
+      "font": "oswald",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Band",
+          "region": "roofarea",
+          "box": [
+            0,
+            0.43,
+            1,
+            0.31
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Valance bar",
+          "region": "valancebar",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "peak",
+          "box": [
+            0,
+            0,
+            1,
+            0.62
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 30
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "peak",
+          "box": [
+            0.1,
+            0.74,
+            0.8,
+            0.24
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 14
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "valance",
+          "box": [
+            0,
+            0,
+            0.55,
+            1
+          ],
+          "fill": "@primary",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 9
+          },
+          "bind": "name",
+          "name": "Valance name"
+        },
+        {
+          "type": "text",
+          "region": "valance",
+          "box": [
+            0.55,
+            0,
+            0.45,
+            1
+          ],
+          "fill": "@primary",
+          "align": "right",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 9
+          },
+          "bind": "phone",
+          "name": "Valance phone"
+        }
+      ]
+    },
+    {
+      "id": "badge-star",
+      "product": "canopy",
+      "name": "Badge",
+      "category": "business",
+      "palette": {
+        "primary": "#2A241C",
+        "accent": "#F0A202",
+        "ink": "#FFF8EA"
+      },
+      "sample": {
+        "name": "LANTERN LAWN",
+        "line2": "LAWN CARE",
+        "phone": "334-555-0174",
+        "web": "lanternlawn.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Valance bar",
+          "region": "valancebar",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "shape",
+          "kind": "badge",
+          "name": "Seal",
+          "region": "peak",
+          "box": [
+            0.2,
+            0,
+            0.6,
+            0.62
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "peak",
+          "box": [
+            0.3,
+            0.08,
+            0.4,
+            0.46
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "peak",
+          "box": [
+            0,
+            0.68,
+            1,
+            0.3
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 30
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "valance",
+          "box": [
+            0,
+            0,
+            0.55,
+            1
+          ],
+          "fill": "@primary",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 9
+          },
+          "bind": "name",
+          "name": "Valance name"
+        },
+        {
+          "type": "text",
+          "region": "valance",
+          "box": [
+            0.55,
+            0,
+            0.45,
+            1
+          ],
+          "fill": "@primary",
+          "align": "right",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 9
+          },
+          "bind": "phone",
+          "name": "Valance phone"
+        }
+      ]
+    }
+  ],
+  "feather": [
+    {
+      "id": "bold-center",
+      "product": "feather",
+      "name": "Big type",
+      "category": "business",
+      "palette": {
+        "primary": "#0E3A4D",
+        "accent": "#F26B21",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "MAPLE STREET",
+        "line2": "OPEN DAILY",
+        "phone": "334-555-0131",
+        "web": "maplestreet.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Footer block",
+          "region": "art",
+          "box": [
+            0,
+            0.8,
+            1,
+            0.2
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star",
+          "region": "head",
+          "box": [
+            0,
+            0,
+            0.7,
+            1
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "body",
+          "box": [
+            0,
+            0.02,
+            1,
+            0.96
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 14
+          },
+          "bind": "name",
+          "rot": -90
+        },
+        {
+          "type": "text",
+          "region": "foot",
+          "box": [
+            0,
+            0.28,
+            1,
+            0.5
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 6
+          },
+          "bind": "line2"
+        }
+      ]
+    },
+    {
+      "id": "split-field",
+      "product": "feather",
+      "name": "Split field",
+      "category": "business",
+      "palette": {
+        "primary": "#F7F3EA",
+        "accent": "#1F6B4A",
+        "ink": "#16382A"
+      },
+      "sample": {
+        "name": "BRIGHT PATH",
+        "line2": "TUTORING",
+        "phone": "334-555-0127",
+        "web": "brightpath.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Top field",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            1,
+            0.46
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "body",
+          "box": [
+            0.05,
+            0.04,
+            0.7,
+            0.42
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "body",
+          "box": [
+            0,
+            0.56,
+            1,
+            0.44
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 8
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "foot",
+          "box": [
+            0,
+            0.1,
+            1,
+            0.55
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 6
+          },
+          "bind": "line2"
+        }
+      ]
+    },
+    {
+      "id": "band-stripe",
+      "product": "feather",
+      "name": "Band",
+      "category": "events",
+      "palette": {
+        "primary": "#3D1020",
+        "accent": "#F2C14E",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "COPPER LINE",
+        "line2": "COFFEE BAR",
+        "phone": "334-555-0166",
+        "web": "copperline.example"
+      },
+      "font": "oswald",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Band",
+          "region": "art",
+          "box": [
+            0,
+            0.36,
+            1,
+            0.27
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "body",
+          "box": [
+            0.05,
+            0.0,
+            0.65,
+            0.27
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "body",
+          "box": [
+            0,
+            0.31,
+            1,
+            0.5
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 8
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "foot",
+          "box": [
+            0,
+            0.1,
+            1,
+            0.55
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 6
+          },
+          "bind": "line2"
+        }
+      ]
+    },
+    {
+      "id": "badge-star",
+      "product": "feather",
+      "name": "Badge",
+      "category": "business",
+      "palette": {
+        "primary": "#EFE7D6",
+        "accent": "#B42318",
+        "ink": "#2A120E"
+      },
+      "sample": {
+        "name": "MEADOW BROOK",
+        "line2": "BAKERY",
+        "phone": "334-555-0142",
+        "web": "meadowbrook.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "badge",
+          "name": "Seal",
+          "region": "body",
+          "box": [
+            0,
+            0.04,
+            0.8,
+            0.5
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "body",
+          "box": [
+            0.12,
+            0.1,
+            0.56,
+            0.3
+          ],
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star",
+          "region": "head",
+          "box": [
+            0,
+            0,
+            0.7,
+            1
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "body",
+          "box": [
+            0,
+            0.58,
+            1,
+            0.42
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 8
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "foot",
+          "box": [
+            0,
+            0.1,
+            1,
+            0.55
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 6
+          },
+          "bind": "line2"
+        }
+      ]
+    }
+  ],
+  "yard": [
+    {
+      "id": "bold-center",
+      "product": "yard",
+      "name": "Big type",
+      "category": "business",
+      "palette": {
+        "primary": "#14161A",
+        "accent": "#FFD100",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "YOUR NAME",
+        "line2": "COUNTY COMMISSION",
+        "phone": "334-555-0103",
+        "web": "yourname.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Top bar",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            1,
+            0.1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Bottom bar",
+          "region": "art",
+          "box": [
+            0,
+            0.9,
+            1,
+            0.1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.25,
+            0.07,
+            0.5,
+            0.14
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 3.2
+          },
+          "text": "VOTE",
+          "name": "Vote"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.24,
+            1,
+            0.36
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 7
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.05,
+            0.64,
+            0.9,
+            0.14
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 3.2
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.2,
+            0.8,
+            0.6,
+            0.1
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2
+          },
+          "bind": "phone"
+        }
+      ]
+    },
+    {
+      "id": "split-field",
+      "product": "yard",
+      "name": "Split field",
+      "category": "business",
+      "palette": {
+        "primary": "#9E2A2B",
+        "accent": "#F3EFE6",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "THE ALDERS",
+        "line2": "EST. 2014",
+        "phone": "334-555-0158",
+        "web": "alders.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Right field",
+          "region": "art",
+          "box": [
+            0.6,
+            0,
+            0.4,
+            1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.62,
+            0.08,
+            0.38,
+            0.5
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.12,
+            0.57,
+            0.52
+          ],
+          "fill": "@ink",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 7
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.66,
+            0.57,
+            0.12
+          ],
+          "fill": "@accent",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.6
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.62,
+            0.7,
+            0.38,
+            0.12
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.2
+          },
+          "bind": "phone"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.62,
+            0.84,
+            0.38,
+            0.08
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 1.4
+          },
+          "bind": "web"
+        }
+      ]
+    },
+    {
+      "id": "band-stripe",
+      "product": "yard",
+      "name": "Band",
+      "category": "events",
+      "palette": {
+        "primary": "#F4F0E6",
+        "accent": "#143D6B",
+        "ink": "#143D6B"
+      },
+      "sample": {
+        "name": "RIDGELINE",
+        "line2": "ROOFING",
+        "phone": "334-555-0186",
+        "web": "ridgeline.example"
+      },
+      "font": "oswald",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Band",
+          "region": "art",
+          "box": [
+            0,
+            0.36,
+            1,
+            0.3
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.35,
+            0.96,
+            0.32
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 7
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.06,
+            1,
+            0.2
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 4.5
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.76,
+            1,
+            0.12
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.4
+          },
+          "bind": "phone"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.9,
+            1,
+            0.08
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 1.4
+          },
+          "bind": "web"
+        }
+      ]
+    },
+    {
+      "id": "badge-star",
+      "product": "yard",
+      "name": "Badge",
+      "category": "business",
+      "palette": {
+        "primary": "#1E3A2F",
+        "accent": "#D6F25C",
+        "ink": "#F4FFE0"
+      },
+      "sample": {
+        "name": "PINE HOLLOW",
+        "line2": "DAYCARE",
+        "phone": "334-555-0171",
+        "web": "pinehollow.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star left",
+          "region": "safe",
+          "box": [
+            0.04,
+            0.16,
+            0.16,
+            0.22
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star right",
+          "region": "safe",
+          "box": [
+            0.8,
+            0.16,
+            0.16,
+            0.22
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "badge",
+          "name": "Seal",
+          "region": "safe",
+          "box": [
+            0.3,
+            0.0,
+            0.4,
+            0.54
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.36,
+            0.06,
+            0.28,
+            0.42
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.58,
+            1,
+            0.24
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 5
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.1,
+            0.84,
+            0.8,
+            0.12
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.6
+          },
+          "bind": "line2"
+        }
+      ]
+    }
+  ],
+  "throw": [
+    {
+      "id": "bold-center",
+      "product": "throw",
+      "name": "Big type",
+      "category": "business",
+      "palette": {
+        "primary": "#F6C445",
+        "accent": "#1F1A17",
+        "ink": "#1F1A17"
+      },
+      "sample": {
+        "name": "HONEYDROP",
+        "line2": "APIARY",
+        "phone": "334-555-0139",
+        "web": "honeydrop.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Top bar",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            1,
+            0.1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Bottom bar",
+          "region": "art",
+          "box": [
+            0,
+            0.9,
+            1,
+            0.1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.04,
+            0.08,
+            0.92,
+            0.56
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 16
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.2,
+            0.68,
+            0.6,
+            0.2
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 6
+          },
+          "bind": "line2"
+        }
+      ]
+    },
+    {
+      "id": "split-field",
+      "product": "throw",
+      "name": "Split field",
+      "category": "business",
+      "palette": {
+        "primary": "#1B4332",
+        "accent": "#E7F0C3",
+        "ink": "#F3FFE4"
+      },
+      "sample": {
+        "name": "FIDDLEHEAD",
+        "line2": "FARMS",
+        "phone": "334-555-0124",
+        "web": "fiddlehead.example"
+      },
+      "font": "archivo",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Left block",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            0.3,
+            1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.06,
+            0.27,
+            0.88
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.32,
+            0.08,
+            0.66,
+            0.54
+          ],
+          "fill": "@ink",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 14
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.32,
+            0.66,
+            0.66,
+            0.22
+          ],
+          "fill": "@accent",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 7
+          },
+          "bind": "line2"
+        }
+      ]
+    },
+    {
+      "id": "band-stripe",
+      "product": "throw",
+      "name": "Band",
+      "category": "events",
+      "palette": {
+        "primary": "#FFF6F2",
+        "accent": "#E36A5D",
+        "ink": "#3A1D1A"
+      },
+      "sample": {
+        "name": "SUNPORCH",
+        "line2": "FLOWERS",
+        "phone": "334-555-0198",
+        "web": "sunporch.example"
+      },
+      "font": "oswald",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Band",
+          "region": "art",
+          "box": [
+            0,
+            0.28,
+            1,
+            0.44
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.1,
+            0.13,
+            0.8
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.15,
+            0.3,
+            0.7,
+            0.4
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 14
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.3,
+            0.76,
+            0.4,
+            0.2
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 5
+          },
+          "bind": "line2"
+        }
+      ]
+    },
+    {
+      "id": "badge-star",
+      "product": "throw",
+      "name": "Badge",
+      "category": "business",
+      "palette": {
+        "primary": "#0E2A3A",
+        "accent": "#F28C28",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "KEEL & CO",
+        "line2": "SEAFOOD",
+        "phone": "334-555-0145",
+        "web": "keelandco.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "badge",
+          "name": "Seal",
+          "region": "safe",
+          "box": [
+            0.38,
+            0.0,
+            0.24,
+            1
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.4,
+            0.1,
+            0.2,
+            0.8
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.1,
+            0.35,
+            0.8
+          ],
+          "fill": "@ink",
+          "align": "right",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 12
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.65,
+            0.1,
+            0.35,
+            0.8
+          ],
+          "fill": "@accent",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 9
+          },
+          "bind": "line2"
+        }
+      ]
+    }
+  ],
+  "banner": [
+    {
+      "id": "bold-center",
+      "product": "banner",
+      "name": "Big type",
+      "category": "business",
+      "palette": {
+        "primary": "#FFD100",
+        "accent": "#14161A",
+        "ink": "#14161A"
+      },
+      "sample": {
+        "name": "NOW OPEN",
+        "line2": "RIVERBEND HARDWARE",
+        "phone": "334-555-0167",
+        "web": "riverbend.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Top bar",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            1,
+            0.06
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Bottom bar",
+          "region": "art",
+          "box": [
+            0,
+            0.94,
+            1,
+            0.06
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.02,
+            1,
+            0.52
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 14
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.05,
+            0.56,
+            0.9,
+            0.2
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 6
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.8,
+            0.5,
+            0.18
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 3.4
+          },
+          "bind": "phone"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.5,
+            0.8,
+            0.5,
+            0.18
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 3.4
+          },
+          "bind": "web"
+        }
+      ]
+    },
+    {
+      "id": "split-field",
+      "product": "banner",
+      "name": "Split field",
+      "category": "business",
+      "palette": {
+        "primary": "#6B2D12",
+        "accent": "#F3D5A0",
+        "ink": "#FFF6E8"
+      },
+      "sample": {
+        "name": "CEDAR POST",
+        "line2": "BUILDING SUPPLY",
+        "phone": "334-555-0112",
+        "web": "cedarpost.example"
+      },
+      "font": "archivo",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Left block",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            0.3,
+            1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.1,
+            0.26,
+            0.8
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.32,
+            0.06,
+            0.66,
+            0.5
+          ],
+          "fill": "@ink",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 12
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.32,
+            0.6,
+            0.66,
+            0.18
+          ],
+          "fill": "@accent",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 6
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.32,
+            0.82,
+            0.66,
+            0.16
+          ],
+          "fill": "@ink",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 3.4
+          },
+          "bind": "phone"
+        }
+      ]
+    },
+    {
+      "id": "band-stripe",
+      "product": "banner",
+      "name": "Band",
+      "category": "events",
+      "palette": {
+        "primary": "#F4F1EA",
+        "accent": "#2F6FED",
+        "ink": "#172033"
+      },
+      "sample": {
+        "name": "MARLOW FEED",
+        "line2": "WEEKEND SALE",
+        "phone": "334-555-0155",
+        "web": "marlowfeed.example"
+      },
+      "font": "oswald",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Band",
+          "region": "art",
+          "box": [
+            0,
+            0.3,
+            1,
+            0.4
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.27,
+            0.96,
+            0.47
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 14
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.0,
+            1,
+            0.2
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 6
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.8,
+            0.5,
+            0.18
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 3.4
+          },
+          "bind": "phone"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.5,
+            0.8,
+            0.5,
+            0.18
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 3.4
+          },
+          "bind": "web"
+        }
+      ]
+    },
+    {
+      "id": "badge-star",
+      "product": "banner",
+      "name": "Badge",
+      "category": "business",
+      "palette": {
+        "primary": "#101820",
+        "accent": "#E10600",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "MILE MARKER",
+        "line2": "AUTO REPAIR",
+        "phone": "334-555-0181",
+        "web": "milemarker.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "badge",
+          "name": "Seal",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.0,
+            0.3,
+            1.0
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.04,
+            0.2,
+            0.22,
+            0.6
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.33,
+            0.06,
+            0.65,
+            0.5
+          ],
+          "fill": "@ink",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 12
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.33,
+            0.6,
+            0.65,
+            0.18
+          ],
+          "fill": "@accent",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 6
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.33,
+            0.82,
+            0.65,
+            0.16
+          ],
+          "fill": "@ink",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 3.4
+          },
+          "bind": "phone"
+        }
+      ]
+    }
+  ]
+}

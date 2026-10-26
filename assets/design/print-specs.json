@@ -1,0 +1,575 @@
+{
+  "schema": 1,
+  "about": "True artwork sizes for the online designer, in inches. Every row has a source or a status. status TODO_SPEC means the real number has not been measured yet: a placeholder keeps the preview working and must be replaced from the printer template before print export ships. status UX_DEFAULT means a design choice, not a printer spec. No printer names, links or money figures belong in this file: the repo must not name suppliers. A source of \"printer template\" means the printer's published template or spec page; the list of pages is kept outside the repo.",
+  "dpi": {
+    "green_min": 150,
+    "amber_min": 100,
+    "status": "UX_DEFAULT",
+    "note": "Badge colors for placed images: green at or above green_min, amber at or above amber_min, red below. Effective dpi = image pixel width / placed width in inches."
+  },
+  "read_rule": {
+    "ft_per_cap_inch": 10,
+    "status": "UX_DEFAULT",
+    "note": "Sign-industry rule of thumb: about 1 inch of letter height for every 10 ft of viewing distance. Used only for the 'hard to read' note."
+  },
+  "products": {
+    "canopy": {
+      "variant_by": [],
+      "sides": 4,
+      "overlays": [
+        "trim",
+        "safe",
+        "valance_line",
+        "roof"
+      ],
+      "variants": {
+        "*": {
+          "artboard": {
+            "w": 119,
+            "h": 84.28,
+            "source": "printer template",
+            "note": "Each of the 4 sides is a separate 119 x 84.28 in panel (peak and valance in one piece)."
+          },
+          "bleed": {
+            "in": 0,
+            "source": "printer template",
+            "note": "The printer's template is the artboard. Fill it to the edge."
+          },
+          "safe": {
+            "w": 115,
+            "h": 78.85,
+            "x": 2,
+            "y": 2.715,
+            "source": "printer template",
+            "note": "w and h are from the template. x and y assume the safe zone is centered."
+          },
+          "dpi": {
+            "target": 150,
+            "source": "printer template"
+          },
+          "valance_line": {
+            "y": 76.28,
+            "status": "TODO_SPEC",
+            "note": "Placeholder: an 8 in valance. Take the real line from the printer's canopy template guide layer."
+          },
+          "roof": {
+            "shape": "triangle",
+            "apex_x": 59.5,
+            "apex_y": 0,
+            "status": "TODO_SPEC",
+            "note": "Placeholder triangle from the top center to both ends of the valance line. Replace with the template's peak outline."
+          },
+          "min_cap_in": {
+            "value": 4,
+            "status": "UX_DEFAULT",
+            "applies_to": "valance",
+            "source": "designer spec 5.3"
+          }
+        }
+      },
+      "other_pieces": {
+        "back_wall": {
+          "w": 115.07,
+          "h": 80.07,
+          "source": "printer template",
+          "safe": {
+            "status": "TODO_SPEC"
+          },
+          "phase": 3
+        },
+        "half_wall": {
+          "w": 115.07,
+          "h": 41.07,
+          "source": "printer template",
+          "safe": {
+            "status": "TODO_SPEC"
+          },
+          "phase": 3
+        }
+      }
+    },
+    "feather": {
+      "variant_by": [
+        "height"
+      ],
+      "sides": 1,
+      "print_through": true,
+      "overlays": [
+        "trim",
+        "safe",
+        "outline",
+        "sleeve"
+      ],
+      "variants": {
+        "10.5": {
+          "artboard": {
+            "w": 24,
+            "h": 104,
+            "source": "printer template"
+          },
+          "bleed": {
+            "in": 0,
+            "source": "printer template"
+          },
+          "safe": {
+            "inset": 1.5,
+            "status": "TODO_SPEC",
+            "note": "Placeholder inset. Use the template's inner line."
+          },
+          "dpi": {
+            "target": 150,
+            "source": "printer template"
+          },
+          "outline": {
+            "shape": "feather",
+            "status": "TODO_SPEC",
+            "note": "Placeholder curve. Trace the Single Sided Print Thru template for this size."
+          },
+          "pole_sleeve_in": {
+            "value": 2.5,
+            "status": "TODO_SPEC"
+          },
+          "min_cap_in": {
+            "value": 4,
+            "status": "UX_DEFAULT"
+          }
+        },
+        "14": {
+          "artboard": {
+            "w": 28,
+            "h": 138,
+            "source": "printer template"
+          },
+          "bleed": {
+            "in": 0,
+            "source": "printer template"
+          },
+          "safe": {
+            "inset": 1.5,
+            "status": "TODO_SPEC",
+            "note": "Placeholder inset. Use the template's inner line."
+          },
+          "dpi": {
+            "target": 150,
+            "source": "printer template"
+          },
+          "outline": {
+            "shape": "feather",
+            "status": "TODO_SPEC",
+            "note": "Placeholder curve. Trace the Single Sided Print Thru template for this size."
+          },
+          "pole_sleeve_in": {
+            "value": 2.5,
+            "status": "TODO_SPEC"
+          },
+          "min_cap_in": {
+            "value": 4,
+            "status": "UX_DEFAULT"
+          }
+        },
+        "18": {
+          "artboard": {
+            "w": 24,
+            "h": 183.5,
+            "source": "printer template"
+          },
+          "bleed": {
+            "in": 0,
+            "source": "printer template"
+          },
+          "safe": {
+            "inset": 1.5,
+            "status": "TODO_SPEC",
+            "note": "Placeholder inset. Use the template's inner line."
+          },
+          "dpi": {
+            "target": 150,
+            "source": "printer template"
+          },
+          "outline": {
+            "shape": "feather",
+            "status": "TODO_SPEC",
+            "note": "Placeholder curve. Trace the Single Sided Print Thru template for this size."
+          },
+          "pole_sleeve_in": {
+            "value": 2.5,
+            "status": "TODO_SPEC"
+          },
+          "min_cap_in": {
+            "value": 4,
+            "status": "UX_DEFAULT"
+          }
+        }
+      },
+      "outline_shapes": {
+        "feather": {
+          "status": "TODO_SPEC",
+          "note": "Placeholder outline in unit coordinates (x 0..1 left to right, y 0..1 top to bottom). The straight left edge is the pole sleeve side.",
+          "points": [
+            [
+              0,
+              0
+            ],
+            [
+              0.18,
+              0.012
+            ],
+            [
+              0.46,
+              0.07
+            ],
+            [
+              0.74,
+              0.19
+            ],
+            [
+              0.92,
+              0.36
+            ],
+            [
+              1,
+              0.58
+            ],
+            [
+              0.98,
+              0.8
+            ],
+            [
+              0.88,
+              0.94
+            ],
+            [
+              0.7,
+              0.995
+            ],
+            [
+              0.4,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    "yard": {
+      "variant_by": [],
+      "sides": "by_print",
+      "overlays": [
+        "trim",
+        "bleed",
+        "safe",
+        "grass_line"
+      ],
+      "variants": {
+        "*": {
+          "artboard": {
+            "w": 24,
+            "h": 18,
+            "source": "printer template",
+            "note": "Sold as an 18x24 sign, laid out 24 wide by 18 tall. This is the trim size."
+          },
+          "bleed": {
+            "in": 0.125,
+            "source": "printer template",
+            "note": "Bleed for the print profile that needs it (24.25 x 18.25 in). Other profiles build at 24 x 18 with no bleed."
+          },
+          "safe": {
+            "inset": 1,
+            "status": "UX_DEFAULT",
+            "note": "Printers need 0.25 in. We keep 1 in clear."
+          },
+          "dpi": {
+            "target": 150,
+            "source": "printer template"
+          },
+          "grass_line": {
+            "h": 2,
+            "status": "TODO_SPEC",
+            "note": "Bottom ~2 in may sit in the ground. A guide, not a rule. Confirm with Scott."
+          },
+          "min_cap_in": {
+            "value": 3,
+            "status": "UX_DEFAULT",
+            "applies_to": "name",
+            "source": "designer spec 5.3"
+          }
+        }
+      },
+      "profiles": [
+        {
+          "profile": "with bleed",
+          "bleed": 0.125,
+          "artboard": {
+            "w": 24.25,
+            "h": 18.25
+          },
+          "source": "printer template"
+        },
+        {
+          "profile": "no bleed",
+          "bleed": 0,
+          "artboard": {
+            "w": 24,
+            "h": 18
+          },
+          "source": "printer template"
+        },
+        {
+          "profile": "second printer",
+          "status": "TODO_SPEC",
+          "note": "A second printer's yard sign spec has not been collected yet."
+        }
+      ]
+    },
+    "throw": {
+      "variant_by": [
+        "length"
+      ],
+      "sides": 1,
+      "overlays": [
+        "trim",
+        "safe"
+      ],
+      "table": {
+        "height_in": 30,
+        "hem_above_floor_in": 2,
+        "status": "UX_DEFAULT",
+        "note": "Standard folding table height. The visible front panel is the table height minus the hem gap."
+      },
+      "variants": {
+        "6": {
+          "artboard": {
+            "w": 72,
+            "h": 28,
+            "source": "printer template",
+            "note": "Editable area = the visible front panel of a 6 ft table. Top, sides and back use the background color."
+          },
+          "bleed": {
+            "in": 0,
+            "source": "printer template"
+          },
+          "safe": {
+            "inset": 1,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "source": "printer template"
+          },
+          "panel_in_template": {
+            "status": "TODO_SPEC",
+            "note": "Where the front panel sits inside the printer's template. Read from the template guides."
+          },
+          "min_cap_in": {
+            "value": 2,
+            "status": "UX_DEFAULT"
+          }
+        },
+        "8": {
+          "artboard": {
+            "w": 96,
+            "h": 28,
+            "source": "printer template",
+            "note": "Editable area = the visible front panel of an 8 ft table."
+          },
+          "bleed": {
+            "in": 0,
+            "source": "printer template"
+          },
+          "safe": {
+            "inset": 1,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "source": "printer template"
+          },
+          "panel_in_template": {
+            "status": "TODO_SPEC",
+            "note": "Where the front panel sits inside the printer's template. Read from the template guides."
+          },
+          "min_cap_in": {
+            "value": 2,
+            "status": "UX_DEFAULT"
+          }
+        }
+      },
+      "template_sizes": {
+        "6-3": {
+          "w": 128.5,
+          "h": 65,
+          "finished": {
+            "w": 126,
+            "h": 62.25
+          },
+          "source": "printer template"
+        },
+        "6-4": {
+          "w": 127.51,
+          "h": 85.01,
+          "finished": {
+            "w": 126,
+            "h": 83.5
+          },
+          "source": "printer template"
+        },
+        "8-3": {
+          "w": 153.5,
+          "h": 65.25,
+          "finished": {
+            "w": 150,
+            "h": 62.25
+          },
+          "source": "printer template"
+        },
+        "8-4": {
+          "w": 151.51,
+          "h": 85.01,
+          "finished": {
+            "w": 150,
+            "h": 83.5
+          },
+          "source": "printer template"
+        }
+      }
+    },
+    "banner": {
+      "variant_by": [
+        "size"
+      ],
+      "sides": 1,
+      "overlays": [
+        "trim",
+        "bleed",
+        "safe",
+        "grommets"
+      ],
+      "variants": {
+        "2x4": {
+          "artboard": {
+            "w": 48,
+            "h": 24,
+            "source": "product listing"
+          },
+          "bleed": {
+            "in": 0.125,
+            "source": "printer template",
+            "note": "Some print profiles add 0.125 in bleed and others build at the exact size. We keep 0.125 in."
+          },
+          "safe": {
+            "inset": 2,
+            "source": "printer spec sheet",
+            "note": "Keeps type away from the hems and grommets."
+          },
+          "dpi": {
+            "target": 100,
+            "source": "printer spec sheet",
+            "note": "The file-spec table allows 100 to 150 dpi."
+          },
+          "grommets": {
+            "every_in": 24,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 2,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "3x6": {
+          "artboard": {
+            "w": 72,
+            "h": 36,
+            "source": "product listing"
+          },
+          "bleed": {
+            "in": 0.125,
+            "source": "printer template"
+          },
+          "safe": {
+            "inset": 2,
+            "source": "printer spec sheet"
+          },
+          "dpi": {
+            "target": 100,
+            "source": "printer spec sheet"
+          },
+          "grommets": {
+            "every_in": 24,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 2,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "4x8": {
+          "artboard": {
+            "w": 96,
+            "h": 48,
+            "source": "product listing"
+          },
+          "bleed": {
+            "in": 0.125,
+            "source": "printer template"
+          },
+          "safe": {
+            "inset": 2,
+            "source": "printer spec sheet"
+          },
+          "dpi": {
+            "target": 100,
+            "source": "printer spec sheet"
+          },
+          "grommets": {
+            "every_in": 24,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 2,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "3x10": {
+          "artboard": {
+            "w": 120,
+            "h": 36,
+            "source": "product listing"
+          },
+          "bleed": {
+            "in": 0.125,
+            "source": "printer template"
+          },
+          "safe": {
+            "inset": 2,
+            "source": "printer spec sheet"
+          },
+          "dpi": {
+            "target": 100,
+            "source": "printer spec sheet"
+          },
+          "grommets": {
+            "every_in": 24,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 2,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        }
+      },
+      "dpi_override": {
+        "green_min": 100,
+        "amber_min": 72,
+        "status": "UX_DEFAULT",
+        "note": "The banner file spec allows 100 to 150 dpi, so 100 dpi is green here."
+      }
+    }
+  }
+}

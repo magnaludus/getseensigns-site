@@ -1,0 +1,18 @@
+{
+  "id": "badge-star",
+  "product": "yard",
+  "name": "Badge",
+  "category": "business",
+  "palette": {"primary": "#1E3A2F", "accent": "#D6F25C", "ink": "#F4FFE0"},
+  "sample": {"name": "PINE HOLLOW", "line2": "DAYCARE", "phone": "334-555-0171", "web": "pinehollow.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "star", "name": "Star left", "region": "safe", "box": [0.04, 0.16, 0.16, 0.22], "fill": "@accent", "square": true},
+    {"type": "shape", "kind": "star", "name": "Star right", "region": "safe", "box": [0.8, 0.16, 0.16, 0.22], "fill": "@accent", "square": true},
+    {"type": "shape", "kind": "badge", "name": "Seal", "region": "safe", "box": [0.3, 0.0, 0.4, 0.54], "fill": "@accent", "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.36, 0.06, 0.28, 0.42], "square": true},
+    {"type": "text", "region": "safe", "box": [0, 0.58, 1, 0.24], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 5}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.1, 0.84, 0.8, 0.12], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2.6}, "bind": "line2"}
+  ]
+}

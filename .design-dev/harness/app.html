@@ -1,0 +1,16 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>designer harness</title>
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/design/editor.css">
+<script type="importmap">{"imports":{"three":"/assets/design/vendor/three.module.min.js"}}</script>
+<body>
+<div id="designer" class="designer" data-assets="/assets/design/"></div>
+<script type="module">
+import { boot } from '/assets/design/app.js';
+const root = document.getElementById('designer');
+const q = new URLSearchParams(location.search);
+if (q.get('product')) root.dataset.product = q.get('product');
+boot(root);
+</script>

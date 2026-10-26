@@ -1,0 +1,16 @@
+{
+  "id": "band-stripe",
+  "product": "feather",
+  "name": "Band",
+  "category": "events",
+  "palette": {"primary": "#3D1020", "accent": "#F2C14E", "ink": "#FFFFFF"},
+  "sample": {"name": "COPPER LINE", "line2": "COFFEE BAR", "phone": "334-555-0166", "web": "copperline.example"},
+  "font": "oswald",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Band", "region": "art", "box": [0, 0.36, 1, 0.27], "fill": "@accent"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "body", "box": [0.05, 0.0, 0.65, 0.27], "square": true},
+    {"type": "text", "region": "body", "box": [0, 0.31, 1, 0.5], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 8}, "bind": "name"},
+    {"type": "text", "region": "foot", "box": [0, 0.1, 1, 0.55], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 6}, "bind": "line2"}
+  ]
+}

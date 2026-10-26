@@ -12,6 +12,16 @@ Cloudflare Pages publishes `main` automatically about a minute after every merge
 | `src/seo_pages.py` | Local landing pages, blog posts and the gameday page. |
 | `src/site-src-index.tpl.html` | Home page body (between `<main>` and `</main>`). |
 | `src/site-src-pages.py` | Builds every HTML page, sitemap.xml, robots.txt and 404.html. Shared head, nav, footer and the shipping schema (`shipping_details`, `TRANSIT`, `RETURNS`). |
+| `src/design_catalog.json` | Designer products, option groups, fonts, palettes and scenes. Prices are not stored here. |
+| `src/design_catalog.py` | Builds `assets/design/catalog.json`, `print-specs.json` and `templates.json`. Copies each option's price from `seo_products.py` `offer_rows`; the build stops if an offer string does not match, a combination has no price, a template uses a blocklisted name, or a sample phone number is not a 555-01xx number. |
+| `src/design_print_specs.json` | True artwork sizes in inches for every product and option. Each row has a `source` or a status (`TODO_SPEC` or `UX_DEFAULT`). |
+| `src/design_templates/*.json` | The 20 starting layouts (4 per product). Fictional sample words only. |
+| `src/design_blocklist.txt` | Names that must never appear in a template or in the designer's wording. |
+| `src/design_pages.py` | Titles, descriptions, headings, copy and FAQs for `/design/` and the five `/design/<product>/` pages. |
+| `assets/design/` | The designer: plain ES modules and CSS, no build step. `vendor/three.module.min.js` (Three.js, MIT) loads only when the 3D view opens. `catalog.json`, `print-specs.json` and `templates.json` are generated. |
+| `functions/api/design-proof.js`, `functions/api/design-event.js` | Optional Pages Functions for proof requests and anonymous usage counts. Both are off unless their flag is `true`. |
+| `src/tools/design_events_report.py` | Summarises exported usage events. Not deployed. |
+| `.design-dev/` | Tests, screenshots, Lighthouse runner and the Three.js vendor build. Not deployed (the deploy skips dot-directories). See `.design-dev/README.md`. |
 | `assets/style.css` | CSS source. It is inlined into every page at build time, so a style change needs a rebuild. |
 | `assets/` | Images, fonts (Barlow, OFL) and brand files, already built. |
 
@@ -35,6 +45,70 @@ Then check `git diff`: only the pages you meant to change should differ.
 - Keep the sitemap entry and breadcrumb for every page. Keep `privacy.html` as the file name (it serves at /privacy).
 - Never hand-edit a built page; the next rebuild overwrites it. Edit `src/` and rebuild.
 - Nothing private goes in this repo: no costs, margins, supplier names or quotes, passwords, tokens or account details.
+
+## Online designer (`/design/`)
+
+Customers pick a product, pick a template, change the words, colors and font right on the picture, add a logo, turn the product around in 3D, and send a free proof request. The preview is not a print file and there is no checkout. Nothing prints until they approve the real proof (within 12 hours, 7 days a week, 3 revisions).
+
+`/design/` is a plain list of the five products. Each product has its own page, `/design/<slug>/`, where the editor loads: `canopy-tent`, `feather-flag`, `yard-signs`, `table-throw`, `vinyl-banner`. Old `/design/?product=<id>` links redirect to the right page. A link with `#d=...` opens a shared design (those pages are marked `noindex`).
+
+Sample words in the templates are fictional, phone numbers are 555-01xx, and web addresses use `name.example`. Do not put real team, school, league or brand names in them; the build stops if one from `src/design_blocklist.txt` appears.
+
+### Change something
+
+- **Prices.** Never here. Change Etsy first, then `seo_products.py`, then rebuild. Every option's price on the designer page comes from the matching `offer_rows` string, and the server recomputes the total from the same catalog.
+- **A template.** Copy a file in `src/design_templates/`, change the words, fractions and colors, and add its id to the product's `templates` list in `src/design_catalog.json`. Boxes are fractions of the product's regions (`art`, `trim`, `safe`, plus `peak`, `valance` and `valancebar` on the canopy and `head`, `body` and `foot` on the feather flag). Text can be `fit` to a box and `bind` to the customer's name, second line, phone or web address.
+- **A print size or guide.** Edit `src/design_print_specs.json`. Rows marked `TODO_SPEC` are placeholders so the preview works; they must be replaced from the printer's template before print files are made: the canopy valance line and roof triangle, the feather flag outline, safe inset and pole sleeve, the yard sign grass line and a second printer's yard sign spec, and where the table throw's front panel sits in the printer's template. A source of `printer template` means the printer's published template or spec page. Do not write printer names or links in this file: the repo must not name suppliers, and the build stops if it finds a link. Rows marked `UX_DEFAULT` are our own design choices (minimum letter heights, DPI colors, grommet spacing).
+- **A product.** It needs offer rows in `seo_products.py`, an entry in `src/design_catalog.json`, a print spec, templates, an entry in `src/design_pages.py` and a 3D model in `assets/design/three/models/`.
+- **Quantity.** Yard signs are fixed packs (5 to 100). Everything else allows 1 to 20 and the total is the listed price times the count; multi-buy discounts are not modelled. Rush and bundle discounts are switched off in the catalog (`rush.enabled`, `bundles.enabled`) until Scott sets them.
+
+### What the page does when it loads
+
+The first paint needs the page HTML, one stylesheet (inlined) and about 80 KB of gzipped modules. Three.js, the product models and the scenes are fetched only when the customer opens the 3D view (the code is fetched a moment earlier if they point at or touch the 3D button). If WebGL is missing, the phone is short on memory, or the 3D view takes more than 4 seconds to start, the page shows a flat "simple view" instead and says so. Editing and sending a proof never depend on 3D.
+
+### Scenes
+
+The 3D view has three scenes: `studio` (plain sweep), `yard` (front lawn) and `storefront` (strip-mall sidewalk). In Phase 1 they are drawn in code, so no photos are needed. To use a photo instead of a drawn scene:
+
+1. Save the photo twice as `assets/design/scenes/<name>-2048.webp` and `assets/design/scenes/<name>-1024.webp` (long edge exactly 2048 and 1024 px, 3:2 landscape, WebP, sRGB, no transparency).
+2. In `src/design_catalog.json`, set the scene's `"plate"` to `"<name>"`.
+3. Add a one-line credit to `assets/design/scenes/CREDITS.md`, for example `yard: generated by Get Seen Signs`.
+4. Rebuild. The build stops if a named plate file is missing.
+
+The photo becomes the background. The product turns in front of it on an invisible floor that catches its shadow, and the camera can tilt from 3 to 30 degrees. If a photo fails to load, the drawn scene stays. Prompts for the photos, and what a good plate looks like, are in `.design-dev/scene-plate-prompts.md`. The three Phase 2 scenes in the spec (`range`, `gunshow`, `ballfield`) need a drawn version or a plate before they can be listed in `design_catalog.json`.
+
+### Sending a proof request
+
+The form posts to `POST /api/design-proof` (the design as JSON, the customer's details, a preview PNG per side and any logo files). Until that function is switched on it answers 503 and the page uses the fallback, which needs no server:
+
+- It downloads `getseen-design-GS-XXXXXXXX.zip` with the previews, the design file, the logo and a plain-text summary.
+- It opens a `mailto:sales@getseensignsco.com` message with the summary and the same `GS-XXXXXXXX` reference.
+- The customer attaches the zip. Browsers cannot attach files to a mailto link for them.
+
+"Rather have us design it" sends only the short form (the wording, the products and a link to their website or logo).
+
+### Turn on the Pages Function
+
+Do this in the Cloudflare account that already hosts the site. Do not create a new service, and do not put secrets in the repo. Leave the flag off and the site still deploys; the mailto path keeps working.
+
+1. Create a private R2 bucket, for example `getseen-design-proofs`. Do not turn on public access or r2.dev.
+2. Pages project → Settings → Bindings → add an R2 bucket binding. Variable name: `PROOFS`.
+3. Optional email, using Cloudflare Email Routing on `getseensignsco.com` (no extra product to buy):
+   - Verify the destination mailbox `sales@getseensignsco.com`.
+   - Add a `send_email` binding named `SEND_EMAIL` that is allowed to send to that mailbox. If Pages does not offer that binding type in your account, skip it: the function then stores every request in the bucket and tells the customer to use the email fallback (it returns `emailed: false`), so nothing is lost.
+4. Pages → Settings → Environment variables, for Production (and Preview if you want to try it there):
+   - `DESIGN_PROOF_ENABLED` = `true`
+   - `DESIGN_PROOF_TO` = `sales@getseensignsco.com`
+   - `DESIGN_PROOF_FROM` = an address on this domain that Email Routing can send as, for example `proofs@getseensignsco.com`
+5. Redeploy (a merge to `main` does that).
+
+While the flag is anything other than `true`, `POST /api/design-proof` returns `{"ok":false,"enabled":false}` with status 503. When it is on, the function checks every field, recomputes the price from the catalog, stores the files in the private bucket at `design-proofs/YYYY-MM-DD/<ref>/` (`design.json`, `preview-<n>.png`, `logo-<n>.*`, then `request.json` last, so a folder without it is a failed upload) and emails a summary when `SEND_EMAIL`, `DESIGN_PROOF_TO` and `DESIGN_PROOF_FROM` are all set. Previews and logos are attached while together under about 1.5 MB. The page shows success only when the email went out. If the request was stored but the email did not send, the customer gets the zip and mailto fallback, with the reference the server made. Nothing keeps an IP address, cookie or user agent.
+
+The bucket holds customer names, emails, phone numbers and artwork. Keep it private. The function allows 8 requests an hour per address, counted in memory on each server instance (the address is never stored); add a Cloudflare WAF rate-limiting rule on `/api/design-proof` if you want a hard limit.
+
+### Usage counts (off)
+
+`functions/api/design-event.js` collects anonymous event counts (designer started, template used, 3D opened, proof sent, errors) with no personal data. It is off in two places and both must be turned on: `DESIGN_EVENTS_CLIENT` near the top of the design section in `src/site-src-pages.py` (set it to `True` and rebuild so the pages send events) and `DESIGN_EVENTS_ENABLED` = `true` in Pages environment variables (the function stores them in the same `PROOFS` bucket under `events/`). To read them, download the `events/` folder and run `python3 src/tools/design_events_report.py <folder>`.
 
 ## Publishing
 

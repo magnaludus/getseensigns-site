@@ -1,0 +1,21 @@
+{
+  "name": "getseensigns-designer-dev",
+  "private": true,
+  "description": "Dev-only tooling for the online designer. Never deployed: the Pages deploy excludes dot-directories.",
+  "type": "module",
+  "scripts": {
+    "vendor": "node scripts/build-vendor.mjs",
+    "test:unit": "node --test \"tests/unit/*.test.mjs\"",
+    "test:e2e": "node --test --test-concurrency=1 \"tests/e2e/*.spec.mjs\"",
+    "shots": "node tests/e2e/shots.mjs",
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "test:3d": "node tests/e2e/three-harness.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.2",
+    "esbuild": "0.25.5",
+    "lighthouse": "12.6.1",
+    "playwright": "1.56.1",
+    "three": "0.186.1"
+  }
+}
