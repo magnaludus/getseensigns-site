@@ -99,6 +99,7 @@ export function specFor(specs, productId, choices) {
     out.sleeveWidthIn = v.pole_sleeve.width_in == null ? null : v.pole_sleeve.width_in;
     mark('pole_sleeve', v.pole_sleeve);
   }
+  if (v.flutes) out.flutes = v.flutes.direction;
   if (v.grass_line) {
     out.grassLineIn = v.grass_line.h;
     mark('grass_line', v.grass_line);

@@ -276,6 +276,33 @@ test('throw: front panel carries the art, the rest is base color, style 3 is ope
   }
 });
 
+test('yard: the flutes run vertically, so the cut top and bottom edges show them and the sides are solid', () => {
+  for (const pack of ['5', '25']) {
+    const { spec, model } = make('yard', { pack, print: '1' });
+    assert.equal(spec.flutes, 'vertical');
+    const { w, h } = spec.artboard;
+    const edges = [];
+    const sides = [];
+    model.group.traverse((o) => {
+      if (!o.isMesh) return;
+      if (o.material && o.material.map) edges.push(o);
+      else if (o.geometry.type === 'BoxGeometry' && Math.abs(o.geometry.parameters.height - h) < 1e-9) sides.push(o);
+    });
+    // every sign has a top and a bottom edge with the cross section, each as wide as the sign
+    const signs = 1 + G.packExtras(pack);
+    assert.equal(edges.length, 2 * signs, `${pack}: ${edges.length} flute edges`);
+    for (const e of edges) {
+      assert.equal(e.geometry.type, 'PlaneGeometry');
+      assert.ok(Math.abs(e.geometry.parameters.width - w) < 1e-9 && e.geometry.parameters.height < 0.5, 'a thin edge across the sign');
+      // about four flutes to the inch across the width
+      assert.ok(e.material.map.repeat.x > 3 * w && e.material.map.repeat.x < 5 * w, `flute repeat ${e.material.map.repeat.x}`);
+    }
+    // the two side edges of every sign run along the flutes and carry no cross section
+    assert.equal(sides.length, 2 * signs);
+    assert.ok(sides.every((s) => !s.material.map));
+  }
+});
+
 test('throw: the table under the cloth stays inside it at the rounded corners', () => {
   const { model } = make('throw', { length: '6', style: '3' });
   const cloth = model.pickables[0].geometry.attributes.position;

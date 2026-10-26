@@ -244,6 +244,9 @@ def build_print_specs(catalog):
                 vy = var['valance_line']['y']
                 if abs(roof['points'][0][1] - vy) > 0.05 or abs(roof['points'][-1][1] - vy) > 0.05:
                     _fail(f'{where} roof outline must start and end on the valance line (y {vy})')
+            flutes = (var.get('flutes') or {}).get('direction')
+            if flutes is not None and flutes != 'vertical':
+                _fail(f'{where} flutes: only vertical is drawn in 3D (the cut top and bottom edges show the cross section)')
             safe = var['safe']
             if 'x' in safe and not (safe['x'] >= 0 and safe['y'] >= 0 and safe['x'] + safe['w'] <= art['w'] + 0.01 and safe['y'] + safe['h'] <= art['h'] + 0.01):
                 _fail(f'{where} safe box must sit inside the artboard')

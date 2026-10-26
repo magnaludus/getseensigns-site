@@ -96,7 +96,7 @@
             "source": "printer template",
             "note": "Single Sided Print Thru. The points are the template's flag outline moved to the flag's top left corner. They start where the curved top meets the straight pole edge and run clockwise: the curve to the top tip, down the right edge, along the slanted bottom, and back up the pole edge."
           },
-          "pole_sleeve": {"side": "left", "width_in": null, "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page."},
+          "pole_sleeve": {"side": "left", "width_in": null, "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page. We sell the sleeve-left flag only; the reverse flag (sleeve on the right) is not sold, so only this outline is stored."},
           "min_cap_in": {"value": 4, "status": "UX_DEFAULT"}
         },
         "14": {
@@ -125,7 +125,7 @@
             "source": "printer template",
             "note": "Single Sided Print Thru. The points are the template's flag outline moved to the flag's top left corner. They start where the curved top meets the straight pole edge and run clockwise: the curve to the top tip, down the right edge, along the slanted bottom, and back up the pole edge."
           },
-          "pole_sleeve": {"side": "left", "width_in": null, "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page."},
+          "pole_sleeve": {"side": "left", "width_in": null, "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page. We sell the sleeve-left flag only; the reverse flag (sleeve on the right) is not sold, so only this outline is stored."},
           "min_cap_in": {"value": 4, "status": "UX_DEFAULT"}
         },
         "18": {
@@ -154,7 +154,7 @@
             "source": "printer template",
             "note": "Single Sided Print Thru. The points are the template's flag outline moved to the flag's top left corner. They start where the curved top meets the straight pole edge and run clockwise: the curve to the top tip, down the right edge, along the slanted bottom, and back up the pole edge. The template repeats one vertex 0.1 in up the right edge; it is dropped."
           },
-          "pole_sleeve": {"side": "left", "width_in": null, "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page."},
+          "pole_sleeve": {"side": "left", "width_in": null, "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page. We sell the sleeve-left flag only; the reverse flag (sleeve on the right) is not sold, so only this outline is stored."},
           "min_cap_in": {"value": 4, "status": "UX_DEFAULT"}
         }
       }
@@ -171,8 +171,9 @@
             "note": "Sold as an 18x24 sign, laid out 24 wide by 18 tall. This is the trim size."
           },
           "bleed": {"in": 0.125, "source": "printer template", "note": "Bleed for the print profile that needs it (24.25 x 18.25 in). Other profiles build at 24 x 18 with no bleed."},
-          "safe": {"inset": 1, "status": "UX_DEFAULT", "note": "Our choice. Neither printer publishes a safe inset; the nearest published numbers are 0.25 in for the first printer and 3/8 in for borders on a two-sided sign at the second. We keep 1 in clear."},
+          "safe": {"inset": 1, "status": "UX_DEFAULT", "note": "Our choice, confirmed: keep 1 in clear on every side. Neither printer publishes a safe inset; the nearest published numbers are 0.25 in for the first printer and 3/8 in for borders on a two-sided sign at the second."},
           "dpi": {"target": 150, "source": "printer template"},
+          "flutes": {"direction": "vertical", "status": "UX_DEFAULT", "note": "What we order: the flutes run vertically, parallel to the 18 in side of the 24 x 18 sign, so the H stake slides up into them from the bottom edge. It is an order choice at the printer, not a file setting."},
           "grass_line": {"h": 2, "status": "UX_DEFAULT", "note": "Our own guide, not a printer number: the bottom ~2 in may sit in the ground. Change it if the stakes go in deeper or shallower."},
           "min_cap_in": {"value": 3, "status": "UX_DEFAULT", "applies_to": "name", "source": "designer spec 5.3"}
         }
@@ -184,7 +185,7 @@
           "profile": "second printer", "bleed": 0, "artboard": {"w": 24, "h": 18}, "dpi_min": 100,
           "color_mode": "CMYK", "file_types": ["pdf"], "max_file_mb": 150,
           "source": "printer spec page",
-          "note": "From the printer's public product, design guide and FAQ pages; there is no downloadable 18 x 24 template. The size must match the order: either 24 wide x 18 tall or 18 wide x 24 tall. Bleed is added by the printer, so leave it out. PDF only, fonts outlined, images embedded. No safe inset is published. Flute direction is an order choice (vertical, horizontal or mixed), not a file setting."
+          "note": "From the printer's public product, design guide and FAQ pages; there is no downloadable 18 x 24 template. The size must match the order: either 24 wide x 18 tall or 18 wide x 24 tall. Bleed is added by the printer, so leave it out. PDF only, fonts outlined, images embedded. No safe inset is published. Flute direction is an order choice (vertical, horizontal or mixed), not a file setting; we order vertical."
         }
       ]
     },

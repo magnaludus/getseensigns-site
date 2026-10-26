@@ -401,7 +401,7 @@
           "pole_sleeve": {
             "side": "left",
             "width_in": null,
-            "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page."
+            "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page. We sell the sleeve-left flag only; the reverse flag (sleeve on the right) is not sold, so only this outline is stored."
           },
           "min_cap_in": {
             "value": 4,
@@ -582,7 +582,7 @@
           "pole_sleeve": {
             "side": "left",
             "width_in": null,
-            "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page."
+            "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page. We sell the sleeve-left flag only; the reverse flag (sleeve on the right) is not sold, so only this outline is stored."
           },
           "min_cap_in": {
             "value": 4,
@@ -763,7 +763,7 @@
           "pole_sleeve": {
             "side": "left",
             "width_in": null,
-            "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page."
+            "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page. We sell the sleeve-left flag only; the reverse flag (sleeve on the right) is not sold, so only this outline is stored."
           },
           "min_cap_in": {
             "value": 4,
@@ -797,11 +797,16 @@
           "safe": {
             "inset": 1,
             "status": "UX_DEFAULT",
-            "note": "Our choice. Neither printer publishes a safe inset; the nearest published numbers are 0.25 in for the first printer and 3/8 in for borders on a two-sided sign at the second. We keep 1 in clear."
+            "note": "Our choice, confirmed: keep 1 in clear on every side. Neither printer publishes a safe inset; the nearest published numbers are 0.25 in for the first printer and 3/8 in for borders on a two-sided sign at the second."
           },
           "dpi": {
             "target": 150,
             "source": "printer template"
+          },
+          "flutes": {
+            "direction": "vertical",
+            "status": "UX_DEFAULT",
+            "note": "What we order: the flutes run vertically, parallel to the 18 in side of the 24 x 18 sign, so the H stake slides up into them from the bottom edge. It is an order choice at the printer, not a file setting."
           },
           "grass_line": {
             "h": 2,
@@ -849,7 +854,7 @@
           ],
           "max_file_mb": 150,
           "source": "printer spec page",
-          "note": "From the printer's public product, design guide and FAQ pages; there is no downloadable 18 x 24 template. The size must match the order: either 24 wide x 18 tall or 18 wide x 24 tall. Bleed is added by the printer, so leave it out. PDF only, fonts outlined, images embedded. No safe inset is published. Flute direction is an order choice (vertical, horizontal or mixed), not a file setting."
+          "note": "From the printer's public product, design guide and FAQ pages; there is no downloadable 18 x 24 template. The size must match the order: either 24 wide x 18 tall or 18 wide x 24 tall. Bleed is added by the printer, so leave it out. PDF only, fonts outlined, images embedded. No safe inset is published. Flute direction is an order choice (vertical, horizontal or mixed), not a file setting; we order vertical."
         }
       ]
     },

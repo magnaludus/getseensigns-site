@@ -165,6 +165,25 @@ test('yard sign: second printer file rules are recorded and nothing is left as a
   assert.deepEqual(s.placeholders, []);
 });
 
+test('yard sign: 1 in safe zone on every side and vertical flutes, both confirmed', () => {
+  const s = specFor(specs, 'yard', { pack: '5', print: '1' });
+  assert.deepEqual(s.safe, { x: 1, y: 1, w: 22, h: 16 });
+  assert.equal(s.safePoly, undefined, 'a plain box, no outline');
+  // flutes run parallel to the 18 in side of the 24 x 18 sign, so the H stake slides up into them
+  assert.equal(s.flutes, 'vertical');
+  assert.ok(s.artboard.w > s.artboard.h, 'landscape');
+  assert.match(specs.products.yard.variants['*'].flutes.note, /parallel to the 18 in side/);
+});
+
+test('feather flag: sleeve on the left only, the reverse flag is not sold', () => {
+  for (const [key, v] of Object.entries(specs.products.feather.variants)) {
+    assert.equal(v.outline.pole_side, 'left', key);
+    assert.equal(v.pole_sleeve.side, 'left', key);
+    assert.match(v.pole_sleeve.note, /reverse flag.*not sold/, key);
+  }
+  for (const height of ['10.5', '14', '18']) assert.equal(specFor(specs, 'feather', { height, base: 'spike' }).poleSide, 'left');
+});
+
 test('the print spec file carries no supplier links or names that look like links', () => {
   const text = JSON.stringify(specs);
   assert.ok(!/https?:|www\.|\.com\b/i.test(text));
