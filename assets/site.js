@@ -29,3 +29,53 @@
     say('Your email app should open with everything filled in. Just hit send. Nothing opened? Email sales@getseensignsco.com.');
   });
 })();
+
+// Mobile chat control. Direct text, WhatsApp and phone links. Hidden on the designer
+// and whenever it would sit on a quote, order or proof button. No analytics.
+(function(){
+  var root=document.getElementById('reach');
+  if(!root) return;
+  var path=location.pathname;
+  if(path==='/design' || path.indexOf('/design/')===0){ root.remove(); return; }
+  var ticking=false;
+  function zone(){
+    var vv=window.visualViewport;
+    var h=vv?vv.height:window.innerHeight;
+    var w=vv?vv.width:window.innerWidth;
+    var top=vv?vv.offsetTop:0;
+    var left=vv?vv.offsetLeft:0;
+    return {left:left+w-168, right:left+w-4, top:top+h-96, bottom:top+h-4};
+  }
+  function overlaps(a,b){ return a.left<b.right && a.right>b.left && a.top<b.bottom && a.bottom>b.top; }
+  function check(){
+    ticking=false;
+    var show=window.matchMedia('(max-width: 760px) and (min-height: 481px)').matches;
+    if(!show){ root.classList.remove('is-clear'); root.removeAttribute('inert'); return; }
+    var box=zone();
+    var nodes=document.querySelectorAll('.cta-row .btn, .quote-form .btn, .buy, .dz-cta, .card-cta');
+    var cover=false;
+    for(var i=0;i<nodes.length;i++){
+      var r=nodes[i].getBoundingClientRect();
+      if(r.width<1 || r.height<1) continue;
+      if(overlaps(r, box)){ cover=true; break; }
+    }
+    root.classList.toggle('is-clear', cover);
+    if(cover){ root.open=false; root.setAttribute('inert',''); }
+    else root.removeAttribute('inert');
+  }
+  function schedule(){ if(!ticking){ ticking=true; requestAnimationFrame(check); } }
+  window.addEventListener('scroll', schedule, {passive:true});
+  window.addEventListener('resize', schedule);
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', schedule);
+    window.visualViewport.addEventListener('scroll', schedule);
+  }
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape' && root.open){
+      root.open=false;
+      var sum=root.querySelector('summary');
+      if(sum) sum.focus();
+    }
+  });
+  check();
+})();

@@ -18,6 +18,13 @@ DESIGN_SLUGS={p['page']:p['slug'] for p in DESIGN_PRODUCTS}  # product page slug
 # set this to True and rebuild (see src/README.md). While False the page makes no analytics requests.
 DESIGN_EVENTS_CLIENT=False
 e=html.escape
+# Public shop line. Same links are written into src/site-src-index.tpl.html and privacy.html.
+PHONE_DISPLAY='(334) 232-9003'
+PHONE_E164='+13342329003'
+REACH_MSG='Hi, I have a question about a sign'
+TEL_HREF='tel:'+PHONE_E164
+SMS_HREF='sms:'+PHONE_E164+'?body='+urllib.parse.quote(REACH_MSG)
+WA_HREF='https://wa.me/'+PHONE_E164[1:]+'?text='+urllib.parse.quote(REACH_MSG)
 import re as _r0
 CSS=_r0.sub(r'\s*\n\s*','',open(SITE+'/assets/style.css').read()).replace('/*','\n/*')
 CSS=_r0.sub(r'/\*.*?\*/','',CSS,flags=_r0.S)
@@ -26,6 +33,7 @@ def org():
     return {"@type":"Organization","@id":ORG_ID,"name":"Get Seen Signs","legalName":"Veracity Solutions LLC",
       "url":BASE+"/","logo":BASE+"/assets/brand/getseen-stacked-for-dark-bg.svg","image":BASE+"/assets/og-image.jpg",
       "email":"sales@getseensignsco.com",
+      "telephone":PHONE_DISPLAY,
       "description":"Veteran-owned, family-run online sign shop in Smiths Station, Alabama. Custom yard signs, banners, feather flags, retractable banners, car magnets, backdrops, table throws and canopy tents, made to order and shipped.",
       "address":{"@type":"PostalAddress","addressLocality":"Smiths Station","addressRegion":"AL","addressCountry":"US"},
       "areaServed":[{"@type":"Country","name":"United States"}]+[{"@type":"City","name":a} for a in AREAS],
@@ -112,8 +120,31 @@ NAV='''<header class="nav">
   </div>
 </header>
 '''
-def foot():
+def reach_chips():
+    return (
+      '<div class="reach-block"><p class="reach-note">Or message us</p><p class="reach-links">'
+      f'<a href="{TEL_HREF}" aria-label="Call {PHONE_DISPLAY}">Call {PHONE_DISPLAY}</a>'
+      f'<a href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">Text us</a>'
+      f'<a href="{WA_HREF}" rel="noopener" aria-label="Chat with Get Seen Signs on WhatsApp">Chat on WhatsApp</a>'
+      '</p></div>')
+def reach_sentence():
+    return (f'Call or text <a href="{TEL_HREF}">{PHONE_DISPLAY}</a>, '
+            f'<a href="{SMS_HREF}">text us</a>, or '
+            f'<a href="{WA_HREF}" rel="noopener">chat on WhatsApp</a>.')
+def reach_fab():
+    return f'''<details class="reach" id="reach">
+  <summary class="reach-fab" aria-label="Message Get Seen Signs"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5 4h14a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2H9l-4 3.5V16.5H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg><span aria-hidden="true">Chat</span></summary>
+  <div class="reach-panel">
+    <p class="reach-kicker">Message us</p>
+    <a href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">Text us</a>
+    <a href="{WA_HREF}" rel="noopener" aria-label="Chat with Get Seen Signs on WhatsApp">Chat on WhatsApp</a>
+    <a href="{TEL_HREF}" aria-label="Call {PHONE_DISPLAY}">Call {PHONE_DISPLAY}</a>
+  </div>
+</details>
+'''
+def foot(chat=True):
     prods=''.join(f'<a href="/{p["slug"]}/">{p["name"]}</a>' for p in P)
+    fab=reach_fab() if chat else ''
     return f'''<footer class="foot">
   <div class="wrap foot-in">
     <div>
@@ -123,14 +154,14 @@ def foot():
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
       <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
-      <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/privacy">Privacy</a></div>
+      <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><a href="/#faq">FAQ</a><a href="/privacy">Privacy</a><p class="fh mt">Contact</p><a href="{TEL_HREF}" aria-label="Call {PHONE_DISPLAY}">{PHONE_DISPLAY}</a><a href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">Text us</a><a href="{WA_HREF}" rel="noopener" aria-label="Chat with Get Seen Signs on WhatsApp">Chat on WhatsApp</a><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a></div>
     </div>
   </div>
   <div class="wrap legal">
     <p>© <span id="yr">2026</span> Get Seen Signs. Get Seen Signs is a trade name of Veracity Solutions LLC.</p>
   </div>
 </footer>
-<script src="/assets/site.js" defer></script>
+{fab}<script src="/assets/site.js" defer></script>
 </body>
 </html>
 '''
@@ -161,7 +192,7 @@ def quote_cta(product_label, extra=''):
     return f'''<section class="sec yellow cta-band">
   <div class="wrap cta-band-in">
     <div><p class="eyebrow">Free proof · free shipping</p><h2>Need a custom size, a rush or a big order?</h2><p>Tell us what you need and we'll reply with a price and next steps, usually within 1 business day.{extra}</p></div>
-    <div class="cta-row"><a class="btn btn-ink" href="/?product={urllib.parse.quote_plus(product_label)}#quote">Get a quote <span aria-hidden="true">→</span></a><a class="btn btn-line" href="mailto:sales@getseensignsco.com?subject={urllib.parse.quote('Quote: '+product_label)}">Email us</a></div>
+    <div class="cta-stack"><div class="cta-row"><a class="btn btn-ink" href="/?product={urllib.parse.quote_plus(product_label)}#quote">Get a quote <span aria-hidden="true">→</span></a><a class="btn btn-line" href="mailto:sales@getseensignsco.com?subject={urllib.parse.quote('Quote: '+product_label)}">Email us</a></div>{reach_chips()}</div>
   </div>
 </section>'''
 def write(path, s):
@@ -477,11 +508,11 @@ def design_page(path, title, desc, h1, lede, items, pre_html, product_id, copy_h
 </section>
 </main>
 '''
-    page+=foot()
+    page+=foot(chat=False)
     page=page.replace('</body>',('' if hub else DESIGN_PRELOAD)+f'<script type="module" src="/assets/design/{"hub" if hub else "main"}.js"></script>\n</body>',1)
     write(path, page)
 
-NOSCRIPT='<noscript><p>The designer needs JavaScript. Email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a> and we will make the proof with you.</p></noscript>'
+NOSCRIPT='<noscript><p>The designer needs JavaScript. Email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a>. '+reach_sentence()+' We will make the proof with you.</p></noscript>'
 
 # hub: /design/ lists the five products as plain links. The editor itself lives on the product pages.
 _cards=''.join(
@@ -496,7 +527,8 @@ _hub_copy=(
   '<ol class="designer-steps"><li>Pick a product.</li><li>Choose a layout, then change the words, colors and font and add your logo.</li>'
   '<li>Turn it around in 3D to check every side.</li><li>Send it. We email '+DESIGN_PROOF+'. Nothing prints until you approve.</li></ol>'
   '<h2>What you can design</h2><p>'+', '.join(f'<a href="/design/{d["slug"]}/">{e(d["name"])}</a>' for d in DESIGN_PRODUCTS[:-1])+' and <a href="/design/'+DESIGN_PRODUCTS[-1]['slug']+'/">'+e(DESIGN_PRODUCTS[-1]['name'])+'</a>. Prices match our Etsy listings and shipping is free in the lower 48.</p>'
-  '<h2>Good to know</h2><p>The designer shows your words, colors and logo on the product. It is a preview, not the print file: we build that on your free proof. Your logo stays on your device until you send your proof request.</p>')
+  '<h2>Good to know</h2><p>The designer shows your words, colors and logo on the product. It is a preview, not the print file: we build that on your free proof. Your logo stays on your device until you send your proof request.</p>'
+  '<p>'+reach_sentence()+'</p>')
 design_page('/design/', DESIGN_HUB['title'], DESIGN_HUB['desc'], DESIGN_HUB['h1'], DESIGN_HUB['lede'],
             [('Home','/'),('Design online','/design/')], _hub_pre, '', _hub_copy, DESIGN_HUB['faqs'], hub=True)
 
@@ -505,7 +537,7 @@ for d in DESIGN_PRODUCTS:
     prod=BY[d['page']]
     secs=''.join(f'<h2>{e(h)}</h2><p>{e(t.format(price=money(design_start_price(d["page"])), proof=DESIGN_PROOF))}</p>' for h,t in d['sections'])
     others=''.join(f'<li><a href="/design/{o["slug"]}/">Design a {e(o["short"])}</a></li>' for o in DESIGN_PRODUCTS if o is not d)
-    copy=(secs+f'<p><a class="btn btn-y" href="/{d["page"]}/">See the {e(d["short"])} page</a></p>'
+    copy=(secs+f'<p>{reach_sentence()}</p><p><a class="btn btn-y" href="/{d["page"]}/">See the {e(d["short"])} page</a></p>'
           +f'<h2>Design something else</h2><ul class="designer-more"><li><a href="/design/">All products</a></li>{others}</ul>')
     pre=f'<p class="designer-loading">Loading the designer…</p>{NOSCRIPT}'
     copy=f'<div class="designer-mock">{design_mock(d["page"], d["alt"])}</div>'+copy

@@ -300,3 +300,29 @@ h2{font-size:clamp(42px,5.6vw,76px)}
 .link-cloud a:hover{background:var(--y)}
 .phero .proof{margin:0 0 26px}
 .foot .fh{font-family:var(--hd);font-weight:900;text-transform:uppercase;color:#fff;font-size:18px;letter-spacing:.08em;margin:0 0 12px;line-height:.95}.foot-prods .fh{grid-column:1/-1}.foot .fh.mt{margin-top:14px}
+.foot a[href^="tel:"]{color:var(--y);font-weight:700}
+.cta-stack{display:grid;gap:14px;justify-items:start}
+.reach-block{margin-top:18px}
+.cta-stack .reach-block{margin-top:0}
+.reach-note{margin:0 0 8px;font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:15px}
+.reach-links{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.reach-links a{display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;background:var(--ink);color:var(--y);text-decoration:none;border:2px solid var(--ink);border-radius:8px;font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.03em;font-size:16px;line-height:1}
+.reach-links a:hover{background:#fff;color:var(--ink)}
+.yellow .reach-links a:focus-visible{outline-color:var(--ink)}
+.faq a{font-weight:700;text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:3px;text-underline-offset:3px}
+.reach{display:none}
+@media (max-width:760px) and (min-height:481px){
+  .reach{display:flex;flex-direction:column-reverse;align-items:flex-end;gap:8px;position:fixed;z-index:40;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 24px)}
+  .reach.is-clear{visibility:hidden}
+  .reach > summary{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 16px;background:var(--y);color:var(--ink);border:3px solid var(--ink);border-radius:999px;box-shadow:4px 4px 0 var(--ink);font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:17px;line-height:1;cursor:pointer;list-style:none}
+  .reach > summary::-webkit-details-marker{display:none}
+  .reach > summary:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+  .reach-panel{gap:6px;min-width:220px;padding:10px;background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--ink)}
+  .reach:not([open]) .reach-panel{display:none}
+  .reach[open] .reach-panel{display:grid}
+  .reach-kicker{margin:0 2px 2px;font-family:var(--hd);font-weight:900;text-transform:uppercase;letter-spacing:.06em;font-size:13px}
+  .reach-panel a{display:flex;align-items:center;min-height:44px;padding:8px 10px;border-radius:8px;text-decoration:none;font-weight:700;background:var(--paper);border:2px solid var(--ink)}
+  .reach-panel a:hover,.reach-panel a:focus-visible{background:var(--y)}
+  .reach-panel a:focus-visible{outline-color:var(--ink)}
+  body:has(.reach) .foot{padding-bottom:calc(28px + 72px + env(safe-area-inset-bottom,0px))}
+}
