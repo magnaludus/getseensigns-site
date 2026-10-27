@@ -154,7 +154,7 @@ def foot(chat=True):
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
       <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
-      <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/privacy">Privacy</a></div>
+      <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
     </div>
   </div>
   <div class="wrap legal">
@@ -545,10 +545,106 @@ for d in DESIGN_PRODUCTS:
     design_page(path, d['title'], d['desc'], d['h1'], d['lede'],
                 [('Home','/'),('Design online','/design/'),(f'Design a {d["short"]}',path)], pre, d['id'], copy, d['faqs'])
 
+# ---------- terms, privacy, contact ----------
+# Body copy for /terms and /privacy is the approved legal text in src/legal/.
+# Render it as written: same words, in the same order. Links are only on
+# addresses, the phone number, and the opt-out URL already in that text.
+def _legal_inline(s):
+    s=e(s)
+    s=_r0.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
+    s=s.replace('sales@getseensignsco.com', '<a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a>')
+    s=s.replace(PHONE_DISPLAY, f'<a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a>')
+    opt='tools.google.com/dlpage/gaoptout'
+    s=s.replace(opt, f'<a href="https://{opt}" rel="noopener noreferrer">{opt}</a>')
+    s=s.replace('text us', f'<a href="{SMS_HREF}" aria-label="Text Get Seen Signs at {PHONE_DISPLAY}">text us</a>')
+    s=s.replace('chat on WhatsApp', f'<a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat with Get Seen Signs on WhatsApp">chat on WhatsApp</a>')
+    return s
+def _legal_norm_md(md):
+    s=_r0.sub(r'^#{1,6} +', '', md, flags=_r0.M)
+    s=s.replace('**', '')
+    s=_r0.sub(r'^- +', '', s, flags=_r0.M)
+    return _r0.sub(r'\s+', ' ', s).strip()
+def _legal_norm_html(fragment):
+    s=_r0.sub(r'<[^>]+>', '', fragment)
+    return _r0.sub(r'\s+', ' ', html.unescape(s)).strip()
+def render_legal(md):
+    lines=md.replace('\r\n', '\n').strip('\n').split('\n')
+    out=[]
+    i=0
+    while i<len(lines):
+        line=lines[i]
+        if not line.strip():
+            i+=1
+            continue
+        if line.startswith('## '):
+            out.append(f'<h2>{_legal_inline(line[3:].strip())}</h2>')
+            i+=1
+            continue
+        if line.startswith('# '):
+            out.append(f'<h1>{_legal_inline(line[2:].strip())}</h1>')
+            i+=1
+            continue
+        if line.startswith('- '):
+            items=[]
+            while i<len(lines) and lines[i].startswith('- '):
+                items.append(f'<li>{_legal_inline(lines[i][2:].strip())}</li>')
+                i+=1
+            out.append('<ul>\n'+'\n'.join(items)+'\n</ul>')
+            continue
+        parts=[line.strip()]
+        i+=1
+        while i<len(lines) and lines[i].strip() and not lines[i].startswith('#') and not lines[i].startswith('- '):
+            parts.append(lines[i].strip())
+            i+=1
+        inner='<br>\n'.join(_legal_inline(p) for p in parts)
+        cls=' class="meta"' if parts[0].replace('**', '').lower().startswith('last updated') else ''
+        out.append(f'<p{cls}>{inner}</p>')
+    body='\n'.join(out)
+    got, want=_legal_norm_html(body), _legal_norm_md(md)
+    if got!=want:
+        for i,(a,b) in enumerate(zip(got, want)):
+            if a!=b:
+                raise SystemExit('legal mismatch %s: %r vs %r'%(i, got[max(0,i-70):i+90], want[max(0,i-70):i+90]))
+        raise SystemExit('legal mismatch length %s vs %s tail %r'%(len(got), len(want), (got[-80:], want[-80:])))
+    return body
+def write_doc(path, title, desc, body):
+    node={"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":title,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}
+    page=head(title, desc, path, ld(node))+NAV+f'<main id="main" class="doc">\n{body}\n</main>\n'+foot()
+    write(path+'.html', page)
+TERMS_MD=open(SRC+'/legal/terms.md', encoding='utf-8').read()
+PRIVACY_MD=open(SRC+'/legal/privacy.md', encoding='utf-8').read()
+write_doc('/terms', 'Terms of Service | Get Seen Signs',
+          'Terms of Service for orders placed with Get Seen Signs on getseensignsco.com.',
+          render_legal(TERMS_MD))
+write_doc('/privacy', 'Privacy Policy | Get Seen Signs',
+          'How Get Seen Signs handles the information you share with us.',
+          render_legal(PRIVACY_MD))
+_sms,_wa,_tel=reach_links()
+_call=f'<a class="btn btn-y btn-sm" href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">Call {PHONE_DISPLAY}</a>'
+_text=_sms.replace('<a ', '<a class="btn btn-ink btn-sm" ', 1)
+_whats=_wa.replace('<a ', '<a class="btn btn-line btn-sm" ', 1)
+CONTACT_BODY=f'''<h1>Contact</h1>
+<p>Get Seen Signs</p>
+<p>Smiths Station, AL</p>
+<p><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a></p>
+<p><a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a></p>
+<div class="reach">
+  <p class="reach-kicker">Text, WhatsApp or call</p>
+  <div class="cta-row">{_text}{_whats}{_call}</div>
+</div>
+<p>For a price on a custom order, use the quote form.</p>
+<p><a class="btn btn-ink" href="/#quote">Get a quote <span aria-hidden="true">→</span></a></p>'''
+if 'Scott' in CONTACT_BODY or _r0.search(r'\b(Street|Avenue|Road|Lane|Drive|Blvd|Boulevard)\b', CONTACT_BODY):
+    raise SystemExit('contact page has a personal name or a street address')
+write_doc('/contact', 'Contact | Get Seen Signs',
+          'Contact Get Seen Signs in Smiths Station, AL. Email sales@getseensignsco.com or call (334) 232-9003.',
+          CONTACT_BODY)
+
 # ---------- sitemap, robots ----------
 LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
-urls=['/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/privacy']
+LASTMOD['/terms']=LASTMOD['/privacy']=LASTMOD['/contact']='2026-10-27'
+urls=['/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/terms','/privacy','/contact']
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)
 open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
