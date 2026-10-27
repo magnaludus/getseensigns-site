@@ -300,3 +300,25 @@ h2{font-size:clamp(42px,5.6vw,76px)}
 .link-cloud a:hover{background:var(--y)}
 .phero .proof{margin:0 0 26px}
 .foot .fh{font-family:var(--hd);font-weight:900;text-transform:uppercase;color:#fff;font-size:18px;letter-spacing:.08em;margin:0 0 12px;line-height:.95}.foot-prods .fh{grid-column:1/-1}.foot .fh.mt{margin-top:14px}
+.foot a.foot-phone{color:#fff;font-weight:700}
+.reach{display:grid;gap:12px;margin-top:8px}
+.reach-kicker{font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:15px}
+.reach-row{display:flex;flex-wrap:wrap;gap:10px}
+.reach-line{margin-top:14px;font-weight:600;max-width:36em}
+.reach-line a{font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.yellow .reach-line a:hover{background:var(--ink);color:var(--y)}
+.chat-fab{display:none}
+.chat-fab-btn{display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:0 16px;background:var(--y);color:var(--ink);border:3px solid var(--ink);border-radius:999px;box-shadow:4px 4px 0 var(--ink);font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:18px;line-height:1;cursor:pointer}
+.chat-fab-btn:hover{transform:translateY(-2px)}
+.chat-fab-panel{display:grid;gap:8px;margin:0 0 10px;padding:12px;width:min(260px,calc(100vw - 24px));max-height:calc(100dvh - 140px);overflow:auto;background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink)}
+.chat-fab-panel[hidden]{display:none}
+.chat-fab-title{margin:0 2px 2px;font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:13px;color:var(--muted)}
+.chat-fab-panel a{display:flex;align-items:center;min-height:44px;padding:8px 12px;border-radius:10px;background:var(--paper);border:2px solid var(--ink);text-decoration:none;font-family:var(--hd);font-weight:800;text-transform:uppercase;letter-spacing:.03em;font-size:16px;line-height:1.1}
+.chat-fab-panel a:hover{background:var(--y)}
+.chat-fab.chat-fab-away{visibility:hidden;pointer-events:none}
+@media (max-width:760px){
+  .chat-fab{display:block;position:fixed;z-index:45;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));max-width:calc(100vw - 24px)}
+  body:has(.chat-fab) .foot{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  body:has(.designer) .chat-fab{display:none}
+}
+@media print{.chat-fab{display:none}}
