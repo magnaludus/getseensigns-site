@@ -210,12 +210,16 @@ h2{font-size:clamp(42px,5.6vw,76px)}
 .foot a:hover{color:var(--y)}
 .legal{border-top:1px solid rgba(255,255,255,.1);margin-top:40px;padding-top:22px;font-size:13.5px;color:#8D8A83}
 
-/* privacy page */
+/* privacy, terms, contact */
 .doc{max-width:760px;margin:0 auto;padding:70px 20px 90px}
 .doc h1{font-size:clamp(48px,7vw,80px);margin-bottom:10px}
 .doc h2{font-size:28px;margin:34px 0 10px}
 .doc p,.doc li{color:#33363C;margin-bottom:10px}
 .doc .meta{color:var(--muted);margin-bottom:24px}
+.doc ul{margin:6px 0 16px;padding-left:1.25em}
+.doc a{font-weight:600;text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:3px;text-underline-offset:3px}
+.doc .btn{text-decoration:none;font-weight:800}
+.doc .cta-row{margin:18px 0 22px}
 
 /* ===== SEO pages (product, local, guides) ===== */
 .paper2{background:var(--paper2)}

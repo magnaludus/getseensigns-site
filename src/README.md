@@ -42,7 +42,7 @@ Then check `git diff`: only the pages you meant to change should differ.
 - Keep `shippingDetails` (free US shipping) and `hasMerchantReturnPolicy` (MerchantReturnNotPermitted) on every Offer.
 - Site prices must match the live Etsy prices. Change Etsy first, then `seo_products.py`, then rebuild.
 - No trademarks: keep the line that buyers own the artwork they send and we don't print team names or logos.
-- Keep the sitemap entry and breadcrumb for every page. Keep `privacy.html` as the file name (it serves at /privacy).
+- Keep the sitemap entry and breadcrumb for every page. Keep `privacy.html`, `terms.html` and `contact.html` as the file names (they serve at /privacy, /terms and /contact). Terms and privacy body copy comes from `src/legal/terms.md` and `src/legal/privacy.md`. Do not reword that copy.
 - Never hand-edit a built page; the next rebuild overwrites it. Edit `src/` and rebuild.
 - Nothing private goes in this repo: no costs, margins, supplier names or quotes, passwords, tokens or account details.
 
