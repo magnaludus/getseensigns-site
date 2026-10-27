@@ -2,7 +2,8 @@
 // outside the safe zone. The customer can still send; we fix these on the proof.
 import { specFor, dpiLevel, effectiveDpi } from './specs.js';
 import { elementBox, isTooSmall, capHeight } from './layout.js';
-import { aabb } from './geometry.js';
+import { aabb, corners } from './geometry.js';
+import { boxInside } from './outline.js';
 import { effectiveSide } from './document.js';
 import { sideDisplay } from '../render/displaylist.js';
 import { lowContrastText } from './contrast.js';
@@ -37,10 +38,18 @@ export function collectWarnings(doc, env, assets) {
           }
         }
         if ((el.type === 'text' && String(el.text).trim()) || (el.type === 'image' && el.logoId)) {
-          const b = aabb(elementBox(el, env.measure, env.fonts));
-          const f = spec.safe;
+          const box = elementBox(el, env.measure, env.fonts);
           const eps = 0.05;
-          if (b.x < f.x - eps || b.y < f.y - eps || b.x + b.w > f.x + f.w + eps || b.y + b.h > f.y + f.h + eps) {
+          let outside;
+          if (spec.safePoly) {
+            // the safe line follows the cut outline, so test the box against that shape
+            outside = !boxInside(corners(box), spec.safePoly, eps);
+          } else {
+            const b = aabb(box);
+            const f = spec.safe;
+            outside = b.x < f.x - eps || b.y < f.y - eps || b.x + b.w > f.x + f.w + eps || b.y + b.h > f.y + f.h + eps;
+          }
+          if (outside) {
             const what = el.type === 'text' ? `"${clip(el.text)}"` : 'Your logo';
             out.push({ kind: 'safe', id: el.id, pi, si, message: `${what} reaches past the safe zone and may be trimmed${where}.` });
           }

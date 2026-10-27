@@ -8,7 +8,7 @@
   "font": "condensed",
   "bg": {"type": "solid", "color": "@primary"},
   "elements": [
-    {"type": "shape", "kind": "rect", "name": "Footer block", "region": "art", "box": [0, 0.8, 1, 0.2], "fill": "@accent"},
+    {"type": "shape", "kind": "rect", "name": "Footer block", "region": "art", "box": [0, 0.7, 1, 0.3], "fill": "@accent"},
     {"type": "shape", "kind": "star", "name": "Star", "region": "head", "box": [0, 0, 0.7, 1], "fill": "@accent", "square": true},
     {"type": "text", "region": "body", "box": [0, 0.02, 1, 0.96], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 14}, "bind": "name", "rot": -90},
     {"type": "text", "region": "foot", "box": [0, 0.28, 1, 0.5], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 6}, "bind": "line2"}

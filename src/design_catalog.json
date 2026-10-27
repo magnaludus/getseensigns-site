@@ -53,8 +53,8 @@
       "bestFor": ["canopy", "feather", "yard", "throw", "banner"],
       "phase": 1
     },
-    {"id": "yard", "label": "Front yard", "plate": null, "bestFor": ["yard"], "phase": 1},
-    {"id": "storefront", "label": "Storefront", "plate": null, "bestFor": ["feather", "banner"], "phase": 1}
+    {"id": "yard", "label": "Front yard", "plate": "yard", "bestFor": ["yard"], "phase": 1},
+    {"id": "storefront", "label": "Storefront", "plate": "storefront", "bestFor": ["feather", "banner"], "phase": 1}
   ],
   "sceneDefault": "studio",
   "rush": {"enabled": false},

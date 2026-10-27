@@ -49,6 +49,23 @@ test('small text and content outside the safe zone are flagged', () => {
   assert.ok(collectWarnings(doc, env, new Map()).some((w) => w.kind === 'safe'));
 });
 
+test('the safe line follows the cut outline on the canopy and the flag', () => {
+  const flagged = (doc, id) => collectWarnings(doc, env, new Map()).some((w) => w.kind === 'safe' && w.id === id);
+  // canopy: the page corners above the roof are cut away, so text there is lost; centered on the roof it is fine
+  const canopy = createDocument(env, 'canopy', { templateId: 'bold-center' });
+  const cname = canopy.project.pieces[0].sides[0].elements.find((e) => e.type === 'text' && e.bind === 'name');
+  assert.equal(flagged(canopy, cname.id), false, 'the template puts it in the peak');
+  assert.equal(flagged(updateElement(canopy, 0, 0, cname.id, { x: 0, y: 2, size: 5 }, env), cname.id), true, 'top left corner of the page');
+  assert.equal(flagged(updateElement(canopy, 0, 0, cname.id, { x: 76, y: 2, size: 5 }, env), cname.id), true, 'top right corner of the page');
+  // flag: the lower right of the page is cut away by the slanted bottom
+  const flag = createDocument(env, 'feather', { templateId: 'band-stripe' });
+  const fname = flag.project.pieces[0].sides[0].elements.find((e) => e.type === 'text' && e.bind === 'name');
+  assert.equal(flagged(flag, fname.id), false, 'the template puts it in the body');
+  assert.equal(flagged(updateElement(flag, 0, 0, fname.id, { x: 10, y: 92, size: 4 }, env), fname.id), true, 'below the slanted bottom');
+  // and a box that pokes out of the curved top on the pole side
+  assert.equal(flagged(updateElement(flag, 0, 0, fname.id, { x: 2, y: 4, size: 4 }, env), fname.id), true, 'inside the cut-away top left');
+});
+
 test('contrast warnings find light text on a light background and clear when fixed', () => {
   let doc = createDocument(env, 'banner', { templateId: 'bold-center' });
   doc = setPalette(doc, { ink: '#FFD100' }); // yellow text on the yellow background

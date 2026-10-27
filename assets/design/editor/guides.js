@@ -39,9 +39,11 @@ export function guidesSvg(spec, on, s) {
   const t = spec.trim;
   const has = (name) => spec.overlays.includes(name) && on[name] !== false;
 
-  if (has('roof') && spec.roof) out.push(shadeOutside(a, spec.roof.polygon, { x: 0, y: 0, w: t.w, h: spec.valanceLine }, s));
+  if (has('roof') && spec.roof) {
+    if (spec.cut) out.push(shadeOutside(a, spec.cut, t, s));
+    else out.push(shadeOutside(a, spec.roof.polygon, { x: 0, y: 0, w: t.w, h: spec.valanceLine }, s));
+  }
   if (has('outline') && spec.outline) out.push(shadeOutside(a, spec.outline, t, s));
-  if (has('sleeve') && spec.sleeveIn) out.push(`<rect x="0" y="0" width="${n(spec.sleeveIn)}" height="${n(t.h)}" fill="rgba(20,22,26,.3)"/>`);
 
   if (has('bleed') && spec.bleed > 0) {
     const outer = `M${n(a.x)},${n(a.y)} h${n(a.w)} v${n(a.h)} h${n(-a.w)} Z`;
@@ -53,17 +55,20 @@ export function guidesSvg(spec, on, s) {
   }
   if (has('safe')) {
     const f = spec.safe;
-    out.push(poly([[f.x, f.y], [f.x + f.w, f.y], [f.x + f.w, f.y + f.h], [f.x, f.y + f.h]], '#2BD67B', s, 7));
+    const ring = spec.safePoly || [[f.x, f.y], [f.x + f.w, f.y], [f.x + f.w, f.y + f.h], [f.x, f.y + f.h]];
+    out.push(poly(ring, '#2BD67B', s, 7));
   }
   if (has('valance_line') && spec.valanceLine != null) {
     out.push(line(0, spec.valanceLine, t.w, spec.valanceLine, '#FF9F1C', s, 8));
     out.push(label(t.x + 6 * s, spec.valanceLine - 5 * s, 'Valance line', s));
   }
-  if (has('roof') && spec.roof) out.push(poly(spec.roof.polygon, '#FF9F1C', s, 0));
+  if (has('roof') && spec.roof) out.push(poly(spec.cut || spec.roof.polygon, '#FF9F1C', s, 0));
   if (has('outline') && spec.outline) out.push(poly(spec.outline, '#FF9F1C', s, 0));
-  if (has('sleeve') && spec.sleeveIn) {
-    out.push(line(spec.sleeveIn, 0, spec.sleeveIn, t.h, '#FF9F1C', s, 8));
-    out.push(label(spec.sleeveIn + 5 * s, 16 * s, 'Pole sleeve', s));
+  if (has('sleeve') && spec.poleEdge) {
+    // the sewn edge where the pole sleeve goes: heavy line along it, label on the straight part
+    out.push(poly(spec.poleEdge, '#FF9F1C', s, 0, false));
+    const e = spec.poleEdge;
+    out.push(label(e[0][0] + 6 * s, (e[0][1] + e[1][1]) / 2, 'Pole side', s));
   }
   if (has('grass_line') && spec.grassLineIn) {
     const y = t.h - spec.grassLineIn;
@@ -87,7 +92,7 @@ export function guidesSvg(spec, on, s) {
 export function guideChoices(spec) {
   const names = {
     trim: 'Trim line', bleed: 'Bleed', safe: 'Safe zone', valance_line: 'Valance line', roof: 'Roof shape',
-    outline: 'Flag shape', sleeve: 'Pole sleeve', grass_line: 'Ground line', grommets: 'Grommets',
+    outline: 'Flag shape', sleeve: 'Pole side', grass_line: 'Ground line', grommets: 'Grommets',
   };
   return spec.overlays.filter((k) => names[k] && !(k === 'bleed' && !(spec.bleed > 0))).map((k) => [k, names[k]]);
 }

@@ -57,8 +57,12 @@ Sample words in the templates are fictional, phone numbers are 555-01xx, and web
 ### Change something
 
 - **Prices.** Never here. Change Etsy first, then `seo_products.py`, then rebuild. Every option's price on the designer page comes from the matching `offer_rows` string, and the server recomputes the total from the same catalog.
-- **A template.** Copy a file in `src/design_templates/`, change the words, fractions and colors, and add its id to the product's `templates` list in `src/design_catalog.json`. Boxes are fractions of the product's regions (`art`, `trim`, `safe`, plus `peak`, `valance` and `valancebar` on the canopy and `head`, `body` and `foot` on the feather flag). Text can be `fit` to a box and `bind` to the customer's name, second line, phone or web address.
-- **A print size or guide.** Edit `src/design_print_specs.json`. Rows marked `TODO_SPEC` are placeholders so the preview works; they must be replaced from the printer's template before print files are made: the canopy valance line and roof triangle, the feather flag outline, safe inset and pole sleeve, the yard sign grass line and a second printer's yard sign spec, and where the table throw's front panel sits in the printer's template. A source of `printer template` means the printer's published template or spec page. Do not write printer names or links in this file: the repo must not name suppliers, and the build stops if it finds a link. Rows marked `UX_DEFAULT` are our own design choices (minimum letter heights, DPI colors, grommet spacing).
+- **A template.** Copy a file in `src/design_templates/`, change the words, fractions and colors, and add its id to the product's `templates` list in `src/design_catalog.json`. Boxes are fractions of the product's regions (`art`, `trim`, `safe`, plus `peak`, `valance`, `valancebar` and `roofarea` on the canopy and `head`, `body` and `foot` on the feather flag; the canopy and flag blocks are sized from the printer's outline, so the flag's head keeps right of the curved top and its foot keeps left of the slanted bottom). Text can be `fit` to a box and `bind` to the customer's name, second line, phone or web address.
+- **A print size or guide.** Edit `src/design_print_specs.json`. Every row has a `source` or a status. A source of `printer template` means the printer's published template or spec page. Do not write printer names or links in this file: the repo must not name suppliers, and the build stops if it finds a link. `UX_DEFAULT` rows are our own design choices (minimum letter heights, DPI colors, grommet spacing, the yard sign ground line and safe inset). `TODO_SPEC` marks a placeholder, and the editor tells the customer some guides are approximate while any exist; none are left today.
+
+  The canopy roof (`roof.points`), the three flag outlines (`outline.points`) and the table throw panels (`panels_in_template`) are the printers' own outlines and boxes, in inches, origin at the top left of the artboard. The flag artboard is the flag's own size and `outline.template_page` keeps where it sits on the printer's page, for print files. A safe line marked `outline_inset` follows the cut outline (2 in inside it) instead of being a rectangle. The table throw has one entry per length and style (`6-3`, `6-4`, `8-3`, `8-4`) because the front panel differs a little between 3-sided and 4-sided. Not published by the printers, so not in the data: the flag sleeve width (`pole_sleeve.width_in` is null and the 3D picture guesses), a safe inset for the second yard printer (we keep 1 in, our own choice), and the canopy's own safe-line corner points (the editor moves the cut outline in 2 in, which lands on the printer's box within 0.15 in).
+
+  Order choices, not printer numbers: we sell the sleeve-left flag only (no reverse flag, so only that outline is stored), and yard signs are ordered with vertical flutes, parallel to the 18 in side of the 24 x 18 sign, so the H stake slides in from the bottom. The 3D yard sign draws the flutes that way, and the build stops if `flutes.direction` is set to something it does not draw.
 - **A product.** It needs offer rows in `seo_products.py`, an entry in `src/design_catalog.json`, a print spec, templates, an entry in `src/design_pages.py` and a 3D model in `assets/design/three/models/`.
 - **Quantity.** Yard signs are fixed packs (5 to 100). Everything else allows 1 to 20 and the total is the listed price times the count; multi-buy discounts are not modelled. Rush and bundle discounts are switched off in the catalog (`rush.enabled`, `bundles.enabled`) until Scott sets them.
 
@@ -68,14 +72,16 @@ The first paint needs the page HTML, one stylesheet (inlined) and about 80 KB of
 
 ### Scenes
 
-The 3D view has three scenes: `studio` (plain sweep), `yard` (front lawn) and `storefront` (strip-mall sidewalk). In Phase 1 they are drawn in code, so no photos are needed. To use a photo instead of a drawn scene:
+The 3D view has three scenes: `studio` (a plain sweep, drawn in code), `yard` (a front lawn) and `storefront` (a strip-mall plaza). `yard` and `storefront` are photos. The product turns on an invisible floor in front of the photo and the floor catches its shadow; the camera can tilt from 3 to 30 degrees. If a photo fails to load, the drawn version of that scene shows instead.
 
-1. Save the photo twice as `assets/design/scenes/<name>-2048.webp` and `assets/design/scenes/<name>-1024.webp` (long edge exactly 2048 and 1024 px, 3:2 landscape, WebP, sRGB, no transparency).
+To add or replace a photo:
+
+1. Save it twice as `assets/design/scenes/<name>-2048.webp` and `assets/design/scenes/<name>-1024.webp` (long edge exactly 2048 and 1024 px, 3:2 landscape, WebP, sRGB, no transparency). Phones load the 1024 file and desktops the 2048 file.
 2. In `src/design_catalog.json`, set the scene's `"plate"` to `"<name>"`.
-3. Add a one-line credit to `assets/design/scenes/CREDITS.md`, for example `yard: generated by Get Seen Signs`.
-4. Rebuild. The build stops if a named plate file is missing.
+3. Add a one-line credit to `assets/design/scenes/CREDITS.md`.
+4. Rebuild. The build stops if a named photo file is missing.
 
-The photo becomes the background. The product turns in front of it on an invisible floor that catches its shadow, and the camera can tilt from 3 to 30 degrees. If a photo fails to load, the drawn scene stays. Prompts for the photos, and what a good plate looks like, are in `.design-dev/scene-plate-prompts.md`. The three Phase 2 scenes in the spec (`range`, `gunshow`, `ballfield`) need a drawn version or a plate before they can be listed in `design_catalog.json`.
+The current 2048 files are 2x upscales of the 1024 photos, because no larger originals exist. Swap in sharper originals when there are some. Prompts for new photos, and what a good one looks like, are in `.design-dev/scene-plate-prompts.md`. The three Phase 2 scenes in the spec (`range`, `gunshow`, `ballfield`) need a drawn version or a photo before they can be listed in `design_catalog.json`.
 
 ### Sending a proof request
 

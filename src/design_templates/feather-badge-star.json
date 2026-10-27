@@ -5,7 +5,7 @@
   "category": "business",
   "palette": {"primary": "#EFE7D6", "accent": "#B42318", "ink": "#2A120E"},
   "sample": {"name": "MEADOW BROOK", "line2": "BAKERY", "phone": "334-555-0142", "web": "meadowbrook.example"},
-  "font": "condensed",
+  "font": "oswald",
   "bg": {"type": "solid", "color": "@primary"},
   "elements": [
     {"type": "shape", "kind": "badge", "name": "Seal", "region": "body", "box": [0, 0.04, 0.8, 0.5], "fill": "@accent", "square": true},
