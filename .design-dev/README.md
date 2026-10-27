@@ -15,7 +15,7 @@ npx playwright install chromium   # skip if Chromium is already installed
 
 | Command | What it does |
 |---|---|
-| `npm run test:unit` | `node --test` on the pure modules: document model, history, layout, geometry, templates, pricing, share links, zip, review rules, 3D geometry and models, and both Pages Functions. About 2 seconds. |
+| `npm run test:unit` | `node --test` on the pure modules: document model, history, layout, geometry, templates, pricing, share links, zip, review rules, 3D geometry and models, both designer Pages Functions, and the order flow (`orders.test.mjs`: proof approval evidence, Stripe Checkout params, webhook, disputes, tracking, emails). About 2 seconds. |
 | `npm run test:e2e` | Playwright against the built site: prices for every option, touch flow on a 390×844 phone, keyboard-only flow, axe accessibility scan, four different tent sides in 3D, no Three.js request before the 3D view opens, WebGL off, and the proof request with the server on, off (503) and stored-but-not-emailed. About a minute. |
 | `npm run test:3d` | The 3D stage on its own in headless Chromium with software WebGL: every product, scene and viewport, orientation of each side, colors, orbit and touch, disposal, context loss and failure modes. Takes about 5 minutes and writes screenshots to `.design-dev/out/three/`. `THREE_ONLY=resize,motion` runs only some sections. |
 | `npm run shots` | Screenshots of every product, Flat and 3D, at 1440×900 and 390×844, into `.design-dev/out/shots/`. |
