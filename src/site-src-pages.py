@@ -11,6 +11,14 @@ SRC=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(SRC); SITE=
 BASE='https://getseensignsco.com'
 TODAY=datetime.date(2026,10,26).isoformat()
 ETSY='https://www.etsy.com/shop/GetSeenSigns'
+# Public shop line. Links are plain sms:, tel: and wa.me URLs. No chat widget, script or tracker.
+PHONE_DISPLAY='(334) 232-9003'
+PHONE_TEL='+13342329003'
+PHONE_SCHEMA='+1-334-232-9003'
+MSG='Hi, I have a question about a sign'
+SMS_HREF='sms:'+PHONE_TEL+'?body='+urllib.parse.quote(MSG)
+WA_HREF='https://wa.me/13342329003?text='+urllib.parse.quote(MSG)
+TEL_HREF='tel:'+PHONE_TEL
 ORG_ID=BASE+'/#org'; SITE_ID=BASE+'/#website'
 AREAS=['Columbus, GA','Phenix City, AL','Auburn, AL','Opelika, AL','Smiths Station, AL','Fort Benning, GA']
 DESIGN_SLUGS={p['page']:p['slug'] for p in DESIGN_PRODUCTS}  # product page slug -> /design/<slug>/
@@ -25,7 +33,7 @@ CSS=_r0.sub(r'/\*.*?\*/','',CSS,flags=_r0.S)
 def org():
     return {"@type":"Organization","@id":ORG_ID,"name":"Get Seen Signs","legalName":"Veracity Solutions LLC",
       "url":BASE+"/","logo":BASE+"/assets/brand/getseen-stacked-for-dark-bg.svg","image":BASE+"/assets/og-image.jpg",
-      "email":"sales@getseensignsco.com",
+      "email":"sales@getseensignsco.com","telephone":PHONE_SCHEMA,
       "description":"Veteran-owned, family-run online sign shop in Smiths Station, Alabama. Custom yard signs, banners, feather flags, retractable banners, car magnets, backdrops, table throws and canopy tents, made to order and shipped.",
       "address":{"@type":"PostalAddress","addressLocality":"Smiths Station","addressRegion":"AL","addressCountry":"US"},
       "areaServed":[{"@type":"Country","name":"United States"}]+[{"@type":"City","name":a} for a in AREAS],
@@ -112,8 +120,31 @@ NAV='''<header class="nav">
   </div>
 </header>
 '''
-def foot():
+def reach_links():
+    """Text, WhatsApp and phone. Visible text is the control name; aria-label names the destination."""
+    sms=f'<a href="{SMS_HREF}" aria-label="Text Get Seen Signs at {PHONE_DISPLAY}">Text us</a>'
+    wa=f'<a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat with Get Seen Signs on WhatsApp">Chat on WhatsApp</a>'
+    tel=f'<a class="foot-phone" href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a>'
+    return sms, wa, tel
+def chat_fab():
+    sms, wa, tel=reach_links()
+    return f'''<div class="chat-fab" id="chat-fab">
+  <div class="chat-fab-panel" id="chat-fab-panel" hidden>
+    <p class="chat-fab-title">Message Get Seen Signs</p>
+    {sms}
+    {wa}
+    <a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">Call {PHONE_DISPLAY}</a>
+  </div>
+  <button type="button" class="chat-fab-btn" aria-expanded="false" aria-controls="chat-fab-panel" aria-label="Message Get Seen Signs">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <span>Text us</span>
+  </button>
+</div>
+'''
+def foot(chat=True):
     prods=''.join(f'<a href="/{p["slug"]}/">{p["name"]}</a>' for p in P)
+    sms, wa, tel=reach_links()
+    fab=chat_fab() if chat else ''
     return f'''<footer class="foot">
   <div class="wrap foot-in">
     <div>
@@ -123,13 +154,14 @@ def foot():
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
       <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
-      <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/privacy">Privacy</a></div>
+      <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/privacy">Privacy</a></div>
     </div>
   </div>
   <div class="wrap legal">
     <p>© <span id="yr">2026</span> Get Seen Signs. Get Seen Signs is a trade name of Veracity Solutions LLC.</p>
   </div>
 </footer>
+{fab}
 <script src="/assets/site.js" defer></script>
 </body>
 </html>
@@ -162,6 +194,7 @@ def quote_cta(product_label, extra=''):
   <div class="wrap cta-band-in">
     <div><p class="eyebrow">Free proof · free shipping</p><h2>Need a custom size, a rush or a big order?</h2><p>Tell us what you need and we'll reply with a price and next steps, usually within 1 business day.{extra}</p></div>
     <div class="cta-row"><a class="btn btn-ink" href="/?product={urllib.parse.quote_plus(product_label)}#quote">Get a quote <span aria-hidden="true">→</span></a><a class="btn btn-line" href="mailto:sales@getseensignsco.com?subject={urllib.parse.quote('Quote: '+product_label)}">Email us</a></div>
+    <p class="reach-line">Or <a href="{SMS_HREF}" aria-label="Text Get Seen Signs at {PHONE_DISPLAY}">text us</a>, <a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat with Get Seen Signs on WhatsApp">chat on WhatsApp</a>, or call <a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a>.</p>
   </div>
 </section>'''
 def write(path, s):
@@ -477,11 +510,11 @@ def design_page(path, title, desc, h1, lede, items, pre_html, product_id, copy_h
 </section>
 </main>
 '''
-    page+=foot()
+    page+=foot(False)
     page=page.replace('</body>',('' if hub else DESIGN_PRELOAD)+f'<script type="module" src="/assets/design/{"hub" if hub else "main"}.js"></script>\n</body>',1)
     write(path, page)
 
-NOSCRIPT='<noscript><p>The designer needs JavaScript. Email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a> and we will make the proof with you.</p></noscript>'
+NOSCRIPT=f'<noscript><p>The designer needs JavaScript. Email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a>, <a href="{SMS_HREF}" aria-label="Text Get Seen Signs at {PHONE_DISPLAY}">text us</a>, or <a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat with Get Seen Signs on WhatsApp">chat on WhatsApp</a> at <a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a> and we will make the proof with you.</p></noscript>'
 
 # hub: /design/ lists the five products as plain links. The editor itself lives on the product pages.
 _cards=''.join(
@@ -569,7 +602,15 @@ def hcard(k):
 BIZ_EXTRA={'15-vendor-booth-kit'}
 BIZK=[k for k in NAMES if int(k[:2])<=10 or k in BIZ_EXTRA]; SEAK=[k for k in NAMES if int(k[:2])>10 and k not in BIZ_EXTRA]
 options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<option>Election / campaign signs</option><option>Birthday or graduation sign</option><option>Something else</option>'
-main=main.replace('{{BIZ}}','\n'.join(hcard(k) for k in BIZK)).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options)
+REACH_HOME=f'''<div class="reach">
+        <p class="reach-kicker">Text, WhatsApp or call</p>
+        <div class="reach-row">
+          <a class="btn btn-ink btn-sm" href="{SMS_HREF}" aria-label="Text Get Seen Signs at {PHONE_DISPLAY}">Text us</a>
+          <a class="btn btn-line btn-sm" href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat with Get Seen Signs on WhatsApp">Chat on WhatsApp</a>
+        </div>
+        <p class="mail">Call <a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a> · or email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a></p>
+      </div>'''
+main=main.replace('{{BIZ}}','\n'.join(hcard(k) for k in BIZK)).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options).replace('{{REACH}}',REACH_HOME)
 LOCALSEC='''
 <section class="sec paper2" id="local">
   <div class="wrap">

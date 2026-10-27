@@ -246,7 +246,16 @@ export async function boot(root) {
     data = await Promise.all(['catalog', 'print-specs', 'templates'].map((n) => loadJson(`${base}${n}.json`)));
   } catch (_) {
     root.textContent = '';
-    root.append(h('p', { class: 'designer-loading' }, 'The designer could not load. Email sales@getseensignsco.com and we will make your proof with you.'));
+    root.append(h('p', { class: 'designer-loading' },
+      'The designer could not load. Email ',
+      h('a', { href: 'mailto:sales@getseensignsco.com' }, 'sales@getseensignsco.com'),
+      ', ',
+      h('a', { href: 'sms:+13342329003?body=Hi%2C%20I%20have%20a%20question%20about%20a%20sign', 'aria-label': 'Text Get Seen Signs at (334) 232-9003' }, 'text us'),
+      ', or ',
+      h('a', { href: 'https://wa.me/13342329003?text=Hi%2C%20I%20have%20a%20question%20about%20a%20sign', rel: 'noopener noreferrer', 'aria-label': 'Chat with Get Seen Signs on WhatsApp' }, 'chat on WhatsApp'),
+      ' at ',
+      h('a', { href: 'tel:+13342329003', 'aria-label': 'Call Get Seen Signs at (334) 232-9003' }, '(334) 232-9003'),
+      ' and we will make your proof with you.'));
     return;
   }
   const [catalog, specs, templates] = data;
