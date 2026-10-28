@@ -1,0 +1,18 @@
+# Example only. This file is deliberately NOT named wrangler.toml.
+#
+# The live Pages project keeps its bindings and variables in the Cloudflare dashboard (the designer's PROOFS
+# R2 bucket is set up there). A real wrangler.toml would become the source of truth for the project and could
+# replace those dashboard settings, so the D1 binding for orders is added in the dashboard too (see README).
+# Copy the blocks below into a wrangler.toml only for a separate test project, or for `wrangler pages dev`.
+#
+# Secrets are never put here: use `wrangler pages secret put NAME` or the dashboard, and a git-ignored
+# .dev.vars file for local runs.
+
+name = "getseensigns"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "getseensigns-orders"
+database_id = "00000000-0000-0000-0000-000000000000" # from `wrangler d1 create getseensigns-orders`
