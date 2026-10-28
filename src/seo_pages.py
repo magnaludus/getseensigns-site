@@ -3,7 +3,7 @@ LOCAL = [
 dict(
  slug='signs-columbus-ga-phenix-city', img=('/assets/img/g-03-vinyl-banner-2','Example Now Open vinyl banner outside a hardware store'), area='Columbus, GA & Phenix City, AL',
  title='Signs & Banners, Columbus GA & Phenix City | Get Seen Signs',
- desc='Custom yard signs, gameday banners, campaign signs, tents and car magnets for Columbus, GA and Phenix City, AL. Based in Smiths Station. Free proof and shipping.',
+ desc='Custom yard signs, gameday banners, campaign signs, tents and car magnets for Columbus, GA and Phenix City, AL. Smiths Station based. Free proof and shipping.',
  h1=('Signs for Columbus', '& Phenix City.'),
  lede='We\'re a veteran-owned, family-run online sign shop in Smiths Station, Alabama, just up the road from Phenix City and across the river from Columbus. Order online or send a quote request, approve a free proof, and your signs ship to your door.',
  places=['Columbus, GA','Phenix City, AL','Fort Benning, GA','Smiths Station, AL','Muscogee County, GA','Russell County, AL'],
@@ -85,7 +85,7 @@ BLOG = [
 dict(
  slug='welcome-home-military-retirement-banners',
  title='Welcome Home and Military Retirement Banner Ideas | Get Seen Signs',
- desc='Welcome home and military retirement banner ideas: what to print, which size fits a porch, garage or fence, how to plan around a moving return date, and when to order.',
+ desc='Welcome home and military retirement banner ideas: what to print, which size fits a porch or fence, how to plan around a moving return date, and when to order.',
  h1='Welcome home and military retirement banner ideas',
  date='2026-10-21', kicker='Family',
  img='/assets/img/g-03-vinyl-banner-3.jpg', img_alt='Close-up of a vinyl banner grommet zip-tied to a chain-link fence',
@@ -138,7 +138,7 @@ dict(
 dict(
  slug='christmas-family-name-banner-ideas',
  title='Christmas Family Name Banner and Yard Sign Ideas | Get Seen Signs',
- desc='Christmas family name banner and yard sign ideas: what to put on it, which size fits a porch, garage or fence, design tips that read from the street, and the Dec 10 order date.',
+ desc='Christmas family name banner and yard sign ideas: what to put on it, which size fits a porch or fence, design tips, and the Dec 10 order date.',
  h1='Christmas family name banner and yard sign ideas',
  date='2026-10-20', kicker='Holidays',
  img='/assets/img/g-11-christmas-family-banner-2.jpg', img_alt='Example Christmas family name banner hung on a front porch',
@@ -279,7 +279,7 @@ dict(
 # Gameday / tailgate category page. NO TRADEMARKS: no team, school or league names, logos, mascots or slogans.
 GAMEDAY=dict(
  slug='tailgate-and-gameday-signs',
- title='Tailgate Tents & Gameday Signs, Columbus GA & Auburn AL',
+ title='Tailgate Tents & Gameday Signs | Get Seen Signs',
  desc='Gameday banners, tailgate tents, table throws, House Divided and Game Day yard signs in your colors. Columbus GA, Phenix City, Auburn AL. Free shipping.',
  h1=('Gameday signs', 'in your colors.'),
  lede='Tailgate tents, table throws, flags, banners and yard signs for the folks who show up early and stay late. Your colors, your family name, your crew. Free proof, free shipping in the lower 48.',

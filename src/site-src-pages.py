@@ -50,7 +50,7 @@ CSS=_r0.sub(r'/\*.*?\*/','',CSS,flags=_r0.S)
 
 def org():
     return {"@type":"Organization","@id":ORG_ID,"name":"Get Seen Signs",
-      "url":BASE+"/","logo":BASE+"/assets/brand/getseen-stacked-for-dark-bg.svg","image":BASE+"/assets/og-image.jpg",
+      "url":BASE+"/","logo":BASE+"/assets/brand/getseen-horizontal-for-dark-bg.png","image":BASE+"/assets/og-image.jpg",
       "email":"sales@getseensignsco.com","telephone":PHONE_SCHEMA,
       "description":"Veteran-owned, family-run online sign shop in Smiths Station, Alabama. Custom yard signs, banners, feather flags, retractable banners, car magnets, backdrops, table throws and canopy tents, made to order and shipped.",
       "address":{"@type":"PostalAddress","addressLocality":"Smiths Station","addressRegion":"AL","addressCountry":"US"},
@@ -145,9 +145,9 @@ NAV='''<header class="nav">
 '''
 def reach_links():
     """Text, WhatsApp and phone. Visible text is the control name; aria-label names the destination."""
-    sms=f'<a href="{SMS_HREF}" aria-label="Text Get Seen Signs at {PHONE_DISPLAY}">Text us</a>'
-    wa=f'<a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat with Get Seen Signs on WhatsApp">Chat on WhatsApp</a>'
-    tel=f'<a class="foot-phone" href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a>'
+    sms=f'<a href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">Text us</a>'
+    wa=f'<a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">Chat on WhatsApp</a>'
+    tel=f'<a class="foot-phone" href="{TEL_HREF}" >{PHONE_DISPLAY}</a>'
     return sms, wa, tel
 def chat_fab():
     sms, wa, tel=reach_links()
@@ -156,7 +156,7 @@ def chat_fab():
     <p class="chat-fab-title">Message Get Seen Signs</p>
     {sms}
     {wa}
-    <a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">Call {PHONE_DISPLAY}</a>
+    <a href="{TEL_HREF}" aria-label="Call {PHONE_DISPLAY} to reach Get Seen Signs">Call {PHONE_DISPLAY}</a>
   </div>
   <button type="button" class="chat-fab-btn" aria-expanded="false" aria-controls="chat-fab-panel" aria-label="Message Get Seen Signs">
     <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -217,7 +217,7 @@ def quote_cta(product_label, extra=''):
   <div class="wrap cta-band-in">
     <div><p class="eyebrow">Free proof · free shipping</p><h2>Need a custom size, a rush or a big order?</h2><p>Tell us what you need and we'll reply with a price and next steps, usually within 1 business day.{extra}</p></div>
     <div class="cta-row"><a class="btn btn-ink" href="/?product={urllib.parse.quote_plus(product_label)}#quote">Get a quote <span aria-hidden="true">→</span></a><a class="btn btn-line" href="mailto:sales@getseensignsco.com?subject={urllib.parse.quote('Quote: '+product_label)}">Email us</a></div>
-    <p class="reach-line">Or <a href="{SMS_HREF}" aria-label="Text Get Seen Signs at {PHONE_DISPLAY}">text us</a>, <a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat with Get Seen Signs on WhatsApp">chat on WhatsApp</a>, or call <a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a>.</p>
+    <p class="reach-line">Or <a href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">text us</a>, <a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">chat on WhatsApp</a>, or call <a href="{TEL_HREF}" >{PHONE_DISPLAY}</a>.</p>
   </div>
 </section>'''
 def write(path, s):
@@ -541,7 +541,7 @@ for b in BLOG:
     posts_cards+=f'<a class="post" href="{path}"><div class="card-img">{pic(og[:-4],"",900,675)}</div><div class="card-body"><p class="eyebrow">{e(b["kicker"])}</p><h3>{e(b["h1"])}</h3><p>{e(b["desc"])}</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></div></a>'
 path='/blog/'; items=[('Home','/'),('Guides','/blog/')]
 title='Sign Guides & How-Tos | Get Seen Signs'
-desc='Practical guides from Get Seen Signs: welcome home and military retirement banners, Christmas family name banner ideas, Alabama and Georgia election yard sign rules, senior night banner ideas, and how to pick the right sign.'
+desc='Practical guides from Get Seen Signs: welcome home banners, Christmas family name banners, Alabama and Georgia election sign rules, senior night ideas.'
 page=head(title,desc,path,ld(crumbs(items),{"@type":"Blog","@id":BASE+path,"url":BASE+path,"name":"Get Seen Signs Guides","publisher":{"@id":ORG_ID}}))+NAV+f'''<main id="main">
 <section class="phero ink"><div class="wrap">{bc_html(items)}<h1>Sign <span class="block">guides.</span></h1><p class="lede">Straight answers for people buying signs: the rules, the sizes and the timing.</p></div></section>
 <section class="sec paper"><div class="wrap"><div class="posts">{posts_cards}</div></div></section>
@@ -628,7 +628,7 @@ def design_page(path, title, desc, h1, lede, items, pre_html, product_id, copy_h
     page=page.replace('</body>',('' if hub else DESIGN_PRELOAD)+f'<script type="module" src="/assets/design/{"hub" if hub else "main"}.js"></script>\n</body>',1)
     write(path, page)
 
-NOSCRIPT=f'<noscript><p>The designer needs JavaScript. Email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a>, <a href="{SMS_HREF}" aria-label="Text Get Seen Signs at {PHONE_DISPLAY}">text us</a>, or <a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat with Get Seen Signs on WhatsApp">chat on WhatsApp</a> at <a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a> and we will make the proof with you.</p></noscript>'
+NOSCRIPT=f'<noscript><p>The designer needs JavaScript. Email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a>, <a href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">text us</a>, or <a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">chat on WhatsApp</a> at <a href="{TEL_HREF}" >{PHONE_DISPLAY}</a> and we will make the proof with you.</p></noscript>'
 
 # hub: /design/ lists the five products as plain links. The editor itself lives on the product pages.
 _cards=''.join(
@@ -667,11 +667,11 @@ def _legal_inline(s):
     s=e(s)
     s=_r0.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
     s=s.replace('sales@getseensignsco.com', '<a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a>')
-    s=s.replace(PHONE_DISPLAY, f'<a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a>')
+    s=s.replace(PHONE_DISPLAY, f'<a href="{TEL_HREF}" >{PHONE_DISPLAY}</a>')
     opt='tools.google.com/dlpage/gaoptout'
     s=s.replace(opt, f'<a href="https://{opt}" rel="noopener noreferrer">{opt}</a>')
-    s=s.replace('text us', f'<a href="{SMS_HREF}" aria-label="Text Get Seen Signs at {PHONE_DISPLAY}">text us</a>')
-    s=s.replace('chat on WhatsApp', f'<a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat with Get Seen Signs on WhatsApp">chat on WhatsApp</a>')
+    s=s.replace('text us', f'<a href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">text us</a>')
+    s=s.replace('chat on WhatsApp', f'<a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">chat on WhatsApp</a>')
     return s
 def _legal_norm_md(md):
     s=_r0.sub(r'^\d+\. +', '', md, flags=_r0.M)
@@ -742,14 +742,14 @@ write_doc('/privacy', 'Privacy Policy | Get Seen Signs',
           'How Get Seen Signs handles the information you share with us.',
           render_legal(PRIVACY_MD))
 _sms,_wa,_tel=reach_links()
-_call=f'<a class="btn btn-y btn-sm" href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">Call {PHONE_DISPLAY}</a>'
+_call=f'<a class="btn btn-y btn-sm" href="{TEL_HREF}" aria-label="Call {PHONE_DISPLAY} to reach Get Seen Signs">Call {PHONE_DISPLAY}</a>'
 _text=_sms.replace('<a ', '<a class="btn btn-ink btn-sm" ', 1)
 _whats=_wa.replace('<a ', '<a class="btn btn-line btn-sm" ', 1)
 CONTACT_BODY=f'''<h1>Contact</h1>
 <p>Get Seen Signs</p>
 <p>Smiths Station, AL</p>
 <p><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a></p>
-<p><a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a></p>
+<p><a href="{TEL_HREF}" >{PHONE_DISPLAY}</a></p>
 <div class="reach">
   <p class="reach-kicker">Text, WhatsApp or call</p>
   <div class="cta-row">{_text}{_whats}{_call}</div>
@@ -832,10 +832,10 @@ options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<
 REACH_HOME=f'''<div class="reach">
         <p class="reach-kicker">Text, WhatsApp or call</p>
         <div class="reach-row">
-          <a class="btn btn-ink btn-sm" href="{SMS_HREF}" aria-label="Text Get Seen Signs at {PHONE_DISPLAY}">Text us</a>
-          <a class="btn btn-line btn-sm" href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat with Get Seen Signs on WhatsApp">Chat on WhatsApp</a>
+          <a class="btn btn-ink btn-sm" href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">Text us</a>
+          <a class="btn btn-line btn-sm" href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">Chat on WhatsApp</a>
         </div>
-        <p class="mail">Call <a href="{TEL_HREF}" aria-label="Call Get Seen Signs at {PHONE_DISPLAY}">{PHONE_DISPLAY}</a> · or email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a></p>
+        <p class="mail">Call <a href="{TEL_HREF}" >{PHONE_DISPLAY}</a> · or email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a></p>
       </div>'''
 main=main.replace('{{BIZ}}','\n'.join(hcard(k) for k in BIZK)).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options).replace('{{REACH}}',REACH_HOME)
 LOCALSEC='''
@@ -875,7 +875,7 @@ def shop_card(k):
 </article>'''
 path='/shop/'; items=[('Home','/'),('Shop','/shop/')]
 shop_title='Shop Custom Signs, Banners, Flags, Tents & More | Get Seen Signs'
-shop_desc='Every Get Seen Signs product with its price: yard signs, banners, feather flags, tents, car magnets, backdrops, decals, safety signs, coins and patches. Order now, free proof first, free shipping.'
+shop_desc='Every Get Seen Signs product with its price: signs, banners, flags, tents, magnets, backdrops, decals, coins and patches. Free proof first, free shipping.'
 shop_ld=[crumbs(items),{"@type":"CollectionPage","@id":BASE+path,"url":BASE+path,"name":shop_title,"description":shop_desc,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID},
     "mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":i+1,"name":html.unescape(NAMES[k]),"url":BASE+"/"+SHORT[k][0]+"/"} for i,k in enumerate(BIZK+SEAK)]}}]
 shop_page=head(shop_title,shop_desc,path,ld(*shop_ld))+NAV+f'''<main id="main">

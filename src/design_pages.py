@@ -7,7 +7,7 @@ PROOF = 'a free proof within 12 hours, 7 days a week, with 3 revisions included'
 
 HUB = {
     'title': 'Design Your Sign Online | Get Seen Signs',
-    'desc': 'Design a canopy tent, feather flag, yard sign, table throw, banner, retractable stand, backdrop, car magnet, hard hat decal or safety sign online. See it in 3D, then get your free proof within 12 hours.',
+    'desc': 'Design a canopy tent, flag, yard sign, table throw, banner, retractable stand, backdrop, magnet, decal or safety sign online. See it in 3D. Free proof.',
     'h1': ("Design it here.", "We'll proof it."),
     'lede': 'Pick a product, add your words, colors and logo, turn it around in 3D, and send it. We turn it into a real proof within 12 hours.',
     'faqs': [
@@ -197,7 +197,7 @@ PRODUCTS = [
     {
         'id': 'safety', 'slug': 'safety-sign', 'page': 'aluminum-safety-signs', 'name': 'aluminum safety sign pack', 'short': 'safety sign pack',
         'title': 'Design Custom Aluminum Safety Signs Online | Get Seen Signs',
-        'desc': 'Design a pack of 12×18 or 18×24 aluminum safety signs online. Choose a Notice, Caution, Warning or Danger style and your own wording, then get a free proof within 12 hours.',
+        'desc': 'Design 12×18 or 18×24 aluminum safety signs online. Pick a Notice, Caution, Warning or Danger style and your wording, then get a free proof within 12 hours.',
         'h1': ('Design your safety signs.', "We'll proof it."),
         'lede': 'Your logo and your wording on rust-proof aluminum signs. Every sign in a pack can say something different.',
         'alt': 'A pack of custom aluminum safety signs',

@@ -281,7 +281,7 @@ dict(
  name='Trade Show Booth Kit', short='Trade Show Booth Kit',
  title='Trade Show Booth Kit: Throw, Banner & Flag | Get Seen Signs',
  desc='Trade show booth kit for gun shows and industrial expos: a logo table throw, 33x81 retractable banner and feather flag. One price, $339, free shipping.',
- h1=('Trade show booth kit', 'throw, banner and flag, matched.'),
+ h1=('Trade show booth kit:', 'throw, banner and flag, matched.'),
  lede='Built for exhibitors at gun shows, industry expos, and manufacturing and industrial trade shows. You get a logo table throw, a 33x81 retractable banner, and a feather flag, all matched to your brand and shipped ready to set up.',
  sizes=['6 ft 3-sided table throw (open back)', '33×81 in retractable banner stand', '10.5 ft feather flag with ground spike'],
  material='Table throw: dye-sublimated polyester, machine washable and wrinkle resistant. Banner: printed retractable with an aluminum base. Flag: single-sided print with pole and ground spike.',

@@ -141,7 +141,7 @@ test('Vendor Booth Kit is now the Trade Show Booth Kit, same price, old URL redi
   const html = read('trade-show-booth-kit/index.html');
   assert.ok(!existsSync(new URL('vendor-booth-kit/index.html', root)), 'old page removed');
   assert.match(html, /<title>Trade Show Booth Kit: Throw, Banner &amp; Flag \| Get Seen Signs<\/title>/);
-  assert.match(html, /<h1>Trade show booth kit /);
+  assert.match(html, /<h1>Trade show booth kit: <span class="block">throw, banner and flag, matched\.<\/span><\/h1>/);
   assert.match(html, /<link rel="canonical" href="https:\/\/getseensignsco.com\/trade-show-booth-kit\/">/);
   const text = body(html);
   assert.ok(text.includes('Built for exhibitors at gun shows, industry expos, and manufacturing and industrial trade shows.'));
@@ -236,4 +236,27 @@ test('every product Offer points at our own page and ships free to the lower 48 
     }
   }
   assert.ok(offers >= 60, 'checked ' + offers + ' offers');
+});
+
+test('audit fixes: meta descriptions under 160 characters, brand in the tailgate title, PNG logo, link names that start with the visible text', () => {
+  const decode = (s) => s.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  for (const f of pages()) {
+    const html = readFileSync(f, 'utf8');
+    const m = /<meta name="description" content="([^"]*)"/.exec(html);
+    if (m) assert.ok(decode(m[1]).length < 160, `${f} description is ${decode(m[1]).length} characters`);
+    // an accessible name that is set must start with the text people see on the link
+    for (const a of html.matchAll(/<a\b[^>]*\baria-label="([^"]+)"[^>]*>([^<]+)<\/a>/g)) {
+      const visible = decode(a[2]).trim().toLowerCase();
+      if (!visible || a[1].startsWith('Get Seen Signs home')) continue;
+      assert.ok(decode(a[1]).toLowerCase().startsWith(visible), `${f}: aria-label "${a[1]}" vs visible "${visible}"`);
+    }
+  }
+  assert.match(read('tailgate-and-gameday-signs/index.html'), /<title>Tailgate Tents &amp; Gameday Signs \| Get Seen Signs<\/title>/);
+  const org = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(read('index.html'))[1])['@graph'].find((n) => n['@type'] === 'Organization');
+  assert.equal(org.logo, 'https://getseensignsco.com/assets/brand/getseen-horizontal-for-dark-bg.png');
+  assert.ok(existsSync(new URL('assets/brand/getseen-horizontal-for-dark-bg.png', root)));
+  const html = read('index.html');
+  assert.ok(html.includes('aria-label="Text us at (334) 232-9003"') && html.includes('aria-label="Chat on WhatsApp with Get Seen Signs"'));
+  assert.ok(!html.includes('aria-label="Text Get Seen Signs at'));
+  assert.ok(read('assets/design/ui/tabs/templates.js').includes("'aria-hidden': 'true'"));
 });
