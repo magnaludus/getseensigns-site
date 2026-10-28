@@ -160,3 +160,9 @@ test('Vendor Booth Kit is now the Trade Show Booth Kit, same price, old URL redi
   assert.match(read('index.html'), /<h3>Trade Show Booth Kit<\/h3>/);
   assert.match(read('index.html'), /<option>Trade Show Booth Kit<\/option>/);
 });
+
+test('the Columbus page links the working sign inspection page, not the old broken address', () => {
+  const html = read('signs-columbus-ga-phenix-city/index.html');
+  assert.ok(html.includes('href="https://columbusga.gov/inscode/What-We-Do/Sign-Inspection"'));
+  for (const f of pages()) assert.ok(!readFileSync(f, 'utf8').includes('inspections-and-code-2'), f);
+});
