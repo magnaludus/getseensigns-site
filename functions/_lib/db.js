@@ -28,6 +28,12 @@ export const DESIGN_SCHEMA = [
   `CREATE TABLE IF NOT EXISTS design_proof_files (ref TEXT NOT NULL, name TEXT NOT NULL, seq INTEGER NOT NULL, type TEXT NOT NULL, bytes INTEGER NOT NULL, data TEXT NOT NULL, PRIMARY KEY (ref, name, seq))`,
 ];
 
+// Quote requests from the home page form (POST /api/quote-request). No IP, cookie or user agent is kept.
+export const QUOTE_SCHEMA = [
+  `CREATE TABLE IF NOT EXISTS quote_requests (ref TEXT PRIMARY KEY, created_at TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'new', customer_name TEXT NOT NULL, customer_email TEXT NOT NULL, product TEXT NOT NULL, quantity TEXT NOT NULL DEFAULT '', size TEXT NOT NULL DEFAULT '', needed_by TEXT NOT NULL DEFAULT '', details TEXT NOT NULL DEFAULT '', shop_email TEXT NOT NULL DEFAULT 'pending', customer_email_status TEXT NOT NULL DEFAULT 'pending', email_error TEXT NOT NULL DEFAULT '')`,
+  `CREATE INDEX IF NOT EXISTS quote_requests_created ON quote_requests (created_at)`,
+];
+
 let ready = new WeakSet();
 
 export function resetSchemaCache() {
@@ -38,7 +44,7 @@ export async function getDb(env) {
   const db = env && env.DB;
   if (!db) throw new Error('D1 binding DB is missing');
   if (!ready.has(db)) {
-    for (const sql of SCHEMA.concat(DESIGN_SCHEMA)) {
+    for (const sql of SCHEMA.concat(DESIGN_SCHEMA, QUOTE_SCHEMA)) {
       try {
         await db.prepare(sql).run();
       } catch (err) {

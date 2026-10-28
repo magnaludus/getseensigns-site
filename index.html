@@ -244,10 +244,8 @@
         <p class="mail">Call <a href="tel:+13342329003" aria-label="Call Get Seen Signs at (334) 232-9003">(334) 232-9003</a> · or email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a></p>
       </div>
     </div>
-    <!-- TODO(form backend): to receive submissions without the visitor's email app,
-         create a free Formspree or Web3Forms form and paste its URL into data-endpoint below
-         (e.g. https://formspree.io/f/XXXXXXX). Leave data-endpoint empty to use the mailto: fallback. -->
-    <form class="quote-form" id="quote-form" data-endpoint="" data-mailto="sales@getseensignsco.com" novalidate>
+    <!-- Posts to /api/quote-request (saved in D1, emailed through Brevo). The mailto: link in data-mailto is only the fallback for a server error or a 503. -->
+    <form class="quote-form" id="quote-form" data-endpoint="/api/quote-request" data-mailto="sales@getseensignsco.com" novalidate>
       <div class="f2">
         <label>Name<input name="name" autocomplete="name" required></label>
         <label>Email<input name="email" type="email" autocomplete="email" required></label>
