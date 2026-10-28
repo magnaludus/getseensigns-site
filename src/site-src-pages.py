@@ -69,24 +69,27 @@ RETURNS={"@type":"MerchantReturnPolicy","applicableCountry":"US","returnPolicyCa
 # "Arrives 3-8 business days after proof approval; tents and backdrops 5-10 business days."
 # Standard = 1-3 handling + 2-5 transit. Tents and backdrops = 3-5 + 2-5. A product can set handling=(lo,hi) and transit=(lo,hi).
 def _qv(lo,hi): return {"@type":"QuantitativeValue","minValue":lo,"maxValue":hi,"unitCode":"DAY"}
+# Free shipping covers the contiguous US only (the lower 48), so the destination lists those 48 state codes and leaves out AK and HI.
+LOWER_48=['AL','AR','AZ','CA','CO','CT','DE','FL','GA','IA','ID','IL','IN','KS','KY','LA','MA','MD','ME','MI','MN','MO','MS','MT','NC','ND','NE','NH','NJ','NM','NV','NY','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VA','VT','WA','WI','WV','WY']
+assert len(LOWER_48)==48 and len(set(LOWER_48))==48
 def shipping_details(days='3-5', handling=None, transit=None):
     h=handling or ((3,5) if str(days).startswith('5') else (1,3))
     t=transit or (2,5)
     return {"@type":"OfferShippingDetails",
       "shippingRate":{"@type":"MonetaryAmount","value":"0","currency":"USD"},
-      "shippingDestination":{"@type":"DefinedRegion","addressCountry":"US"},
+      "shippingDestination":{"@type":"DefinedRegion","addressCountry":"US","addressRegion":list(LOWER_48)},
       "deliveryTime":{"@type":"ShippingDeliveryTime","handlingTime":_qv(*h),"transitTime":_qv(*t)}}
-def offer(price, etsy, desc, days='3-5', ship=None, page_url=None):
-    # A product with no Etsy listing (etsy empty) points its Offer at its own page.
+def offer(price, desc, days='3-5', ship=None, page_url=None):
+    # The Offer points at our own product page (where the order panel is), never at an Etsy listing.
     return {"@type":"Offer","price":f"{price:.2f}","priceCurrency":"USD","availability":"https://schema.org/InStock",
-            "url":(f"https://www.etsy.com/listing/{etsy}" if etsy else page_url),"description":desc,"seller":{"@id":ORG_ID},
+            "url":page_url,"description":desc,"seller":{"@id":ORG_ID},
             "hasMerchantReturnPolicy":RETURNS,"shippingDetails":shipping_details(days,*(ship or (None,None)))}
 def product(name, desc, img, url, price, etsy, base, days='3-5', offer_rows=None, ship=None):
     d={"@type":"Product","name":name,"description":desc,"image":[BASE+i for i in img],"url":BASE+url,"brand":{"@type":"Brand","name":"Get Seen Signs"}}
     if offer_rows:
-        d["offers"]=[offer(pr, etsy, text, days, ship, BASE+url) for pr, text in offer_rows]
+        d["offers"]=[offer(pr, text, days, ship, BASE+url) for pr, text in offer_rows]
     elif price is not None:
-        d["offers"]=offer(price, etsy, base, days, ship, BASE+url)
+        d["offers"]=offer(price, base, days, ship, BASE+url)
     return d
 def ld(*nodes):
     return '<script type="application/ld+json">'+json.dumps({"@context":"https://schema.org","@graph":[org(),website(),*nodes]},ensure_ascii=False,separators=(',',':'))+'</script>'

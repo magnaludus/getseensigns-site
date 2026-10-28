@@ -148,7 +148,7 @@ test('Vendor Booth Kit is now the Trade Show Booth Kit, same price, old URL redi
   const product = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html)[1])['@graph'].find((n) => n['@type'] === 'Product');
   assert.equal(product.name, 'Trade Show Booth Kit');
   assert.equal(product.offers.price, '339.00');
-  assert.ok(product.offers.url.endsWith('/4600470595'));
+  assert.equal(product.offers.url, 'https://getseensignsco.com/trade-show-booth-kit/');
   for (const sku of ['6 ft 3-sided table throw', '33×81 in retractable banner stand', '10.5 ft feather flag with ground spike']) assert.ok(text.includes(sku), sku);
   const sitemap = read('sitemap.xml');
   assert.ok(sitemap.includes('/trade-show-booth-kit/') && !sitemap.includes('vendor-booth-kit'));
@@ -211,4 +211,29 @@ test('sitemap dates come from the build date (America/New_York, or BUILD_DATE) a
   } finally {
     rmSync(tmp, { recursive: true, force: true });
   }
+});
+
+test('every product Offer points at our own page and ships free to the lower 48 only', () => {
+  const LOWER_48 = 'AL AR AZ CA CO CT DE FL GA IA ID IL IN KS KY LA MA MD ME MI MN MO MS MT NC ND NE NH NJ NM NV NY OH OK OR PA RI SC SD TN TX UT VA VT WA WI WV WY'.split(' ');
+  assert.equal(LOWER_48.length, 48);
+  let offers = 0;
+  for (const f of pages()) {
+    const html = readFileSync(f, 'utf8');
+    const ld = /<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html);
+    if (!ld) continue;
+    for (const node of JSON.parse(ld[1])['@graph'].filter((n) => n['@type'] === 'Product')) {
+      const slug = /\/([^/]+)\/index\.html$/.exec(f)[1];
+      for (const o of [].concat(node.offers)) {
+        offers += 1;
+        assert.equal(o.url, `https://getseensignsco.com/${slug}/`, f);
+        assert.doesNotMatch(o.url, /etsy/, f);
+        const dest = o.shippingDetails.shippingDestination;
+        assert.equal(dest.addressCountry, 'US', f);
+        assert.deepEqual([...dest.addressRegion].sort(), [...LOWER_48].sort(), f + ' lower 48 only');
+        assert.ok(!dest.addressRegion.includes('AK') && !dest.addressRegion.includes('HI'), f);
+        assert.deepEqual([o.shippingDetails.shippingRate.value, o.shippingDetails.shippingRate.currency], ['0', 'USD'], f);
+      }
+    }
+  }
+  assert.ok(offers >= 60, 'checked ' + offers + ' offers');
 });

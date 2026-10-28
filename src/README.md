@@ -44,7 +44,7 @@ Then check `git diff`: only the pages you meant to change should differ.
 ## Checklist before every PR
 
 - Keep the canonical tag (`https://getseensignsco.com/<slug>/`, https, bare domain, trailing slash) on every page.
-- Keep `shippingDetails` (free US shipping) and `hasMerchantReturnPolicy` (MerchantReturnNotPermitted) on every Offer.
+- Keep `shippingDetails` (free shipping, destination US limited to the 48 lower states by `addressRegion`) and `hasMerchantReturnPolicy` (MerchantReturnNotPermitted) on every Offer. Every Offer `url` is the product's own page, never an Etsy listing.
 - Site prices must match the live Etsy prices. Change Etsy first, then `seo_products.py`, then rebuild.
 - No trademarks: keep the line that buyers own the artwork they send and we don't print team names or logos.
 - Keep the sitemap entry and breadcrumb for every page. Keep `privacy.html`, `terms.html` and `contact.html` as the file names (they serve at /privacy, /terms and /contact). Terms and privacy body copy comes from `src/legal/terms.md` and `src/legal/privacy.md`. Do not reword that copy.
