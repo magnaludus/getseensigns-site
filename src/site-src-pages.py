@@ -215,7 +215,7 @@ ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per 
  '10-canopy-tent':('Orange custom 10×10 canopy tent with a printed valance at an outdoor event','Close-up of a canopy tent leg and printed top corner'),
  '11-christmas-family-banner':('Red Merry Christmas family name banner on a porch rail','Close-up of a red vinyl banner tied to a porch rail with grommets'),
  '12-senior-night-banner':('Navy senior night banner with name, number and class year on a ballfield fence','Close-up of a vinyl banner zip-tied to a chain-link fence through grommets'),
- '15-vendor-booth-kit':('Vendor booth kit with a custom table throw, a retractable banner and a feather flag', None),
+ '15-vendor-booth-kit':('Trade show booth kit with a custom table throw, a retractable banner and a feather flag', None),
  '14-thanksgiving-yard-sign':('Give Thanks family name yard sign with fall pumpkins',None),
  '16-hard-hat-decals':('Row of hard hats on wall hooks, each with the same die-cut logo decal','Pile of die-cut logo decals on a gray surface'),
  '17-aluminum-safety-signs':('Warning Authorized Personnel Only aluminum safety sign hung on a chain-link fence','Stack of custom aluminum safety signs on a workbench'),
@@ -667,6 +667,10 @@ open(SITE+'/_redirects','w').write(
     '/custom-yard-signs /bulk-campaign-signs/ 301\n'
     '/custom-yard-signs/ /bulk-campaign-signs/ 301\n'
     '/custom-yard-signs/index.html /bulk-campaign-signs/ 301\n'
+    # Vendor Booth Kit was retitled Trade Show Booth Kit on Etsy (Oct 28, 2026); the old path keeps working.
+    '/vendor-booth-kit /trade-show-booth-kit/ 301\n'
+    '/vendor-booth-kit/ /trade-show-booth-kit/ 301\n'
+    '/vendor-booth-kit/index.html /trade-show-booth-kit/ 301\n'
 )
 json.dump(urls,open(SRC+'/urls.json','w'),indent=1)
 print('pages:',len(urls))
@@ -687,14 +691,14 @@ SHORT={
  '08-step-and-repeat':('step-and-repeat-backdrops','8×8 or 10×8 with stand and case.'),
  '09-table-throw':('table-throws','Throws or fitted covers for 6 or 8 ft tables.'),
  '10-canopy-tent':('custom-canopy-tents','Printed top and valance on a heavy-duty frame.'),
- '15-vendor-booth-kit':('vendor-booth-kit','6 ft table throw, 33×81 banner and 10.5 ft flag. One price.'),
+ '15-vendor-booth-kit':('trade-show-booth-kit','6 ft table throw, 33×81 banner and 10.5 ft flag. One price.'),
  '16-hard-hat-decals':('hard-hat-decals','Die-cut logo decals in 2 or 3 in. Packs of 100 to 500.'),
  '17-aluminum-safety-signs':('aluminum-safety-signs','Rust-proof aluminum, your logo and wording. 5 or 10 signs.'),
  '18-challenge-coins':('challenge-coins','1.75 in, full color on both sides. 50 or 100 coins.'),
  '11-christmas-family-banner':('holiday-yard-signs','Your family name, three classic styles.'),
  '12-senior-night-banner':('senior-night-banners','Photo, name and number. Team pricing for 10+.'),
  '14-thanksgiving-yard-sign':('holiday-yard-signs','Harvest or rustic, with your name.')}
-NAMES={'02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-vendor-booth-kit':'Vendor Booth Kit','16-hard-hat-decals':'Hard Hat Decals','17-aluminum-safety-signs':'Aluminum Safety Signs','18-challenge-coins':'Challenge Coins','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
+NAMES={'02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-vendor-booth-kit':'Trade Show Booth Kit','16-hard-hat-decals':'Hard Hat Decals','17-aluminum-safety-signs':'Aluminum Safety Signs','18-challenge-coins':'Challenge Coins','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
 def price_of(k):
     for p in P:
         if p.get('extra'):

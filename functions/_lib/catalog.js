@@ -60,7 +60,7 @@ export const CATALOG = {
   "senior-3x5": { name: "Senior Night Banner (3x5)", priceId: "price_1UV2AN67epULNprTB9NqqsI5", amount: 5400 },
   "senior-4x6": { name: "Senior Night Banner (4x6)", priceId: "price_1UV2AP67epULNprTB8hZfpDa", amount: 8400 },
   "thanks-18x24": { name: "Thanksgiving Yard Sign (18x24)", priceId: "price_1UV28A67epULNprTounHfnJj", amount: 4400 },
-  "booth-kit": { name: "Vendor Booth Kit (kit)", priceId: "price_1UV28C67epULNprTle6iBAG2", amount: 33900 },
+  "booth-kit": { name: "Trade Show Booth Kit (kit)", priceId: "price_1UV28C67epULNprTle6iBAG2", amount: 33900 },
   "coins-50": { name: "Challenge Coins (50 coins)", priceId: "price_1UV28E67epULNprTICw9KbU2", amount: 39900 },
   "coins-100": { name: "Challenge Coins (100 coins)", priceId: "price_1UV2AR67epULNprTPJRrp0RE", amount: 54900 },
   "decal-2in-100": { name: "Hard Hat Decals (2 in, 100)", priceId: "price_1UV28G67epULNprT693lMGyw", amount: 5400 },
