@@ -145,3 +145,5 @@ export function baseUrl(request, env) {
 export function log(event, fields) {
   console.log(JSON.stringify(Object.assign({ event: event }, fields)));
 }
+
+export const DESIGN_REF_RE = /^GS-[0-9A-HJKMNP-TV-Z]{8}$/;

@@ -19,6 +19,15 @@ export const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS disputes (id TEXT PRIMARY KEY, order_id TEXT, approval_id TEXT, charge_id TEXT, payment_intent_id TEXT, amount_cents INTEGER, currency TEXT, reason TEXT, status TEXT, evidence_due_by TEXT, event_id TEXT, raw_json TEXT NOT NULL, logged_at TEXT NOT NULL)`,
 ];
 
+// Design proof requests from the online designer (POST /api/design-proof). Large files are not kept in rows:
+// request and design JSON sit in design_proof_requests (design is capped at 200 KB by the endpoint), and only
+// files that did not fit in the email are saved, in base64 chunks of 256 KB, 10 MB at most per request.
+export const DESIGN_SCHEMA = [
+  `CREATE TABLE IF NOT EXISTS design_proof_requests (ref TEXT PRIMARY KEY, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, status TEXT NOT NULL, mode TEXT NOT NULL, customer_name TEXT NOT NULL, customer_email TEXT NOT NULL, request_json TEXT NOT NULL, design_json TEXT, files_json TEXT NOT NULL, shop_email TEXT NOT NULL DEFAULT 'pending', customer_email_status TEXT NOT NULL DEFAULT 'pending', email_error TEXT NOT NULL DEFAULT '')`,
+  `CREATE INDEX IF NOT EXISTS design_proof_requests_created ON design_proof_requests (created_at)`,
+  `CREATE TABLE IF NOT EXISTS design_proof_files (ref TEXT NOT NULL, name TEXT NOT NULL, seq INTEGER NOT NULL, type TEXT NOT NULL, bytes INTEGER NOT NULL, data TEXT NOT NULL, PRIMARY KEY (ref, name, seq))`,
+];
+
 let ready = new WeakSet();
 
 export function resetSchemaCache() {
@@ -29,7 +38,7 @@ export async function getDb(env) {
   const db = env && env.DB;
   if (!db) throw new Error('D1 binding DB is missing');
   if (!ready.has(db)) {
-    for (const sql of SCHEMA) {
+    for (const sql of SCHEMA.concat(DESIGN_SCHEMA)) {
       try {
         await db.prepare(sql).run();
       } catch (err) {

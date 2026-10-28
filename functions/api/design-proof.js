@@ -1,23 +1,21 @@
 // Cloudflare Pages Function: POST /api/design-proof
 //
-// Off unless DESIGN_PROOF_ENABLED is exactly "true". While it is off, this
-// returns 503 and the design page keeps the mailto + PNG download path.
-// No secrets, buckets or email bindings are required for the site to deploy.
+// Where a request goes (use any mix; none of it is required for the site to deploy):
+//   Storage  D1 database bound as DB (the orders database), and/or a private R2 bucket bound as PROOFS.
+//   Email    Brevo (env BREVO_API_KEY): the request to sales@getseensignsco.com with previews and logos attached,
+//            Reply-To the customer, plus a short confirmation to the customer. And/or Cloudflare Email Routing
+//            (SEND_EMAIL binding with DESIGN_PROOF_TO and DESIGN_PROOF_FROM) for the request email only.
 //
-// Turn on (all in the existing Cloudflare account, nothing new to buy):
-// 1. Create a private R2 bucket, for example getseen-design-proofs.
-//    Do not enable public access or r2.dev.
-// 2. Pages project → Settings → Bindings → R2 bucket.
-//    Variable name: PROOFS
-// 3. Optional email, via Cloudflare Email Routing (free on the zone):
-//    - Verify the destination mailbox (sales@getseensignsco.com).
-//    - Add a send_email binding named SEND_EMAIL, allowed to that destination.
-// 4. Pages → Settings → Environment variables (Production, and Preview if you want):
-//      DESIGN_PROOF_ENABLED = true
-//      DESIGN_PROOF_TO      = sales@getseensignsco.com
-//      DESIGN_PROOF_FROM    = an address on getseensignsco.com Email Routing can send as
-//                             (for example proofs@getseensignsco.com)
-// 5. Redeploy.
+// On or off:
+//   DESIGN_PROOF_ENABLED = "false"  always off (503 {enabled:false}); the page keeps its mailto + PNG path.
+//   DESIGN_PROOF_ENABLED = "true"   on (needs at least one storage binding, otherwise 500 storage).
+//   anything else or unset          on when the DB binding and BREVO_API_KEY are both present, otherwise off.
+//
+// Turn on with D1 + Brevo (nothing new to buy): bind the orders D1 database as DB and set BREVO_API_KEY as a
+// secret on the Pages project, then redeploy. The tables are created on first use (see migrations/0002).
+// R2 + Email Routing still work as before: create the private bucket, bind it as PROOFS, add the send_email
+// binding SEND_EMAIL and set DESIGN_PROOF_TO / DESIGN_PROOF_FROM. If both Brevo and SEND_EMAIL exist, Brevo is
+// tried first and SEND_EMAIL is the fallback.
 //
 // Request, multipart/form-data:
 //   design       JSON string, the v2 design document (200 KB max). Optional when request.mode is design_for_me.
@@ -28,18 +26,29 @@
 //   _gotcha      honeypot: any value gets a fake success and nothing is stored
 // The whole body is capped at 40 MB because formData() keeps it in memory (128 MB Worker).
 //
-// Answers: 200 {ok, ref, emailed, stored, serverTotal, priceMismatch}; 400 {ok:false, error} with error
+// Answers: 200 {ok, ref, emailed, stored, confirmed (only when Brevo is set), serverTotal, priceMismatch}; 400 {ok:false, error} with error
 // fields, design, preview, logo or form; 413 too-large; 429 rate; 500 storage or server; 503 {ok:false, enabled:false}.
-// emailed false with stored true means the request is in R2 but the email did not go out.
+// emailed is true when the request email to the shop went out (the page shows its success only then). emailed
+// false with stored true means the request is saved but the email did not go out. confirmed is the customer email.
 //
-// Stored keys (private bucket; no IP, cookies or user agent are kept):
+// D1 (no IP, cookies or user agent are kept): design_proof_requests holds the request JSON, the design JSON, file
+// details (name, type, size, SHA-256, whether attached) and the email status. Files that did not fit in the
+// email (3 MB of attachments for Brevo) are saved in design_proof_files as base64 chunks of 256 KB, up to 10 MB
+// per request; anything beyond that is only listed, and the email says to ask the customer for it. When R2 is
+// bound every file goes to R2 instead and D1 keeps no file data.
+// Read them back with GET /api/admin/design-proofs/<ref> (and .../<ref>/<file>) using ADMIN_TOKEN.
+//
+// R2 keys (private bucket):
 //   design-proofs/YYYY-MM-DD/<ref>/design.json, preview-<n>.png, logo-<n>.<png|jpg|webp|svg>, request.json
 // SVG logos are stored sanitized. request.json is written last, so a folder without it is a failed upload.
-// The email is a text summary. Previews, then logos, are attached while together under 1.5 MB.
+// The Cloudflare Email Routing message is a text summary; previews, then logos, are attached under 1.5 MB.
 
 import catalog from '../../assets/design/catalog.json' with { type: 'json' };
 import { projectTotal, productById, money } from '../../assets/design/model/pricing.js';
 import { validateDocument } from '../../assets/design/model/document.js';
+import { getDb } from '../_lib/db.js';
+import { brevoSend, layout, button, p as para } from '../_lib/emails.js';
+import { SHOP_EMAIL, SHOP_PHONE, esc, sha256Hex } from '../_lib/util.js';
 
 const MAX_DESIGN = 200000;
 const MAX_REQUEST = 32000;
@@ -50,6 +59,9 @@ const MAX_BODY = 40 * 1024 * 1024;
 const MAX_PREVIEWS = 12;
 const MAX_LOGOS = 4;
 const ATTACH_LIMIT = 1500000;
+const BREVO_ATTACH_LIMIT = 3000000;
+const D1_FILE_CAP = 10 * 1024 * 1024;
+const D1_CHUNK = 256 * 1024;
 const MIN_ELAPSED_MS = 3000;
 const RATE_MAX = 8;
 const RATE_WINDOW_MS = 3600000;
@@ -472,12 +484,72 @@ function summaryText(d) {
     if (d.priceMismatch) lines.push('WARNING: the page showed ' + money(d.clientTotal) + ' but the server price is ' + money(d.serverTotal) + '. Check before quoting.');
   }
   const attached = d.attach.map((a) => a.filename);
-  const all = d.keys.map((k) => k.slice(k.lastIndexOf('/') + 1));
   lines.push('', 'Attached: ' + (attached.join(', ') || 'none'));
-  const only = all.filter((f) => /^(preview|logo)-/.test(f) && attached.indexOf(f) < 0);
-  if (only.length) lines.push('Only in R2: ' + only.join(', '));
-  lines.push('', 'Files in R2:', ...d.keys, '', 'This is a preview, not the print file. Reply with the free proof.');
+  const rest = d.fileNames.filter((f) => attached.indexOf(f) < 0);
+  if (d.keys.length) {
+    if (rest.length) lines.push('Only in R2: ' + rest.join(', '));
+  } else if (rest.length) {
+    const saved = rest.filter((f) => d.d1Saved.indexOf(f) >= 0);
+    const lost = rest.filter((f) => saved.indexOf(f) < 0);
+    if (saved.length) lines.push('Saved in the orders database (too big for the email): ' + saved.join(', '));
+    if (lost.length) lines.push('NOT saved (too big): ' + lost.join(', ') + '. Ask the customer to reply with these files.');
+  }
+  if (d.keys.length) lines.push('', 'Files in R2:', ...d.keys);
+  if (d.d1) lines.push('', 'Saved in D1: design_proof_requests, ref ' + d.ref);
+  lines.push('', 'This is a preview, not the print file. Reply with the free proof.');
   return lines.join('\n');
+}
+
+function productShorts(d) {
+  const shorts = [];
+  const products = d.design ? d.design.project.pieces.map((p) => p.productId) : d.dfm ? d.dfm.products : [];
+  for (const id of products) {
+    const short = productById(catalog, id).short;
+    if (shorts.indexOf(short) < 0) shorts.push(short);
+  }
+  return shorts;
+}
+
+const subjectOf = (d) => 'Design proof request: ' + (productShorts(d).join(' + ') || 'sign') + ' (' + d.contact.name + ') ' + d.ref;
+
+// Brevo: the request to the shop, customer as Reply-To, previews and logos attached (d.attach).
+async function sendBrevoMail(env, d) {
+  const configured = oneLine(env.DESIGN_PROOF_TO, 200);
+  const to = validEmail(configured) ? configured : SHOP_EMAIL;
+  const text = summaryText(d);
+  await brevoSend(env, {
+    to: to,
+    subject: subjectOf(d),
+    html: '<div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.5;white-space:pre-wrap">' + esc(text) + '</div>',
+    text: text,
+    replyTo: { email: d.contact.email, name: d.contact.name },
+    attachments: d.attach.map((a) => ({ name: a.filename, content: bytesToBase64(a.bytes) })),
+    tags: ['design-proof'],
+  });
+  return true;
+}
+
+// Short confirmation to the customer. Get Seen Signs only: no personal names, no legal name, city and state only.
+async function sendConfirmation(env, d) {
+  const first = d.contact.name.split(/\s+/)[0];
+  const shorts = productShorts(d);
+  const lead = d.mode === 'design_for_me' ? 'Thanks for sending your request. We will design it for you.' : 'Thanks for sending your design to Get Seen Signs.';
+  const proof = 'Your free proof will be in your inbox within 12 hours, 7 days a week. Three revisions are included, and nothing prints until you approve the proof.';
+  const html = layout({
+    heading: 'We got your request',
+    preheader: 'Reference ' + d.ref + '. Your free proof is coming within 12 hours.',
+    bodyHtml:
+      para('Hi ' + esc(first) + ',') + para(esc(lead)) +
+      '<p style="margin:0 0 12px;font-size:20px"><strong>Reference ' + esc(d.ref) + '</strong></p>' +
+      para(esc(proof)) +
+      (shorts.length ? para('You asked about: ' + esc(shorts.join(', ')) + '.') : '') +
+      para('Want to add a logo file or change something? Just reply to this email and mention your reference.') +
+      '<p style="margin:14px 0 0;font-size:13px;color:#5B5F66">This was a preview request, not an order. Prices and details are confirmed on your proof.</p>',
+  });
+  const text = ['Hi ' + first + ',', '', lead, '', 'Reference ' + d.ref, '', proof, shorts.length ? 'You asked about: ' + shorts.join(', ') + '.' : '', 'Want to add a logo file or change something? Just reply to this email and mention your reference.', '', '--', 'Get Seen Signs', 'Smiths Station, AL', SHOP_PHONE + ' | ' + SHOP_EMAIL + ' | getseensignsco.com']
+    .filter((l, i, a) => l !== '' || a[i - 1] !== '')
+    .join('\n');
+  await brevoSend(env, { to: d.contact.email, toName: d.contact.name, subject: 'We got your proof request (reference ' + d.ref + ')', html: html, text: text, tags: ['design-proof', 'confirmation'] });
 }
 
 async function sendMail(env, d, deps) {
@@ -493,17 +565,11 @@ async function sendMail(env, d, deps) {
       return false;
     }
   }
-  const shorts = [];
-  const products = d.design ? d.design.project.pieces.map((p) => p.productId) : d.dfm ? d.dfm.products : [];
-  for (const id of products) {
-    const short = productById(catalog, id).short;
-    if (shorts.indexOf(short) < 0) shorts.push(short);
-  }
   const head = {
     from: from,
     to: to,
     replyTo: d.contact.email,
-    subject: encodeHeader('Design proof request: ' + (shorts.join(' + ') || 'sign') + ' (' + d.contact.name + ') ' + d.ref),
+    subject: encodeHeader(subjectOf(d)),
     date: d.when.toUTCString(),
     messageId: '<' + d.ref + '.' + d.when.getTime().toString(36) + '@' + from.slice(from.indexOf('@') + 1) + '>',
   };
@@ -614,42 +680,53 @@ async function readFiles(form) {
 
 // ---------- storage ----------
 
-async function storeAll(env, ref, when, parts) {
+// Reads every accepted file in full and sanitizes SVG logos, before anything is stored or sent.
+async function prepareFiles(files) {
+  const out = [];
+  for (const pv of files.previews) {
+    out.push({ file: 'preview-' + pv.n + '.png', label: 'preview-' + pv.n + '.png', type: 'image/png', bytes: new Uint8Array(await pv.file.arrayBuffer()) });
+  }
+  for (const l of files.logos) {
+    let bytes = new Uint8Array(await l.file.arrayBuffer());
+    if (l.kind === 'svg') {
+      const clean = sanitizeSvg(new TextDecoder().decode(bytes));
+      if (!SVG_ROOT.test(clean)) throw new Reject(400, 'logo');
+      bytes = new TextEncoder().encode(clean);
+    }
+    const file = 'logo-' + l.n + '.' + (l.kind === 'jpeg' ? 'jpg' : l.kind);
+    out.push({ file: file, label: oneLine(l.file.name, 120) || file, type: LOGO_TYPES[l.kind], bytes: bytes });
+  }
+  return out;
+}
+
+// Previews first, then logos, while the total stays within the limit. A file that does not fit is skipped and
+// a later, smaller one may still go in.
+function pickAttachments(prepared, limit) {
+  const attach = [];
+  let used = 0;
+  for (const f of prepared) {
+    if (used + f.bytes.length > limit) continue;
+    used += f.bytes.length;
+    attach.push({ filename: f.file, type: f.type, bytes: f.bytes });
+  }
+  return attach;
+}
+
+async function storeR2(env, ref, when, parts, prepared) {
   const prefix = 'design-proofs/' + dayStamp(when) + '/' + ref + '/';
   const keys = [];
-  const attach = [];
   const logos = [];
   const previews = [];
-  let attachBytes = 0;
   const put = async (name, body, type) => {
     await env.PROOFS.put(prefix + name, body, { httpMetadata: { contentType: type } });
     keys.push(prefix + name);
   };
-  const offer = (filename, type, bytes) => {
-    if (attachBytes + bytes.length > ATTACH_LIMIT) return;
-    attachBytes += bytes.length;
-    attach.push({ filename: filename, type: type, bytes: bytes });
-  };
   try {
     if (parts.design) await put('design.json', JSON.stringify(parts.design), 'application/json; charset=utf-8');
-    for (const p of parts.files.previews) {
-      const bytes = new Uint8Array(await p.file.arrayBuffer());
-      const file = 'preview-' + p.n + '.png';
-      await put(file, bytes, 'image/png');
-      previews.push(file);
-      offer(file, 'image/png', bytes);
-    }
-    for (const l of parts.files.logos) {
-      let bytes = new Uint8Array(await l.file.arrayBuffer());
-      if (l.kind === 'svg') {
-        const clean = sanitizeSvg(new TextDecoder().decode(bytes));
-        if (!SVG_ROOT.test(clean)) throw new Reject(400, 'logo');
-        bytes = new TextEncoder().encode(clean);
-      }
-      const file = 'logo-' + l.n + '.' + (l.kind === 'jpeg' ? 'jpg' : l.kind);
-      await put(file, bytes, LOGO_TYPES[l.kind]);
-      logos.push({ file: file, name: oneLine(l.file.name, 120) || file, type: LOGO_TYPES[l.kind], bytes: bytes.length });
-      offer(file, LOGO_TYPES[l.kind], bytes);
+    for (const f of prepared) {
+      await put(f.file, f.bytes, f.type);
+      if (f.file.startsWith('preview-')) previews.push(f.file);
+      else logos.push({ file: f.file, name: f.label, type: f.type, bytes: f.bytes.length });
     }
     const record = Object.assign({ ref: ref, receivedAt: when.toISOString() }, parts.record, { files: { previews: previews, logos: logos } });
     await put('request.json', JSON.stringify(record), 'application/json; charset=utf-8');
@@ -661,14 +738,75 @@ async function storeAll(env, ref, when, parts) {
     }
     throw err;
   }
-  return { keys: keys, attach: attach, logos: logos };
+  return { keys: keys, logos: logos };
+}
+
+const toBase64 = (bytes) => bytesToBase64(bytes);
+
+// The request, the design and the file details go in one row. Without R2, files that did not fit in the email
+// are saved as base64 chunks (10 MB per request at most); the rest are only listed.
+async function storeD1(env, ref, when, parts, prepared, attachNames, hasR2) {
+  const db = await getDb(env);
+  const stamp = when.toISOString();
+  const meta = [];
+  const chunks = [];
+  let budget = D1_FILE_CAP;
+  for (const f of prepared) {
+    const info = { name: f.file, label: f.label, type: f.type, bytes: f.bytes.length, sha256: await sha256Hex(f.bytes), attached: attachNames.indexOf(f.file) >= 0, saved: hasR2 ? 'r2' : 'none' };
+    if (!hasR2 && !info.attached && f.bytes.length <= budget) {
+      budget -= f.bytes.length;
+      info.saved = 'd1';
+      for (let at = 0, seq = 0; at < f.bytes.length; at += D1_CHUNK, seq++) {
+        chunks.push(db.prepare('INSERT INTO design_proof_files (ref, name, seq, type, bytes, data) VALUES (?, ?, ?, ?, ?, ?)').bind(ref, f.file, seq, f.type, f.bytes.length, toBase64(f.bytes.subarray(at, at + D1_CHUNK))));
+      }
+    }
+    meta.push(info);
+  }
+  const wipe = () => db.prepare('DELETE FROM design_proof_files WHERE ref = ?').bind(ref).run().catch(() => {});
+  try {
+    for (let i = 0; i < chunks.length; i += 8) await db.batch(chunks.slice(i, i + 8));
+  } catch (_) {
+    await wipe();
+    for (const m of meta) if (m.saved === 'd1') m.saved = 'none';
+  }
+  const record = Object.assign({ ref: ref, receivedAt: stamp }, parts.record, { files: meta });
+  try {
+    await db
+      .prepare('INSERT INTO design_proof_requests (ref, created_at, updated_at, status, mode, customer_name, customer_email, request_json, design_json, files_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+      .bind(ref, stamp, stamp, 'new', parts.record.mode, parts.record.name, parts.record.email, JSON.stringify(record), parts.design ? JSON.stringify(parts.design) : null, JSON.stringify(meta))
+      .run();
+  } catch (err) {
+    await wipe();
+    throw err;
+  }
+  return { saved: meta.filter((m) => m.saved === 'd1').map((m) => m.name) };
+}
+
+async function markEmail(env, ref, when, shop, customer, error) {
+  try {
+    const db = await getDb(env);
+    await db
+      .prepare('UPDATE design_proof_requests SET shop_email = ?, customer_email_status = ?, email_error = ?, updated_at = ? WHERE ref = ?')
+      .bind(shop, customer, String(error || '').slice(0, 300), when.toISOString(), ref)
+      .run();
+  } catch (_) {
+    console.error('design-proof status failed');
+  }
 }
 
 // ---------- handler ----------
 
+// "false" is the off switch, "true" forces on, anything else turns on once D1 and Brevo are both set up.
+export function proofEnabled(env) {
+  const flag = env.DESIGN_PROOF_ENABLED;
+  if (flag === 'false') return false;
+  if (flag === 'true') return true;
+  return !!(env.DB && env.BREVO_API_KEY);
+}
+
 async function run(request, env, when, deps) {
-  if (env.DESIGN_PROOF_ENABLED !== 'true') return json({ ok: false, enabled: false }, 503);
-  if (!env.PROOFS) throw new Reject(500, 'storage');
+  if (!proofEnabled(env)) return json({ ok: false, enabled: false }, 503);
+  if (!env.PROOFS && !env.DB) throw new Reject(500, 'storage');
   if (limited(request.headers.get('cf-connecting-ip'), when.getTime())) return json({ ok: false, error: 'rate' }, 429, { 'Retry-After': '3600' });
   if (Number(request.headers.get('content-length') || 0) > MAX_BODY) throw new Reject(413, 'too-large');
 
@@ -720,14 +858,28 @@ async function run(request, env, when, deps) {
     elapsedMs: typeof req.elapsedMs === 'number' ? req.elapsedMs : null,
   };
 
-  let stored;
-  try {
-    stored = await storeAll(env, ref, when, { design: design, files: files, record: record });
-  } catch (err) {
-    if (err instanceof Reject) throw err;
-    console.error('design-proof storage failed');
-    throw new Reject(500, 'storage');
+  const prepared = await prepareFiles(files);
+  const primaryLimit = env.BREVO_API_KEY ? BREVO_ATTACH_LIMIT : ATTACH_LIMIT;
+  const primaryNames = pickAttachments(prepared, primaryLimit).map((a) => a.filename);
+  const parts = { design: design, record: record };
+
+  let r2 = null;
+  let d1 = null;
+  if (env.PROOFS) {
+    try {
+      r2 = await storeR2(env, ref, when, parts, prepared);
+    } catch (_) {
+      console.error('design-proof storage failed');
+    }
   }
+  if (env.DB) {
+    try {
+      d1 = await storeD1(env, ref, when, parts, prepared, primaryNames, !!r2);
+    } catch (_) {
+      console.error('design-proof database failed');
+    }
+  }
+  if (!r2 && !d1) throw new Reject(500, 'storage');
 
   const mail = {
     ref: ref,
@@ -739,17 +891,51 @@ async function run(request, env, when, deps) {
     serverTotal: serverTotal,
     clientTotal: who.clientTotal,
     priceMismatch: priceMismatch,
-    keys: stored.keys,
-    attach: stored.attach,
-    logos: stored.logos,
+    keys: r2 ? r2.keys : [],
+    logos: r2 ? r2.logos : [],
+    fileNames: prepared.map((f) => f.file),
+    d1: !!d1,
+    d1Saved: d1 ? d1.saved : [],
   };
   let emailed = false;
-  try {
-    emailed = await sendMail(env, mail, deps);
-  } catch (_) {
-    console.error('design-proof email failed');
+  let confirmed = false;
+  let shopStatus = 'skipped';
+  let error = '';
+  if (env.BREVO_API_KEY) {
+    try {
+      emailed = await sendBrevoMail(env, Object.assign({}, mail, { attach: pickAttachments(prepared, BREVO_ATTACH_LIMIT) }));
+      shopStatus = 'sent';
+    } catch (err) {
+      console.error('design-proof email failed');
+      shopStatus = 'failed';
+      error = err.message;
+    }
   }
-  return json({ ok: true, ref: ref, emailed: emailed, stored: true, serverTotal: serverTotal, priceMismatch: priceMismatch });
+  if (!emailed) {
+    try {
+      emailed = await sendMail(env, Object.assign({}, mail, { attach: pickAttachments(prepared, ATTACH_LIMIT) }), deps);
+      if (emailed) shopStatus = 'sent';
+    } catch (_) {
+      console.error('design-proof email failed');
+      shopStatus = 'failed';
+    }
+  }
+  let customerStatus = 'skipped';
+  if (emailed && env.BREVO_API_KEY) {
+    try {
+      await sendConfirmation(env, mail);
+      confirmed = true;
+      customerStatus = 'sent';
+    } catch (err) {
+      console.error('design-proof confirmation failed');
+      customerStatus = 'failed';
+      error = error || err.message;
+    }
+  }
+  if (d1) await markEmail(env, ref, when, shopStatus, customerStatus, error);
+  const answer = { ok: true, ref: ref, emailed: emailed, stored: true, serverTotal: serverTotal, priceMismatch: priceMismatch };
+  if (env.BREVO_API_KEY) answer.confirmed = confirmed;
+  return json(answer);
 }
 
 export async function handle(request, env, now, deps) {
