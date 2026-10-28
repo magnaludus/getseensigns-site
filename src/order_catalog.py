@@ -111,8 +111,8 @@ ORDER = {
     ),
     'custom-canopy-tents': dict(
         qtyLabel='tents', designer='canopy', designerMap={'package': 'package'},
-        groups=[dict(id='package', label='Package', choices=[('valance', 'Standard top and valance'), ('back', 'Top, valance and back wall'), ('kit', 'Full kit: walls, feather flag and table throw')])],
-        rows=[({'package': 'valance'}, '10×10 standard top and valance', 'tent-standard'),
+        groups=[dict(id='package', label='Package', choices=[('valance', 'Standard (frame + printed top and valance)'), ('back', 'Top, valance and back wall'), ('kit', 'Full kit: walls, feather flag and table throw')])],
+        rows=[({'package': 'valance'}, '10×10 Standard (frame + printed top and valance)', 'tent-standard'),
               ({'package': 'back'}, '10×10 top, valance and back wall', 'tent-top-wall'),
               ({'package': 'kit'}, 'Full kit: walls, feather flag and table throw', 'tent-full-kit')],
     ),

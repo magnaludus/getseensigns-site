@@ -168,7 +168,7 @@
           "choices": [
             {
               "id": "valance",
-              "label": "Standard top and valance"
+              "label": "Standard (frame + printed top and valance)"
             },
             {
               "id": "back",
@@ -187,9 +187,9 @@
             "package": "valance"
           },
           "source": "custom-canopy-tents",
-          "offer": "10×10 standard top and valance",
-          "price": 589,
-          "label": "10×10 standard top and valance"
+          "offer": "10×10 Standard (frame + printed top and valance)",
+          "price": 599,
+          "label": "10×10 Standard (frame + printed top and valance)"
         },
         {
           "when": {

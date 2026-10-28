@@ -26,7 +26,7 @@ export const CATALOG = {
   "throw-8ft-4sided": { name: "Table Throw (8 ft 4-sided)", priceId: "price_1UV28w67epULNprTxtUQ6WXQ", amount: 18900 },
   "fitted-6ft": { name: "Fitted Table Cover (6 ft fitted)", priceId: "price_1UV27f67epULNprT3lNTGO4j", amount: 15900 },
   "fitted-8ft": { name: "Fitted Table Cover (8 ft fitted)", priceId: "price_1UV28p67epULNprTFmBgCh4c", amount: 17900 },
-  "tent-standard": { name: "Canopy Tent 10x10 (Standard top and valance)", priceId: "price_1UV27i67epULNprTbSonW7v0", amount: 58900 },
+  "tent-standard": { name: "Canopy Tent 10x10 (Standard (frame + printed top and valance))", priceId: "price_1UVP5K67epULNprTOOBMLs", amount: 59900 },
   "tent-top-wall": { name: "Canopy Tent 10x10 (Top + Back Wall)", priceId: "price_1UV28z67epULNprTdaehROaN", amount: 84900 },
   "tent-full-kit": { name: "Canopy Tent 10x10 (Full Kit)", priceId: "price_1UV29067epULNprTwNKJ35ES", amount: 145900 },
   "yardsign-5-1s": { name: "Bulk Yard Signs (1-sided 5-pack)", priceId: "price_1UV27l67epULNprT2o04qAMs", amount: 7400 },

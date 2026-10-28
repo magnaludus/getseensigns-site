@@ -196,20 +196,20 @@ test('the Metal Business Cards page: seven exact prices, upload-only paths, 2 to
   assert.ok(PAGES.includes('metal-business-cards'));
 });
 
-test('tents: the $589 standard tier is the starting price everywhere and the $649 Top Only price is gone', () => {
+test('tents: the $599 Standard tier is the starting price everywhere and the $649 Top Only price is gone', () => {
   const tent = read('custom-canopy-tents/index.html');
   const text = body(tent);
-  assert.match(text, /Start with the standard printed top and valance on the frame for \$589/);
+  assert.match(text, /Start with the Standard \(frame \+ printed top and valance\) for \$599/);
   assert.ok(text.includes('$849') && text.includes('$1,459'));
   const offers = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(tent)[1])['@graph'].find((n) => n['@type'] === 'Product').offers;
-  assert.deepEqual(offers.map((o) => [o.price, o.description]), [['589.00', '10×10 standard top and valance'], ['849.00', '10×10 top, valance and back wall'], ['1459.00', 'Full kit: walls, feather flag and table throw']]);
-  assert.deepEqual(order.products['custom-canopy-tents'].rows.map((r) => [r.sku, r.price]), [['tent-standard', 589], ['tent-top-wall', 849], ['tent-full-kit', 1459]]);
-  assert.match(read('index.html'), /10×10 Canopy Tent<\/h3>[\s\S]{0,260}from<\/small> \$589/);
-  assert.match(read('shop/index.html'), /10×10 Canopy Tent[\s\S]{0,300}from<\/small> \$589/);
+  assert.deepEqual(offers.map((o) => [o.price, o.description]), [['599.00', '10×10 Standard (frame + printed top and valance)'], ['849.00', '10×10 top, valance and back wall'], ['1459.00', 'Full kit: walls, feather flag and table throw']]);
+  assert.deepEqual(order.products['custom-canopy-tents'].rows.map((r) => [r.sku, r.price]), [['tent-standard', 599], ['tent-top-wall', 849], ['tent-full-kit', 1459]]);
+  assert.match(read('index.html'), /10×10 Canopy Tent<\/h3>[\s\S]{0,260}from<\/small> \$599/);
+  assert.match(read('shop/index.html'), /10×10 Canopy Tent[\s\S]{0,300}from<\/small> \$599/);
   for (const f of allPages()) assert.doesNotMatch(readFileSync(f, 'utf8'), /\$649|"649(\.00)?"|tent-top-only/, f);
   for (const f of ['assets/order/catalog.json', 'assets/design/catalog.json', 'functions/_lib/catalog.js']) assert.doesNotMatch(read(f), /649|tent-top-only/, f);
   const design = env.catalog.products.find((p) => p.id === 'canopy');
-  assert.deepEqual(design.prices.map((r) => r.price), [589, 849, 1459]);
+  assert.deepEqual(design.prices.map((r) => r.price), [599, 849, 1459]);
 });
 
 test('the Shop page lists every product with its from price and an order link, and is in the sitemap', () => {
