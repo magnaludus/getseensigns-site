@@ -9,8 +9,7 @@ import {
 } from './util.js';
 
 export const MAX_FREE_REVISIONS = 3;
-export const CONSENT_TEXT =
-  'I agree to the Terms of Service and I approve this proof as my final artwork. I have checked the spelling, wording, numbers, colors, layout, size and quantity.';
+export const CONSENT_TEXT = 'I approve this proof and agree to the Terms of Service';
 
 const MAX_ITEMS = 20;
 const MAX_PROOF_FILES = 6;

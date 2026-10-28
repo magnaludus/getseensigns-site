@@ -659,7 +659,8 @@ def _legal_inline(s):
     s=s.replace('chat on WhatsApp', f'<a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat with Get Seen Signs on WhatsApp">chat on WhatsApp</a>')
     return s
 def _legal_norm_md(md):
-    s=_r0.sub(r'^#{1,6} +', '', md, flags=_r0.M)
+    s=_r0.sub(r'^\d+\. +', '', md, flags=_r0.M)
+    s=_r0.sub(r'^#{1,6} +', '', s, flags=_r0.M)
     s=s.replace('**', '')
     s=_r0.sub(r'^- +', '', s, flags=_r0.M)
     return _r0.sub(r'\s+', ' ', s).strip()
@@ -690,9 +691,16 @@ def render_legal(md):
                 i+=1
             out.append('<ul>\n'+'\n'.join(items)+'\n</ul>')
             continue
+        if _r0.match(r'\d+\. ', line):
+            items=[]
+            while i<len(lines) and _r0.match(r'\d+\. ', lines[i]):
+                items.append(f'<li>{_legal_inline(_r0.sub(r"^\d+\. +", "", lines[i]).strip())}</li>')
+                i+=1
+            out.append('<ol>\n'+'\n'.join(items)+'\n</ol>')
+            continue
         parts=[line.strip()]
         i+=1
-        while i<len(lines) and lines[i].strip() and not lines[i].startswith('#') and not lines[i].startswith('- '):
+        while i<len(lines) and lines[i].strip() and not lines[i].startswith('#') and not lines[i].startswith('- ') and not _r0.match(r'\d+\. ', lines[i]):
             parts.append(lines[i].strip())
             i+=1
         inner='<br>\n'.join(_legal_inline(p) for p in parts)
@@ -742,7 +750,7 @@ write_doc('/contact', 'Contact | Get Seen Signs',
 # ---------- sitemap, robots ----------
 LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
-LASTMOD['/terms']=LASTMOD['/contact']='2026-10-27'
+LASTMOD['/terms']='2026-10-28'; LASTMOD['/contact']='2026-10-27'
 LASTMOD['/privacy']='2026-10-28'
 urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/terms','/privacy','/contact']
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'

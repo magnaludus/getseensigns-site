@@ -216,7 +216,7 @@ h2{font-size:clamp(42px,5.6vw,76px)}
 .doc h2{font-size:28px;margin:34px 0 10px}
 .doc p,.doc li{color:#33363C;margin-bottom:10px}
 .doc .meta{color:var(--muted);margin-bottom:24px}
-.doc ul{margin:6px 0 16px;padding-left:1.25em}
+.doc ul,.doc ol{margin:6px 0 16px;padding-left:1.25em}
 .doc a{font-weight:600;text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:3px;text-underline-offset:3px}
 .doc .btn{text-decoration:none;font-weight:800}
 .doc .cta-row{margin:18px 0 22px}
