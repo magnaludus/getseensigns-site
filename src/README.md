@@ -38,6 +38,7 @@ python3 src/site-src-pages.py
 ```
 
 Run it from anywhere; paths are relative to the repo root. Output is written to the repo root.
+The sitemap `lastmod` (for pages without an explicit date) and the blog `dateModified` use today's date in America/New_York at build time. Set `BUILD_DATE=YYYY-MM-DD` to fix it, for example `BUILD_DATE=2026-10-28 python3 src/site-src-pages.py`. Nothing else in a page depends on the date, so a rebuild on a new day only changes `sitemap.xml` and the four blog pages.
 Then check `git diff`: only the pages you meant to change should differ.
 
 ## Checklist before every PR

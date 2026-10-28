@@ -10,7 +10,19 @@ from order_catalog import build_order_catalog
 from design_pages import HUB as DESIGN_HUB, PRODUCTS as DESIGN_PRODUCTS, PROOF as DESIGN_PROOF, start_price as design_start_price
 SRC=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(SRC); SITE=ROOT  # repo root: built pages are written here
 BASE='https://getseensignsco.com'
-TODAY=datetime.date(2026,10,26).isoformat()
+def _build_date():
+    """The date used for sitemap lastmod and blog dateModified when a page has no explicit override.
+    BUILD_DATE=YYYY-MM-DD fixes it (tests and reproducible rebuilds); otherwise it is today's date in America/New_York."""
+    fixed=os.environ.get('BUILD_DATE')
+    if fixed:
+        try: return datetime.date.fromisoformat(fixed).isoformat()
+        except ValueError: raise SystemExit('BUILD_DATE must look like 2026-10-28, got %r'%fixed)
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.datetime.now(ZoneInfo('America/New_York')).date().isoformat()
+    except Exception as err:
+        raise SystemExit('could not read the America/New_York time zone (%s); set BUILD_DATE=YYYY-MM-DD'%err)
+TODAY=_build_date()
 ETSY='https://www.etsy.com/shop/GetSeenSigns'
 # Public shop line. Links are plain sms:, tel: and wa.me URLs. No chat widget, script or tracker.
 PHONE_DISPLAY='(334) 232-9003'

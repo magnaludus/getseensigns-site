@@ -2,7 +2,9 @@
 // turnaround wording, and the footer. Reads the pages the Python build wrote at the repo root.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync, statSync, mkdtempSync, cpSync, rmSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -165,4 +167,48 @@ test('the Columbus page links the working sign inspection page, not the old brok
   const html = read('signs-columbus-ga-phenix-city/index.html');
   assert.ok(html.includes('href="https://columbusga.gov/inscode/What-We-Do/Sign-Inspection"'));
   for (const f of pages()) assert.ok(!readFileSync(f, 'utf8').includes('inspections-and-code-2'), f);
+});
+
+test('sitemap dates come from the build date (America/New_York, or BUILD_DATE) and a rebuild only touches the sitemap and blog dateModified', () => {
+  const sm = read('sitemap.xml');
+  const dates = [...sm.matchAll(/<loc>([^<]+)<\/loc><lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g)];
+  assert.ok(dates.length >= 40);
+  const lastmod = (path) => dates.find((m) => m[1] === 'https://getseensignsco.com' + path)[2];
+  assert.equal(lastmod('/terms'), '2026-10-28');
+  assert.equal(lastmod('/privacy'), '2026-10-28');
+  assert.equal(lastmod('/contact'), '2026-10-27');
+  const src = read('src/site-src-pages.py');
+  assert.match(src, /ZoneInfo\('America\/New_York'\)/);
+  assert.match(src, /os\.environ\.get\('BUILD_DATE'\)/);
+
+  const tmp = mkdtempSync(join(tmpdir(), 'gss-build-'));
+  try {
+    const top = fileURLToPath(root).replace(/\/$/, '');
+    for (const name of readdirSync(top)) {
+      if (['.git', '.design-dev', 'node_modules'].includes(name)) continue;
+      cpSync(join(top, name), join(tmp, name), { recursive: true });
+    }
+    const build = (date) => execFileSync('python3', ['src/site-src-pages.py'], { cwd: tmp, env: { ...process.env, BUILD_DATE: date }, stdio: 'pipe' });
+    const snapshot = () => {
+      const out = new Map();
+      const walk = (dir) => { for (const n of readdirSync(dir)) { const p = join(dir, n); if (statSync(p).isDirectory()) { if (n !== '__pycache__') walk(p); } else if (/\.(html|xml|txt|json)$/.test(n)) out.set(p.slice(tmp.length), readFileSync(p, 'utf8')); } };
+      walk(tmp);
+      return out;
+    };
+    build('2031-02-03');
+    const first = snapshot();
+    assert.match(first.get('/sitemap.xml'), /<loc>https:\/\/getseensignsco.com\/shop\/<\/loc><lastmod>2031-02-03<\/lastmod>/);
+    assert.match(first.get('/sitemap.xml'), /<loc>https:\/\/getseensignsco.com\/privacy<\/loc><lastmod>2026-10-28<\/lastmod>/, 'an explicit override stays');
+    build('2031-02-03');
+    const again = snapshot();
+    assert.deepEqual([...again].filter(([k, v]) => first.get(k) !== v).map(([k]) => k), [], 'the same date rebuilds to identical files');
+    build('2031-02-04');
+    const next = snapshot();
+    const changed = [...next].filter(([k, v]) => first.get(k) !== v).map(([k]) => k).sort();
+    assert.ok(changed.includes('/sitemap.xml'));
+    assert.deepEqual(changed.filter((k) => k !== '/sitemap.xml' && !k.startsWith('/blog/')), [], 'only the sitemap and the blog pages (JSON-LD dateModified) use the date');
+    assert.throws(() => execFileSync('python3', ['src/site-src-pages.py'], { cwd: tmp, env: { ...process.env, BUILD_DATE: 'tomorrow' }, stdio: 'pipe' }));
+  } finally {
+    rmSync(tmp, { recursive: true, force: true });
+  }
 });
