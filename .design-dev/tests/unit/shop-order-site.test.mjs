@@ -39,8 +39,9 @@ test('the order catalog covers every product page and every approved price, and 
   assert.deepEqual(Object.keys(order.products).sort(), PAGES.slice().sort());
   const offered = new Set([...Object.values(order.products).flatMap((p) => p.rows.map((r) => r.sku)), ...Object.values(order.products).flatMap((p) => p.addons.map((a) => a.sku))]);
   assert.deepEqual([...offered].sort(), Object.keys(order.skus).sort());
-  // The one price in the Stripe catalog that the site does not show (the $589 standard tent top) stays quote-only.
-  assert.deepEqual(Object.keys(CATALOG).filter((s) => !offered.has(s)), ['tent-standard']);
+  // Every price in the Stripe catalog is on the site; the $649 "Top Only" tent price is gone from the catalog and the pages.
+  assert.deepEqual(Object.keys(CATALOG).filter((s) => !offered.has(s)), []);
+  assert.ok(!('tent-top-only' in CATALOG));
   assert.ok(!('shipping' in order.skus));
   for (const p of Object.values(order.products)) {
     for (const g of p.groups) for (const c of g.choices) assert.ok(p.rows.some((r) => r.when[g.id] === c.id), `${p.slug} ${g.id}=${c.id} is priced`);
@@ -147,6 +148,22 @@ test('every SKU has a saved Stripe price, and the placeholder list is empty', ()
   assert.deepEqual([CATALOG['patch-pvc-3in-50'].priceId, CATALOG['patch-emb-50'].priceId, CATALOG['patch-emb-100'].priceId, CATALOG['safety-12x18-5-063'].priceId], ['price_1UVNcM67epULNprTeoeIIg0R', 'price_1UVNcP67epULNprTFpBjmMvQ', 'price_1UVNcR67epULNprTbdkhaw6s', 'price_1UVNpR67epULNprTAbPoa2eq']);
   assert.ok(!('safety-12x18-5-hd' in CATALOG) && !('patch-pvc-50-3in' in CATALOG), 'old SKU names are gone');
   assert.deepEqual([CATALOG['patch-pvc-3in-50'].amount, CATALOG['patch-emb-50'].amount, CATALOG['patch-emb-100'].amount], [32900, 23900, 30900]);
+});
+
+test('tents: the $589 standard tier is the starting price everywhere and the $649 Top Only price is gone', () => {
+  const tent = read('custom-canopy-tents/index.html');
+  const text = body(tent);
+  assert.match(text, /Start with the standard printed top and valance on the frame for \$589/);
+  assert.ok(text.includes('$849') && text.includes('$1,459'));
+  const offers = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(tent)[1])['@graph'].find((n) => n['@type'] === 'Product').offers;
+  assert.deepEqual(offers.map((o) => [o.price, o.description]), [['589.00', '10×10 standard top and valance'], ['849.00', '10×10 top, valance and back wall'], ['1459.00', 'Full kit: walls, feather flag and table throw']]);
+  assert.deepEqual(order.products['custom-canopy-tents'].rows.map((r) => [r.sku, r.price]), [['tent-standard', 589], ['tent-top-wall', 849], ['tent-full-kit', 1459]]);
+  assert.match(read('index.html'), /10×10 Canopy Tent<\/h3>[\s\S]{0,260}from<\/small> \$589/);
+  assert.match(read('shop/index.html'), /10×10 Canopy Tent[\s\S]{0,300}from<\/small> \$589/);
+  for (const f of allPages()) assert.doesNotMatch(readFileSync(f, 'utf8'), /\$649|"649(\.00)?"|tent-top-only/, f);
+  for (const f of ['assets/order/catalog.json', 'assets/design/catalog.json', 'functions/_lib/catalog.js']) assert.doesNotMatch(read(f), /649|tent-top-only/, f);
+  const design = env.catalog.products.find((p) => p.id === 'canopy');
+  assert.deepEqual(design.prices.map((r) => r.price), [589, 849, 1459]);
 });
 
 test('the Shop page lists every product with its from price and an order link, and is in the sitemap', () => {

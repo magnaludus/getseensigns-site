@@ -45,7 +45,7 @@ const goodRequest = (over) =>
   Object.assign(
     {
       name: 'Pat Smith', email: 'pat@example.com', phone: '334-555-0100', eventDate: '2026-11-14', notes: 'Please make the logo bigger.',
-      mode: 'self', source: 'design', viewport: 'd', clientTotal: 1947, elapsedMs: 45000, hear: 'a friend',
+      mode: 'self', source: 'design', viewport: 'd', clientTotal: 1767, elapsedMs: 45000, hear: 'a friend',
     },
     over
   );
@@ -566,7 +566,7 @@ test('a valid request stores design, previews, logos and the request, then sends
     'Heard about us: a friend',
     'Source: design (desktop)',
     'Piece 1: 10×10 pop-up canopy tent',
-    '  Options: Package: Top and valance',
+    '  Options: Package: Standard top and valance',
     '  Quantity: 3',
     '  Template: ' + piece.templateId,
     '  Sides: same on all sides (Front, Right, Back, Left)',
@@ -640,8 +640,8 @@ test('the ref is GS- plus 8 Crockford characters without I, L, O or U', () => {
 test('the server price comes from the catalog and matches what the page shows', async () => {
   const yard = setChoices(createDocument(env, 'yard'), 0, { pack: '25', print: '2' }, env);
   const cases = [
-    [canopyDoc(), 649],
-    [canopyDoc(3), 649 * 3],
+    [canopyDoc(), 589],
+    [canopyDoc(3), 589 * 3],
     [setChoices(canopyDoc(2), 0, { package: 'kit' }, env), 1459 * 2],
     [yard, 209],
     [twoPieceDoc(), null],
@@ -669,20 +669,20 @@ test('a wrong client total is flagged but the request is still taken', async () 
   assert.equal(body.ok, true);
   assert.equal(body.stored, true);
   assert.equal(body.priceMismatch, true);
-  assert.equal(body.serverTotal, 1947);
+  assert.equal(body.serverTotal, 1767);
   const record = e.PROOFS.json(e.PROOFS.keys().find((k) => k.endsWith('request.json')));
   assert.equal(record.priceMismatch, true);
   assert.equal(record.clientTotal, 5);
   const text = readMime(e.SEND_EMAIL.sent[0].raw).text;
-  assert.ok(text.includes('WARNING: the page showed $5 but the server price is $1,947. Check before quoting.'));
+  assert.ok(text.includes('WARNING: the page showed $5 but the server price is $1,767. Check before quoting.'));
 
-  for (const clientTotal of [undefined, 'abc', '1947', null, -3, Infinity]) {
+  for (const clientTotal of [undefined, 'abc', '1767', null, -3, Infinity]) {
     const other = mkEnv();
     const out = await send(other, okParts({ request: goodRequest({ clientTotal }) }));
     assert.equal(out.body.priceMismatch, false, 'no usable client total, no warning: ' + String(clientTotal));
   }
   const fine = mkEnv();
-  assert.equal((await send(fine, okParts({ request: goodRequest({ clientTotal: 1947 }) }))).body.priceMismatch, false);
+  assert.equal((await send(fine, okParts({ request: goodRequest({ clientTotal: 1767 }) }))).body.priceMismatch, false);
   assert.ok(!readMime(fine.SEND_EMAIL.sent[0].raw).text.includes('WARNING'));
 });
 
@@ -724,7 +724,7 @@ test('design for me works without a design or previews and skips pricing', async
   const withFiles = mkEnv();
   const more = await send(withFiles, { request, design: canopyDoc(2), logos: [file(bytesOf('png', 500), 'a.png', 'image/png')], previews: [pngFile(0)] });
   assert.equal(more.body.stored, true);
-  assert.equal(more.body.serverTotal, 1298, 'a design that comes along is priced');
+  assert.equal(more.body.serverTotal, 1178, 'a design that comes along is priced');
   const bare = mkEnv();
   const logoOnly = await send(bare, { request: goodRequest({ mode: 'design_for_me' }), logos: [file(bytesOf('png', 500), 'a.png', 'image/png')] });
   assert.equal(logoOnly.body.stored, true);

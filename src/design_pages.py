@@ -30,9 +30,9 @@ PRODUCTS = [
         'lede': 'Pick a layout, add your name and logo, and turn your 10×10 tent around in 3D before you send it. Free design proof within 12 hours, 7 days a week.',
         'alt': 'A printed 10×10 canopy tent with a custom top and valance',
         'sections': [
-            ('What you can design', 'Your tent has a roof peak and a valance on all four sides. Put the same design on every side, or choose Each side different and design the front, right, back and left one at a time. Pick top and valance, top with back wall, or the full kit. The designer covers the printed top and valance. Walls, the flag and the table throw in the full kit are laid out on your free proof.'),
+            ('What you can design', 'Your tent has a roof peak and a valance on all four sides. Put the same design on every side, or choose Each side different and design the front, right, back and left one at a time. Pick the standard top and valance, top with back wall, or the full kit. The designer covers the printed top and valance. Walls, the flag and the table throw in the full kit are laid out on your free proof.'),
             ('How the designer works', 'Start from one of four layouts, then change the words, colors and font, and add your logo as a PNG, JPG, WebP or SVG. Drag, resize and rotate anything on the flat view, then switch to 3D and walk around the tent to check every side. Guides show the roof shape, the valance line and a safe zone so your name does not land where it could be trimmed.'),
-            ('What it costs', 'Tents start at {price} with free shipping in the lower 48. The price you see in the designer is the price for the package you choose, and it matches our Etsy listing.'),
+            ('What it costs', 'Tents start at {price} with free shipping in the lower 48. The price you see in the designer is the price for the package you choose.'),
             ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Tents arrive 5 to 10 business days after you approve.'),
         ],
         'faqs': [

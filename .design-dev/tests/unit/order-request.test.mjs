@@ -179,7 +179,6 @@ test('custom patches are priced on the server from the saved SKUs, whatever the 
 test('bad order input is refused before anything is stored or sent', async () => {
   const cases = [
     [[{ sku: 'shipping', quantity: 1 }], 'the shipping line is not for sale'],
-    [[{ sku: 'tent-standard', quantity: 1 }], 'a price in the Stripe catalog that is not on the site'],
     [[{ sku: 'does-not-exist', quantity: 1 }], 'unknown sku'],
     [[{ sku: '__proto__', quantity: 1 }], 'prototype key'],
     [[{ sku: 'constructor', quantity: 1 }], 'prototype key'],
@@ -299,7 +298,7 @@ test('a two-piece design makes two lines and a quantity is capped', () => {
   const doc = createDocument(designEnv, 'canopy');
   doc.project.pieces.push(createDocument(designEnv, 'feather').project.pieces[0]);
   const items = proof.itemsFromDesign(doc);
-  assert.deepEqual(items.map((i) => i.sku), ['tent-top-only', 'flag-10.5-spike']);
+  assert.deepEqual(items.map((i) => i.sku), ['tent-standard', 'flag-10.5-spike']);
 });
 
 test('without the DB binding a designer request stays a plain proof request with no order', async () => {

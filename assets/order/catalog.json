@@ -813,7 +813,7 @@
      "choices": [
       {
        "id": "valance",
-       "label": "Top and valance"
+       "label": "Standard top and valance"
       },
       {
        "id": "back",
@@ -831,8 +831,8 @@
      "when": {
       "package": "valance"
      },
-     "sku": "tent-top-only",
-     "price": 649
+     "sku": "tent-standard",
+     "price": 589
     },
     {
      "when": {
@@ -1376,7 +1376,7 @@
   "table-throws|8 ft, 3-sided": "throw-8ft-3sided",
   "table-throws|8 ft, 4-sided": "throw-8ft-4sided",
   "table-throws|8 ft fitted, closed back": "fitted-8ft",
-  "custom-canopy-tents|10×10 top and valance": "tent-top-only",
+  "custom-canopy-tents|10×10 standard top and valance": "tent-standard",
   "custom-canopy-tents|10×10 top, valance and back wall": "tent-top-wall",
   "custom-canopy-tents|Full kit: walls, feather flag and table throw": "tent-full-kit",
   "hard-hat-decals|2 in, 100 decals": "decal-2in-100",
@@ -1547,8 +1547,8 @@
   "tent-full-kit": {
    "name": "Canopy Tent 10x10 (Full Kit)"
   },
-  "tent-top-only": {
-   "name": "Canopy Tent 10x10 (Top Only)"
+  "tent-standard": {
+   "name": "Canopy Tent 10x10 (Standard top and valance)"
   },
   "tent-top-wall": {
    "name": "Canopy Tent 10x10 (Top + Back Wall)"

@@ -168,7 +168,7 @@
           "choices": [
             {
               "id": "valance",
-              "label": "Top and valance"
+              "label": "Standard top and valance"
             },
             {
               "id": "back",
@@ -187,9 +187,9 @@
             "package": "valance"
           },
           "source": "custom-canopy-tents",
-          "offer": "10×10 top and valance",
-          "price": 649,
-          "label": "10×10 top and valance"
+          "offer": "10×10 standard top and valance",
+          "price": 589,
+          "label": "10×10 standard top and valance"
         },
         {
           "when": {
