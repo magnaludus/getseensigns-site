@@ -73,7 +73,7 @@ test('every matching product page embeds its video with a poster', () => {
   const map = {
     'bulk-campaign-signs': ['02-bulk-yard-signs'], 'vinyl-banners': ['03-vinyl-banner'], 'feather-flags': ['04-feather-flags'], 'retractable-banners': ['05-retractable-banner'],
     'car-magnets': ['06-car-magnets'], 'real-estate-signs': ['07-real-estate-sign'], 'step-and-repeat-backdrops': ['08-step-and-repeat'], 'table-throws': ['09-table-throw'],
-    'custom-canopy-tents': ['10-canopy-tent'], 'holiday-yard-signs': ['11-christmas-banner', '14-thanksgiving-yard-sign'], 'senior-night-banners': ['12-senior-night-banner'], 'trade-show-booth-kit': ['15-vendor-booth-kit'],
+    'custom-canopy-tents': ['10-canopy-tent'], 'holiday-yard-signs': ['11-christmas-banner', '14-thanksgiving-yard-sign'], 'senior-night-banners': ['12-senior-night-banner'], 'trade-show-booth-kit': ['15-trade-show-booth-kit'],
   };
   let count = 0;
   for (const [slug, names] of Object.entries(map)) {
@@ -259,4 +259,13 @@ test('audit fixes: meta descriptions under 160 characters, brand in the tailgate
   assert.ok(html.includes('aria-label="Text us at (334) 232-9003"') && html.includes('aria-label="Chat on WhatsApp with Get Seen Signs"'));
   assert.ok(!html.includes('aria-label="Text Get Seen Signs at'));
   assert.ok(read('assets/design/ui/tabs/templates.js').includes("'aria-hidden': 'true'"));
+});
+
+test('the booth kit images and video use the trade-show-booth-kit file names (key 15 kept), and no vendor-booth-kit asset is left', () => {
+  for (const f of ['p-15-trade-show-booth-kit.jpg', 'p-15-trade-show-booth-kit.webp', 'p-15-trade-show-booth-kit-sm.webp', 'g-15-trade-show-booth-kit-2.jpg', 'g-15-trade-show-booth-kit-2.webp', 'g-15-trade-show-booth-kit-2-sm.webp']) assert.ok(existsSync(new URL('assets/img/' + f, root)), f);
+  for (const f of ['15-trade-show-booth-kit.mp4', '15-trade-show-booth-kit-poster.jpg']) assert.ok(existsSync(new URL('assets/video/' + f, root)), f);
+  for (const dir of ['assets/img', 'assets/video']) assert.deepEqual(readdirSync(new URL(dir, root)).filter((n) => /vendor-booth/.test(n)), [], dir);
+  const html = read('trade-show-booth-kit/index.html');
+  assert.ok(html.includes('/assets/img/p-15-trade-show-booth-kit.webp') && html.includes('/assets/video/15-trade-show-booth-kit.mp4'));
+  assert.ok(!/15-vendor-booth-kit/.test(html + read('index.html') + read('shop/index.html')));
 });

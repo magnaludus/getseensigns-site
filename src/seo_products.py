@@ -276,8 +276,8 @@ dict(
  related=['table-throws','feather-flags','step-and-repeat-backdrops'],
 ),
 dict(
- slug='trade-show-booth-kit', key='15-vendor-booth-kit', etsy='4600470595', price=339, unit='kit', base='6 ft throw, 33×81 banner, 10.5 ft flag',
- videos=[('15-vendor-booth-kit', 'Trade show booth kit')],
+ slug='trade-show-booth-kit', key='15-trade-show-booth-kit', etsy='4600470595', price=339, unit='kit', base='6 ft throw, 33×81 banner, 10.5 ft flag',
+ videos=[('15-trade-show-booth-kit', 'Trade show booth kit')],
  name='Trade Show Booth Kit', short='Trade Show Booth Kit',
  title='Trade Show Booth Kit: Throw, Banner & Flag | Get Seen Signs',
  desc='Trade show booth kit for gun shows and industrial expos: a logo table throw, 33x81 retractable banner and feather flag. One price, $339, free shipping.',
