@@ -40,8 +40,12 @@ test('the three new Etsy products have pages with the approved prices and links'
     assert.ok(read('terms.html').includes(`href="/${slug}/"`), slug + ' in the footer');
     for (const f of [`p-${{ 'hard-hat-decals': '16-hard-hat-decals', 'aluminum-safety-signs': '17-aluminum-safety-signs', 'challenge-coins': '18-challenge-coins' }[slug]}.jpg`]) assert.ok(existsSync(new URL('assets/img/' + f, root)), f);
   }
-  const safety = body(read('aluminum-safety-signs/index.html'));
-  assert.ok(!safety.includes('$169') && !/heavy duty/i.test(safety), 'no unapproved heavy duty option');
+  const safetyHtml = read('aluminum-safety-signs/index.html');
+  const safety = body(safetyHtml);
+  assert.ok(safety.includes('12×18 in, 5 heavy duty (.063) ($169)'), 'heavy duty option listed');
+  const offers = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(safetyHtml)[1])['@graph'].find((n) => n['@type'] === 'Product').offers;
+  assert.deepEqual(offers.map((o) => [o.price, o.description]), [['119.00', '12×18 in, 5 signs'], ['199.00', '12×18 in, 10 signs'], ['199.00', '18×24 in, 5 signs'], ['169.00', '12×18 in, 5 heavy duty (.063)']]);
+  assert.ok(safetyHtml.includes('g-17-aluminum-safety-signs-pricing') && safetyHtml.includes('g-17-aluminum-safety-signs-specs'));
   assert.match(body(read('challenge-coins/index.html')), /3 to 4 weeks/);
   assert.match(body(read('hard-hat-decals/index.html')), /4 to 8 business days/);
   assert.match(body(read('aluminum-safety-signs/index.html')), /5 to 9 business days/);
