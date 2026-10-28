@@ -105,7 +105,7 @@ dict(
   ('Spike or cross base?', 'Use the ground spike on grass and dirt. Use the cross base with a water bag on pavement, sidewalks and indoors, where you can\'t push anything into the ground.'),
   ('Which height?', '10.5 ft works for storefronts and booths. 14 ft and 18 ft flags are for roadside spots where drivers need to see you from farther back.'),
   ('Pricing', '10.5 ft is $129 with a ground spike or $139 with a cross base. 14 ft is $139 with a ground spike or $149 with a cross base. 18 ft is $149 with a ground spike or $169 with a cross base. Each kit includes the flag, pole, base and carry bag.'),
-  ('Booth kit', 'The <a href="/vendor-booth-kit/">vendor booth kit</a> is $339 and includes a 10.5 ft flag with a ground spike, a 6 ft 3-sided table throw and a 33×81 retractable banner.'),
+  ('Booth kit', 'The <a href="/trade-show-booth-kit/">trade show booth kit</a> is $339 and includes a 10.5 ft flag with a ground spike, a 6 ft 3-sided table throw and a 33×81 retractable banner.'),
  ],
  faqs=[
   ('Does the kit come with everything?', 'Yes: flag, pole, your choice of base, and a carry bag.'),
@@ -113,7 +113,7 @@ dict(
   ('Can I use the flag indoors?', 'Yes, on the cross base. The ground spike is for outdoor use only.'),
  ],
  kw=['custom feather flag','feather flag','advertising flag','business flag','swooper flag'],
- related=['vendor-booth-kit','table-throws','custom-canopy-tents'],
+ related=['trade-show-booth-kit','table-throws','custom-canopy-tents'],
 ),
 dict(
  slug='retractable-banners', key='05-retractable-banner', etsy='4597118225', price=109, unit='each', base='33×81 in stand',
@@ -131,7 +131,7 @@ dict(
  body=[
   ('Designing for a pull-up banner', 'People read these at eye level and from a few steps away. Put your logo and main message in the top half. The bottom 10 inches or so sit behind tables and feet, so keep anything important out of that zone.'),
   ('33 or 47 inches wide?', '33×81 is $109. It is the common trade show size and fits beside a table. 47×81 is $249, for when you want a wall of brand behind you, or when the stand is the only display.'),
-  ('Pair it with', 'A <a href="/table-throws/">logo table throw</a> for the booth table and a <a href="/step-and-repeat-backdrops/">step and repeat</a> for photo walls. The <a href="/vendor-booth-kit/">vendor booth kit</a> is $339 and includes this 33×81 stand, a 6 ft 3-sided table throw and a 10.5 ft feather flag.'),
+  ('Pair it with', 'A <a href="/table-throws/">logo table throw</a> for the booth table and a <a href="/step-and-repeat-backdrops/">step and repeat</a> for photo walls. The <a href="/trade-show-booth-kit/">trade show booth kit</a> is $339 and includes this 33×81 stand, a 6 ft 3-sided table throw and a 10.5 ft feather flag.'),
  ],
  faqs=[
   ('Is the stand included?', 'Yes. The price includes the aluminum base, the printed banner, the pole and a padded bag.'),
@@ -139,7 +139,7 @@ dict(
   ('How long does setup take?', 'About a minute. Pull the banner up out of the base and hook it to the top of the pole.'),
  ],
  kw=['retractable banner','pull up banner','roll up banner','banner stand','trade show banner'],
- related=['vendor-booth-kit','table-throws','step-and-repeat-backdrops'],
+ related=['trade-show-booth-kit','table-throws','step-and-repeat-backdrops'],
 ),
 dict(
  slug='car-magnets', key='06-car-magnet', etsy='4597140402', price=74, unit='pair', base='12×18 pair',
@@ -238,7 +238,7 @@ dict(
   ('3-sided or 4-sided?', 'A 3-sided throw has an open back, so whoever sits behind the table can reach boxes and bags underneath. A 4-sided throw covers all the way around, which looks better when people walk around the table. 6 ft 3-sided is $139 and 6 ft 4-sided is $169. 8 ft 3-sided is $159 and 8 ft 4-sided is $189.'),
   ('Fitted covers', 'A fitted, closed-back cover is tailored to the table, so it gives a cleaner look than a throw and stays put better in wind. 6 ft fitted is $159 and 8 ft fitted is $179. The back is closed, so choose a 3-sided throw if you need to reach under the table from behind.'),
   ('Where they show up', 'Vendor fairs, farmers markets, school sign-up nights, church welcome tables, career fairs and trade shows.'),
-  ('Complete the booth', 'Add a <a href="/custom-canopy-tents/">custom canopy tent</a> outside or a <a href="/retractable-banners/">retractable banner</a> inside. The <a href="/vendor-booth-kit/">vendor booth kit</a> is $339 and includes a 6 ft 3-sided throw, a 33×81 retractable banner and a 10.5 ft feather flag.'),
+  ('Complete the booth', 'Add a <a href="/custom-canopy-tents/">custom canopy tent</a> outside or a <a href="/retractable-banners/">retractable banner</a> inside. The <a href="/trade-show-booth-kit/">trade show booth kit</a> is $339 and includes a 6 ft 3-sided throw, a 33×81 retractable banner and a 10.5 ft feather flag.'),
  ],
  faqs=[
   ('Will it fit my table?', 'Throws are cut for standard 6 ft and 8 ft rectangular folding tables. Pick the size that matches your table length.'),
@@ -247,7 +247,7 @@ dict(
   ('Is the logo printed on all sides?', 'The full-color print is on the front panel. Ask in a quote if you need more.'),
  ],
  kw=['custom tablecloth','tablecloth with logo','table throw','logo tablecloth','vendor tablecloth'],
- related=['vendor-booth-kit','custom-canopy-tents','retractable-banners'],
+ related=['trade-show-booth-kit','custom-canopy-tents','retractable-banners'],
 ),
 dict(
  slug='custom-canopy-tents', key='10-canopy-tent', etsy='4597142098', price=649, unit='kit', base='10×10 frame, printed top and valance',
@@ -276,13 +276,13 @@ dict(
  related=['table-throws','feather-flags','step-and-repeat-backdrops'],
 ),
 dict(
- slug='vendor-booth-kit', key='15-vendor-booth-kit', etsy='4600470595', price=339, unit='kit', base='6 ft throw, 33×81 banner, 10.5 ft flag',
- videos=[('15-vendor-booth-kit', 'Vendor booth kit')],
- name='Vendor Booth Kit', short='Vendor Booth Kit',
- title='Vendor Booth Kit: Throw, Banner & Flag | Get Seen Signs',
- desc='Vendor booth kit with a custom 6 ft 3-sided table throw, a 33x81 retractable banner and a 10.5 ft feather flag. One price, $339, with free shipping.',
- h1=('Vendor booth kit', 'throw, banner and flag, matched.'),
- lede='Everything your booth needs, matched to your logo, for one price. A 6 ft 3-sided table throw, a 33×81 retractable banner stand and a 10.5 ft feather flag.',
+ slug='trade-show-booth-kit', key='15-vendor-booth-kit', etsy='4600470595', price=339, unit='kit', base='6 ft throw, 33×81 banner, 10.5 ft flag',
+ videos=[('15-vendor-booth-kit', 'Trade show booth kit')],
+ name='Trade Show Booth Kit', short='Trade Show Booth Kit',
+ title='Trade Show Booth Kit: Throw, Banner & Flag | Get Seen Signs',
+ desc='Trade show booth kit for gun shows and industrial expos: a logo table throw, 33x81 retractable banner and feather flag. One price, $339, free shipping.',
+ h1=('Trade show booth kit', 'throw, banner and flag, matched.'),
+ lede='Built for exhibitors at gun shows, industry expos, and manufacturing and industrial trade shows. You get a logo table throw, a 33x81 retractable banner, and a feather flag, all matched to your brand and shipped ready to set up.',
  sizes=['6 ft 3-sided table throw (open back)', '33×81 in retractable banner stand', '10.5 ft feather flag with ground spike'],
  material='Table throw: dye-sublimated polyester, machine washable and wrinkle resistant. Banner: printed retractable with an aluminum base. Flag: single-sided print with pole and ground spike.',
  included='6 ft 3-sided table throw, 33×81 retractable banner with aluminum base and carry bag, 10.5 ft feather flag with pole and ground spike, free custom design and digital proof',
@@ -299,7 +299,7 @@ dict(
   ('Can I change a piece?', 'This kit is the 6 ft 3-sided throw, the 33×81 banner and the 10.5 ft flag with a ground spike. For an 8 ft or 4-sided throw, a bigger banner or a taller flag, message us for a kit quote.'),
   ('Can I return it?', 'Kits are made to order, so we don\'t take returns. Misprints and damage are reprinted free.'),
  ],
- kw=['vendor booth kit','trade show display','custom table throw','retractable banner','feather flag'],
+ kw=['trade show booth kit','trade show display','gun show display','industrial expo display','custom table throw','retractable banner','feather flag'],
  related=['table-throws','retractable-banners','feather-flags'],
 ),
 dict(
@@ -400,7 +400,7 @@ dict(
   ('Can I return them?', 'Coins are made to order, so we do not take returns. Misprints and damage are remade free.'),
  ],
  kw=['custom challenge coins','challenge coins','company challenge coin','safety award coin','custom coin with logo'],
- related=['hard-hat-decals','aluminum-safety-signs','vendor-booth-kit'],
+ related=['hard-hat-decals','aluminum-safety-signs','trade-show-booth-kit'],
 ),
 dict(
  slug='senior-night-banners', key='12-senior-night-banner', etsy='4597122075', price=39, unit='each', base='2×3 ft',

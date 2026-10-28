@@ -14,7 +14,7 @@ dict(
 <li><b>Senior night and team banners</b> for high school football, basketball, baseball and soccer. See <a href="/senior-night-banners/">senior night banners</a>.</li>
 <li><b>Grand opening and storefront banners.</b> <a href="/vinyl-banners/">Vinyl banners</a> from 2×4 to 3×10 ft.</li>
 <li><b>Contractor and service trucks.</b> <a href="/car-magnets/">Car door magnets</a> and <a href="/bulk-campaign-signs/">job-site yard signs</a> (packs start at 5).</li>
-<li><b>Vendor booths and ballfield tents.</b> <a href="/custom-canopy-tents/">10×10 canopy tents</a>, <a href="/table-throws/">table throws</a>, <a href="/feather-flags/">feather flags</a> and the <a href="/vendor-booth-kit/">vendor booth kit</a> ($339).</li>
+<li><b>Vendor booths and ballfield tents.</b> <a href="/custom-canopy-tents/">10×10 canopy tents</a>, <a href="/table-throws/">table throws</a>, <a href="/feather-flags/">feather flags</a> and the <a href="/trade-show-booth-kit/">trade show booth kit</a> ($339).</li>
 <li><b>Military homecomings and retirements.</b> Custom <a href="/vinyl-banners/">vinyl banners</a> for a welcome home or a retirement. Our founder is a retired Army and Marine veteran.</li>
 </ul>
 <h2>Gameday and tailgate signs for Columbus and Phenix City</h2>
@@ -53,7 +53,7 @@ dict(
 <li><b>Tailgate and game-day tents.</b> A <a href="/custom-canopy-tents/">custom 10×10 canopy tent</a> with your family or business name, plus a <a href="/feather-flags/">feather flag</a> so your group can find you.</li>
 <li><b>Realtor signs.</b> <a href="/real-estate-signs/">Real estate signs</a> in coroplast or aluminum, with riders and post frames, and <a href="/car-magnets/">car magnets</a> for agents.</li>
 <li><b>Shops and restaurants.</b> <a href="/vinyl-banners/">Grand opening banners</a>, <a href="/bulk-campaign-signs/">yard sign packs</a> for sales, and <a href="/retractable-banners/">retractable banners</a> for events.</li>
-<li><b>Vendors and nonprofits.</b> <a href="/table-throws/">Logo table throws</a>, the <a href="/vendor-booth-kit/">vendor booth kit</a> ($339) and <a href="/step-and-repeat-backdrops/">step and repeat backdrops</a> for galas, banquets and fundraisers.</li>
+<li><b>Vendors and nonprofits.</b> <a href="/table-throws/">Logo table throws</a>, the <a href="/trade-show-booth-kit/">trade show booth kit</a> ($339) and <a href="/step-and-repeat-backdrops/">step and repeat backdrops</a> for galas, banquets and fundraisers.</li>
 <li><b>High school teams.</b> <a href="/senior-night-banners/">Senior night banners</a> with team pricing for 10 or more.</li>
 <li><b>Campaigns.</b> <a href="/bulk-campaign-signs/">Bulk yard signs</a> for city council, school board and county races.</li>
 </ul>

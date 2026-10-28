@@ -71,7 +71,7 @@ test('every matching product page embeds its video with a poster', () => {
   const map = {
     'bulk-campaign-signs': ['02-bulk-yard-signs'], 'vinyl-banners': ['03-vinyl-banner'], 'feather-flags': ['04-feather-flags'], 'retractable-banners': ['05-retractable-banner'],
     'car-magnets': ['06-car-magnets'], 'real-estate-signs': ['07-real-estate-sign'], 'step-and-repeat-backdrops': ['08-step-and-repeat'], 'table-throws': ['09-table-throw'],
-    'custom-canopy-tents': ['10-canopy-tent'], 'holiday-yard-signs': ['11-christmas-banner', '14-thanksgiving-yard-sign'], 'senior-night-banners': ['12-senior-night-banner'], 'vendor-booth-kit': ['15-vendor-booth-kit'],
+    'custom-canopy-tents': ['10-canopy-tent'], 'holiday-yard-signs': ['11-christmas-banner', '14-thanksgiving-yard-sign'], 'senior-night-banners': ['12-senior-night-banner'], 'trade-show-booth-kit': ['15-vendor-booth-kit'],
   };
   let count = 0;
   for (const [slug, names] of Object.entries(map)) {
@@ -90,7 +90,7 @@ test('turnaround uses the Etsy wording and the old production wording is gone', 
     const text = body(readFileSync(f, 'utf8'));
     assert.doesNotMatch(text, /3[–-]5 business days to make|3[–-]5 day production|business days to make after|Most items are made in/i, f);
   }
-  const booth = body(read('vendor-booth-kit/index.html'));
+  const booth = body(read('trade-show-booth-kit/index.html'));
   assert.ok(booth.includes('Arrives 3-8 business days after proof approval; tents and backdrops 5-10 business days.'));
   assert.ok(!/3–5/.test(booth));
   assert.ok(body(read('custom-canopy-tents/index.html')).includes('Arrives 5-10 business days after proof approval.'));
@@ -133,4 +133,30 @@ test('no Veracity mention in the order code, emails or admin page', () => {
   const root2 = fileURLToPath(root).replace(/\/$/, '');
   const walk = (dir) => readdirSync(dir).flatMap((n) => { const p = join(dir, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
   for (const d of ['functions', 'admin']) for (const f of walk(join(root2, d))) assert.doesNotMatch(readFileSync(f, 'utf8'), /Veracity/, f);
+});
+
+test('Vendor Booth Kit is now the Trade Show Booth Kit, same price, old URL redirects', () => {
+  const html = read('trade-show-booth-kit/index.html');
+  assert.ok(!existsSync(new URL('vendor-booth-kit/index.html', root)), 'old page removed');
+  assert.match(html, /<title>Trade Show Booth Kit: Throw, Banner &amp; Flag \| Get Seen Signs<\/title>/);
+  assert.match(html, /<h1>Trade show booth kit /);
+  assert.match(html, /<link rel="canonical" href="https:\/\/getseensignsco.com\/trade-show-booth-kit\/">/);
+  const text = body(html);
+  assert.ok(text.includes('Built for exhibitors at gun shows, industry expos, and manufacturing and industrial trade shows.'));
+  const product = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html)[1])['@graph'].find((n) => n['@type'] === 'Product');
+  assert.equal(product.name, 'Trade Show Booth Kit');
+  assert.equal(product.offers.price, '339.00');
+  assert.ok(product.offers.url.endsWith('/4600470595'));
+  for (const sku of ['6 ft 3-sided table throw', '33×81 in retractable banner stand', '10.5 ft feather flag with ground spike']) assert.ok(text.includes(sku), sku);
+  const sitemap = read('sitemap.xml');
+  assert.ok(sitemap.includes('/trade-show-booth-kit/') && !sitemap.includes('vendor-booth-kit'));
+  const redirects = read('_redirects');
+  for (const from of ['/vendor-booth-kit', '/vendor-booth-kit/', '/vendor-booth-kit/index.html']) assert.ok(redirects.includes(`${from} /trade-show-booth-kit/ 301`), from);
+  assert.ok(redirects.includes('/custom-yard-signs /bulk-campaign-signs/ 301'), 'existing redirects kept');
+  for (const f of pages()) {
+    const t = readFileSync(f, 'utf8').replace(/assets\/(?:img|video)\/[^"' ,]*/g, '');
+    assert.doesNotMatch(t, /vendor-booth-kit|Vendor Booth Kit|vendor booth kit/, f);
+  }
+  assert.match(read('index.html'), /<h3>Trade Show Booth Kit<\/h3>/);
+  assert.match(read('index.html'), /<option>Trade Show Booth Kit<\/option>/);
 });
