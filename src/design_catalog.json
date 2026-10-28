@@ -88,14 +88,14 @@
           "id": "package",
           "label": "Package",
           "choices": [
-            {"id": "valance", "label": "Standard (frame + printed top and valance)"},
+            {"id": "valance", "label": "Standard"},
             {"id": "back", "label": "With back wall"},
             {"id": "kit", "label": "Full kit"}
           ]
         }
       ],
       "prices": [
-        {"when": {"package": "valance"}, "source": "custom-canopy-tents", "offer": "10×10 Standard (frame + printed top and valance)"},
+        {"when": {"package": "valance"}, "source": "custom-canopy-tents", "offer": "10×10 Standard"},
         {
           "when": {"package": "back"},
           "source": "custom-canopy-tents",

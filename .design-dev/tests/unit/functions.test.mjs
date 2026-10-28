@@ -566,7 +566,7 @@ test('a valid request stores design, previews, logos and the request, then sends
     'Heard about us: a friend',
     'Source: design (desktop)',
     'Piece 1: 10×10 pop-up canopy tent',
-    '  Options: Package: Standard (frame + printed top and valance)',
+    '  Options: Package: Standard',
     '  Quantity: 3',
     '  Template: ' + piece.templateId,
     '  Sides: same on all sides (Front, Right, Back, Left)',
