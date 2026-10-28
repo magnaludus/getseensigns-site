@@ -137,6 +137,12 @@ ORDER = {
         groups=[dict(id='qty', label='Quantity', choices=[('50', '50 coins'), ('100', '100 coins')])],
         rows=[({'qty': '50'}, '50 coins', 'coins-50'), ({'qty': '100'}, '100 coins', 'coins-100')],
     ),
+    'custom-patches': dict(
+        qtyLabel='orders', upload_only=True,
+        groups=[dict(id='pack', label='Patch type and quantity', choices=[('pvc50', '50 PVC patches, 3 in'), ('emb50', '50 embroidered patches'), ('emb100', '100 embroidered patches')])],
+        rows=[({'pack': 'pvc50'}, '50 PVC patches, 3 in', 'patch-pvc-50-3in'), ({'pack': 'emb50'}, '50 embroidered patches', 'patch-emb-50'),
+              ({'pack': 'emb100'}, '100 embroidered patches', 'patch-emb-100')],
+    ),
     'senior-night-banners': dict(
         qtyLabel='banners',
         groups=[dict(id='size', label='Size', choices=[('2x3', '2×3 ft'), ('3x5', '3×5 ft'), ('4x6', '4×6 ft')])],
@@ -233,7 +239,8 @@ def build_order_catalog():
                 if f'{slug}|{text}' not in offer_sku:
                     _fail(f'{slug}: priced offer {text!r} has no SKU in order_catalog.py')
         products[slug] = dict(
-            slug=slug, name=page['name'], short=page['short'], etsy=str(page['etsy']), qtyLabel=d['qtyLabel'], maxQty=MAX_QTY,
+            slug=slug, name=page['name'], short=page['short'], qtyLabel=d['qtyLabel'], maxQty=MAX_QTY,
+            **({'etsy': str(page['etsy'])} if page.get('etsy') else {}),
             uploadOnly=bool(d.get('upload_only')), designer=d.get('designer'), designerMap=d.get('designerMap') or {},
             # panel choices the online designer also has; a choice outside this list (fitted table covers) has no designer path
             designerOk=_designer_ok(d, designer),

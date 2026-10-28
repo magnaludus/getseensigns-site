@@ -26,7 +26,7 @@
 .ord-path b{display:block;font-family:var(--hd);text-transform:uppercase;letter-spacing:.04em;font-size:19px;line-height:1.1}
 .ord-path span{color:#33363C;font-size:15px}
 .ord-panel{display:grid;gap:12px;justify-items:start}
-.ord-panel[hidden],.ord-details[hidden]{display:none}
+.ord-panel[hidden],.ord-details[hidden],.ord-path[hidden]{display:none}
 .ord-details{display:grid;gap:16px}
 .ord-status{font-weight:700;min-height:1.4em}
 .ord-status.bad{color:#B3261E}

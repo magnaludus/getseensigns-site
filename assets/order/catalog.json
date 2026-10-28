@@ -7,9 +7,9 @@
    "slug": "bulk-campaign-signs",
    "name": "Bulk Campaign Yard Signs",
    "short": "Bulk Yard Signs",
-   "etsy": "4597115383",
    "qtyLabel": "packs",
    "maxQty": 20,
+   "etsy": "4597115383",
    "uploadOnly": false,
    "designer": "yard",
    "designerMap": {
@@ -160,9 +160,9 @@
    "slug": "vinyl-banners",
    "name": "Custom Vinyl Banners",
    "short": "Vinyl Banner",
-   "etsy": "4597116935",
    "qtyLabel": "banners",
    "maxQty": 20,
+   "etsy": "4597116935",
    "uploadOnly": false,
    "designer": "banner",
    "designerMap": {
@@ -352,9 +352,9 @@
    "slug": "feather-flags",
    "name": "Custom Feather Flags",
    "short": "Feather Flag Kit",
-   "etsy": "4597138642",
    "qtyLabel": "kits",
    "maxQty": 20,
+   "etsy": "4597138642",
    "uploadOnly": false,
    "designer": "feather",
    "designerMap": {
@@ -463,9 +463,9 @@
    "slug": "retractable-banners",
    "name": "Retractable Banner Stands",
    "short": "Retractable Banner",
-   "etsy": "4597118225",
    "qtyLabel": "stands",
    "maxQty": 20,
+   "etsy": "4597118225",
    "uploadOnly": false,
    "designer": "retractable",
    "designerMap": {
@@ -516,9 +516,9 @@
    "slug": "car-magnets",
    "name": "Custom Car Magnets",
    "short": "Car Magnet Pair",
-   "etsy": "4597140402",
    "qtyLabel": "pairs",
    "maxQty": 20,
+   "etsy": "4597140402",
    "uploadOnly": false,
    "designer": "magnet",
    "designerMap": {
@@ -569,9 +569,9 @@
    "slug": "real-estate-signs",
    "name": "Real Estate Signs",
    "short": "Real Estate Sign",
-   "etsy": "4597140978",
    "qtyLabel": "signs",
    "maxQty": 20,
+   "etsy": "4597140978",
    "uploadOnly": false,
    "designer": null,
    "designerMap": {},
@@ -628,9 +628,9 @@
    "slug": "step-and-repeat-backdrops",
    "name": "Step and Repeat Backdrops",
    "short": "Step & Repeat Backdrop",
-   "etsy": "4597120435",
    "qtyLabel": "backdrops",
    "maxQty": 20,
+   "etsy": "4597120435",
    "uploadOnly": false,
    "designer": "backdrop",
    "designerMap": {
@@ -681,9 +681,9 @@
    "slug": "table-throws",
    "name": "Custom Table Throws",
    "short": "Table Throw",
-   "etsy": "4597120773",
    "qtyLabel": "covers",
    "maxQty": 20,
+   "etsy": "4597120773",
    "uploadOnly": false,
    "designer": "throw",
    "designerMap": {
@@ -791,9 +791,9 @@
    "slug": "custom-canopy-tents",
    "name": "Custom Canopy Tents",
    "short": "10×10 Canopy Tent",
-   "etsy": "4597142098",
    "qtyLabel": "tents",
    "maxQty": 20,
+   "etsy": "4597142098",
    "uploadOnly": false,
    "designer": "canopy",
    "designerMap": {
@@ -856,9 +856,9 @@
    "slug": "trade-show-booth-kit",
    "name": "Trade Show Booth Kit",
    "short": "Trade Show Booth Kit",
-   "etsy": "4600470595",
    "qtyLabel": "kits",
    "maxQty": 20,
+   "etsy": "4600470595",
    "uploadOnly": true,
    "designer": null,
    "designerMap": {},
@@ -878,9 +878,9 @@
    "slug": "hard-hat-decals",
    "name": "Custom Hard Hat Decals",
    "short": "Hard Hat Decals",
-   "etsy": "4603860981",
    "qtyLabel": "packs",
    "maxQty": 20,
+   "etsy": "4603860981",
    "uploadOnly": false,
    "designer": "decal",
    "designerMap": {
@@ -967,9 +967,9 @@
    "slug": "aluminum-safety-signs",
    "name": "Custom Aluminum Safety Signs",
    "short": "Aluminum Safety Signs",
-   "etsy": "4603884832",
    "qtyLabel": "packs",
    "maxQty": 20,
+   "etsy": "4603884832",
    "uploadOnly": false,
    "designer": "safety",
    "designerMap": {
@@ -1061,9 +1061,9 @@
    "slug": "challenge-coins",
    "name": "Custom Challenge Coins",
    "short": "Challenge Coins",
-   "etsy": "4603863951",
    "qtyLabel": "orders",
    "maxQty": 20,
+   "etsy": "4603863951",
    "uploadOnly": true,
    "designer": null,
    "designerMap": {},
@@ -1103,13 +1103,69 @@
    "addons": [],
    "options": []
   },
+  "custom-patches": {
+   "slug": "custom-patches",
+   "name": "Custom Patches",
+   "short": "Custom Patches",
+   "qtyLabel": "orders",
+   "maxQty": 20,
+   "uploadOnly": true,
+   "designer": null,
+   "designerMap": {},
+   "designerOk": {},
+   "groups": [
+    {
+     "id": "pack",
+     "label": "Patch type and quantity",
+     "choices": [
+      {
+       "id": "pvc50",
+       "label": "50 PVC patches, 3 in"
+      },
+      {
+       "id": "emb50",
+       "label": "50 embroidered patches"
+      },
+      {
+       "id": "emb100",
+       "label": "100 embroidered patches"
+      }
+     ]
+    }
+   ],
+   "rows": [
+    {
+     "when": {
+      "pack": "pvc50"
+     },
+     "sku": "patch-pvc-50-3in",
+     "price": 329
+    },
+    {
+     "when": {
+      "pack": "emb50"
+     },
+     "sku": "patch-emb-50",
+     "price": 239
+    },
+    {
+     "when": {
+      "pack": "emb100"
+     },
+     "sku": "patch-emb-100",
+     "price": 309
+    }
+   ],
+   "addons": [],
+   "options": []
+  },
   "senior-night-banners": {
    "slug": "senior-night-banners",
    "name": "Senior Night Banners",
    "short": "Senior Night Banner",
-   "etsy": "4597122075",
    "qtyLabel": "banners",
    "maxQty": 20,
+   "etsy": "4597122075",
    "uploadOnly": false,
    "designer": null,
    "designerMap": {},
@@ -1164,9 +1220,9 @@
    "slug": "holiday-yard-signs",
    "name": "Holiday Yard Signs & Banners",
    "short": "Holiday Signs",
-   "etsy": "4597121675",
    "qtyLabel": "signs",
    "maxQty": 20,
+   "etsy": "4597121675",
    "uploadOnly": false,
    "designer": null,
    "designerMap": {},
@@ -1334,6 +1390,9 @@
   "aluminum-safety-signs|12×18 in, 5 heavy duty (.063)": "safety-12x18-5-hd",
   "challenge-coins|50 coins": "coins-50",
   "challenge-coins|100 coins": "coins-100",
+  "custom-patches|50 PVC patches, 3 in": "patch-pvc-50-3in",
+  "custom-patches|50 embroidered patches": "patch-emb-50",
+  "custom-patches|100 embroidered patches": "patch-emb-100",
   "senior-night-banners|2×3 ft": "senior-2x3",
   "senior-night-banners|3×5 ft": "senior-3x5",
   "senior-night-banners|4×6 ft": "senior-4x6",
@@ -1436,6 +1495,15 @@
   },
   "magnet-18x24": {
    "name": "Car Magnet Pair (18x24)"
+  },
+  "patch-emb-100": {
+   "name": "Custom Patches (100 embroidered)"
+  },
+  "patch-emb-50": {
+   "name": "Custom Patches (50 embroidered)"
+  },
+  "patch-pvc-50-3in": {
+   "name": "Custom Patches (50 PVC, 3 in)"
   },
   "re-aluminum": {
    "name": "Real Estate Sign (18x24 aluminum)"

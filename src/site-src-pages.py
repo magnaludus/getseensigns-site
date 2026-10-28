@@ -64,16 +64,17 @@ def shipping_details(days='3-5', handling=None, transit=None):
       "shippingRate":{"@type":"MonetaryAmount","value":"0","currency":"USD"},
       "shippingDestination":{"@type":"DefinedRegion","addressCountry":"US"},
       "deliveryTime":{"@type":"ShippingDeliveryTime","handlingTime":_qv(*h),"transitTime":_qv(*t)}}
-def offer(price, etsy, desc, days='3-5', ship=None):
+def offer(price, etsy, desc, days='3-5', ship=None, page_url=None):
+    # A product with no Etsy listing (etsy empty) points its Offer at its own page.
     return {"@type":"Offer","price":f"{price:.2f}","priceCurrency":"USD","availability":"https://schema.org/InStock",
-            "url":f"https://www.etsy.com/listing/{etsy}","description":desc,"seller":{"@id":ORG_ID},
+            "url":(f"https://www.etsy.com/listing/{etsy}" if etsy else page_url),"description":desc,"seller":{"@id":ORG_ID},
             "hasMerchantReturnPolicy":RETURNS,"shippingDetails":shipping_details(days,*(ship or (None,None)))}
 def product(name, desc, img, url, price, etsy, base, days='3-5', offer_rows=None, ship=None):
     d={"@type":"Product","name":name,"description":desc,"image":[BASE+i for i in img],"url":BASE+url,"brand":{"@type":"Brand","name":"Get Seen Signs"}}
     if offer_rows:
-        d["offers"]=[offer(pr, etsy, text, days, ship) for pr, text in offer_rows]
+        d["offers"]=[offer(pr, etsy, text, days, ship, BASE+url) for pr, text in offer_rows]
     elif price is not None:
-        d["offers"]=offer(price, etsy, base, days, ship)
+        d["offers"]=offer(price, etsy, base, days, ship, BASE+url)
     return d
 def ld(*nodes):
     return '<script type="application/ld+json">'+json.dumps({"@context":"https://schema.org","@graph":[org(),website(),*nodes]},ensure_ascii=False,separators=(',',':'))+'</script>'
@@ -232,6 +233,9 @@ def order_panel(p, d):
     first='' if d['designer'] else ' checked'
     paths=designer+f'<label class="ord-path"><input type="radio" name="path" value="upload"{first}> <span><b>I have my artwork or logo</b> Upload it here. PNG, JPG, WebP or SVG.</span></label><label class="ord-path"><input type="radio" name="path" value="dfm"> <span><b>Rather have us design it</b> Tell us the words and colors. Design help is part of your free proof.</span></label>'
     design_link=f'/design/{DESIGN_SLUGS_BY_ID[d["designer"]]}/' if d['designer'] else ''
+    etsy=p.get('etsy')
+    etsy_fine=f'Prefer Etsy? <a href="https://www.etsy.com/listing/{etsy}" target="_blank" rel="noopener">Order on Etsy</a> or <a href="/?product={urllib.parse.quote_plus(p["short"])}#quote">get a quote</a>.' if etsy else f'Prefer to ask first? <a href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a>.'
+    etsy_noscript=f'You can <a href="https://www.etsy.com/listing/{etsy}">order on Etsy</a> or <a href="/#quote">send a quote request</a>.' if etsy else 'You can <a href="/#quote">send a quote request</a>.'
     data=json.dumps(dict(slug=slug, name=name, designUrl=design_link, **{k:d[k] for k in ('groups','rows','addons','options','qtyLabel','maxQty','designer','designerMap','designerOk','uploadOnly')}), ensure_ascii=False, separators=(',',':')).replace('</','<\\/')
     return f'''<section class="sec paper2 ord" id="order" aria-labelledby="order-h">
   <div class="wrap">
@@ -265,11 +269,11 @@ def order_panel(p, d):
             </div>
             <button class="btn btn-y" type="submit" id="ord-submit">Start my order <span aria-hidden="true">→</span></button>
             <p class="ord-status" id="ord-status" role="status" aria-live="polite"></p>
-            <p class="ord-fine">No payment now. When your proof is ready we email you a private link to approve it and pay securely with Stripe. Prefer Etsy? <a href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy</a> or <a href="/?product={urllib.parse.quote_plus(p["short"])}#quote">get a quote</a>.</p>
+            <p class="ord-fine">No payment now. When your proof is ready we email you a private link to approve it and pay securely with Stripe. {etsy_fine}</p>
           </fieldset>
         </div>
       </div>
-      <noscript><p class="ord-fine">Ordering here needs JavaScript. You can <a href="https://www.etsy.com/listing/{p["etsy"]}">order on Etsy</a> or <a href="/#quote">send a quote request</a>.</p></noscript>
+      <noscript><p class="ord-fine">Ordering here needs JavaScript. {etsy_noscript}</p></noscript>
     </form>
     <script type="application/json" id="order-data">{data}</script>
   </div>
@@ -294,6 +298,7 @@ ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per 
  '16-hard-hat-decals':('Row of hard hats on wall hooks, each with the same die-cut logo decal','Pile of die-cut logo decals on a gray surface'),
  '17-aluminum-safety-signs':('Warning Authorized Personnel Only aluminum safety sign hung on a chain-link fence','Stack of custom aluminum safety signs on a workbench'),
  '18-challenge-coins':('Custom challenge coin held in a hand to show its 1.75 inch size','Box of custom challenge coins lined up, with four more coins in clear cases in front'),
+ '19-custom-patches':('Custom patches price card: 50 PVC patches 3 in $329, 50 embroidered patches $239, 100 embroidered patches $309',None),
 }
 # Alt text for the current Etsy listing main photo (p-*.jpg). Gallery shots that Etsy did not expose stay on their own alts above.
 HERO_ALT={
@@ -313,6 +318,7 @@ HERO_ALT={
  '16-hard-hat-decals':'White hard hat with a custom die-cut Acme Mfg logo decal on a shop bench',
  '17-aluminum-safety-signs':'Four custom aluminum safety signs reading Notice, Caution and Warning on a shop wall',
  '18-challenge-coins':'Front and back of a custom full color Acme Mfg challenge coin on dark slate',
+ '19-custom-patches':'Custom patches, PVC and embroidered, from Get Seen Signs',
 }
 for p in P:
     path=f'/{p["slug"]}/'; k=p['key']; items=[('Home','/'),(p['name'],path)]
@@ -321,7 +327,7 @@ for p in P:
     if p.get('extra'):
         nodes=[product(x['name'], p['desc'], [f'/assets/img/p-{x["key"]}.jpg'], path, x['price'], x['etsy'], x['base'], p['days'], x.get('offer_rows'), ship) for x in p['extra']]
     else:
-        nodes=[product(p['name'], p['desc'], imgs, path, p['price'], p['etsy'], p['base'], p['days'], p.get('offer_rows'), ship)]
+        nodes=[product(p['name'], p['desc'], imgs, path, p['price'], p.get('etsy'), p['base'], p['days'], p.get('offer_rows'), ship)]
     nodes+= [crumbs(items), faqpage(p['faqs']), {"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":p['title'],"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}]
     if p['price']:
         design=' Design included — no design fee.' if p.get('design_included') else ''
@@ -349,14 +355,14 @@ for p in P:
         w,h=Image.open(f'{SITE}{b}.webp').size
         return f'<figure{" class=sq" if w==h else ""}>{pic(b,a,w,h,sm=b+"-sm")}<figcaption>{cap}</figcaption></figure>'
     vids=''.join(f'<figure class="vid"><video controls muted playsinline preload="none" poster="/assets/video/{n}-poster.jpg" width="720" height="720"><source src="/assets/video/{n}.mp4" type="video/mp4"></video><figcaption>{e(cap)} in action</figcaption></figure>' for n,cap in p.get('videos',[]))
-    gal_html='<div class="gal">'+vids+''.join(_gfig(b,a,'Banner materials' if b.endswith('-materials') else 'Pack pricing' if b.endswith('-pricing') else 'Size and specs' if b.endswith('-specs') else 'Example design') for b,a in gal)+'</div>'
+    gal_html='<div class="gal">'+vids+''.join(_gfig(b,a,'Banner materials' if b.endswith('-materials') else 'Pack pricing' if b.endswith('-pricing') or b.endswith('-patches-2') else 'Size and specs' if b.endswith('-specs') else 'Example design') for b,a in gal)+'</div>'
     body=''.join(f'<h2>{e(h)}</h2><p>{t}</p>' for h,t in p['body'])
     if p.get('extra'):
         buy='<div class="buy-list">'+''.join(f'<a class="buy" href="https://www.etsy.com/listing/{x["etsy"]}" target="_blank" rel="noopener"><span><b>{e(x["name"])}</b><small>{e(x["base"])}</small></span><span class="price"><small>from</small> {money(x["price"])}</span><span class="go">Etsy <span aria-hidden="true">→</span></span></a>' for x in p['extra'])+'</div>'
         etsy_btn=f'<a class="btn btn-ghost" href="#buy">Shop the designs on Etsy <span aria-hidden="true">↓</span></a>'
     else:
         buy=''
-        etsy_btn=f'<a class="btn btn-ghost" href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy <span aria-hidden="true">→</span></a>'
+        etsy_btn=f'<a class="btn btn-ghost" href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy <span aria-hidden="true">→</span></a>' if p.get('etsy') else ''
     rel=''.join(card(BY[s]) for s in p['related'])
     design_btn=(f'<a class="btn btn-ghost" href="/design/{DESIGN_SLUGS[p["slug"]]}/">Design yours online</a>' if p['slug'] in DESIGN_SLUGS else '')
     hero_img=pic(f'/assets/img/p-{k}', HERO_ALT.get(k, f'{p["name"]} by Get Seen Signs'), 1024, 1024, eager=True)
@@ -775,10 +781,11 @@ SHORT={
  '16-hard-hat-decals':('hard-hat-decals','Die-cut logo decals in 2 or 3 in. Packs of 100 to 500.'),
  '17-aluminum-safety-signs':('aluminum-safety-signs','Rust-proof aluminum, your logo and wording. 5 or 10 signs.'),
  '18-challenge-coins':('challenge-coins','1.75 in, full color on both sides. 50 or 100 coins.'),
+ '19-custom-patches':('custom-patches','PVC or embroidered, with your logo. 50 or 100 patches.'),
  '11-christmas-family-banner':('holiday-yard-signs','Your family name, three classic styles.'),
  '12-senior-night-banner':('senior-night-banners','Photo, name and number. Team pricing for 10+.'),
  '14-thanksgiving-yard-sign':('holiday-yard-signs','Harvest or rustic, with your name.')}
-NAMES={'02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-vendor-booth-kit':'Trade Show Booth Kit','16-hard-hat-decals':'Hard Hat Decals','17-aluminum-safety-signs':'Aluminum Safety Signs','18-challenge-coins':'Challenge Coins','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
+NAMES={'02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-vendor-booth-kit':'Trade Show Booth Kit','16-hard-hat-decals':'Hard Hat Decals','17-aluminum-safety-signs':'Aluminum Safety Signs','18-challenge-coins':'Challenge Coins','19-custom-patches':'Custom Patches','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
 def price_of(k):
     for p in P:
         if p.get('extra'):
@@ -796,7 +803,7 @@ def hcard(k):
   <div class="card-body"><h3>{n}</h3><p>{d}</p>
   <div class="card-foot">{price}<span class="go">Sizes &amp; details <span aria-hidden="true">→</span></span></div></div>
 </a>'''
-BIZ_EXTRA={'15-vendor-booth-kit','16-hard-hat-decals','17-aluminum-safety-signs','18-challenge-coins'}
+BIZ_EXTRA={'15-vendor-booth-kit','16-hard-hat-decals','17-aluminum-safety-signs','18-challenge-coins','19-custom-patches'}
 BIZK=[k for k in NAMES if int(k[:2])<=10 or k in BIZ_EXTRA]; SEAK=[k for k in NAMES if int(k[:2])>10 and k not in BIZ_EXTRA]
 options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<option>Election / campaign signs</option><option>Birthday or graduation sign</option><option>Something else</option>'
 REACH_HOME=f'''<div class="reach">
@@ -845,7 +852,7 @@ def shop_card(k):
 </article>'''
 path='/shop/'; items=[('Home','/'),('Shop','/shop/')]
 shop_title='Shop Custom Signs, Banners, Flags, Tents & More | Get Seen Signs'
-shop_desc='Every Get Seen Signs product with its price: yard signs, banners, feather flags, tents, car magnets, backdrops, decals, safety signs and coins. Order now, free proof first, free shipping.'
+shop_desc='Every Get Seen Signs product with its price: yard signs, banners, feather flags, tents, car magnets, backdrops, decals, safety signs, coins and patches. Order now, free proof first, free shipping.'
 shop_ld=[crumbs(items),{"@type":"CollectionPage","@id":BASE+path,"url":BASE+path,"name":shop_title,"description":shop_desc,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID},
     "mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":i+1,"name":html.unescape(NAMES[k]),"url":BASE+"/"+SHORT[k][0]+"/"} for i,k in enumerate(BIZK+SEAK)]}}]
 shop_page=head(shop_title,shop_desc,path,ld(*shop_ld))+NAV+f'''<main id="main">

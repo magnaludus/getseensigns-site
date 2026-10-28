@@ -59,8 +59,8 @@ test('shop page and nav: Shop is in the desktop nav and the phone header, and ev
     const desktop = await newPage(browser, 'desktop');
     await desktop.page.goto(server.base + '/shop/');
     assert.equal(await desktop.page.locator('.nav-links a', { hasText: 'Shop' }).first().isVisible(), true);
-    assert.equal(await desktop.page.locator('.shop-card').count(), 16, '15 product pages, the holiday page shows its Christmas and Thanksgiving items separately');
-    assert.equal(await desktop.page.locator('.shop-card a.btn', { hasText: 'Start my order' }).count(), 16);
+    assert.equal(await desktop.page.locator('.shop-card').count(), 17, '16 product pages, the holiday page shows its Christmas and Thanksgiving items separately');
+    assert.equal(await desktop.page.locator('.shop-card a.btn', { hasText: 'Start my order' }).count(), 17);
     await desktop.page.locator('.shop-card a.btn').first().click();
     assert.match(desktop.page.url(), /\/bulk-campaign-signs\/#order$/);
     await desktop.context.close();
@@ -116,6 +116,45 @@ test('a fitted table cover has no designer path, a 3-sided throw does', async ()
     await page.locator('select[data-group="style"]').selectOption('4');
     assert.match(await page.locator('#ord-total').innerText(), /\$189/);
     assert.equal(await page.locator('#ord-path-designer').isVisible(), true);
+  } finally {
+    await browser.close();
+    server.stop();
+  }
+});
+
+test('custom patches: three priced choices, upload or "we design it" only, no Etsy link, sends the patch sku', async () => {
+  const server = await startServer();
+  const browser = await launch();
+  try {
+    for (const kind of ['desktop', 'phone']) {
+      const { page, problems } = await newPage(browser, kind);
+      let posted = null;
+      await page.route('**/api/order-request', async (route) => {
+        posted = route.request().postDataBuffer().toString('latin1');
+        await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, ref: 'GS-TESTTEST', emailed: true, stored: true, order: { id: 'GS-TESTTEST', url: 'https://getseensignsco.com/order/x', subtotal: 23900 } }) });
+      });
+      await page.goto(server.base + '/custom-patches/');
+      await page.locator('#order').scrollIntoViewIfNeeded();
+      const sel = page.locator('select[data-group="pack"]');
+      for (const [value, price] of [['pvc50', /\$329/], ['emb50', /\$239/], ['emb100', /\$309/]]) {
+        await sel.selectOption(value);
+        assert.match(await page.locator('#ord-total').innerText(), price, kind + ' ' + value);
+      }
+      assert.equal(await page.locator('#ord-path-designer').count(), 0, 'no designer path');
+      assert.equal(await page.locator('input[name="path"][value="upload"]').isChecked(), true);
+      assert.equal(await page.locator('a[href*="etsy.com/listing"]').count(), 0, 'no Etsy listing link');
+      assert.equal(await page.locator('a.btn', { hasText: 'Order on Etsy' }).count(), 0);
+      await sel.selectOption('emb50');
+      await page.locator('input[name="name"]').fill('Pat Smith');
+      await page.locator('input[name="email"]').fill('pat@example.com');
+      await page.locator('#ord-files').setInputFiles({ name: 'logo.png', mimeType: 'image/png', buffer: Buffer.from('89504e470d0a1a0a', 'hex') });
+      await page.locator('#ord-submit').click();
+      await page.locator('.ord-done').waitFor();
+      assert.match(posted, /"sku":"patch-emb-50","quantity":1/);
+      assert.doesNotMatch(posted, /unit_amount|"price"|total/, 'the browser sends no amounts');
+      assert.deepEqual(problems.filter((p) => !/api\/order-request/.test(p)), [], kind + ' console problems');
+      await page.context().close();
+    }
   } finally {
     await browser.close();
     server.stop();

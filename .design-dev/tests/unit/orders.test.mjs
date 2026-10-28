@@ -14,7 +14,7 @@ import * as proofRoute from '../../../functions/proof/[token].js';
 import * as orderRoute from '../../../functions/order/[token].js';
 import * as webhook from '../../../functions/api/stripe-webhook.js';
 import { SCHEMA } from '../../../functions/_lib/db.js';
-import { CATALOG } from '../../../functions/_lib/catalog.js';
+import { CATALOG, PLACEHOLDER_PRICE_IDS } from '../../../functions/_lib/catalog.js';
 import { textOfMain, readTerms, versionLabel } from '../../../functions/_lib/terms.js';
 import { verifyWebhook, signWebhook, resolveLineItem } from '../../../functions/_lib/stripe.js';
 import { recordHashOf, evidenceCore, CONSENT_TEXT } from '../../../functions/_lib/orders.js';
@@ -208,10 +208,11 @@ test('line item resolution: catalog sku uses the catalog amount, custom lines us
 test('the catalog has well-formed Stripe prices', () => {
   const entries = Object.entries(CATALOG);
   assert.ok(entries.length >= 60);
+  assert.deepEqual(entries.filter(([, e]) => e.priceId === '').map(([sku]) => sku).sort(), [...PLACEHOLDER_PRICE_IDS].sort());
   for (const [sku, e] of entries) {
     assert.match(sku, /^[a-z0-9.-]+$/);
-    // the heavy duty safety pack has no saved Stripe Price yet and is billed with price_data
-    if (sku === 'safety-12x18-5-hd') assert.equal(e.priceId, '', sku);
+    // the heavy duty safety pack and the three custom patch SKUs have no saved Stripe Price yet and are billed with price_data
+    if (PLACEHOLDER_PRICE_IDS.includes(sku)) assert.equal(e.priceId, '', sku);
     else assert.match(e.priceId, /^price_[A-Za-z0-9]{20,}$/, sku);
     assert.ok(Number.isInteger(e.amount) && e.amount >= 2400, sku);
   }

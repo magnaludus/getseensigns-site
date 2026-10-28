@@ -9,7 +9,7 @@ import { loadEnv } from './helpers.mjs';
 import { specFor, dpiLevel } from '../../../assets/design/model/specs.js';
 import { createDocument, setChoices } from '../../../assets/design/model/document.js';
 import { guidesSvg } from '../../../assets/design/editor/guides.js';
-import { CATALOG } from '../../../functions/_lib/catalog.js';
+import { CATALOG, PLACEHOLDER_PRICE_IDS } from '../../../functions/_lib/catalog.js';
 
 const root = new URL('../../../', import.meta.url);
 const read = (rel) => readFileSync(new URL(rel, root), 'utf8');
@@ -17,7 +17,7 @@ const body = (html) => html.replace(/<style>[\s\S]*?<\/style>/g, '').replace(/<s
 const order = JSON.parse(read('assets/order/catalog.json'));
 const env = loadEnv();
 
-const PAGES = ['bulk-campaign-signs', 'vinyl-banners', 'feather-flags', 'retractable-banners', 'car-magnets', 'real-estate-signs', 'step-and-repeat-backdrops', 'table-throws', 'custom-canopy-tents', 'trade-show-booth-kit', 'hard-hat-decals', 'aluminum-safety-signs', 'challenge-coins', 'senior-night-banners', 'holiday-yard-signs'];
+const PAGES = ['bulk-campaign-signs', 'vinyl-banners', 'feather-flags', 'retractable-banners', 'car-magnets', 'real-estate-signs', 'step-and-repeat-backdrops', 'table-throws', 'custom-canopy-tents', 'trade-show-booth-kit', 'hard-hat-decals', 'aluminum-safety-signs', 'challenge-coins', 'custom-patches', 'senior-night-banners', 'holiday-yard-signs'];
 
 function allPages() {
   const out = [];
@@ -46,7 +46,7 @@ test('the order catalog covers every product page and every approved price, and 
     for (const g of p.groups) for (const c of g.choices) assert.ok(p.rows.some((r) => r.when[g.id] === c.id), `${p.slug} ${g.id}=${c.id} is priced`);
     assert.ok(p.rows.every((r) => r.price > 0 && Number.isInteger(r.price)), p.slug);
   }
-  assert.deepEqual(Object.values(order.products).filter((p) => p.uploadOnly).map((p) => p.slug).sort(), ['challenge-coins', 'trade-show-booth-kit']);
+  assert.deepEqual(Object.values(order.products).filter((p) => p.uploadOnly).map((p) => p.slug).sort(), ['challenge-coins', 'custom-patches', 'trade-show-booth-kit']);
 });
 
 test('every product page has the order panel with its prices, the free shipping note and the proof-first promise', () => {
@@ -73,12 +73,78 @@ test('every product page has the order panel with its prices, the free shipping 
 });
 
 test('products the designer cannot cover offer upload or "we design it" only', () => {
-  for (const slug of ['trade-show-booth-kit', 'challenge-coins']) {
+  for (const slug of ['trade-show-booth-kit', 'challenge-coins', 'custom-patches']) {
     const html = read(`${slug}/index.html`);
     assert.ok(!/Design it online/.test(body(html)), slug);
     assert.ok(html.includes('name="path" value="upload" checked'), slug + ' upload is the default');
   }
   for (const slug of ['real-estate-signs', 'senior-night-banners', 'holiday-yard-signs']) assert.ok(!/Design it online/.test(body(read(`${slug}/index.html`))), slug);
+});
+
+test('the Custom Patches page: exact prices, upload-only paths, 11 to 15 day turnaround, no Etsy listing', () => {
+  const html = read('custom-patches/index.html');
+  const text = body(html);
+  const graph = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html)[1])['@graph'];
+  // approved prices, nothing else
+  const product = graph.find((n) => n['@type'] === 'Product');
+  assert.deepEqual(product.offers.map((o) => [o.price, o.description]), [['329.00', '50 PVC patches, 3 in'], ['239.00', '50 embroidered patches'], ['309.00', '100 embroidered patches']]);
+  const data = JSON.parse(/<script type="application\/json" id="order-data">(.*?)<\/script>/s.exec(html)[1]);
+  assert.deepEqual(data.rows.map((r) => [r.sku, r.price]), [['patch-pvc-50-3in', 329], ['patch-emb-50', 239], ['patch-emb-100', 309]]);
+  assert.deepEqual(order.products['custom-patches'].rows.map((r) => r.price), [329, 239, 309]);
+  for (const price of ['$329', '$239', '$309']) assert.ok(text.includes(price), price);
+  assert.match(text, /from<\/small> \$239/);
+  // upload or "we design it" only
+  assert.equal(data.uploadOnly, true);
+  assert.equal(data.designer, null);
+  assert.ok(!/Design it online/.test(text) && !/Design yours online/.test(text) && !html.includes('id="ord-path-designer"'));
+  assert.ok(html.includes('name="path" value="upload" checked') && /Rather have us design it/.test(text));
+  // turnaround: 11 to 15 business days after proof approval, proof in 12 hours, never the standard 3 to 8 days
+  assert.match(text, /about 11 to 15 business days after you approve the proof/);
+  assert.match(text, /within 12 hours, 7 days a week, 3 revisions included/);
+  assert.doesNotMatch(text, /3-8 business days|3 to 8 business days|5-10 business days|Arrives 3/);
+  const turnaroundRow = /<dt>Turnaround<\/dt><dd>(.*?)<\/dd>/.exec(html)[1];
+  assert.match(turnaroundRow, /11 to 15 business days/);
+  // handling and transit in the structured data
+  for (const o of product.offers) {
+    assert.equal(o.url, 'https://getseensignsco.com/custom-patches/', 'the Offer points at the page, not at an Etsy listing');
+    assert.equal(o.shippingDetails.shippingRate.value, '0');
+    assert.equal(o.shippingDetails.shippingDestination.addressCountry, 'US');
+    assert.deepEqual([o.shippingDetails.deliveryTime.handlingTime.minValue, o.shippingDetails.deliveryTime.handlingTime.maxValue], [11, 15]);
+    assert.deepEqual([o.shippingDetails.deliveryTime.transitTime.minValue, o.shippingDetails.deliveryTime.transitTime.maxValue], [2, 5]);
+    assert.equal(o.hasMerchantReturnPolicy.returnPolicyCategory, 'https://schema.org/MerchantReturnNotPermitted');
+  }
+  assert.ok(graph.some((n) => n['@type'] === 'BreadcrumbList') && graph.some((n) => n['@type'] === 'FAQPage'));
+  // no Etsy listing anywhere on the page: no buttons, no listing links, no listing id in the data. The footer keeps the general Etsy shop link.
+  assert.doesNotMatch(html, /etsy\.com\/listing/);
+  assert.doesNotMatch(text, /Order on Etsy|Prefer Etsy|order on Etsy/);
+  assert.ok(!('etsy' in order.products['custom-patches']));
+  assert.match(text, /Prefer to ask first\? <a href="\/\?product=Custom\+Patches#quote">Get a quote<\/a>/);
+  // GSS-only plain copy
+  assert.doesNotMatch(html, /Veracity|\bdba\b|d\/b\/a|Scott|—/);
+  assert.doesNotMatch(text, /\u2014|\u2013/);
+  // the stand-in images exist and are the right sizes (real photos are still needed)
+  for (const [f, size] of [['p-19-custom-patches.jpg', 1024], ['p-19-custom-patches.webp', 1024], ['p-19-custom-patches-sm.webp', 400], ['g-19-custom-patches-2.jpg', 900], ['g-19-custom-patches-2.webp', 900], ['g-19-custom-patches-2-sm.webp', 480]]) {
+    assert.ok(existsSync(new URL('assets/img/' + f, root)), f);
+    assert.ok(readFileSync(new URL('assets/img/' + f, root)).length > 1000, f);
+  }
+  // listed everywhere a product is listed
+  assert.ok(read('sitemap.xml').includes('<loc>https://getseensignsco.com/custom-patches/</loc>'));
+  const shop = read('shop/index.html');
+  assert.ok(shop.includes('href="/custom-patches/#order"') && shop.includes('<a href="/custom-patches/">Custom Patches</a>'));
+  assert.ok(JSON.stringify(shop).includes('https://getseensignsco.com/custom-patches/'), 'shop ItemList');
+  assert.ok(read('index.html').includes('href="/custom-patches/"') && read('index.html').includes('<span>Custom patches</span>') && read('index.html').includes('<option>Custom Patches</option>'));
+  assert.ok(read('404.html').includes('href="/custom-patches/"'));
+  assert.ok(read('terms.html').includes('<a href="/custom-patches/">Custom Patches</a>'), 'footer product list');
+  assert.ok(read('custom-patches/index.html').includes('<a href="/custom-patches/">Custom Patches</a>'));
+  assert.ok(read('index.html').includes('business days after you approve your proof'));
+});
+
+test('catalog.js lists exactly which SKUs still have no saved Stripe price', () => {
+  const unsaved = Object.entries(CATALOG).filter(([, e]) => e.priceId === '').map(([sku]) => sku).sort();
+  assert.deepEqual(unsaved, [...PLACEHOLDER_PRICE_IDS].sort());
+  assert.deepEqual([...PLACEHOLDER_PRICE_IDS].sort(), ['patch-emb-100', 'patch-emb-50', 'patch-pvc-50-3in', 'safety-12x18-5-hd']);
+  assert.deepEqual([CATALOG['patch-pvc-50-3in'].amount, CATALOG['patch-emb-50'].amount, CATALOG['patch-emb-100'].amount], [32900, 23900, 30900]);
+  assert.match(read('functions/_lib/catalog.js'), /PLACEHOLDER STRIPE PRICES: CUSTOM PATCHES/);
 });
 
 test('the Shop page lists every product with its from price and an order link, and is in the sitemap', () => {
@@ -93,7 +159,7 @@ test('the Shop page lists every product with its from price and an order link, a
     if (slug === 'holiday-yard-signs') continue;
     assert.ok(text.includes('$' + lowest.toLocaleString('en-US')), `${slug} from $${lowest}`);
   }
-  assert.equal((html.match(/class="card shop-card"/g) || []).length, 16);
+  assert.equal((html.match(/class="card shop-card"/g) || []).length, 17);
   assert.match(text, /Proof first, then pay/);
   assert.match(text, /Free shipping in the lower 48/);
   assert.ok(read('sitemap.xml').includes('<loc>https://getseensignsco.com/shop/</loc>'));

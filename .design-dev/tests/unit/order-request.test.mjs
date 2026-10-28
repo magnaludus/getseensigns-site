@@ -16,6 +16,7 @@ import * as proofRoute from '../../../functions/proof/[token].js';
 import * as orderRoute from '../../../functions/order/[token].js';
 import * as webhook from '../../../functions/api/stripe-webhook.js';
 import { CATALOG } from '../../../functions/_lib/catalog.js';
+import { resolveLineItem } from '../../../functions/_lib/stripe.js';
 import { readTerms } from '../../../functions/_lib/terms.js';
 import { DEPS, bytesOf, pngFile, file, formOf, postOf, spyConsole } from './functions-helpers.mjs';
 import { makeEnv, installFetch, adminReq, formReq, webhookReq, PROOF_URL, NOW, BASE, ADMIN } from './orders-helpers.mjs';
@@ -136,7 +137,7 @@ test('the browser cannot set a price: only the sku and quantity are read, and am
 
 test('every orderable sku is priced from the server catalog, and the browser catalog agrees with it', async () => {
   const skus = Object.keys(orderCatalog.skus);
-  assert.equal(skus.length, 65);
+  assert.equal(skus.length, 68);
   for (const sku of skus) {
     const env = mkEnv();
     const { body } = await place(env, uploadReq([{ sku, quantity: 3 }]));
@@ -147,6 +148,31 @@ test('every orderable sku is priced from the server catalog, and the browser cat
     for (const row of product.rows) assert.equal(row.price * 100, CATALOG[row.sku].amount, `${product.slug} ${row.sku}`);
     for (const a of product.addons) assert.equal(a.price * 100, CATALOG[a.sku].amount, `${product.slug} ${a.sku}`);
   }
+});
+
+test('custom patches are priced on the server from the placeholder SKUs, whatever the browser says', async () => {
+  const cases = [['patch-pvc-50-3in', 32900, 'Custom Patches (50 PVC, 3 in)'], ['patch-emb-50', 23900, 'Custom Patches (50 embroidered)'], ['patch-emb-100', 30900, 'Custom Patches (100 embroidered)']];
+  for (const [sku, cents, name] of cases) {
+    const env = mkEnv();
+    const items = [{ sku, quantity: 2, unit_amount_cents: 1, price: 0.01, name: 'Free patches', price_id: 'price_free' }];
+    const { res, body } = await place(env, uploadReq(items, { source: 'order-panel:custom-patches', clientTotal: 0.01 }));
+    assert.equal(res.status, 200, JSON.stringify(body));
+    assert.equal(body.order.subtotal, cents * 2, sku);
+    const stored = JSON.parse(one(env, 'SELECT line_items_json FROM orders').line_items_json)[0];
+    assert.deepEqual([stored.sku, stored.name, stored.unit_amount_cents, stored.price_id], [sku, name, cents, ''], sku + ' has no saved Stripe price yet, so it is billed as price_data');
+    assert.equal(one(env, 'SELECT status FROM orders').status, 'awaiting_proof');
+  }
+  net.brevo.length = 0;
+  const env = mkEnv();
+  const { res, body } = await place(env, contact({ mode: 'design_for_me', source: 'order-panel:custom-patches', designForMe: { products: [], wording: 'ACME FENCE', siteUrl: '' }, order: { items: [{ sku: 'patch-emb-100', quantity: 1 }] } }), { logos: [] });
+  assert.equal(res.status, 200, JSON.stringify(body));
+  assert.equal(body.order.subtotal, 30900);
+  const all = confirmMail().body.textContent + '\n' + shopMail().body.textContent;
+  assert.match(all, /Custom Patches \(100 embroidered\)/);
+  assert.match(all, /within 12 hours, 7 days a week/);
+  assert.doesNotMatch(all, /3-8 business|3 to 8 business|etsy/i, 'the confirmation email makes no standard-turnaround or Etsy claim for patches');
+  for (const skuName of ['patch-pvc-50-3in', 'patch-emb-50', 'patch-emb-100']) assert.ok(orderCatalog.skus[skuName], skuName + ' is orderable');
+  assert.deepEqual(resolveLineItem({ sku: 'patch-emb-50', quantity: 1 }).item.unit_amount_cents, 23900);
 });
 
 test('bad order input is refused before anything is stored or sent', async () => {
