@@ -80,8 +80,8 @@ test('every matching product page embeds its video with a poster', () => {
     const html = read(`${slug}/index.html`);
     for (const n of names) {
       count++;
-      assert.match(html, new RegExp(`<video controls muted playsinline preload="none" poster="/assets/video/${n}-poster.jpg"[^>]*><source src="/assets/video/${n}.mp4" type="video/mp4">`), slug + ' ' + n);
-      assert.ok(existsSync(new URL(`assets/video/${n}.mp4`, root)) && existsSync(new URL(`assets/video/${n}-poster.jpg`, root)), n);
+      assert.match(html, new RegExp(`<video controls muted playsinline preload="none" poster="/assets/video/${n}-poster.webp"[^>]*><source src="/assets/video/${n}.mp4" type="video/mp4">`), slug + ' ' + n);
+      assert.ok(existsSync(new URL(`assets/video/${n}.mp4`, root)) && existsSync(new URL(`assets/video/${n}-poster.webp`, root)), n);
     }
   }
   assert.equal(count, 13);
@@ -263,9 +263,32 @@ test('audit fixes: meta descriptions under 160 characters, brand in the tailgate
 
 test('the booth kit images and video use the trade-show-booth-kit file names (key 15 kept), and no vendor-booth-kit asset is left', () => {
   for (const f of ['p-15-trade-show-booth-kit.jpg', 'p-15-trade-show-booth-kit.webp', 'p-15-trade-show-booth-kit-sm.webp', 'g-15-trade-show-booth-kit-2.jpg', 'g-15-trade-show-booth-kit-2.webp', 'g-15-trade-show-booth-kit-2-sm.webp']) assert.ok(existsSync(new URL('assets/img/' + f, root)), f);
-  for (const f of ['15-trade-show-booth-kit.mp4', '15-trade-show-booth-kit-poster.jpg']) assert.ok(existsSync(new URL('assets/video/' + f, root)), f);
+  for (const f of ['15-trade-show-booth-kit.mp4', '15-trade-show-booth-kit-poster.webp']) assert.ok(existsSync(new URL('assets/video/' + f, root)), f);
   for (const dir of ['assets/img', 'assets/video']) assert.deepEqual(readdirSync(new URL(dir, root)).filter((n) => /vendor-booth/.test(n)), [], dir);
   const html = read('trade-show-booth-kit/index.html');
   assert.ok(html.includes('/assets/img/p-15-trade-show-booth-kit.webp') && html.includes('/assets/video/15-trade-show-booth-kit.mp4'));
   assert.ok(!/15-vendor-booth-kit/.test(html + read('index.html') + read('shop/index.html')));
+});
+
+test('mobile image weight: responsive hero srcset, WebP video posters, lazy gallery images', () => {
+  const home = read('index.html');
+  assert.match(home, /srcset="\/assets\/img\/hero-tent-480\.webp 480w, \/assets\/img\/hero-tent-768\.webp 768w, \/assets\/img\/hero-tent\.webp 900w" sizes="[^"]+"/);
+  assert.match(home, /srcset="\/assets\/img\/hero-banner-320\.webp 320w, \/assets\/img\/hero-banner-480\.webp 480w, \/assets\/img\/hero-banner\.webp 700w" sizes="[^"]+"/);
+  assert.match(home, /srcset="\/assets\/img\/hero-yard-320\.webp 320w, \/assets\/img\/hero-yard-480\.webp 480w, \/assets\/img\/hero-yard\.webp 700w" sizes="[^"]+"/);
+  const size = (f) => statSync(new URL('assets/img/' + f, root)).size;
+  assert.ok(size('hero-tent-480.webp') < size('hero-tent.webp') / 2 && size('hero-banner-320.webp') < size('hero-banner.webp') / 2);
+  for (const f of readdirSync(new URL('assets/video', root)).filter((n) => n.endsWith('-poster.webp'))) {
+    assert.ok(existsSync(new URL('assets/video/' + f.replace('.webp', '.jpg'), root)) === false, 'no jpg poster left for ' + f);
+  }
+  for (const f of pages()) {
+    const html = readFileSync(f, 'utf8');
+    assert.doesNotMatch(html, /poster="[^"]+\.jpg"/, f + ' uses webp posters');
+  }
+  for (const slug of ['vinyl-banners', 'trade-show-booth-kit', 'custom-canopy-tents']) {
+    const html = read(`${slug}/index.html`);
+    // the hero is eager and preloaded; every gallery picture below the fold is lazy
+    assert.match(html, /<link rel="preload" as="image" href="\/assets\/img\/p-[^"]+\.webp" type="image\/webp" fetchpriority="high">/);
+    const gallery = /<div class="gal">([\s\S]*?)<\/div>\s*<\/div>\s*<\/section>/.exec(html)[1];
+    for (const img of gallery.match(/<img [^>]*>/g)) assert.match(img, /loading="lazy"/, slug);
+  }
 });
