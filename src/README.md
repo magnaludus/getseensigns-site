@@ -8,7 +8,7 @@ Cloudflare Pages publishes `main` automatically about a minute after every merge
 
 | File | What it holds |
 |---|---|
-| `src/seo_products.py` | Product page copy, FAQs and the "from" prices (`price=`). `price=None` shows no price and adds no Offer. |
+| `src/seo_products.py` | Product page copy, FAQs and the "from" prices (`price=`). `price=None` shows no price and adds no Offer. Optional per product: `videos=[(file, label)]` (files in `assets/video/NN-name.mp4` plus `NN-name-poster.jpg`, embedded muted with a poster and `preload="none"`), `gallery_extra=[(image base, alt)]`, and `turnaround='...'` with `handling=(lo,hi)`, `transit=(lo,hi)` for products that do not use Etsy's standard "Arrives 3-8 business days after proof approval; tents and backdrops 5-10 business days." |
 | `src/seo_pages.py` | Local landing pages, blog posts and the gameday page. |
 | `src/site-src-index.tpl.html` | Home page body (between `<main>` and `</main>`). |
 | `src/site-src-pages.py` | Builds every HTML page, sitemap.xml, robots.txt and 404.html. Shared head, nav, footer and the shipping schema (`shipping_details`, `TRANSIT`, `RETURNS`). |

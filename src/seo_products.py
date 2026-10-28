@@ -1,10 +1,14 @@
 # Product category page content for getseensignsco.com.
 # PRICES: "from" prices = live Etsy prices. Change them here, then rebuild.
 #   None = no public price and no Offer in structured data.
+# Turnaround is Etsy's wording; a product can override it with turnaround='...'.
+TURNAROUND = 'Arrives 3-8 business days after proof approval; tents and backdrops 5-10 business days.'
+TURNAROUND_LONG = 'Arrives 5-10 business days after proof approval.'
 # Facts only from listings.md / spec sheets / shop policies. No reviews, no ratings, no invented stats.
 P = [
 dict(
  slug='bulk-campaign-signs', key='02-bulk-yard-signs', etsy='4597115383', price=74, unit='5-pack', base='5 signs, 18×24, stakes included',
+ videos=[('02-bulk-yard-signs', 'Bulk campaign yard signs')],
  name='Bulk Campaign Yard Signs', short='Bulk Yard Signs',
  title='Bulk Campaign Yard Signs, 5-100 Packs | Get Seen Signs',
  desc='Bulk campaign and political yard signs in 5, 10, 25, 50 and 100 packs. 18x24 coroplast, a metal H-stake for every sign. 5-pack from $74, free shipping.',
@@ -30,7 +34,7 @@ dict(
  body=[
   ('Campaign season checklist', 'Before you approve the proof, check three things: the "paid for by" line your race requires, the spelling of every name, and the color contrast from 30 feet away. We wrote up the placement and disclaimer rules for Alabama and Georgia in our <a href="/blog/election-yard-sign-rules-alabama-georgia/">election yard sign guide</a>.'),
   ('Pricing by pack', 'One-sided packs, stakes included: 5 for $74, 10 for $79, 25 for $189, 50 for $319 and 100 for $489. Two-sided packs: 5 for $79, 10 for $109, 25 for $209, 50 for $419 and 100 for $579. The smallest order is 5 signs. Need 200 or more, or a mix of two designs? Send a quote request.'),
-  ('Runoffs and short timelines', 'Production is 3–5 business days after you approve the proof, plus shipping. If you are planning for a runoff, order as soon as you know you are in it, and tell us your date in the quote form.'),
+  ('Runoffs and short timelines', 'Orders arrive 3-8 business days after you approve the proof. If you are planning for a runoff, order as soon as you know you are in it, and tell us your date in the quote form.'),
  ],
  faqs=[
   ('Do all signs in a pack have to be the same design?', 'The pack price is for one design. If you need two or more designs, send a quote request with the split and we\'ll price it.'),
@@ -44,25 +48,36 @@ dict(
 ),
 dict(
  slug='vinyl-banners', key='03-vinyl-banner', etsy='4597116935', price=44, unit='each', base='2×4 ft with grommets',
+ videos=[('03-vinyl-banner', 'Custom vinyl banner')],
  name='Custom Vinyl Banners', short='Vinyl Banner',
- title='Custom Vinyl Banners with Grommets | Get Seen Signs',
- desc='Custom outdoor vinyl banners on heavy 13 oz vinyl, hemmed with metal grommets or pole pockets. 2x4 to 3x10 ft. Free design proof. From $44, free shipping.',
+ title='Custom Vinyl Banners: 13 oz, 18 oz & Mesh | Get Seen Signs',
+ desc='Custom outdoor vinyl banners in 13 oz, 18 oz heavy duty or mesh, hemmed with metal grommets. 2x4 to 3x10 ft. Free design proof. From $44, free shipping.',
  h1=('Custom vinyl banners', 'for storefronts, fences and events.'),
- lede='Heavy 13 oz outdoor vinyl, hemmed edges and metal grommets (or pole pockets). Grand openings, sales, church events, team fences and job sites. Free design and a proof before it prints.',
- sizes=['2×4 ft ($44)','3×6 ft ($59)','4×8 ft ($89)','3×10 ft ($79)'],
- material='13 oz outdoor vinyl, hemmed edges, weather and UV resistant',
- included='Metal grommets or pole pockets (your choice), free custom design and digital proof',
+ lede='Outdoor vinyl banners in 13 oz standard, 18 oz heavy duty or mesh wind-through, with hemmed edges and metal grommets (or pole pockets). Grand openings, sales, church events, team fences and job sites. Free design and a proof before it prints.',
+ sizes=['2×4 ft: 13 oz $44, 18 oz or mesh $54','3×6 ft: 13 oz $59, 18 oz or mesh $84','4×8 ft: 13 oz $89, 18 oz or mesh $149','3×10 ft: 13 oz $79, 18 oz or mesh $119'],
+ material='13 oz standard (scrim-reinforced vinyl), 18 oz heavy duty (thicker blockout vinyl) or mesh wind-through (perforated vinyl). Hemmed edges.',
+ included='Hemmed edges and metal grommets about every 2 ft (pole pockets also on 13 oz and 18 oz), free custom design and digital proof',
  days='3-5',
  design_included=True,
- offer_rows=[(44,'2×4 ft with grommets'),(59,'3×6 ft'),(89,'4×8 ft'),(79,'3×10 ft')],
+ offer_rows=[
+  (44,'2×4 ft with grommets'),(59,'3×6 ft'),(89,'4×8 ft'),(79,'3×10 ft'),
+  (54,'18 oz heavy duty, 2×4 ft'),(84,'18 oz heavy duty, 3×6 ft'),(149,'18 oz heavy duty, 4×8 ft'),(119,'18 oz heavy duty, 3×10 ft'),
+  (54,'Mesh wind-through, 2×4 ft'),(84,'Mesh wind-through, 3×6 ft'),(149,'Mesh wind-through, 4×8 ft'),(119,'Mesh wind-through, 3×10 ft'),
+ ],
+ gallery_extra=[
+  ('/assets/img/g-03-vinyl-banner-materials','Pick your banner material card showing 13 oz standard, 18 oz heavy duty and mesh wind-through vinyl'),
+  ('/assets/img/g-03-vinyl-banner-fence','4×8 Grand Opening vinyl banner tied to a chain-link fence through its grommets'),
+ ],
  body=[
-  ('Which size?', '2×4 ft is $44 and fits a table front, a doorway or a small fence panel. 3×6 ft is $59, the go-to for storefronts and "Now Open" banners. 4×8 ft is $89 and 3×10 ft is $79, for building faces, long fences and anywhere people read from across a parking lot.'),
-  ('Grommets or pole pockets?', 'Grommets are for tying or zip-tying the banner to a fence, railing or wall. Pole pockets are sleeves at the top and bottom for hanging on poles or a banner stand.'),
+  ('Which material?', '13 oz standard is our everyday banner: scrim-reinforced vinyl for indoor and outdoor use, great for events, storefronts and parties. 18 oz heavy duty is our heaviest vinyl, a thicker blockout material for long-term outdoor jobs and rougher conditions. Mesh wind-through is perforated vinyl that lets wind pass through, made for fences, scaffolds and construction sites. Mesh lets some light through, so colors look a little less solid up close.'),
+  ('Which size?', 'In 13 oz, 2×4 ft is $44, 3×6 ft is $59, 4×8 ft is $89 and 3×10 ft is $79. In 18 oz heavy duty or mesh, 2×4 ft is $54, 3×6 ft is $84, 4×8 ft is $149 and 3×10 ft is $119. 2×4 ft fits a table front, a doorway or a small fence panel. 3×6 ft is the go-to for storefronts and "Now Open" banners. 4×8 ft and 3×10 ft are for building faces, long fences and anywhere people read from across a parking lot.'),
+  ('Grommets or pole pockets?', 'Grommets are for tying or zip-tying the banner to a fence, railing or wall, and sit about every 2 ft. Pole pockets are sleeves at the top and bottom for hanging on poles or a banner stand. Pole pockets are available on 13 oz and 18 oz banners at the same price. Mesh banners come with grommets.'),
   ('Related', 'For indoor trade shows, a <a href="/retractable-banners/">retractable banner</a> stands on its own. For holiday banners with your family name, see <a href="/holiday-yard-signs/">holiday signs and banners</a>.'),
  ],
  faqs=[
-  ('Can I hang a vinyl banner outside year-round?', '13 oz vinyl with UV-resistant print is made for outdoor use. Wind is the bigger risk than rain. Tie off every grommet so the banner can\'t flap and tear.'),
-  ('Do you make custom sizes?', 'The Etsy listing has 2×4, 3×6, 4×8 and 3×10 ft. For another size, send a quote request with the dimensions.'),
+  ('Can I hang a vinyl banner outside year-round?', '13 oz and 18 oz vinyl are made for outdoor use, and 18 oz is the pick for long-term jobs. Wind is the bigger risk than rain. Tie off every grommet so the banner can\'t flap and tear. On a fence or scaffold, mesh lets wind pass through.'),
+  ('Which banner is best for a chain-link fence?', 'Mesh wind-through is made for fences, scaffolds and construction sites. Zip-tie or bungee it straight through the grommets. 13 oz and 18 oz work on a fence too, as long as you tie off every grommet.'),
+  ('Do you make custom sizes?', 'The Etsy listing has 2×4, 3×6, 4×8 and 3×10 ft in each material. For another size, send a quote request with the dimensions.'),
   ('Is the banner printed on both sides?', 'No. Banners are printed on one side.'),
   ('How do I send my artwork?', 'Upload it on Etsy or reply to our email with a PNG, JPG, PDF, SVG or AI file. No artwork? Tell us the text and we design it free.'),
  ],
@@ -71,6 +86,7 @@ dict(
 ),
 dict(
  slug='feather-flags', key='04-feather-flag', etsy='4597138642', price=129, unit='kit', base='10.5 ft with ground spike',
+ videos=[('04-feather-flags', 'Custom feather flags')],
  name='Custom Feather Flags', short='Feather Flag Kit',
  title='Custom Feather Flags, 10.5-18 ft Kits | Get Seen Signs',
  desc='Custom feather flags in 10.5, 14 and 18 ft kits. Dye-sublimated polyester, pole, ground spike or cross base, and carry bag. From $129, free shipping.',
@@ -101,6 +117,7 @@ dict(
 ),
 dict(
  slug='retractable-banners', key='05-retractable-banner', etsy='4597118225', price=109, unit='each', base='33×81 in stand',
+ videos=[('05-retractable-banner', 'Retractable banner stand')],
  name='Retractable Banner Stands', short='Retractable Banner',
  title='Retractable Pull-Up Banner Stands | Get Seen Signs',
  desc='Custom retractable pull-up banner stands, 33x81 or 47x81. Anti-curl print, aluminum base, telescoping pole and padded bag. Sets up in 60 seconds. From $109.',
@@ -126,6 +143,7 @@ dict(
 ),
 dict(
  slug='car-magnets', key='06-car-magnet', etsy='4597140402', price=74, unit='pair', base='12×18 pair',
+ videos=[('06-car-magnets', 'Custom car magnets')],
  name='Custom Car Magnets', short='Car Magnet Pair',
  title='Custom Car Door Magnets, Sold in Pairs | Get Seen Signs',
  desc='Custom car door magnets: 30 mil vehicle-grade magnet, UV laminate, rounded corners. 12x18 or 18x24, sold as a pair. Free proof. From $74, free shipping.',
@@ -152,6 +170,7 @@ dict(
 ),
 dict(
  slug='real-estate-signs', key='07-real-estate-sign', etsy='4597140978', price=44, unit='each', base='18×24 coroplast',
+ videos=[('07-real-estate-sign', 'Real estate sign')],
  name='Real Estate Signs', short='Real Estate Sign',
  title='Custom Real Estate Signs & Riders | Get Seen Signs',
  desc='Custom real estate and realtor yard signs, 18x24 in coroplast or aluminum, with optional 6x24 rider and post frame. Free design proof, free shipping. From $44.',
@@ -177,6 +196,7 @@ dict(
 ),
 dict(
  slug='step-and-repeat-backdrops', key='08-step-and-repeat', etsy='4597120435', price=419, unit='with stand', base='8×8 ft with stand and case',
+ videos=[('08-step-and-repeat', 'Step and repeat backdrop')],
  name='Step and Repeat Backdrops', short='Step & Repeat Backdrop',
  title='Step and Repeat Backdrops with Stand | Get Seen Signs',
  desc='Step and repeat backdrops for galas, proms and banquets. 8x8 or 10x8 ft, fabric or matte vinyl, telescoping stand and case included. From $419.',
@@ -190,7 +210,7 @@ dict(
  body=[
   ('Sizes and price', '8×8 ft with the stand and case is $419. 10×8 ft (width by height) with the stand and case is $549.'),
   ('Layout', 'A step and repeat is a grid of your logo, often alternating with a sponsor\'s, sized so a logo lands beside every face in the photo. Send your logos and we lay out the pattern on the proof.'),
-  ('Plan ahead', 'Backdrops take 5–10 business days to make after you approve the proof, plus shipping. For a prom or gala, order at least three weeks out.'),
+  ('Plan ahead', 'Backdrops arrive 5-10 business days after you approve the proof. For a prom or gala, order at least three weeks out.'),
   ('Matching pieces', 'Add a <a href="/retractable-banners/">retractable banner</a> at the entrance and a <a href="/table-throws/">table throw</a> on the check-in table.'),
  ],
  faqs=[
@@ -203,24 +223,27 @@ dict(
 ),
 dict(
  slug='table-throws', key='09-table-throw', etsy='4597120773', price=139, unit='each', base='6 ft, 3-sided',
+ videos=[('09-table-throw', 'Custom table throw')],
  name='Custom Table Throws', short='Table Throw',
- title='Custom Logo Table Throws, 6 & 8 ft | Get Seen Signs',
- desc='Custom logo table throws for 6 or 8 ft tables. Machine-washable, wrinkle-resistant polyester, 3-sided or 4-sided. From $139, free shipping.',
+ title='Custom Logo Table Throws & Fitted Covers | Get Seen Signs',
+ desc='Custom logo table throws for 6 or 8 ft tables, plus fitted closed-back covers. 3-sided, 4-sided or fitted. Free design proof. From $139, free shipping.',
  h1=('Logo table throws', 'that make a folding table look like a booth.'),
- lede='Dye-sublimated polyester tablecloths with your logo on the front panel. Machine washable, wrinkle resistant, and cut for 6 ft or 8 ft folding tables in a 3-sided (open back) or 4-sided style.',
+ lede='Dye-sublimated polyester tablecloths with your logo on the front panel. Machine washable, wrinkle resistant, and cut for 6 ft or 8 ft folding tables in a 3-sided (open back) or 4-sided style. Prefer a tailored look? Choose a fitted cover, closed on the back.',
  sizes=['6 ft table','8 ft table'],
- material='Dye-sublimated polyester, machine washable, wrinkle resistant',
+ material='Throws: dye-sublimated polyester, machine washable, wrinkle resistant. Fitted covers: tailored to the table, closed back.',
  included='Full-color front panel, free custom design and digital proof',
  days='3-5',
- offer_rows=[(139,'6 ft, 3-sided'),(169,'6 ft, 4-sided'),(159,'8 ft, 3-sided'),(189,'8 ft, 4-sided')],
+ offer_rows=[(139,'6 ft, 3-sided'),(169,'6 ft, 4-sided'),(159,'8 ft, 3-sided'),(189,'8 ft, 4-sided'),(159,'6 ft fitted, closed back'),(179,'8 ft fitted, closed back')],
  body=[
   ('3-sided or 4-sided?', 'A 3-sided throw has an open back, so whoever sits behind the table can reach boxes and bags underneath. A 4-sided throw covers all the way around, which looks better when people walk around the table. 6 ft 3-sided is $139 and 6 ft 4-sided is $169. 8 ft 3-sided is $159 and 8 ft 4-sided is $189.'),
+  ('Fitted covers', 'A fitted, closed-back cover is tailored to the table, so it gives a cleaner look than a throw and stays put better in wind. 6 ft fitted is $159 and 8 ft fitted is $179. The back is closed, so choose a 3-sided throw if you need to reach under the table from behind.'),
   ('Where they show up', 'Vendor fairs, farmers markets, school sign-up nights, church welcome tables, career fairs and trade shows.'),
   ('Complete the booth', 'Add a <a href="/custom-canopy-tents/">custom canopy tent</a> outside or a <a href="/retractable-banners/">retractable banner</a> inside. The <a href="/vendor-booth-kit/">vendor booth kit</a> is $339 and includes a 6 ft 3-sided throw, a 33×81 retractable banner and a 10.5 ft feather flag.'),
  ],
  faqs=[
   ('Will it fit my table?', 'Throws are cut for standard 6 ft and 8 ft rectangular folding tables. Pick the size that matches your table length.'),
-  ('Can I wash it?', 'Yes. The fabric is machine washable and wrinkle resistant.'),
+  ('Can I wash it?', 'Yes. The throw fabric is machine washable and wrinkle resistant.'),
+  ('What is a fitted cover?', 'A fitted cover is tailored to the table and closed on the back, for a cleaner look than a throw. It is $159 for a 6 ft table and $179 for an 8 ft table.'),
   ('Is the logo printed on all sides?', 'The full-color print is on the front panel. Ask in a quote if you need more.'),
  ],
  kw=['custom tablecloth','tablecloth with logo','table throw','logo tablecloth','vendor tablecloth'],
@@ -228,6 +251,7 @@ dict(
 ),
 dict(
  slug='custom-canopy-tents', key='10-canopy-tent', etsy='4597142098', price=649, unit='kit', base='10×10 frame, printed top and valance',
+ videos=[('10-canopy-tent', 'Custom canopy tent')],
  name='Custom Canopy Tents', short='10×10 Canopy Tent',
  title='Custom 10x10 Canopy Tents with Logo | Get Seen Signs',
  desc='Custom printed 10x10 canopy tents on a heavy-duty aluminum hex frame. 600D polyester, fire-retardant (CPAI-84), wheeled bag. Packages from $649, free shipping.',
@@ -240,7 +264,7 @@ dict(
  offer_rows=[(649,'10×10 top and valance'),(849,'10×10 top, valance and back wall'),(1459,'Full kit: walls, feather flag and table throw')],
  body=[
   ('Three packages', 'Start with the printed top and valance on the frame for $649. Add a printed back wall for $849. The full kit is $1,459 and adds walls, a feather flag and a table throw so everything matches.'),
-  ('Lead time', 'Tents take 5–10 business days to make after you approve the proof, plus shipping. For a season opener or a festival date, order a few weeks early.'),
+  ('Lead time', 'Tents arrive 5-10 business days after you approve the proof. For a season opener or a festival date, order a few weeks early.'),
   ('Anchor it', 'Pop-up tents catch wind like a sail. Always stake or weight every leg. Don\'t set up in high wind.'),
  ],
  faqs=[
@@ -253,6 +277,7 @@ dict(
 ),
 dict(
  slug='vendor-booth-kit', key='15-vendor-booth-kit', etsy='4600470595', price=339, unit='kit', base='6 ft throw, 33×81 banner, 10.5 ft flag',
+ videos=[('15-vendor-booth-kit', 'Vendor booth kit')],
  name='Vendor Booth Kit', short='Vendor Booth Kit',
  title='Vendor Booth Kit: Throw, Banner & Flag | Get Seen Signs',
  desc='Vendor booth kit with a custom 6 ft 3-sided table throw, a 33x81 retractable banner and a 10.5 ft feather flag. One price, $339, with free shipping.',
@@ -278,7 +303,108 @@ dict(
  related=['table-throws','retractable-banners','feather-flags'],
 ),
 dict(
+ slug='hard-hat-decals', key='16-hard-hat-decals', etsy='4603860981', price=54, unit='for 100', base='2 in, 100 decals',
+ name='Custom Hard Hat Decals', short='Hard Hat Decals',
+ title='Custom Hard Hat Decals, 100-500 Packs | Get Seen Signs',
+ desc='Custom die-cut hard hat decals with your logo, 2 or 3 inch, in packs of 100, 250 or 500. Outdoor vinyl with gloss laminate. From $54, free shipping.',
+ h1=('Custom hard hat decals', 'on every helmet in the crew.'),
+ lede='Your logo printed full color on outdoor vinyl with a gloss laminate, die cut to the shape of your logo so it looks clean on the curve of a helmet. For contractors, plants, utilities and crews who want every hard hat branded.',
+ sizes=['2 in: 100 for $54, 250 for $79, 500 for $119','3 in: 250 for $99, 500 for $169','Sizes are measured on the longest side'],
+ material='Outdoor vinyl with gloss laminate, die cut to your logo shape, rated for curved surfaces',
+ included='Die-cut decals in your pack size, one design per order, free digital proof',
+ days='3-5',
+ turnaround='We print in 1 to 3 business days. Most orders arrive 4 to 8 business days after proof approval.',
+ handling=(2,3), transit=(2,5),
+ offer_rows=[
+  (54,'2 in, 100 decals'),(79,'2 in, 250 decals'),(119,'2 in, 500 decals'),
+  (99,'3 in, 250 decals'),(169,'3 in, 500 decals'),
+ ],
+ body=[
+  ('Pick a size and a pack', 'Choose 2 in or 3 in, measured on the longest side. 2 in is $54 for 100, $79 for 250 and $119 for 500. 3 in is $99 for 250 and $169 for 500. Each order is one design.'),
+  ('Made for the curve of a hard hat', 'The decals are die cut to the shape of your logo and printed on outdoor vinyl with a gloss laminate that is rated for curved surfaces. They also stick to toolboxes, coolers, laptops and gear.'),
+  ('What to send', 'Send your logo with your order on Etsy, or reply to our email with a PNG, JPG, PDF, SVG or AI file. You get a free digital proof within 12 hours, 7 days a week, with 3 revisions included. Nothing prints until you approve it.'),
+  ('Need more?', 'Need 1,000 or more, a bigger size, or a few different designs? Send a quote request and we will price it.'),
+ ],
+ faqs=[
+  ('What sizes do the decals come in?', '2 in and 3 in, measured on the longest side. 2 in comes in packs of 100, 250 and 500. 3 in comes in packs of 250 and 500.'),
+  ('Will they stick to a hard hat?', 'Yes. They are outdoor vinyl with a gloss laminate and are rated for curved surfaces like hard hats. They also work on toolboxes, coolers, laptops and gear.'),
+  ('Can one order have several designs?', 'The pack price is for one design. For a few different designs, send a quote request with the split.'),
+  ('How long does it take?', 'We print in 1 to 3 business days after you approve the proof, and most orders arrive 4 to 8 business days after approval.'),
+  ('Can I return them?', 'Decals are made to order, so we do not take returns. Misprints and damage are reprinted free.'),
+ ],
+ kw=['hard hat decals','hard hat stickers','custom hard hat sticker','die cut logo decals','helmet stickers'],
+ related=['aluminum-safety-signs','challenge-coins','vinyl-banners'],
+),
+dict(
+ slug='aluminum-safety-signs', key='17-aluminum-safety-signs', etsy='4603884832', price=119, unit='5-pack', base='12×18 in, 5 signs',
+ name='Custom Aluminum Safety Signs', short='Aluminum Safety Signs',
+ title='Custom Aluminum Safety Sign Packs | Get Seen Signs',
+ desc='Custom aluminum safety sign packs, 12x18 or 18x24 in, with your logo and your wording on each sign. OSHA style headers. From $119, free shipping.',
+ h1=('Custom aluminum safety signs', 'with your logo and your wording.'),
+ lede='Rust-proof aluminum signs printed full color, built to hang indoors or out for years, for plants, machine shops, warehouses, ranges and job sites. Every sign in a pack can say something different, with OSHA style headers and your logo on each one.',
+ sizes=['12×18 in, 5 signs ($119)','12×18 in, 10 signs ($199)','18×24 in, 5 signs ($199)','12×18 in, 5 heavy duty (.063) ($169)','Portrait or landscape'],
+ material='.040 aluminum, or .063 heavy duty for outdoor and high-traffic spots. Printed full color on rust-proof aluminum, for indoor or outdoor use.',
+ included='5 or 10 signs per pack, your logo on each sign, OSHA style headers (Danger, Warning, Caution, Notice), free digital proof',
+ days='3-5',
+ turnaround='We print in 1 to 3 business days. Most packs arrive 5 to 9 business days after proof approval.',
+ handling=(2,3), transit=(3,6),
+ offer_rows=[
+  (119,'12×18 in, 5 signs'),(199,'12×18 in, 10 signs'),(199,'18×24 in, 5 signs'),(169,'12×18 in, 5 heavy duty (.063)'),
+ ],
+ gallery_extra=[
+  ('/assets/img/g-17-aluminum-safety-signs-pricing','Choose your pack: 12x18 with 5 signs $119, 12x18 with 10 signs $199, 18x24 with 5 signs $199 and 12x18 with 5 heavy duty signs $169'),
+  ('/assets/img/g-17-aluminum-safety-signs-specs','Size and specs card for custom aluminum safety signs, 12x18 or 18x24 in, portrait or landscape'),
+ ],
+ body=[
+  ('Every sign can say something different', 'List the wording for each sign when you order: PPE Required, Authorized Personnel Only, Hearing Protection, Eye Protection, No Trespassing and more. Pick the header for each one (Danger, Warning, Caution or Notice) and we put your logo on all of them.'),
+  ('Sizes and packs', '12×18 in with 5 signs is $119. 12×18 in with 10 signs is $199. 18×24 in with 5 signs is $199. 12×18 in with 5 heavy duty (.063) signs is $169. Signs can be portrait or landscape.'),
+  ('Standard or heavy duty?', 'The standard signs are .040 aluminum. The .063 heavy duty aluminum is for outdoor and high-traffic spots.'),
+  ('Mounting', 'Mounting holes are available on request. Ask before you order and we will add them to the proof.'),
+  ('OSHA style, not a certification', 'These are OSHA style designs. You are responsible for confirming the signs meet your site\'s safety requirements.'),
+ ],
+ faqs=[
+  ('Can every sign in a pack say something different?', 'Yes. List the wording and header for each sign when you order, and we send one proof with all of them.'),
+  ('Are these signs OSHA compliant?', 'They are an OSHA style design. You are responsible for confirming the signs meet your site\'s safety requirements.'),
+  ('Can I use them outside?', 'Yes. The signs are printed on rust-proof aluminum and are made to hang indoors or out. For outdoor and high-traffic spots, choose the .063 heavy duty pack.'),
+  ('Can you add mounting holes?', 'Mounting holes are available on request. Ask before you order.'),
+  ('Can I order a single sign or a custom size?', 'Packs start at 5 signs. For a single sign, a bigger pack or a custom size, send a quote request.'),
+ ],
+ kw=['custom aluminum safety signs','osha style signs','custom metal warning sign','facility safety signs','ppe required sign'],
+ related=['hard-hat-decals','challenge-coins','vinyl-banners'],
+),
+dict(
+ slug='challenge-coins', key='18-challenge-coins', etsy='4603863951', price=399, unit='for 50', base='50 coins, 1.75 in, full color both sides',
+ name='Custom Challenge Coins', short='Challenge Coins',
+ title='Custom Challenge Coins, 50 or 100 | Get Seen Signs',
+ desc='Custom 1.75 inch challenge coins, full color on both sides, with mold, setup and artwork prep included. 50 coins $399, 100 coins $549. Free shipping.',
+ h1=('Custom challenge coins', 'with your logo on both sides.'),
+ lede='A solid 1.75 inch coin with your logo, text, dates or slogan in full color on both sides. Made to hand out at a safety milestone, a new hire day, a retirement or the end of a big job, for companies, crews, safety programs, clubs and teams.',
+ sizes=['50 coins ($399)','100 coins ($549)','1.75 in (about 44 mm) round'],
+ material='Round metal coin, 1.75 in (about 44 mm), full color on both sides',
+ included='Mold, setup and artwork prep, a photo of a pre-production sample before the full run, free digital proof',
+ days='3-5',
+ turnaround='Production takes 3 to 4 weeks after proof approval, then the coins ship free by ground. Allow about 4 to 5 weeks total from approval.',
+ handling=(15,20), transit=(3,7),
+ offer_rows=[(399,'50 coins'),(549,'100 coins')],
+ body=[
+  ('What you get', 'A 1.75 in (about 44 mm) round metal coin with full color on both sides: your logo, text, dates or slogan. Mold, setup and artwork prep are included, with no hidden fees. It is one design per order.'),
+  ('See it before the full run', 'After you approve the digital proof, we send a photo of a pre-production sample before the full run is made.'),
+  ('Plan ahead', 'Production takes 3 to 4 weeks after you approve the proof, then the coins ship free by ground. Allow about 4 to 5 weeks total from approval. Need it sooner? Message us before ordering and we will check rush options.'),
+  ('Bigger or different?', 'Need 200 or more coins, a different size or a special shape? Send a quote request and we will price it.'),
+ ],
+ faqs=[
+  ('How many coins can I order?', 'Orders are 50 coins for $399 or 100 coins for $549, one design per order. For 200 or more, send a quote request.'),
+  ('Is the artwork included?', 'Yes. Mold, setup and artwork prep are included. Send your logo or a sketch with your order, and you get a free digital proof first.'),
+  ('Can I see a sample first?', 'Yes. After you approve the proof, we send a photo of a pre-production sample before the full run.'),
+  ('How long does it take?', 'Production takes 3 to 4 weeks after proof approval, then the coins ship free by ground. Allow about 4 to 5 weeks total from approval.'),
+  ('Can I return them?', 'Coins are made to order, so we do not take returns. Misprints and damage are remade free.'),
+ ],
+ kw=['custom challenge coins','challenge coins','company challenge coin','safety award coin','custom coin with logo'],
+ related=['hard-hat-decals','aluminum-safety-signs','vendor-booth-kit'],
+),
+dict(
  slug='senior-night-banners', key='12-senior-night-banner', etsy='4597122075', price=39, unit='each', base='2×3 ft',
+ videos=[('12-senior-night-banner', 'Senior night banner')],
  name='Senior Night Banners', short='Senior Night Banner',
  title='Senior Night Banners with Photo | Get Seen Signs',
  desc='Custom senior night banners with your athlete\'s photo, name, number and sport. 13 oz vinyl, 2x3, 3x5 or 4x6 ft. Team pricing for 10+. From $39.',
@@ -296,7 +422,7 @@ dict(
   ('Ideas', 'Need layout ideas? Read <a href="/blog/senior-night-banner-ideas/">senior night banner ideas by sport</a>.'),
  ],
  faqs=[
-  ('How far ahead should we order?', 'Production is 3–5 business days after you approve the proof, plus shipping. Order two to three weeks before senior night to leave time for proofs and photos.'),
+  ('How far ahead should we order?', 'Orders arrive 3-8 business days after you approve the proof. Order two to three weeks before senior night to leave time for proofs and photos.'),
   ('Do you offer team pricing?', 'Yes, for 10 or more banners. Send a quote request with the count and sizes.'),
   ('What sports do you do?', 'Any sport. Football, basketball, baseball, softball, soccer, volleyball, wrestling, track, cheer, band and more.'),
  ],
@@ -305,6 +431,7 @@ dict(
 ),
 dict(
  slug='holiday-yard-signs', key='11-christmas-family-banner', etsy='4597121675', price=44, unit='each', base='2×4 banner or 18×24 yard sign',
+ videos=[('11-christmas-banner', 'Christmas family name banner'), ('14-thanksgiving-yard-sign', 'Thanksgiving family name yard sign')],
  name='Holiday Yard Signs & Banners', short='Holiday Signs',
  title='Holiday Yard Signs & Christmas Banners | Get Seen Signs',
  desc='Personalized Christmas family name banners plus Thanksgiving yard signs with stakes. Free design proof. From $44, free shipping.',
