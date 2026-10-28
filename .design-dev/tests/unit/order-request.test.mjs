@@ -137,7 +137,7 @@ test('the browser cannot set a price: only the sku and quantity are read, and am
 
 test('every orderable sku is priced from the server catalog, and the browser catalog agrees with it', async () => {
   const skus = Object.keys(orderCatalog.skus);
-  assert.equal(skus.length, 68);
+  assert.equal(skus.length, 75);
   for (const sku of skus) {
     const env = mkEnv();
     const { body } = await place(env, uploadReq([{ sku, quantity: 3 }]));
@@ -174,6 +174,27 @@ test('custom patches are priced on the server from the saved SKUs, whatever the 
   assert.doesNotMatch(all, /3-8 business|3 to 8 business|etsy/i, 'the confirmation email makes no standard-turnaround or Etsy claim for patches');
   for (const skuName of ['patch-pvc-3in-50', 'patch-emb-50', 'patch-emb-100']) assert.ok(orderCatalog.skus[skuName], skuName + ' is orderable');
   assert.deepEqual(resolveLineItem({ sku: 'patch-emb-50', quantity: 1 }).item.unit_amount_cents, 23900);
+});
+
+test('metal business cards are priced on the server from their saved Stripe Prices', async () => {
+  const cases = [['card-ss-50', 24900], ['card-ss-100', 29900], ['card-ss-250', 49900], ['card-blk-50', 35900], ['card-blk-100', 44900], ['card-gold-100', 32900], ['card-rosegold-100', 32900]];
+  for (const [sku, cents] of cases) {
+    const env = mkEnv();
+    const items = [{ sku, quantity: 2, unit_amount_cents: 1, price: 0.01, name: 'Free cards', price_id: 'price_free' }];
+    const { res, body } = await place(env, uploadReq(items, { source: 'order-panel:metal-business-cards', clientTotal: 0.01 }));
+    assert.equal(res.status, 200, JSON.stringify(body));
+    assert.equal(body.order.subtotal, cents * 2, sku);
+    const stored = JSON.parse(one(env, 'SELECT line_items_json FROM orders').line_items_json)[0];
+    assert.deepEqual([stored.sku, stored.unit_amount_cents, stored.price_id], [sku, cents, CATALOG[sku].priceId], sku);
+    assert.match(stored.price_id, /^price_[A-Za-z0-9]{20,}$/, sku);
+    assert.match(stored.name, /^Metal Business Cards \(/);
+  }
+  net.brevo.length = 0;
+  const { res } = await place(mkEnv(), contact({ mode: 'design_for_me', source: 'order-panel:metal-business-cards', designForMe: { products: [], wording: 'ACME', siteUrl: '' }, order: { items: [{ sku: 'card-gold-100', quantity: 1 }] } }), { logos: [] });
+  assert.equal(res.status, 200);
+  const all = confirmMail().body.textContent + '\n' + shopMail().body.textContent;
+  assert.match(all, /Metal Business Cards \(100 gold\)/);
+  assert.doesNotMatch(all, /3-8 business|3 to 8 business|etsy/i);
 });
 
 test('bad order input is refused before anything is stored or sent', async () => {

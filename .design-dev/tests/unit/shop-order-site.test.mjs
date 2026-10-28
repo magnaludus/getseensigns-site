@@ -17,7 +17,7 @@ const body = (html) => html.replace(/<style>[\s\S]*?<\/style>/g, '').replace(/<s
 const order = JSON.parse(read('assets/order/catalog.json'));
 const env = loadEnv();
 
-const PAGES = ['bulk-campaign-signs', 'vinyl-banners', 'feather-flags', 'retractable-banners', 'car-magnets', 'real-estate-signs', 'step-and-repeat-backdrops', 'table-throws', 'custom-canopy-tents', 'trade-show-booth-kit', 'hard-hat-decals', 'aluminum-safety-signs', 'challenge-coins', 'custom-patches', 'senior-night-banners', 'holiday-yard-signs'];
+const PAGES = ['bulk-campaign-signs', 'vinyl-banners', 'feather-flags', 'retractable-banners', 'car-magnets', 'real-estate-signs', 'step-and-repeat-backdrops', 'table-throws', 'custom-canopy-tents', 'trade-show-booth-kit', 'hard-hat-decals', 'aluminum-safety-signs', 'challenge-coins', 'custom-patches', 'metal-business-cards', 'senior-night-banners', 'holiday-yard-signs'];
 
 function allPages() {
   const out = [];
@@ -47,7 +47,7 @@ test('the order catalog covers every product page and every approved price, and 
     for (const g of p.groups) for (const c of g.choices) assert.ok(p.rows.some((r) => r.when[g.id] === c.id), `${p.slug} ${g.id}=${c.id} is priced`);
     assert.ok(p.rows.every((r) => r.price > 0 && Number.isInteger(r.price)), p.slug);
   }
-  assert.deepEqual(Object.values(order.products).filter((p) => p.uploadOnly).map((p) => p.slug).sort(), ['challenge-coins', 'custom-patches', 'trade-show-booth-kit']);
+  assert.deepEqual(Object.values(order.products).filter((p) => p.uploadOnly).map((p) => p.slug).sort(), ['challenge-coins', 'custom-patches', 'metal-business-cards', 'trade-show-booth-kit']);
 });
 
 test('every product page has the order panel with its prices, the free shipping note and the proof-first promise', () => {
@@ -74,7 +74,7 @@ test('every product page has the order panel with its prices, the free shipping 
 });
 
 test('products the designer cannot cover offer upload or "we design it" only', () => {
-  for (const slug of ['trade-show-booth-kit', 'challenge-coins', 'custom-patches']) {
+  for (const slug of ['trade-show-booth-kit', 'challenge-coins', 'custom-patches', 'metal-business-cards']) {
     const html = read(`${slug}/index.html`);
     assert.ok(!/Design it online/.test(body(html)), slug);
     assert.ok(html.includes('name="path" value="upload" checked'), slug + ' upload is the default');
@@ -150,6 +150,52 @@ test('every SKU has a saved Stripe price, and the placeholder list is empty', ()
   assert.deepEqual([CATALOG['patch-pvc-3in-50'].amount, CATALOG['patch-emb-50'].amount, CATALOG['patch-emb-100'].amount], [32900, 23900, 30900]);
 });
 
+test('the Metal Business Cards page: seven exact prices, upload-only paths, 2 to 3 week turnaround, no Etsy listing', () => {
+  const html = read('metal-business-cards/index.html');
+  const text = body(html);
+  const graph = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html)[1])['@graph'];
+  const product = graph.find((n) => n['@type'] === 'Product');
+  assert.deepEqual(product.offers.map((o) => [o.price, o.description]), [
+    ['249.00', '50 stainless steel cards'], ['299.00', '100 stainless steel cards'], ['499.00', '250 stainless steel cards'], ['359.00', '50 black cards'],
+    ['449.00', '100 black cards'], ['329.00', '100 gold cards'], ['329.00', '100 rose gold cards'],
+  ]);
+  const want = { 'card-ss-50': [249, 'price_1UVNp967epULNprTZyyyTzjm'], 'card-ss-100': [299, 'price_1UVNpC67epULNprTUC86fNMh'], 'card-ss-250': [499, 'price_1UVNpE67epULNprTx1SJO3AH'], 'card-blk-50': [359, 'price_1UVNpG67epULNprTZW2LtJ87'], 'card-blk-100': [449, 'price_1UVNpJ67epULNprT1BdBEnAY'], 'card-gold-100': [329, 'price_1UVNpM67epULNprTkz7k8r90'], 'card-rosegold-100': [329, 'price_1UVNpO67epULNprTmLFIo0o2'] };
+  assert.deepEqual(order.products['metal-business-cards'].rows.map((r) => r.sku), Object.keys(want));
+  for (const [sku, [price, id]] of Object.entries(want)) {
+    assert.equal(CATALOG[sku].amount, price * 100, sku);
+    assert.equal(CATALOG[sku].priceId, id, sku);
+    assert.equal(order.products['metal-business-cards'].rows.find((r) => r.sku === sku).price, price, sku);
+  }
+  assert.match(text, /from<\/small> \$249/);
+  const data = JSON.parse(/<script type="application\/json" id="order-data">(.*?)<\/script>/s.exec(html)[1]);
+  assert.equal(data.uploadOnly, true);
+  assert.equal(data.designer, null);
+  assert.ok(!/Design it online/.test(text) && !html.includes('id="ord-path-designer"') && html.includes('name="path" value="upload" checked') && /Rather have us design it/.test(text));
+  assert.match(text, /0\.5 mm/);
+  assert.match(text, /1 color plus laser etch on both sides/);
+  assert.match(text, /Production takes 2 to 3 weeks after you approve the proof/);
+  assert.match(/<dt>Turnaround<\/dt><dd>(.*?)<\/dd>/.exec(html)[1], /2 to 3 weeks/);
+  assert.doesNotMatch(text, /3-8 business days|3 to 8 business days|5-10 business days|Arrives 3/);
+  for (const o of product.offers) {
+    assert.equal(o.url, 'https://getseensignsco.com/metal-business-cards/');
+    assert.deepEqual([o.shippingDetails.deliveryTime.handlingTime.minValue, o.shippingDetails.deliveryTime.handlingTime.maxValue], [10, 15]);
+    assert.deepEqual([o.shippingDetails.deliveryTime.transitTime.minValue, o.shippingDetails.deliveryTime.transitTime.maxValue], [2, 5]);
+    assert.equal(o.shippingDetails.shippingRate.value, '0');
+  }
+  assert.doesNotMatch(html, /etsy\.com\/listing/);
+  assert.doesNotMatch(text, /Order on Etsy|Prefer Etsy/);
+  assert.ok(!('etsy' in order.products['metal-business-cards']));
+  assert.doesNotMatch(html, /Veracity|\bdba\b|d\/b\/a|Scott|\u2014/);
+  for (const f of ['p-20-metal-business-cards.jpg', 'p-20-metal-business-cards.webp', 'p-20-metal-business-cards-sm.webp', 'g-20-metal-business-cards-2.jpg', 'g-20-metal-business-cards-2.webp', 'g-20-metal-business-cards-2-sm.webp']) assert.ok(existsSync(new URL('assets/img/' + f, root)), f);
+  assert.ok(read('sitemap.xml').includes('<loc>https://getseensignsco.com/metal-business-cards/</loc>'));
+  const shop = read('shop/index.html');
+  assert.ok(shop.includes('href="/metal-business-cards/#order"') && shop.includes('<a href="/metal-business-cards/">Metal Business Cards</a>'));
+  assert.ok(read('index.html').includes('href="/metal-business-cards/"') && read('index.html').includes('<span>Metal business cards</span>') && read('index.html').includes('<option>Metal Business Cards</option>') && read('index.html').includes('metal business cards take 2 to 3 weeks'));
+  assert.ok(read('404.html').includes('href="/metal-business-cards/"'));
+  assert.ok(read('terms.html').includes('<a href="/metal-business-cards/">Metal Business Cards</a>'));
+  assert.ok(PAGES.includes('metal-business-cards'));
+});
+
 test('tents: the $589 standard tier is the starting price everywhere and the $649 Top Only price is gone', () => {
   const tent = read('custom-canopy-tents/index.html');
   const text = body(tent);
@@ -178,7 +224,7 @@ test('the Shop page lists every product with its from price and an order link, a
     if (slug === 'holiday-yard-signs') continue;
     assert.ok(text.includes('$' + lowest.toLocaleString('en-US')), `${slug} from $${lowest}`);
   }
-  assert.equal((html.match(/class="card shop-card"/g) || []).length, 17);
+  assert.equal((html.match(/class="card shop-card"/g) || []).length, 18);
   assert.match(text, /Proof first, then pay/);
   assert.match(text, /Free shipping in the lower 48/);
   assert.ok(read('sitemap.xml').includes('<loc>https://getseensignsco.com/shop/</loc>'));

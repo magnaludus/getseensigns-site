@@ -143,6 +143,13 @@ ORDER = {
         rows=[({'pack': 'pvc50'}, '50 PVC patches, 3 in', 'patch-pvc-3in-50'), ({'pack': 'emb50'}, '50 embroidered patches', 'patch-emb-50'),
               ({'pack': 'emb100'}, '100 embroidered patches', 'patch-emb-100')],
     ),
+    'metal-business-cards': dict(
+        qtyLabel='orders', upload_only=True,
+        groups=[dict(id='pack', label='Metal and quantity', choices=[('ss50', '50 stainless steel cards'), ('ss100', '100 stainless steel cards'), ('ss250', '250 stainless steel cards'), ('blk50', '50 black cards'), ('blk100', '100 black cards'), ('gold100', '100 gold cards'), ('rosegold100', '100 rose gold cards')])],
+        rows=[({'pack': 'ss50'}, '50 stainless steel cards', 'card-ss-50'), ({'pack': 'ss100'}, '100 stainless steel cards', 'card-ss-100'), ({'pack': 'ss250'}, '250 stainless steel cards', 'card-ss-250'),
+              ({'pack': 'blk50'}, '50 black cards', 'card-blk-50'), ({'pack': 'blk100'}, '100 black cards', 'card-blk-100'),
+              ({'pack': 'gold100'}, '100 gold cards', 'card-gold-100'), ({'pack': 'rosegold100'}, '100 rose gold cards', 'card-rosegold-100')],
+    ),
     'senior-night-banners': dict(
         qtyLabel='banners',
         groups=[dict(id='size', label='Size', choices=[('2x3', '2×3 ft'), ('3x5', '3×5 ft'), ('4x6', '4×6 ft')])],

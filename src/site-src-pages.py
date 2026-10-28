@@ -314,6 +314,7 @@ ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per 
  '17-aluminum-safety-signs':('Warning Authorized Personnel Only aluminum safety sign hung on a chain-link fence','Stack of custom aluminum safety signs on a workbench'),
  '18-challenge-coins':('Custom challenge coin held in a hand to show its 1.75 inch size','Box of custom challenge coins lined up, with four more coins in clear cases in front'),
  '19-custom-patches':('Custom patches price card: 50 PVC patches 3 in $329, 50 embroidered patches $239, 100 embroidered patches $309',None),
+ '20-metal-business-cards':('Metal business cards price card: stainless steel, black, gold and rose gold, from $249',None),
 }
 # Alt text for the current Etsy listing main photo (p-*.jpg). Gallery shots that Etsy did not expose stay on their own alts above.
 HERO_ALT={
@@ -334,6 +335,7 @@ HERO_ALT={
  '17-aluminum-safety-signs':'Four custom aluminum safety signs reading Notice, Caution and Warning on a shop wall',
  '18-challenge-coins':'Front and back of a custom full color Acme Mfg challenge coin on dark slate',
  '19-custom-patches':'Custom patches, PVC and embroidered, from Get Seen Signs',
+ '20-metal-business-cards':'Metal business cards in stainless steel, black, gold and rose gold from Get Seen Signs',
 }
 for p in P:
     path=f'/{p["slug"]}/'; k=p['key']; items=[('Home','/'),(p['name'],path)]
@@ -370,7 +372,7 @@ for p in P:
         w,h=Image.open(f'{SITE}{b}.webp').size
         return f'<figure{" class=sq" if w==h else ""}>{pic(b,a,w,h,sm=b+"-sm")}<figcaption>{cap}</figcaption></figure>'
     vids=''.join(f'<figure class="vid"><video controls muted playsinline preload="none" poster="/assets/video/{n}-poster.webp" width="720" height="720"><source src="/assets/video/{n}.mp4" type="video/mp4"></video><figcaption>{e(cap)} in action</figcaption></figure>' for n,cap in p.get('videos',[]))
-    gal_html='<div class="gal">'+vids+''.join(_gfig(b,a,'Banner materials' if b.endswith('-materials') else 'Pack pricing' if b.endswith('-pricing') or b.endswith('-patches-2') else 'Size and specs' if b.endswith('-specs') else 'Example design') for b,a in gal)+'</div>'
+    gal_html='<div class="gal">'+vids+''.join(_gfig(b,a,'Banner materials' if b.endswith('-materials') else 'Pack pricing' if b.endswith('-pricing') or b.endswith('-patches-2') or b.endswith('-cards-2') else 'Size and specs' if b.endswith('-specs') else 'Example design') for b,a in gal)+'</div>'
     body=''.join(f'<h2>{e(h)}</h2><p>{t}</p>' for h,t in p['body'])
     if p.get('extra'):
         buy='<div class="buy-list">'+''.join(f'<a class="buy" href="https://www.etsy.com/listing/{x["etsy"]}" target="_blank" rel="noopener"><span><b>{e(x["name"])}</b><small>{e(x["base"])}</small></span><span class="price"><small>from</small> {money(x["price"])}</span><span class="go">Etsy <span aria-hidden="true">→</span></span></a>' for x in p['extra'])+'</div>'
@@ -805,10 +807,11 @@ SHORT={
  '17-aluminum-safety-signs':('aluminum-safety-signs','Rust-proof aluminum, your logo and wording. 5 or 10 signs.'),
  '18-challenge-coins':('challenge-coins','1.75 in, full color on both sides. 50 or 100 coins.'),
  '19-custom-patches':('custom-patches','PVC or embroidered, with your logo. 50 or 100 patches.'),
+ '20-metal-business-cards':('metal-business-cards','0.5 mm metal cards in steel, black, gold or rose gold. 50 to 250.'),
  '11-christmas-family-banner':('holiday-yard-signs','Your family name, three classic styles.'),
  '12-senior-night-banner':('senior-night-banners','Photo, name and number. Team pricing for 10+.'),
  '14-thanksgiving-yard-sign':('holiday-yard-signs','Harvest or rustic, with your name.')}
-NAMES={'02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-trade-show-booth-kit':'Trade Show Booth Kit','16-hard-hat-decals':'Hard Hat Decals','17-aluminum-safety-signs':'Aluminum Safety Signs','18-challenge-coins':'Challenge Coins','19-custom-patches':'Custom Patches','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
+NAMES={'02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-trade-show-booth-kit':'Trade Show Booth Kit','16-hard-hat-decals':'Hard Hat Decals','17-aluminum-safety-signs':'Aluminum Safety Signs','18-challenge-coins':'Challenge Coins','19-custom-patches':'Custom Patches','20-metal-business-cards':'Metal Business Cards','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
 def price_of(k):
     for p in P:
         if p.get('extra'):
@@ -826,7 +829,7 @@ def hcard(k):
   <div class="card-body"><h3>{n}</h3><p>{d}</p>
   <div class="card-foot">{price}<span class="go">Sizes &amp; details <span aria-hidden="true">→</span></span></div></div>
 </a>'''
-BIZ_EXTRA={'15-trade-show-booth-kit','16-hard-hat-decals','17-aluminum-safety-signs','18-challenge-coins','19-custom-patches'}
+BIZ_EXTRA={'15-trade-show-booth-kit','16-hard-hat-decals','17-aluminum-safety-signs','18-challenge-coins','19-custom-patches','20-metal-business-cards'}
 BIZK=[k for k in NAMES if int(k[:2])<=10 or k in BIZ_EXTRA]; SEAK=[k for k in NAMES if int(k[:2])>10 and k not in BIZ_EXTRA]
 options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<option>Election / campaign signs</option><option>Birthday or graduation sign</option><option>Something else</option>'
 REACH_HOME=f'''<div class="reach">

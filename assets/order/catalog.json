@@ -1160,6 +1160,106 @@
    "addons": [],
    "options": []
   },
+  "metal-business-cards": {
+   "slug": "metal-business-cards",
+   "name": "Metal Business Cards",
+   "short": "Metal Business Cards",
+   "qtyLabel": "orders",
+   "maxQty": 20,
+   "uploadOnly": true,
+   "designer": null,
+   "designerMap": {},
+   "designerOk": {},
+   "groups": [
+    {
+     "id": "pack",
+     "label": "Metal and quantity",
+     "choices": [
+      {
+       "id": "ss50",
+       "label": "50 stainless steel cards"
+      },
+      {
+       "id": "ss100",
+       "label": "100 stainless steel cards"
+      },
+      {
+       "id": "ss250",
+       "label": "250 stainless steel cards"
+      },
+      {
+       "id": "blk50",
+       "label": "50 black cards"
+      },
+      {
+       "id": "blk100",
+       "label": "100 black cards"
+      },
+      {
+       "id": "gold100",
+       "label": "100 gold cards"
+      },
+      {
+       "id": "rosegold100",
+       "label": "100 rose gold cards"
+      }
+     ]
+    }
+   ],
+   "rows": [
+    {
+     "when": {
+      "pack": "ss50"
+     },
+     "sku": "card-ss-50",
+     "price": 249
+    },
+    {
+     "when": {
+      "pack": "ss100"
+     },
+     "sku": "card-ss-100",
+     "price": 299
+    },
+    {
+     "when": {
+      "pack": "ss250"
+     },
+     "sku": "card-ss-250",
+     "price": 499
+    },
+    {
+     "when": {
+      "pack": "blk50"
+     },
+     "sku": "card-blk-50",
+     "price": 359
+    },
+    {
+     "when": {
+      "pack": "blk100"
+     },
+     "sku": "card-blk-100",
+     "price": 449
+    },
+    {
+     "when": {
+      "pack": "gold100"
+     },
+     "sku": "card-gold-100",
+     "price": 329
+    },
+    {
+     "when": {
+      "pack": "rosegold100"
+     },
+     "sku": "card-rosegold-100",
+     "price": 329
+    }
+   ],
+   "addons": [],
+   "options": []
+  },
   "senior-night-banners": {
    "slug": "senior-night-banners",
    "name": "Senior Night Banners",
@@ -1394,6 +1494,13 @@
   "custom-patches|50 PVC patches, 3 in": "patch-pvc-3in-50",
   "custom-patches|50 embroidered patches": "patch-emb-50",
   "custom-patches|100 embroidered patches": "patch-emb-100",
+  "metal-business-cards|50 stainless steel cards": "card-ss-50",
+  "metal-business-cards|100 stainless steel cards": "card-ss-100",
+  "metal-business-cards|250 stainless steel cards": "card-ss-250",
+  "metal-business-cards|50 black cards": "card-blk-50",
+  "metal-business-cards|100 black cards": "card-blk-100",
+  "metal-business-cards|100 gold cards": "card-gold-100",
+  "metal-business-cards|100 rose gold cards": "card-rosegold-100",
   "senior-night-banners|2×3 ft": "senior-2x3",
   "senior-night-banners|3×5 ft": "senior-3x5",
   "senior-night-banners|4×6 ft": "senior-4x6",
@@ -1445,6 +1552,27 @@
   },
   "booth-kit": {
    "name": "Trade Show Booth Kit (kit)"
+  },
+  "card-blk-100": {
+   "name": "Metal Business Cards (100 black)"
+  },
+  "card-blk-50": {
+   "name": "Metal Business Cards (50 black)"
+  },
+  "card-gold-100": {
+   "name": "Metal Business Cards (100 gold)"
+  },
+  "card-rosegold-100": {
+   "name": "Metal Business Cards (100 rose gold)"
+  },
+  "card-ss-100": {
+   "name": "Metal Business Cards (100 stainless steel)"
+  },
+  "card-ss-250": {
+   "name": "Metal Business Cards (250 stainless steel)"
+  },
+  "card-ss-50": {
+   "name": "Metal Business Cards (50 stainless steel)"
   },
   "coins-100": {
    "name": "Challenge Coins (100 coins)"

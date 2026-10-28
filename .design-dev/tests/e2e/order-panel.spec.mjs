@@ -59,8 +59,8 @@ test('shop page and nav: Shop is in the desktop nav and the phone header, and ev
     const desktop = await newPage(browser, 'desktop');
     await desktop.page.goto(server.base + '/shop/');
     assert.equal(await desktop.page.locator('.nav-links a', { hasText: 'Shop' }).first().isVisible(), true);
-    assert.equal(await desktop.page.locator('.shop-card').count(), 17, '16 product pages, the holiday page shows its Christmas and Thanksgiving items separately');
-    assert.equal(await desktop.page.locator('.shop-card a.btn', { hasText: 'Start my order' }).count(), 17);
+    assert.equal(await desktop.page.locator('.shop-card').count(), 18, '17 product pages, the holiday page shows its Christmas and Thanksgiving items separately');
+    assert.equal(await desktop.page.locator('.shop-card a.btn', { hasText: 'Start my order' }).count(), 18);
     await desktop.page.locator('.shop-card a.btn').first().click();
     assert.match(desktop.page.url(), /\/bulk-campaign-signs\/#order$/);
     await desktop.context.close();
@@ -164,6 +164,40 @@ test('custom patches: three priced choices, upload or "we design it" only, no Et
       assert.deepEqual(problems.filter((p) => !/api\/order-request/.test(p)), [], kind + ' console problems');
       await page.context().close();
     }
+  } finally {
+    await browser.close();
+    server.stop();
+  }
+});
+
+test('metal business cards: seven priced choices, upload or "we design it" only, sends the card sku', async () => {
+  const server = await startServer();
+  const browser = await launch();
+  try {
+    const { page, problems } = await newPage(browser, 'desktop');
+    let posted = null;
+    await page.route('**/api/order-request', async (route) => {
+      posted = route.request().postDataBuffer().toString('latin1');
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, ref: 'GS-TESTTEST', emailed: true, stored: true, order: { id: 'GS-TESTTEST', url: 'https://getseensignsco.com/order/x', subtotal: 44900 } }) });
+    });
+    await page.goto(server.base + '/metal-business-cards/');
+    await page.locator('#order').scrollIntoViewIfNeeded();
+    const sel = page.locator('select[data-group="pack"]');
+    for (const [value, price] of [['ss50', /\$249/], ['ss100', /\$299/], ['ss250', /\$499/], ['blk50', /\$359/], ['blk100', /\$449/], ['gold100', /\$329/], ['rosegold100', /\$329/]]) {
+      await sel.selectOption(value);
+      assert.match(await page.locator('#ord-total').innerText(), price, value);
+    }
+    assert.equal(await page.locator('#ord-path-designer').count(), 0);
+    assert.equal(await page.locator('a[href*="etsy.com/listing"]').count(), 0);
+    await sel.selectOption('blk100');
+    await page.locator('input[name="name"]').fill('Pat Smith');
+    await page.locator('input[name="email"]').fill('pat@example.com');
+    await page.locator('#ord-files').setInputFiles({ name: 'logo.png', mimeType: 'image/png', buffer: Buffer.from('89504e470d0a1a0a', 'hex') });
+    await page.locator('#ord-submit').click();
+    await page.locator('.ord-done').waitFor();
+    assert.match(posted, /"sku":"card-blk-100","quantity":1/);
+    assert.doesNotMatch(posted, /unit_amount|"price"|total/);
+    assert.deepEqual(problems.filter((p) => !/api\/order-request/.test(p)), []);
   } finally {
     await browser.close();
     server.stop();

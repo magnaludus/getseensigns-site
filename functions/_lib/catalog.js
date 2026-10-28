@@ -76,6 +76,13 @@ export const CATALOG = {
   "patch-pvc-3in-50": { name: "Custom Patches (50 PVC, 3 in)", priceId: "price_1UVNcM67epULNprTeoeIIg0R", amount: 32900 },
   "patch-emb-50": { name: "Custom Patches (50 embroidered)", priceId: "price_1UVNcP67epULNprTFpBjmMvQ", amount: 23900 },
   "patch-emb-100": { name: "Custom Patches (100 embroidered)", priceId: "price_1UVNcR67epULNprTbdkhaw6s", amount: 30900 },
+  "card-ss-50": { name: "Metal Business Cards (50 stainless steel)", priceId: "price_1UVNp967epULNprTZyyyTzjm", amount: 24900 },
+  "card-ss-100": { name: "Metal Business Cards (100 stainless steel)", priceId: "price_1UVNpC67epULNprTUC86fNMh", amount: 29900 },
+  "card-ss-250": { name: "Metal Business Cards (250 stainless steel)", priceId: "price_1UVNpE67epULNprTx1SJO3AH", amount: 49900 },
+  "card-blk-50": { name: "Metal Business Cards (50 black)", priceId: "price_1UVNpG67epULNprTZW2LtJ87", amount: 35900 },
+  "card-blk-100": { name: "Metal Business Cards (100 black)", priceId: "price_1UVNpJ67epULNprT1BdBEnAY", amount: 44900 },
+  "card-gold-100": { name: "Metal Business Cards (100 gold)", priceId: "price_1UVNpM67epULNprTkz7k8r90", amount: 32900 },
+  "card-rosegold-100": { name: "Metal Business Cards (100 rose gold)", priceId: "price_1UVNpO67epULNprTmLFIo0o2", amount: 32900 },
 };
 
 // SKUs that still have no saved Stripe Price (empty priceId above). Add a SKU here while its price is a placeholder, remove it once the real price id is saved.
