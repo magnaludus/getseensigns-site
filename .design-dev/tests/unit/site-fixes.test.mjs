@@ -100,8 +100,37 @@ test('home page has no Halloween mention', () => {
   assert.doesNotMatch(read('index.html'), /halloween/i);
 });
 
-test('the trade-name footer line is gone from every page and Terms copy is untouched', () => {
+test('the trade-name footer line is gone from every page', () => {
   for (const f of pages()) assert.ok(!readFileSync(f, 'utf8').includes('is a trade name of Veracity Solutions LLC.</p>\n  </div>\n</footer>'), f);
-  for (const f of pages().filter((x) => !/\/(terms|privacy)\.html$/.test(x))) assert.doesNotMatch(body(readFileSync(f, 'utf8')).replace(/<footer[\s\S]*<\/footer>/, ''), /Veracity/, f);
-  assert.ok(body(read('terms.html')).includes('Get Seen Signs (Veracity Solutions LLC)'));
+});
+
+test('Veracity is named only on the Terms page (visible text, structured data, meta tags, privacy)', () => {
+  for (const f of pages().filter((x) => !/\/terms\.html$/.test(x))) assert.doesNotMatch(readFileSync(f, 'utf8'), /Veracity|legalName|parentOrganization/, f);
+  const terms = read('terms.html');
+  assert.ok(body(terms).includes('Get Seen Signs (Veracity Solutions LLC)'));
+  assert.ok(body(terms).includes('Get Seen Signs is a trade name of Veracity Solutions LLC'));
+  assert.doesNotMatch(read('terms.html').match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1], /Veracity/);
+});
+
+test('the Privacy page refers to the business only as Get Seen Signs', () => {
+  const text = body(read('privacy.html'));
+  assert.match(text, /Get Seen Signs is based in Smiths Station, Alabama\./);
+  assert.doesNotMatch(text, /\bLLC\b|trade name|\bdba\b|d\/b\/a|Scott/i);
+  assert.ok(text.includes('sales@getseensignsco.com'));
+});
+
+test('the Organization structured data is Get Seen Signs with its url, logo and contact fields', () => {
+  for (const f of ['index.html', 'privacy.html', 'vinyl-banners/index.html']) {
+    const org = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(read(f))[1])['@graph'].find((n) => n['@type'] === 'Organization');
+    assert.equal(org.name, 'Get Seen Signs');
+    assert.equal(org.url, 'https://getseensignsco.com/');
+    assert.ok(org.logo.includes('getseen') && org.email === 'sales@getseensignsco.com' && org.telephone === '+1-334-232-9003');
+    assert.ok(!('legalName' in org) && !('parentOrganization' in org));
+  }
+});
+
+test('no Veracity mention in the order code, emails or admin page', () => {
+  const root2 = fileURLToPath(root).replace(/\/$/, '');
+  const walk = (dir) => readdirSync(dir).flatMap((n) => { const p = join(dir, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
+  for (const d of ['functions', 'admin']) for (const f of walk(join(root2, d))) assert.doesNotMatch(readFileSync(f, 'utf8'), /Veracity/, f);
 });

@@ -31,7 +31,7 @@ CSS=_r0.sub(r'\s*\n\s*','',open(SITE+'/assets/style.css').read()).replace('/*','
 CSS=_r0.sub(r'/\*.*?\*/','',CSS,flags=_r0.S)
 
 def org():
-    return {"@type":"Organization","@id":ORG_ID,"name":"Get Seen Signs","legalName":"Veracity Solutions LLC",
+    return {"@type":"Organization","@id":ORG_ID,"name":"Get Seen Signs",
       "url":BASE+"/","logo":BASE+"/assets/brand/getseen-stacked-for-dark-bg.svg","image":BASE+"/assets/og-image.jpg",
       "email":"sales@getseensignsco.com","telephone":PHONE_SCHEMA,
       "description":"Veteran-owned, family-run online sign shop in Smiths Station, Alabama. Custom yard signs, banners, feather flags, retractable banners, car magnets, backdrops, table throws and canopy tents, made to order and shipped.",
@@ -656,7 +656,8 @@ write_doc('/contact', 'Contact | Get Seen Signs',
 # ---------- sitemap, robots ----------
 LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
-LASTMOD['/terms']=LASTMOD['/privacy']=LASTMOD['/contact']='2026-10-27'
+LASTMOD['/terms']=LASTMOD['/contact']='2026-10-27'
+LASTMOD['/privacy']='2026-10-28'
 urls=['/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/terms','/privacy','/contact']
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)

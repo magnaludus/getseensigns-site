@@ -1,8 +1,8 @@
 # Privacy
 
-Last updated October 27, 2026
+Last updated October 28, 2026
 
-Get Seen Signs is a trade name of Veracity Solutions LLC, based in Smiths Station, Alabama. This page explains, in plain terms, what we do with information you share with us.
+Get Seen Signs is based in Smiths Station, Alabama. This page explains, in plain terms, what we do with information you share with us.
 
 ## What we collect
 
