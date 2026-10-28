@@ -81,7 +81,7 @@ test('server off (503): downloads a zip of previews and opens a prefilled email 
     const body = decodeURIComponent(mailto.split('body=')[1]);
     const ref = download.suggestedFilename().match(/GS-[0-9A-Z]{8}/)[0];
     assert.ok(body.includes('Reference: ' + ref), 'ref is in the email');
-    for (const line of ['Name: Test Customer', 'Email: customer@example.com', 'Product: 10×10 pop-up canopy tent', 'Price shown: $589']) assert.ok(body.includes(line), line);
+    for (const line of ['Name: Test Customer', 'Email: customer@example.com', 'Product: 10×10 pop-up canopy tent', 'Price shown: $599']) assert.ok(body.includes(line), line);
     // the browser logs the expected 503 itself; nothing else may be reported
     assert.deepEqual(problems.filter((p) => !/status of 503/.test(p)), []);
     await page.context().close();

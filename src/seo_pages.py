@@ -60,7 +60,7 @@ dict(
 <h2>Tailgate tents and gameday signs for Auburn and Opelika</h2>
 <p>Home game weekends fill every lot in town. A printed tent, a table throw and a flag make your spot easy to find. We make a tailgate tent for Auburn, AL and Opelika crews in your colors, with your group's name on the valance.</p>
 <ul class="ticks">
-<li><b>Tailgate HQ tent.</b> 10×10 printed top and valance from $589. Back wall and full kits too. See <a href="/custom-canopy-tents/">canopy tents</a>.</li>
+<li><b>Tailgate HQ tent.</b> 10×10 printed top and valance from $599. Back wall and full kits too. See <a href="/custom-canopy-tents/">canopy tents</a>.</li>
 <li><b>Home of the Fans table throw.</b> Fits a 6 ft table, from $139. See <a href="/table-throws/">table throws</a>.</li>
 <li><b>Game Day and House Divided yard signs.</b> 18×24 with a stake. Packs of 5 from $74.</li>
 <li><b>Family name banners.</b> THE [NAME]S, GAME DAY, EST. [YEAR]. 2×4 from $44.</li>
@@ -286,7 +286,7 @@ GAMEDAY=dict(
  colors=[('Orange &amp; Navy','#F26A21','#1B2A4A'),('Red &amp; Black','#C8102E','#111111'),('Crimson &amp; White','#9E1B32','#FFFFFF'),('Navy &amp; Red','#13274F','#CE1141')],
  products=[
   # (image base, fallback base, alt, name, wording, price html, link)
-  ('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2','Navy 10×10 canopy tent with an orange TAILGATE HQ valance at a tailgate','Tailgate HQ canopy tent','TAILGATE HQ on the valance. Add a back wall with THE [NAME] CREW.','<b>$589</b> standard top and valance · $849 with back wall · $1,459 full kit','/custom-canopy-tents/'),
+  ('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2','Navy 10×10 canopy tent with an orange TAILGATE HQ valance at a tailgate','Tailgate HQ canopy tent','TAILGATE HQ on the valance. Add a back wall with THE [NAME] CREW.','<b>$599</b> Standard: frame, printed top and valance · $849 with back wall · $1,459 full kit','/custom-canopy-tents/'),
   ('gd-table-throw-navy-red','g-09-table-throw-2','Navy table throw with a red band and HOME OF THE FANS at a tailgate','Home of the Fans table throw','HOME OF THE FANS, or THE [NAME]S TAILGATE.','<b>$139</b> 6 ft · $159 8 ft (3-sided)','/table-throws/'),
   ('gd-game-day-yard-sign-red-black','g-01-custom-yard-sign-2','Black and red GAME DAY family name yard sign in a front yard','Game Day yard sign','GAME DAY / THE [NAME]S / EST. [YEAR]. Sold in packs of 5.','<b>$74</b> for 5 · 18×24, stakes included','/bulk-campaign-signs/'),
   ('gd-house-divided-yard-sign','g-01-custom-yard-sign-3','HOUSE DIVIDED yard sign split into a red half and a navy half','House Divided yard sign','HOUSE DIVIDED / THE [NAME]S. Two color blocks, you pick both. Sold in packs of 5.','<b>$74</b> for 5 · 18×24, stakes included','/bulk-campaign-signs/'),

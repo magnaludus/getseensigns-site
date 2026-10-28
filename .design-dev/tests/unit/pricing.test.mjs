@@ -46,10 +46,10 @@ test('every option combination of every product is priced exactly as seo_product
 test('totals are price times quantity, whole dollars, free shipping', () => {
   let doc = createDocument(env, 'canopy');
   const one = projectTotal(env.catalog, doc);
-  assert.equal(one.total, 589);
+  assert.equal(one.total, 599);
   assert.equal(one.shipping, 'free');
   doc = setQty(doc, 0, 3);
-  assert.equal(projectTotal(env.catalog, doc).total, 589 * 3);
+  assert.equal(projectTotal(env.catalog, doc).total, 599 * 3);
   doc = setChoices(doc, 0, { package: 'kit' }, env);
   assert.equal(projectTotal(env.catalog, doc).total, 1459 * 3);
   assert.equal(money(1459), '$1,459');
