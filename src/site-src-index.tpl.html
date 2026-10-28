@@ -151,24 +151,7 @@
       </ul>
       {{REACH}}
     </div>
-    <!-- Posts to /api/quote-request (saved in D1, emailed through Brevo). The mailto: link in data-mailto is only the fallback for a server error or a 503. -->
-    <form class="quote-form" id="quote-form" data-endpoint="/api/quote-request" data-mailto="sales@getseensignsco.com" novalidate>
-      <div class="f2">
-        <label>Name<input name="name" autocomplete="name" required></label>
-        <label>Email<input name="email" type="email" autocomplete="email" required></label>
-      </div>
-      <label>Product<select name="product" required><option value="">Choose a product…</option>{{OPTIONS}}</select></label>
-      <div class="f3">
-        <label>Quantity<input name="quantity" type="number" min="1" inputmode="numeric" placeholder="e.g. 50"></label>
-        <label>Size<input name="size" placeholder="e.g. 18×24"></label>
-        <label>Needed by<input name="needed_by" type="date"></label>
-      </div>
-      <label>Details<textarea name="details" rows="4" placeholder="Text, colors, where it'll be used, sides, anything else."></textarea></label>
-      <p class="note"><b>Have a logo or photo?</b> Send the request first, then reply to our email with your file attached (PNG, JPG, PDF, SVG or AI).</p>
-      <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button class="btn btn-ink" type="submit">Send quote request <span aria-hidden="true">→</span></button>
-      <p class="form-status" role="status" aria-live="polite"></p>
-    </form>
+    {{QUOTE_FORM}}
   </div>
 </section>
 
@@ -209,7 +192,7 @@
     </div>
     <div class="foot-cols">
       <div><h4>Shop</h4><a href="https://www.etsy.com/shop/GetSeenSigns" target="_blank" rel="noopener">Etsy shop</a><a href="#products">Products</a><a href="#quote">Get a quote</a></div>
-      <div><h4>Contact</h4><a href="tel:+13342329003">(334) 232-9003</a><a href="sms:+13342329003?body=Hi%2C%20I%20have%20a%20question%20about%20a%20sign">Text us</a><a href="https://wa.me/13342329003?text=Hi%2C%20I%20have%20a%20question%20about%20a%20sign" rel="noopener noreferrer">Chat on WhatsApp</a><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="mailto:contact@getseensignsco.com">contact@getseensignsco.com</a><span>Smiths Station, AL</span></div>
+      <div><h4>Contact</h4><a href="tel:+13342329003">(334) 232-9003</a><a href="sms:+13342329003?body=Hi%2C%20I%20have%20a%20question%20about%20a%20sign">Text us</a><a href="https://wa.me/13342329003?text=Hi%2C%20I%20have%20a%20question%20about%20a%20sign" rel="noopener noreferrer">Chat on WhatsApp</a><a href="/contact">Send a message</a><span>Smiths Station, AL</span></div>
       <div><h4>Info</h4><a href="#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
     </div>
   </div>

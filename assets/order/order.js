@@ -130,7 +130,7 @@ if (dataEl && form) {
     fields: 'Please check your name and email.',
     logo: 'We could not read one of your files. Please use PNG, JPG, WebP or SVG.',
     order: 'Something about the order options did not look right. Please reload the page and try again.',
-    'too-large': 'Those files are too big. Please send smaller ones, or email them to us.',
+    'too-large': 'Those files are too big. Please send smaller ones, or call or text us at (334) 232-9003.',
     rate: 'We got a lot of requests from your connection. Please try again in an hour, or call us.',
   };
 
@@ -196,7 +196,7 @@ if (dataEl && form) {
     if (res.data && res.data.ok && res.data.order) return done(res.data);
     if (res.status === 503) return say('Online ordering is not available right now. Please order on Etsy or send us a quote request, and we will take care of you.', true);
     if (res.status === 0) return say('We could not reach the server. Check your connection and try again.', true);
-    say((res.data && ERRORS[res.data.error]) || 'Something went wrong on our end. Please try again, or email sales@getseensignsco.com.', true);
+    say((res.data && ERRORS[res.data.error]) || 'Something went wrong on our end. Please try again, or call or text us at (334) 232-9003.', true);
   }
 
   form.addEventListener('input', update);

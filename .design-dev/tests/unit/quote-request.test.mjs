@@ -199,16 +199,92 @@ test('migrations/0003_quote_requests.sql matches the schema the function creates
   assert.equal((sql.match(/CREATE /g) || []).length, QUOTE_SCHEMA.length);
 });
 
-test('the home page form posts to the endpoint, keeps the honeypot, and the page keeps mailto only as the error fallback', () => {
-  const home = readFileSync(new URL('index.html', root), 'utf8');
-  assert.match(home, /<form class="quote-form" id="quote-form" data-endpoint="\/api\/quote-request" data-mailto="sales@getseensignsco.com" novalidate>/);
-  assert.ok(home.includes('name="_gotcha"'));
+test('the home, /quote and /contact forms post to the endpoint, keep the honeypot, and nothing in the page JS can open an email app', () => {
+  for (const file of ['index.html', 'quote.html', 'contact.html']) {
+    const page = readFileSync(new URL(file, root), 'utf8');
+    assert.match(page, /<form class="quote-form" id="quote-form" data-endpoint="\/api\/quote-request" novalidate>/, file);
+    assert.ok(page.includes('name="_gotcha"'), file);
+    assert.doesNotMatch(page, /data-mailto/, file);
+  }
   const js = readFileSync(new URL('assets/site.js', root), 'utf8');
-  assert.match(js, /res\.status===200&&j\.ok&&j\.emailed/);
+  assert.match(js, /res\.status===200&&j\.ok/);
   assert.match(js, /elapsedMs/);
-  assert.doesNotMatch(js, /formspree|web3forms/i);
-  const successBranch = js.slice(js.indexOf('res.status===200&&j.ok&&j.emailed'), js.indexOf('if(res.status===200&&j.ok){fallback'));
-  assert.ok(!successBranch.includes('mailto') && !successBranch.includes('fallback('), 'a success never opens the email app');
+  assert.match(js, /attempt/);
+  assert.doesNotMatch(js, /formspree|web3forms|mailto|location\.href/i);
+});
+
+test('a retry with the same attempt id answers with the same reference and does not save or email twice, and does not use up the hourly limit', async () => {
+  const env = mkEnv();
+  const ip = { 'cf-connecting-ip': '203.0.113.7' };
+  const attempt = 'abcdef0123456789abcdef01';
+  const first = await send(env, good({ attempt }), ip);
+  assert.equal(first.res.status, 200);
+  assert.match(first.body.ref, /^QR-[0-9A-HJKMNP-TV-Z]{8}$/);
+  assert.equal(first.body.ref, await quote.refFromAttempt(attempt));
+  assert.equal(net.brevo.length, 2);
+  for (let i = 0; i < 12; i++) {
+    const again = await send(env, good({ attempt }), ip);
+    assert.equal(again.res.status, 200, 'retry ' + i);
+    assert.deepEqual(again.body, first.body);
+  }
+  assert.equal(rows(env).length, 1);
+  assert.equal(net.brevo.length, 2, 'no second email to the shop or the customer');
+  assert.equal((await send(env, good({ attempt: 'ffffffffffffffffffffffff' }), ip)).res.status, 200, 'another request from the same address still fits the limit');
+  assert.equal(rows(env).length, 2);
+});
+
+test('a retry after the shop email failed sends it again and records the new status', async () => {
+  const env = mkEnv();
+  const attempt = 'retryretry0123456789ab';
+  net.brevoFail = true;
+  const first = await send(env, good({ attempt }));
+  assert.deepEqual([first.body.ok, first.body.emailed, first.body.stored], [true, false, true]);
+  assert.equal(rows(env)[0].shop_email, 'failed');
+  net.brevoFail = false;
+  net.brevo.length = 0;
+  const second = await send(env, good({ attempt }));
+  assert.deepEqual([second.body.ref, second.body.emailed, second.body.confirmed], [first.body.ref, true, true]);
+  assert.equal(rows(env).length, 1);
+  assert.deepEqual([rows(env)[0].shop_email, rows(env)[0].customer_email_status], ['sent', 'sent']);
+  assert.equal(net.brevo.length, 2, 'one email to the shop and one confirmation after the failed ones');
+});
+
+test('a bad attempt id is ignored (random reference) and an attempt id cannot be reused by another email address', async () => {
+  const env = mkEnv();
+  const bad = await send(env, good({ attempt: 'short' }));
+  assert.equal(bad.res.status, 200);
+  assert.notEqual(bad.body.ref, await quote.refFromAttempt('short'));
+  const attempt = 'sameidsameid0123456789';
+  assert.equal((await send(env, good({ attempt }))).res.status, 200);
+  const other = await send(env, good({ attempt, email: 'someone.else@example.com' }));
+  assert.equal(other.res.status, 400);
+  assert.equal(rows(env).length, 2);
+});
+
+test('the shop email is tried twice before a request is called not emailed', async () => {
+  const env = mkEnv();
+  let calls = 0;
+  const real = globalThis.fetch;
+  globalThis.fetch = async (url, init) => {
+    if (String(url).includes('brevo') && !JSON.parse(init.body).tags.includes('confirmation') && ++calls === 1) return Response.json({ message: 'try later' }, { status: 502 });
+    return real(url, init);
+  };
+  const { body } = await send(env, good());
+  assert.equal(calls, 2);
+  assert.deepEqual([body.ok, body.emailed, body.confirmed], [true, true, true]);
+  assert.equal(rows(env)[0].shop_email, 'sent');
+});
+
+test('GET /api/admin/quote-requests lists saved requests and can show only the ones the shop was not emailed about', async () => {
+  const { listHandler } = await import('../../../functions/api/admin/quote-requests.js');
+  const env = mkEnv();
+  await send(env, good({ name: 'Sent Ok' }));
+  net.brevoFail = true;
+  await send(env, good({ name: 'Mail Failed' }));
+  const all = await (await listHandler(new Request('https://getseensignsco.com/api/admin/quote-requests'), env)).json();
+  assert.deepEqual(all.requests.map((r) => r.customer_name).sort(), ['Mail Failed', 'Sent Ok']);
+  const open = await (await listHandler(new Request('https://getseensignsco.com/api/admin/quote-requests?needs_attention=1'), env)).json();
+  assert.deepEqual(open.requests.map((r) => [r.customer_name, r.shop_email]), [['Mail Failed', 'failed']]);
 });
 
 test('no secret-looking values and no Veracity in the quote endpoint', () => {
