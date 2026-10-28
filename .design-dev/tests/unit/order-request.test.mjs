@@ -291,7 +291,7 @@ test('every designer option maps to a sku whose price equals the designer price'
       checked += 1;
     }
   }
-  assert.equal(checked, 54);
+  assert.equal(checked, 56);
 });
 
 test('a two-piece design makes two lines and a quantity is capped', () => {

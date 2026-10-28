@@ -98,24 +98,33 @@ test('designer opens with the choices from the order panel link', async () => {
   }
 });
 
-test('a fitted table cover has no designer path, a 3-sided throw does', async () => {
+test('a fitted table cover has a designer path too, with its own price in the designer', async () => {
   const server = await startServer();
   const browser = await launch();
   try {
-    const { page } = await newPage(browser, 'desktop');
+    const { page, problems } = await newPage(browser, 'desktop');
     await page.goto(server.base + '/table-throws/');
     await page.locator('#order').scrollIntoViewIfNeeded();
     assert.equal(await page.locator('#ord-path-designer').isVisible(), true);
     await page.locator('select[data-group="style"]').selectOption('fitted');
     assert.match(await page.locator('#ord-total').innerText(), /\$159/);
-    assert.equal(await page.locator('#ord-path-designer').isVisible(), false);
-    assert.equal(await page.locator('input[name="path"][value="upload"]').isChecked(), true);
-    assert.equal(await page.locator('#ord-design-off').isVisible(), true);
+    assert.equal(await page.locator('#ord-path-designer').isVisible(), true, 'fitted covers can be designed online');
+    assert.equal(await page.locator('#ord-design-off').isVisible(), false);
+    assert.equal(await page.locator('#ord-design').getAttribute('href'), '/design/table-throw/?length=6&style=fitted');
     await page.locator('select[data-group="length"]').selectOption('8');
     assert.match(await page.locator('#ord-total').innerText(), /\$179/);
+    assert.equal(await page.locator('#ord-design').getAttribute('href'), '/design/table-throw/?length=8&style=fitted');
     await page.locator('select[data-group="style"]').selectOption('4');
     assert.match(await page.locator('#ord-total').innerText(), /\$189/);
     assert.equal(await page.locator('#ord-path-designer').isVisible(), true);
+
+    await page.goto(server.base + '/design/table-throw/?length=8&style=fitted');
+    await page.waitForFunction(() => window.GSSDesigner && window.GSSDesigner.ready, null, { timeout: 20000 });
+    const piece = await page.evaluate(() => window.GSSDesigner.store.piece());
+    assert.equal(piece.choices.length, '8');
+    assert.equal(piece.choices.style, 'fitted');
+    assert.match(await page.locator('.dz-aside .dz-total b').innerText(), /^\$179$/);
+    assert.deepEqual(problems, []);
   } finally {
     await browser.close();
     server.stop();

@@ -1117,6 +1117,62 @@
             "value": 2,
             "status": "UX_DEFAULT"
           }
+        },
+        "6-fitted": {
+          "artboard": {
+            "w": 72.23,
+            "h": 28.33,
+            "status": "UX_DEFAULT",
+            "note": "Not a printer template. A fitted closed-back cover uses the same editable front panel size as a 6 ft 3-sided throw until a fitted cover template is added."
+          },
+          "bleed": {
+            "in": 0,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "x": 3.17,
+            "y": 4.25,
+            "w": 65.98,
+            "h": 19.45,
+            "status": "UX_DEFAULT",
+            "note": "Same safe area as the 6 ft 3-sided front panel. Our own default, not a printer number."
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 2,
+            "status": "UX_DEFAULT"
+          }
+        },
+        "8-fitted": {
+          "artboard": {
+            "w": 95.92,
+            "h": 28.02,
+            "status": "UX_DEFAULT",
+            "note": "Not a printer template. A fitted closed-back cover uses the same editable front panel size as an 8 ft 3-sided throw until a fitted cover template is added."
+          },
+          "bleed": {
+            "in": 0,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "x": 2.79,
+            "y": 3.91,
+            "w": 89.95,
+            "h": 19.61,
+            "status": "UX_DEFAULT",
+            "note": "Same safe area as the 8 ft 3-sided front panel. Our own default, not a printer number."
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 2,
+            "status": "UX_DEFAULT"
+          }
         }
       },
       "template_sizes": {

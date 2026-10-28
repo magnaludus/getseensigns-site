@@ -248,7 +248,7 @@
         {
           "id": "style",
           "label": "Style",
-          "choices": [{"id": "3", "label": "3-sided"}, {"id": "4", "label": "4-sided"}]
+          "choices": [{"id": "3", "label": "3-sided"}, {"id": "4", "label": "4-sided"}, {"id": "fitted", "label": "Fitted cover (closed back)"}]
         }
       ],
       "prices": [
@@ -275,6 +275,18 @@
           "source": "table-throws",
           "offer": "8 ft, 4-sided",
           "note": "Front panel preview. A 4-sided throw covers all the way around. The full-color print is on the front panel."
+        },
+        {
+          "when": {"length": "6", "style": "fitted"},
+          "source": "table-throws",
+          "offer": "6 ft fitted, closed back",
+          "note": "Front panel preview. A fitted cover is closed on the back. The full-color print is on the front panel, and the preview uses the 3-sided front panel size."
+        },
+        {
+          "when": {"length": "8", "style": "fitted"},
+          "source": "table-throws",
+          "offer": "8 ft fitted, closed back",
+          "note": "Front panel preview. A fitted cover is closed on the back. The full-color print is on the front panel, and the preview uses the 3-sided front panel size."
         }
       ],
       "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]

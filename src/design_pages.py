@@ -87,7 +87,7 @@ PRODUCTS = [
         'lede': 'Turn a folding table into a booth. Design a 6 or 8 ft throw with your logo and see it on a table in 3D.',
         'alt': 'A custom printed table throw on a folding table',
         'sections': [
-            ('What you can design', 'Pick a 6 ft or 8 ft table and a 3-sided style (open back) or a 4-sided style that covers all the way around. Your design goes on the front panel, which is the part customers see from the aisle. Layouts put your name wide and low so it reads over a crowd.'),
+            ('What you can design', 'Pick a 6 ft or 8 ft table and a 3-sided style (open back), a 4-sided style that covers all the way around, or a fitted cover that is closed on the back. Your design goes on the front panel, which is the part customers see from the aisle. Layouts put your name wide and low so it reads over a crowd.'),
             ('How the designer works', 'Choose a layout, type your name, and add your logo. The front panel is long and short, so the designer keeps your words big and inside a safe margin. Switch to 3D to see the cover on a table and walk around the back to see the open or closed style.'),
             ('What it costs', 'Table throws start at {price} with free shipping in the lower 48. Your price updates as you pick a length and a style, and it matches our Etsy listing.'),
             ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Throws arrive 3 to 8 business days after you approve.'),
@@ -95,6 +95,7 @@ PRODUCTS = [
         'faqs': [
             ('Where does my design go?', 'On the front panel. We lay out the rest of the cover with you on your free proof.'),
             ('What is the difference between 3-sided and 4-sided?', 'A 3-sided throw has an open back. A 4-sided throw covers the back as well.'),
+            ('What is a fitted cover?', 'A fitted cover is tailored to the table and closed on the back. You design the front panel, and the 3D preview shows it like a 3-sided throw.'),
             ('Is the preview the file you print?', 'No. We build the real print file on your free proof, and nothing prints until you approve it.'),
         ],
     },

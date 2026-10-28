@@ -34,7 +34,7 @@ const BUILD = { canopy: buildCanopy, feather: buildFeather, throw: buildThrow, b
 const VARIANTS = [
   ...['valance', 'back', 'kit'].map((package_) => ['canopy', { package: package_ }]),
   ...['10.5', '14', '18'].flatMap((height) => ['spike', 'cross'].map((base) => ['feather', { height, base }])),
-  ...['6', '8'].flatMap((length) => ['3', '4'].map((style) => ['throw', { length, style }])),
+  ...['6', '8'].flatMap((length) => ['3', '4', 'fitted'].map((style) => ['throw', { length, style }])),
   ...['2x4', '3x6', '4x8', '3x10'].map((size) => ['banner', { size }]),
   ...['5', '10', '25', '50', '100'].flatMap((pack) => ['1', '2'].map((print) => ['yard', { pack, print }])),
   ...['33x81', '47x81'].map((size) => ['retractable', { size }]),

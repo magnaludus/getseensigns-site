@@ -242,7 +242,7 @@ def build_order_catalog():
             slug=slug, name=page['name'], short=page['short'], qtyLabel=d['qtyLabel'], maxQty=MAX_QTY,
             **({'etsy': str(page['etsy'])} if page.get('etsy') else {}),
             uploadOnly=bool(d.get('upload_only')), designer=d.get('designer'), designerMap=d.get('designerMap') or {},
-            # panel choices the online designer also has; a choice outside this list (fitted table covers) has no designer path
+            # panel choices the online designer also has; a choice outside this list has no designer path
             designerOk=_designer_ok(d, designer),
             groups=[dict(id=g['id'], label=g['label'], choices=[dict(id=i, label=l) for i, l in g['choices']]) for g in d['groups']],
             rows=rows, addons=addons,

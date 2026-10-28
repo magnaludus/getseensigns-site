@@ -303,10 +303,10 @@ test('the designer opens with the choices in the address from the order panel', 
       const dg = dp.groups.find((g) => g.id === designerGroup);
       assert.ok(dg, `${p.slug} designer group ${designerGroup}`);
       const pg = p.groups.find((g) => g.id === panelGroup);
-      // a panel choice the designer lacks (fitted table covers) has no designer path
+      // a panel choice the designer lacks has no designer path (none today: the designer has fitted table covers too)
       assert.deepEqual(p.designerOk[panelGroup], pg.choices.map((c) => c.id).filter((id) => dg.choices.some((c) => c.id === id)), `${p.slug} ${panelGroup}`);
-      if (p.slug !== 'table-throws') assert.deepEqual(p.designerOk[panelGroup], pg.choices.map((c) => c.id), `${p.slug} ${panelGroup} choices all exist in the designer`);
-      else assert.deepEqual(p.designerOk.style, ['3', '4']);
+      assert.deepEqual(p.designerOk[panelGroup], pg.choices.map((c) => c.id), `${p.slug} ${panelGroup} choices all exist in the designer`);
+      if (p.slug === 'table-throws' && panelGroup === 'style') assert.deepEqual(p.designerOk.style, ['3', '4', 'fitted']);
     }
   }
 });
