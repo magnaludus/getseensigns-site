@@ -8,7 +8,7 @@ Get Seen Signs is based in Smiths Station, Alabama. This page explains, in plain
 
 - **What you send us:** your name, email address, phone number, shipping and billing address, and the details, artwork, logos, photos, or design previews you include in a quote request, a design request, an order, an email, or a text.
 - **When you check out:** your order details and payment record. Payments on this site are handled by Stripe. We never see or store your full card number.
-- **Automatically:** our host and Cloudflare keep standard logs (like IP address and browser type) for security. If we turn on ad and analytics tools (see below), they also record how you use the site, like pages viewed and how you got here.
+- **Automatically:** our host and Cloudflare keep standard logs (like IP address and browser type) for security. We use Cloudflare Web Analytics to count page views. It doesn't use cookies or track you across other sites, and it only gives us totals. When you approve a proof, we record the time, your IP address, and the version of our Terms you agreed to. If we turn on ad tools (see below), they also record how you use the site, like pages viewed and how you got here.
 
 We don't sell or rent your information to anyone.
 
@@ -31,7 +31,7 @@ We send order and proof emails, and our newsletter if you opt in, through Brevo.
 
 ## Ads and analytics
 
-Right now this site doesn't run advertising trackers. We plan to add Google Analytics 4 and the Meta (Facebook and Instagram) Pixel to measure traffic and show our ads to people who visited. When we do, we'll update this page first. Those tools use cookies to record visits and actions on the site and share that data with Google and Meta. You'll be able to block cookies in your browser, opt out of Google Analytics at tools.google.com/dlpage/gaoptout, and change your ad settings in your Meta account.
+Right now this site doesn't run advertising trackers or advertising cookies. The only analytics we use is Cloudflare Web Analytics, described above. We plan to add Google Analytics 4 and the Meta (Facebook and Instagram) Pixel to measure traffic and show our ads to people who visited. When we do, we'll update this page first. Those tools use cookies to record visits and actions on the site and share that data with Google and Meta. You'll be able to block cookies in your browser, opt out of Google Analytics at tools.google.com/dlpage/gaoptout, and change your ad settings in your Meta account.
 
 ## Orders on Etsy
 
@@ -43,7 +43,7 @@ Files you send stay yours. We use them only for your order and don't post your d
 
 ## Third-party services
 
-This site serves its own fonts (no third-party font requests). We use these services to run the business, and each gets only what it needs: Cloudflare (site security and performance), our web host (server logs), Stripe (payments), Brevo (email), our print and shipping partners (your order), and, once added, Google and Meta (analytics and ads).
+This site serves its own fonts (no third-party font requests). We use these services to run the business, and each gets only the information it needs: Cloudflare (site hosting, security, and cookieless analytics), Stripe (payments), Brevo (order emails and our newsletter), our print and shipping partners and their carriers (your name, address, phone, and artwork for your order), and, once added, Google and Meta (analytics and ads).
 
 ## How long we keep it
 

@@ -3,7 +3,7 @@ LOCAL = [
 dict(
  slug='signs-columbus-ga-phenix-city', img=('/assets/img/g-03-vinyl-banner-2','Example Now Open vinyl banner outside a hardware store'), area='Columbus, GA & Phenix City, AL',
  title='Signs & Banners, Columbus GA & Phenix City | Get Seen Signs',
- desc='Custom yard signs, gameday banners, campaign signs, tents and car magnets for Columbus, GA and Phenix City, AL. Based in Smiths Station. Free proof and shipping.',
+ desc='Custom yard signs, gameday banners, campaign signs, tents and car magnets for Columbus, GA and Phenix City, AL. Smiths Station based. Free proof and shipping.',
  h1=('Signs for Columbus', '& Phenix City.'),
  lede='We\'re a veteran-owned, family-run online sign shop in Smiths Station, Alabama, just up the road from Phenix City and across the river from Columbus. Order online or send a quote request, approve a free proof, and your signs ship to your door.',
  places=['Columbus, GA','Phenix City, AL','Fort Benning, GA','Smiths Station, AL','Muscogee County, GA','Russell County, AL'],
@@ -27,7 +27,7 @@ dict(
 </ul>
 <p>We use your colors and your words. We don't print team, school or league names, logos or slogans. See the full <a href="/tailgate-and-gameday-signs/">gameday and tailgate line</a>.</p>
 <h2>Know the local sign rules</h2>
-<p><b>Columbus (city right-of-way).</b> Columbus Consolidated Government runs an "Operation Illegal Sign Roundup" to pull signs from city right-of-way, which covers streets, sidewalks, utility poles, medians and the strip next to the street. The city has said it will ask the court for the maximum $1,000 fine (<a href="https://www.ledger-enquirer.com/news/politics-government/article301101754.html" rel="noopener">Ledger-Enquirer, Feb. 2025</a>). Business signs on your own property go through the city's <a href="https://www.columbusga.gov/inspections-and-code-2/What-We-Do/Sign-Inspection" rel="noopener">Inspections and Code sign process</a>.</p>
+<p><b>Columbus (city right-of-way).</b> Columbus Consolidated Government runs an "Operation Illegal Sign Roundup" to pull signs from city right-of-way, which covers streets, sidewalks, utility poles, medians and the strip next to the street. The city has said it will ask the court for the maximum $1,000 fine (<a href="https://www.ledger-enquirer.com/news/politics-government/article301101754.html" rel="noopener">Ledger-Enquirer, Feb. 2025</a>). Business signs on your own property go through the city's <a href="https://columbusga.gov/inscode/What-We-Do/Sign-Inspection" rel="noopener">Inspections and Code sign process</a>.</p>
 <p><b>Georgia state highways.</b> Georgia Code 32-6-51 makes it unlawful to place a sign in the right-of-way of any public road without authorization. GDOT pulls them, and violations can bring a fine (<a href="https://www.dot.ga.gov/PartnerSmart/Public/PressReleases/SignPosting-2-23-16.pdf" rel="noopener">GDOT</a>).</p>
 <p><b>Phenix City and Alabama highways.</b> ALDOT treats unofficial signs on state right-of-way as encroachments, removes them and stores them for up to 90 days (<a href="https://www.dot.state.al.us/publications/Maintenance/pdf/MiscellaneousGuideSignManual.pdf" rel="noopener">ALDOT sign manual</a>). Check with Phenix City about city streets before placing signs.</p>
 <p>The simple rule on both sides of the river: put signs on private property, with the owner's permission. More in our <a href="/blog/election-yard-sign-rules-alabama-georgia/">Alabama and Georgia election sign guide</a>.</p>
@@ -60,7 +60,7 @@ dict(
 <h2>Tailgate tents and gameday signs for Auburn and Opelika</h2>
 <p>Home game weekends fill every lot in town. A printed tent, a table throw and a flag make your spot easy to find. We make a tailgate tent for Auburn, AL and Opelika crews in your colors, with your group's name on the valance.</p>
 <ul class="ticks">
-<li><b>Tailgate HQ tent.</b> 10×10 printed top and valance from $649. Back wall and full kits too. See <a href="/custom-canopy-tents/">canopy tents</a>.</li>
+<li><b>Tailgate HQ tent.</b> 10×10 printed top and valance from $589. Back wall and full kits too. See <a href="/custom-canopy-tents/">canopy tents</a>.</li>
 <li><b>Home of the Fans table throw.</b> Fits a 6 ft table, from $139. See <a href="/table-throws/">table throws</a>.</li>
 <li><b>Game Day and House Divided yard signs.</b> 18×24 with a stake. Packs of 5 from $74.</li>
 <li><b>Family name banners.</b> THE [NAME]S, GAME DAY, EST. [YEAR]. 2×4 from $44.</li>
@@ -85,7 +85,7 @@ BLOG = [
 dict(
  slug='welcome-home-military-retirement-banners',
  title='Welcome Home and Military Retirement Banner Ideas | Get Seen Signs',
- desc='Welcome home and military retirement banner ideas: what to print, which size fits a porch, garage or fence, how to plan around a moving return date, and when to order.',
+ desc='Welcome home and military retirement banner ideas: what to print, which size fits a porch or fence, how to plan around a moving return date, and when to order.',
  h1='Welcome home and military retirement banner ideas',
  date='2026-10-21', kicker='Family',
  img='/assets/img/g-03-vinyl-banner-3.jpg', img_alt='Close-up of a vinyl banner grommet zip-tied to a chain-link fence',
@@ -138,7 +138,7 @@ dict(
 dict(
  slug='christmas-family-name-banner-ideas',
  title='Christmas Family Name Banner and Yard Sign Ideas | Get Seen Signs',
- desc='Christmas family name banner and yard sign ideas: what to put on it, which size fits a porch, garage or fence, design tips that read from the street, and the Dec 10 order date.',
+ desc='Christmas family name banner and yard sign ideas: what to put on it, which size fits a porch or fence, design tips, and the Dec 10 order date.',
  h1='Christmas family name banner and yard sign ideas',
  date='2026-10-20', kicker='Holidays',
  img='/assets/img/g-11-christmas-family-banner-2.jpg', img_alt='Example Christmas family name banner hung on a front porch',
@@ -279,14 +279,14 @@ dict(
 # Gameday / tailgate category page. NO TRADEMARKS: no team, school or league names, logos, mascots or slogans.
 GAMEDAY=dict(
  slug='tailgate-and-gameday-signs',
- title='Tailgate Tents & Gameday Signs, Columbus GA & Auburn AL',
+ title='Tailgate Tents & Gameday Signs | Get Seen Signs',
  desc='Gameday banners, tailgate tents, table throws, House Divided and Game Day yard signs in your colors. Columbus GA, Phenix City, Auburn AL. Free shipping.',
  h1=('Gameday signs', 'in your colors.'),
  lede='Tailgate tents, table throws, flags, banners and yard signs for the folks who show up early and stay late. Your colors, your family name, your crew. Free proof, free shipping in the lower 48.',
  colors=[('Orange &amp; Navy','#F26A21','#1B2A4A'),('Red &amp; Black','#C8102E','#111111'),('Crimson &amp; White','#9E1B32','#FFFFFF'),('Navy &amp; Red','#13274F','#CE1141')],
  products=[
   # (image base, fallback base, alt, name, wording, price html, link)
-  ('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2','Navy 10×10 canopy tent with an orange TAILGATE HQ valance at a tailgate','Tailgate HQ canopy tent','TAILGATE HQ on the valance. Add a back wall with THE [NAME] CREW.','<b>$649</b> top and valance · $849 with back wall · $1,459 full kit','/custom-canopy-tents/'),
+  ('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2','Navy 10×10 canopy tent with an orange TAILGATE HQ valance at a tailgate','Tailgate HQ canopy tent','TAILGATE HQ on the valance. Add a back wall with THE [NAME] CREW.','<b>$589</b> standard top and valance · $849 with back wall · $1,459 full kit','/custom-canopy-tents/'),
   ('gd-table-throw-navy-red','g-09-table-throw-2','Navy table throw with a red band and HOME OF THE FANS at a tailgate','Home of the Fans table throw','HOME OF THE FANS, or THE [NAME]S TAILGATE.','<b>$139</b> 6 ft · $159 8 ft (3-sided)','/table-throws/'),
   ('gd-game-day-yard-sign-red-black','g-01-custom-yard-sign-2','Black and red GAME DAY family name yard sign in a front yard','Game Day yard sign','GAME DAY / THE [NAME]S / EST. [YEAR]. Sold in packs of 5.','<b>$74</b> for 5 · 18×24, stakes included','/bulk-campaign-signs/'),
   ('gd-house-divided-yard-sign','g-01-custom-yard-sign-3','HOUSE DIVIDED yard sign split into a red half and a navy half','House Divided yard sign','HOUSE DIVIDED / THE [NAME]S. Two color blocks, you pick both. Sold in packs of 5.','<b>$74</b> for 5 · 18×24, stakes included','/bulk-campaign-signs/'),

@@ -1,32 +1,56 @@
-// Quote form: posts to data-endpoint (Formspree/Web3Forms) when set, otherwise opens a pre-filled email to sales@.
+// Quote form: posts to data-endpoint (/api/quote-request). The pre-filled email to sales@ is only the fallback
+// for a server error, a 503 (online requests switched off) or a network failure. A success or a validation
+// message never opens the email app.
 (function(){
   var y=document.getElementById('yr'); if(y) y.textContent=new Date().getFullYear();
   var f=document.getElementById('quote-form'); if(!f) return;
   // ?product=Name preselects the product (links from the product pages)
   try{var want=new URLSearchParams(location.search).get('product');if(want){var sel=f.elements.product;for(var i=0;i<sel.options.length;i++){if(sel.options[i].text===want){sel.selectedIndex=i;break;}}}}catch(_){}
   var status=f.querySelector('.form-status');
+  var started=Date.now();
   var labels={name:'Name',email:'Email',product:'Product',quantity:'Quantity',size:'Size',needed_by:'Needed by',details:'Details'};
+  var names={name:'your name',email:'a valid email',product:'the product',quantity:'a whole-number quantity',needed_by:'a valid date'};
+  var busy=false;
   function say(msg,err){status.textContent=msg;status.className='form-status'+(err?' err':'');}
+  function fallback(data,ref,why){
+    var body=Object.keys(labels).map(function(k){return labels[k]+': '+(data.get(k)||'-');}).join('\n')+(ref?'\nReference: '+ref:'')+'\n\n(Attach your logo or photos to this email if you have them.)';
+    var subj='Quote request: '+data.get('product')+' ('+data.get('name')+')'+(ref?' '+ref:'');
+    f.dataset.fallback=String((+f.dataset.fallback||0)+1);
+    window.location.href='mailto:'+f.dataset.mailto+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+    say((why?why+' ':'')+'Your email app should open with everything filled in. Just hit send. Nothing opened? Email sales@getseensignsco.com.',true);
+  }
   f.addEventListener('submit',function(e){
     e.preventDefault();
+    if(busy) return;
     var bad=null;
     ['name','email','product'].forEach(function(n){var el=f.elements[n];var ok=el.value.trim()&&(n!=='email'||/.+@.+\..+/.test(el.value));el.setAttribute('aria-invalid',ok?'false':'true');if(!ok&&!bad)bad=el;});
     if(bad){say('Please fill in your name, a valid email, and the product.',true);bad.focus();return;}
     if(f.elements._gotcha.value) return;
     var data=new FormData(f); data.delete('_gotcha');
     var ep=f.dataset.endpoint;
-    if(ep){
-      // TODO(form backend): Web3Forms also needs a hidden input name="access_key". Formspree needs nothing extra.
-      say('Sending…');
-      fetch(ep,{method:'POST',body:data,headers:{Accept:'application/json'}}).then(function(r){
-        if(!r.ok) throw 0; f.reset(); say('Thanks! We got your request and will reply within 1 business day. Reply to our email with any logo or photo files.');
-      }).catch(function(){say('Something went wrong. Please email sales@getseensignsco.com directly.',true);});
-      return;
-    }
-    var body=Object.keys(labels).map(function(k){return labels[k]+': '+(data.get(k)||'-');}).join('\n')+'\n\n(Attach your logo or photos to this email if you have them.)';
-    var subj='Quote request: '+data.get('product')+' ('+data.get('name')+')';
-    window.location.href='mailto:'+f.dataset.mailto+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
-    say('Your email app should open with everything filled in. Just hit send. Nothing opened? Email sales@getseensignsco.com.');
+    if(!ep){fallback(data,'','');return;}
+    var post=new FormData(f); post.append('elapsedMs',String(Date.now()-started));
+    busy=true; say('Sending…');
+    fetch(ep,{method:'POST',body:post,headers:{Accept:'application/json'}}).then(function(r){
+      return r.json().catch(function(){return {};}).then(function(j){return {status:r.status,body:j};});
+    }).then(function(res){
+      busy=false;
+      var j=res.body||{};
+      if(res.status===200&&j.ok&&j.emailed){
+        f.reset(); started=Date.now();
+        say('Thanks! We got your request (reference '+j.ref+') and will reply within 1 business day.'+(j.confirmed?' We emailed you a confirmation. ':' ')+'Reply to our email with any logo or photo files.');
+        return;
+      }
+      if(res.status===200&&j.ok){fallback(data,j.ref,'We saved your request (reference '+j.ref+') but could not send it to our inbox.');return;}
+      if(res.status===400){
+        var list=(j.fields||[]).map(function(n){return names[n];}).filter(Boolean);
+        var first=(j.fields||[])[0]; if(first&&f.elements[first]) {f.elements[first].setAttribute('aria-invalid','true');f.elements[first].focus();}
+        say(list.length?'Please check '+list.join(', ')+'.':'Please check the form and try again.',true);
+        return;
+      }
+      if(res.status===429){say('You have sent a few requests already. Please try again later, or text or call (334) 232-9003.',true);return;}
+      fallback(data,'','Online requests are not available right now.');
+    }).catch(function(){busy=false;fallback(data,'','We could not reach our server.');});
   });
 })();
 

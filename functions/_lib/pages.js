@@ -129,7 +129,7 @@ function consentLabel() {
   return esc(CONSENT_TEXT).replace('Terms of Service', '<a href="/terms" target="_blank" rel="noopener">Terms of Service</a>');
 }
 
-const COMPLETED = { proof_sent: 1, revision_requested: 1, approved: 2, paid: 3, shipped: 4 };
+const COMPLETED = { awaiting_proof: 0, proof_sent: 1, revision_requested: 1, approved: 2, paid: 3, shipped: 4 };
 
 export function proofPage(bundle, opts) {
   const { order, items, proof, approval } = bundle;
@@ -162,6 +162,11 @@ ${left > 0 ? `<form method="post" action="/proof/${esc(order.token)}">
 <input type="hidden" name="proof_version" value="${esc(proof.version)}">
 <label>What should we change?<textarea name="comment" required maxlength="2000">${esc(o.comment || '')}</textarea></label>
 <div class="row-btns"><button class="btn btn-line" type="submit">Request a revision</button></div></form>` : ''}</section>`;
+  } else if (order.status === 'awaiting_proof') {
+    body = `${ref}
+<h1>We are making your proof</h1>
+<p class="lead">We got your order request. Your free proof will be emailed to you within 12 hours, 7 days a week, with 3 revisions included. Nothing is charged and nothing prints until you approve the proof and pay.</p>
+<p class="fine">Questions? Call ${SHOP_PHONE} or email <a href="mailto:${SHOP_EMAIL}">${SHOP_EMAIL}</a>.</p>`;
   } else if (order.status === 'revision_requested') {
     body = `${ref}
 <h1>We are on it</h1>
@@ -183,7 +188,7 @@ export function orderPage(bundle, opts) {
   const { order, items, shipments, approval } = bundle;
   const o = opts || {};
   const done = COMPLETED[order.status] || 0;
-  const labels = ['Proof sent', 'Approved', 'Paid', 'Shipped'];
+  const labels = ['Proof', 'Approved', 'Paid', 'Shipped'];
   const stepsHtml = `<ol class="steps4" aria-label="Order progress">${labels
     .map((l, i) => `<li class="${i < done ? 'done' : i === done ? 'now' : ''}">${l}</li>`)
     .join('')}</ol>`;
@@ -208,6 +213,7 @@ export function orderPage(bundle, opts) {
     order.status === 'shipped' ? 'Your order is on the way.' :
     order.status === 'approved' ? 'Your proof is approved. Pay below and your order goes into production.' :
     order.status === 'revision_requested' ? 'We are working on your requested changes and will email a new proof within 12 hours.' :
+    order.status === 'awaiting_proof' ? 'We got your order request. Your free proof is coming within 12 hours, 7 days a week. Nothing is charged until you approve it and pay.' :
     'Your proof is ready for your review.'
   }</p>
 ${confirming ? alertBox('info', 'Thanks! We are confirming your payment with Stripe. This page refreshes on its own, and you will get an email in a minute.') : ''}${alertBox('bad', o.error)}

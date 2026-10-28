@@ -104,6 +104,7 @@ export function specFor(specs, productId, choices) {
     out.grassLineIn = v.grass_line.h;
     mark('grass_line', v.grass_line);
   }
+  if (v.base_zone) out.baseZoneIn = v.base_zone.h;
   if (v.grommets) out.grommetEveryIn = v.grommets.every_in;
   if (spec.table) out.table = spec.table;
   out.regions = regionsFor(out);

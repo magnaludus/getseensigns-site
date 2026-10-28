@@ -1,0 +1,24 @@
+# Cloudflare Pages response headers for static files. Hand-written: the Python build never writes or touches this file.
+# Pages applies _headers to static assets only. The Functions pages (/proof/*, /order/*) set their own headers in
+# functions/_lib/util.js (X-Frame-Options, a CSP with frame-ancestors, no-store, noindex).
+#
+# Only safe headers here: no full Content-Security-Policy (it could break the 3D designer or the Stripe redirect).
+# Strict-Transport-Security is short on purpose (5 minutes, no includeSubDomains, no preload). Once the site has run
+# on HTTPS for a while it can be raised, for example to 15552000 (6 months), still without preload.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=300
+
+/proof/*
+  Cache-Control: no-store
+
+/order/*
+  Cache-Control: no-store
+
+/admin*
+  Cache-Control: no-store

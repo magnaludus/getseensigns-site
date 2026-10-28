@@ -1117,6 +1117,62 @@
             "value": 2,
             "status": "UX_DEFAULT"
           }
+        },
+        "6-fitted": {
+          "artboard": {
+            "w": 72.23,
+            "h": 28.33,
+            "status": "UX_DEFAULT",
+            "note": "Not a printer template. A fitted closed-back cover uses the same editable front panel size as a 6 ft 3-sided throw until a fitted cover template is added."
+          },
+          "bleed": {
+            "in": 0,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "x": 3.17,
+            "y": 4.25,
+            "w": 65.98,
+            "h": 19.45,
+            "status": "UX_DEFAULT",
+            "note": "Same safe area as the 6 ft 3-sided front panel. Our own default, not a printer number."
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 2,
+            "status": "UX_DEFAULT"
+          }
+        },
+        "8-fitted": {
+          "artboard": {
+            "w": 95.92,
+            "h": 28.02,
+            "status": "UX_DEFAULT",
+            "note": "Not a printer template. A fitted closed-back cover uses the same editable front panel size as an 8 ft 3-sided throw until a fitted cover template is added."
+          },
+          "bleed": {
+            "in": 0,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "x": 2.79,
+            "y": 3.91,
+            "w": 89.95,
+            "h": 19.61,
+            "status": "UX_DEFAULT",
+            "note": "Same safe area as the 8 ft 3-sided front panel. Our own default, not a printer number."
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 2,
+            "status": "UX_DEFAULT"
+          }
         }
       },
       "template_sizes": {
@@ -1291,6 +1347,574 @@
         "amber_min": 72,
         "status": "UX_DEFAULT",
         "note": "The banner file spec allows 100 to 150 dpi, so 100 dpi is green here."
+      }
+    },
+    "retractable": {
+      "variant_by": [
+        "size"
+      ],
+      "sides": 1,
+      "overlays": [
+        "trim",
+        "bleed",
+        "safe",
+        "base_zone"
+      ],
+      "variants": {
+        "33x81": {
+          "artboard": {
+            "w": 33,
+            "h": 81,
+            "source": "product listing"
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 1.5,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 100,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1.5,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          },
+          "base_zone": {
+            "h": 10,
+            "status": "UX_DEFAULT",
+            "note": "About the bottom 10 in often sits behind tables and feet, and the lowest few inches go into the base. Keep names and phone numbers above this line."
+          }
+        },
+        "47x81": {
+          "artboard": {
+            "w": 47,
+            "h": 81,
+            "source": "product listing"
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 1.5,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 100,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1.5,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          },
+          "base_zone": {
+            "h": 10,
+            "status": "UX_DEFAULT",
+            "note": "About the bottom 10 in often sits behind tables and feet, and the lowest few inches go into the base. Keep names and phone numbers above this line."
+          }
+        }
+      },
+      "dpi_override": {
+        "green_min": 100,
+        "amber_min": 72,
+        "status": "UX_DEFAULT",
+        "note": "Large-format film prints from 100 dpi files, so 100 dpi is green here."
+      }
+    },
+    "backdrop": {
+      "variant_by": [
+        "size"
+      ],
+      "sides": 1,
+      "overlays": [
+        "trim",
+        "bleed",
+        "safe"
+      ],
+      "variants": {
+        "8x8": {
+          "artboard": {
+            "w": 96,
+            "h": 96,
+            "source": "product listing",
+            "note": "Sold as 8x8 ft: 96 by 96 in, width by height."
+          },
+          "bleed": {
+            "in": 0.5,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 4,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 100,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 3,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "10x8": {
+          "artboard": {
+            "w": 120,
+            "h": 96,
+            "source": "product listing",
+            "note": "Sold as 10x8 ft: 120 in wide by 96 in tall."
+          },
+          "bleed": {
+            "in": 0.5,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 4,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 100,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 3,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        }
+      },
+      "dpi_override": {
+        "green_min": 100,
+        "amber_min": 72,
+        "status": "UX_DEFAULT",
+        "note": "Fabric backdrops print from 100 dpi files, so 100 dpi is green here."
+      }
+    },
+    "magnet": {
+      "variant_by": [
+        "size"
+      ],
+      "sides": 1,
+      "overlays": [
+        "trim",
+        "bleed",
+        "safe"
+      ],
+      "variants": {
+        "12x18": {
+          "artboard": {
+            "w": 18,
+            "h": 12,
+            "source": "product listing",
+            "note": "Sold as a 12x18 pair, laid out 18 wide by 12 tall. The same design goes on both magnets."
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.75,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "18x24": {
+          "artboard": {
+            "w": 24,
+            "h": 18,
+            "source": "product listing",
+            "note": "Sold as an 18x24 pair, laid out 24 wide by 18 tall. The same design goes on both magnets."
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.75,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        }
+      }
+    },
+    "decal": {
+      "variant_by": [
+        "pack"
+      ],
+      "sides": 1,
+      "overlays": [
+        "trim",
+        "bleed",
+        "safe"
+      ],
+      "variants": {
+        "2in100": {
+          "artboard": {
+            "w": 2,
+            "h": 2,
+            "source": "product listing",
+            "note": "The 2 in measure is the longest side. The proof cuts the decal to the shape of your logo."
+          },
+          "bleed": {
+            "in": 0.0625,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 300,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 0.15,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "2in250": {
+          "artboard": {
+            "w": 2,
+            "h": 2,
+            "source": "product listing",
+            "note": "The 2 in measure is the longest side. The proof cuts the decal to the shape of your logo."
+          },
+          "bleed": {
+            "in": 0.0625,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 300,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 0.15,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "2in500": {
+          "artboard": {
+            "w": 2,
+            "h": 2,
+            "source": "product listing",
+            "note": "The 2 in measure is the longest side. The proof cuts the decal to the shape of your logo."
+          },
+          "bleed": {
+            "in": 0.0625,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 300,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 0.15,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "3in250": {
+          "artboard": {
+            "w": 3,
+            "h": 3,
+            "source": "product listing",
+            "note": "The 3 in measure is the longest side. The proof cuts the decal to the shape of your logo."
+          },
+          "bleed": {
+            "in": 0.0625,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 300,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 0.15,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "3in500": {
+          "artboard": {
+            "w": 3,
+            "h": 3,
+            "source": "product listing",
+            "note": "The 3 in measure is the longest side. The proof cuts the decal to the shape of your logo."
+          },
+          "bleed": {
+            "in": 0.0625,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 300,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 0.15,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        }
+      },
+      "dpi_override": {
+        "green_min": 250,
+        "amber_min": 150,
+        "status": "UX_DEFAULT",
+        "note": "Small decals need sharp art: 250 dpi and up is green."
+      }
+    },
+    "safety": {
+      "variant_by": [
+        "pack",
+        "orient"
+      ],
+      "sides": 1,
+      "overlays": [
+        "trim",
+        "bleed",
+        "safe"
+      ],
+      "variants": {
+        "12x18_5-landscape": {
+          "artboard": {
+            "w": 18,
+            "h": 12,
+            "source": "product listing",
+            "note": "Landscape: 18 wide by 12 tall."
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.75,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "12x18_5-portrait": {
+          "artboard": {
+            "w": 12,
+            "h": 18,
+            "source": "product listing",
+            "note": "Portrait: 12 wide by 18 tall."
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.75,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "12x18_10-landscape": {
+          "artboard": {
+            "w": 18,
+            "h": 12,
+            "source": "product listing",
+            "note": "Landscape: 18 wide by 12 tall."
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.75,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "12x18_10-portrait": {
+          "artboard": {
+            "w": 12,
+            "h": 18,
+            "source": "product listing",
+            "note": "Portrait: 12 wide by 18 tall."
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.75,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "18x24_5-landscape": {
+          "artboard": {
+            "w": 24,
+            "h": 18,
+            "source": "product listing",
+            "note": "Landscape: 24 wide by 18 tall."
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.75,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "18x24_5-portrait": {
+          "artboard": {
+            "w": 18,
+            "h": 24,
+            "source": "product listing",
+            "note": "Portrait: 18 wide by 24 tall."
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.75,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "12x18_5hd-landscape": {
+          "artboard": {
+            "w": 18,
+            "h": 12,
+            "source": "product listing",
+            "note": "Landscape: 18 wide by 12 tall."
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.75,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        },
+        "12x18_5hd-portrait": {
+          "artboard": {
+            "w": 12,
+            "h": 18,
+            "source": "product listing",
+            "note": "Portrait: 12 wide by 18 tall."
+          },
+          "bleed": {
+            "in": 0.125,
+            "status": "UX_DEFAULT"
+          },
+          "safe": {
+            "inset": 0.75,
+            "status": "UX_DEFAULT"
+          },
+          "dpi": {
+            "target": 150,
+            "status": "UX_DEFAULT"
+          },
+          "min_cap_in": {
+            "value": 1,
+            "status": "UX_DEFAULT",
+            "source": "designer spec 5.3"
+          }
+        }
       }
     }
   }

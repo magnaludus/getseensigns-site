@@ -55,7 +55,12 @@
         "feather",
         "yard",
         "throw",
-        "banner"
+        "banner",
+        "retractable",
+        "backdrop",
+        "magnet",
+        "decal",
+        "safety"
       ],
       "phase": 1
     },
@@ -163,7 +168,7 @@
           "choices": [
             {
               "id": "valance",
-              "label": "Top and valance"
+              "label": "Standard top and valance"
             },
             {
               "id": "back",
@@ -182,9 +187,9 @@
             "package": "valance"
           },
           "source": "custom-canopy-tents",
-          "offer": "10×10 top and valance",
-          "price": 649,
-          "label": "10×10 top and valance"
+          "offer": "10×10 standard top and valance",
+          "price": 589,
+          "label": "10×10 standard top and valance"
         },
         {
           "when": {
@@ -214,7 +219,8 @@
         "badge-star"
       ],
       "etsyId": "4597142098",
-      "days": "5-10"
+      "days": "5-10",
+      "arrives": "5-10"
     },
     {
       "id": "feather",
@@ -337,7 +343,8 @@
         "badge-star"
       ],
       "etsyId": "4597138642",
-      "days": "3-5"
+      "days": "3-5",
+      "arrives": "3-8"
     },
     {
       "id": "yard",
@@ -518,7 +525,8 @@
         "badge-star"
       ],
       "etsyId": "4597115383",
-      "days": "3-5"
+      "days": "3-5",
+      "arrives": "3-8"
     },
     {
       "id": "throw",
@@ -564,6 +572,10 @@
             {
               "id": "4",
               "label": "4-sided"
+            },
+            {
+              "id": "fitted",
+              "label": "Fitted cover (closed back)"
             }
           ]
         }
@@ -612,6 +624,28 @@
           "note": "Front panel preview. A 4-sided throw covers all the way around. The full-color print is on the front panel.",
           "price": 189,
           "label": "8 ft, 4-sided"
+        },
+        {
+          "when": {
+            "length": "6",
+            "style": "fitted"
+          },
+          "source": "table-throws",
+          "offer": "6 ft fitted, closed back",
+          "note": "Front panel preview. A fitted cover is closed on the back. The full-color print is on the front panel, and the preview uses the 3-sided front panel size.",
+          "price": 159,
+          "label": "6 ft fitted, closed back"
+        },
+        {
+          "when": {
+            "length": "8",
+            "style": "fitted"
+          },
+          "source": "table-throws",
+          "offer": "8 ft fitted, closed back",
+          "note": "Front panel preview. A fitted cover is closed on the back. The full-color print is on the front panel, and the preview uses the 3-sided front panel size.",
+          "price": 179,
+          "label": "8 ft fitted, closed back"
         }
       ],
       "templates": [
@@ -621,7 +655,8 @@
         "badge-star"
       ],
       "etsyId": "4597120773",
-      "days": "3-5"
+      "days": "3-5",
+      "arrives": "3-8"
     },
     {
       "id": "banner",
@@ -663,12 +698,31 @@
               "label": "3×10 ft"
             }
           ]
+        },
+        {
+          "id": "material",
+          "label": "Material",
+          "choices": [
+            {
+              "id": "13oz",
+              "label": "13 oz standard"
+            },
+            {
+              "id": "18oz",
+              "label": "18 oz heavy duty"
+            },
+            {
+              "id": "mesh",
+              "label": "Mesh wind-through"
+            }
+          ]
         }
       ],
       "prices": [
         {
           "when": {
-            "size": "2x4"
+            "size": "2x4",
+            "material": "13oz"
           },
           "source": "vinyl-banners",
           "offer": "2×4 ft with grommets",
@@ -677,7 +731,8 @@
         },
         {
           "when": {
-            "size": "3x6"
+            "size": "3x6",
+            "material": "13oz"
           },
           "source": "vinyl-banners",
           "offer": "3×6 ft",
@@ -686,7 +741,8 @@
         },
         {
           "when": {
-            "size": "4x8"
+            "size": "4x8",
+            "material": "13oz"
           },
           "source": "vinyl-banners",
           "offer": "4×8 ft",
@@ -695,12 +751,93 @@
         },
         {
           "when": {
-            "size": "3x10"
+            "size": "3x10",
+            "material": "13oz"
           },
           "source": "vinyl-banners",
           "offer": "3×10 ft",
           "price": 79,
           "label": "3×10 ft"
+        },
+        {
+          "when": {
+            "size": "2x4",
+            "material": "18oz"
+          },
+          "source": "vinyl-banners",
+          "offer": "18 oz heavy duty, 2×4 ft",
+          "price": 54,
+          "label": "18 oz heavy duty, 2×4 ft"
+        },
+        {
+          "when": {
+            "size": "3x6",
+            "material": "18oz"
+          },
+          "source": "vinyl-banners",
+          "offer": "18 oz heavy duty, 3×6 ft",
+          "price": 84,
+          "label": "18 oz heavy duty, 3×6 ft"
+        },
+        {
+          "when": {
+            "size": "4x8",
+            "material": "18oz"
+          },
+          "source": "vinyl-banners",
+          "offer": "18 oz heavy duty, 4×8 ft",
+          "price": 149,
+          "label": "18 oz heavy duty, 4×8 ft"
+        },
+        {
+          "when": {
+            "size": "3x10",
+            "material": "18oz"
+          },
+          "source": "vinyl-banners",
+          "offer": "18 oz heavy duty, 3×10 ft",
+          "price": 119,
+          "label": "18 oz heavy duty, 3×10 ft"
+        },
+        {
+          "when": {
+            "size": "2x4",
+            "material": "mesh"
+          },
+          "source": "vinyl-banners",
+          "offer": "Mesh wind-through, 2×4 ft",
+          "price": 54,
+          "label": "Mesh wind-through, 2×4 ft"
+        },
+        {
+          "when": {
+            "size": "3x6",
+            "material": "mesh"
+          },
+          "source": "vinyl-banners",
+          "offer": "Mesh wind-through, 3×6 ft",
+          "price": 84,
+          "label": "Mesh wind-through, 3×6 ft"
+        },
+        {
+          "when": {
+            "size": "4x8",
+            "material": "mesh"
+          },
+          "source": "vinyl-banners",
+          "offer": "Mesh wind-through, 4×8 ft",
+          "price": 149,
+          "label": "Mesh wind-through, 4×8 ft"
+        },
+        {
+          "when": {
+            "size": "3x10",
+            "material": "mesh"
+          },
+          "source": "vinyl-banners",
+          "offer": "Mesh wind-through, 3×10 ft",
+          "price": 119,
+          "label": "Mesh wind-through, 3×10 ft"
         }
       ],
       "templates": [
@@ -710,7 +847,478 @@
         "badge-star"
       ],
       "etsyId": "4597116935",
-      "days": "3-5"
+      "days": "3-5",
+      "arrives": "3-8"
+    },
+    {
+      "id": "retractable",
+      "name": "Retractable banner stand",
+      "short": "Retractable banner",
+      "page": "/retractable-banners/",
+      "slug": "retractable-banner",
+      "designPage": "/design/retractable-banner/",
+      "sides": {
+        "mode": "fixed",
+        "names": [
+          "Banner"
+        ]
+      },
+      "qty": {
+        "min": 1,
+        "max": 20,
+        "unit": "stand"
+      },
+      "groups": [
+        {
+          "id": "size",
+          "label": "Size",
+          "choices": [
+            {
+              "id": "33x81",
+              "label": "33×81 in"
+            },
+            {
+              "id": "47x81",
+              "label": "47×81 in"
+            }
+          ]
+        }
+      ],
+      "prices": [
+        {
+          "when": {
+            "size": "33x81"
+          },
+          "source": "retractable-banners",
+          "offer": "33×81 in stand",
+          "price": 109,
+          "label": "33×81 in stand"
+        },
+        {
+          "when": {
+            "size": "47x81"
+          },
+          "source": "retractable-banners",
+          "offer": "47×81 in stand",
+          "price": 249,
+          "label": "47×81 in stand"
+        }
+      ],
+      "templates": [
+        "bold-center",
+        "split-field",
+        "band-stripe",
+        "badge-star"
+      ],
+      "etsyId": "4597118225",
+      "days": "3-5",
+      "arrives": "3-8"
+    },
+    {
+      "id": "backdrop",
+      "name": "Step and repeat backdrop",
+      "short": "Step & repeat backdrop",
+      "page": "/step-and-repeat-backdrops/",
+      "slug": "step-and-repeat",
+      "designPage": "/design/step-and-repeat/",
+      "sides": {
+        "mode": "fixed",
+        "names": [
+          "Backdrop"
+        ]
+      },
+      "qty": {
+        "min": 1,
+        "max": 5,
+        "unit": "backdrop"
+      },
+      "groups": [
+        {
+          "id": "size",
+          "label": "Size",
+          "choices": [
+            {
+              "id": "8x8",
+              "label": "8×8 ft"
+            },
+            {
+              "id": "10x8",
+              "label": "10×8 ft"
+            }
+          ]
+        }
+      ],
+      "prices": [
+        {
+          "when": {
+            "size": "8x8"
+          },
+          "source": "step-and-repeat-backdrops",
+          "offer": "8×8 ft with stand and case",
+          "price": 419,
+          "label": "8×8 ft with stand and case"
+        },
+        {
+          "when": {
+            "size": "10x8"
+          },
+          "source": "step-and-repeat-backdrops",
+          "offer": "10×8 ft with stand and case",
+          "price": 549,
+          "label": "10×8 ft with stand and case"
+        }
+      ],
+      "templates": [
+        "bold-center",
+        "split-field",
+        "band-stripe",
+        "badge-star"
+      ],
+      "etsyId": "4597120435",
+      "days": "5-10",
+      "arrives": "5-10"
+    },
+    {
+      "id": "magnet",
+      "name": "Car magnet pair",
+      "short": "Car magnet pair",
+      "page": "/car-magnets/",
+      "slug": "car-magnet",
+      "designPage": "/design/car-magnet/",
+      "sides": {
+        "mode": "fixed",
+        "names": [
+          "Magnet"
+        ]
+      },
+      "qty": {
+        "min": 1,
+        "max": 10,
+        "unit": "pair"
+      },
+      "groups": [
+        {
+          "id": "size",
+          "label": "Size (a pair)",
+          "choices": [
+            {
+              "id": "12x18",
+              "label": "12×18 in"
+            },
+            {
+              "id": "18x24",
+              "label": "18×24 in"
+            }
+          ]
+        }
+      ],
+      "prices": [
+        {
+          "when": {
+            "size": "12x18"
+          },
+          "source": "car-magnets",
+          "offer": "12×18 in pair",
+          "price": 74,
+          "label": "12×18 in pair"
+        },
+        {
+          "when": {
+            "size": "18x24"
+          },
+          "source": "car-magnets",
+          "offer": "18×24 in pair",
+          "price": 74,
+          "label": "18×24 in pair"
+        }
+      ],
+      "templates": [
+        "bold-center",
+        "split-field",
+        "band-stripe",
+        "badge-star"
+      ],
+      "etsyId": "4597140402",
+      "days": "3-5",
+      "arrives": "3-8"
+    },
+    {
+      "id": "decal",
+      "name": "Hard hat decals",
+      "short": "Hard hat decals",
+      "page": "/hard-hat-decals/",
+      "slug": "hard-hat-decal",
+      "designPage": "/design/hard-hat-decal/",
+      "sides": {
+        "mode": "fixed",
+        "names": [
+          "Decal"
+        ]
+      },
+      "qty": null,
+      "groups": [
+        {
+          "id": "pack",
+          "label": "Size and quantity",
+          "choices": [
+            {
+              "id": "2in100",
+              "label": "2 in, 100 decals"
+            },
+            {
+              "id": "2in250",
+              "label": "2 in, 250 decals"
+            },
+            {
+              "id": "2in500",
+              "label": "2 in, 500 decals"
+            },
+            {
+              "id": "3in250",
+              "label": "3 in, 250 decals"
+            },
+            {
+              "id": "3in500",
+              "label": "3 in, 500 decals"
+            }
+          ]
+        }
+      ],
+      "prices": [
+        {
+          "when": {
+            "pack": "2in100"
+          },
+          "source": "hard-hat-decals",
+          "offer": "2 in, 100 decals",
+          "price": 54,
+          "label": "2 in, 100 decals"
+        },
+        {
+          "when": {
+            "pack": "2in250"
+          },
+          "source": "hard-hat-decals",
+          "offer": "2 in, 250 decals",
+          "price": 79,
+          "label": "2 in, 250 decals"
+        },
+        {
+          "when": {
+            "pack": "2in500"
+          },
+          "source": "hard-hat-decals",
+          "offer": "2 in, 500 decals",
+          "price": 119,
+          "label": "2 in, 500 decals"
+        },
+        {
+          "when": {
+            "pack": "3in250"
+          },
+          "source": "hard-hat-decals",
+          "offer": "3 in, 250 decals",
+          "price": 99,
+          "label": "3 in, 250 decals"
+        },
+        {
+          "when": {
+            "pack": "3in500"
+          },
+          "source": "hard-hat-decals",
+          "offer": "3 in, 500 decals",
+          "price": 169,
+          "label": "3 in, 500 decals"
+        }
+      ],
+      "templates": [
+        "bold-center",
+        "split-field",
+        "band-stripe",
+        "badge-star"
+      ],
+      "etsyId": "4603860981",
+      "days": "3-5",
+      "arrives": "4-8"
+    },
+    {
+      "id": "safety",
+      "name": "Aluminum safety sign pack",
+      "short": "Safety sign pack",
+      "page": "/aluminum-safety-signs/",
+      "slug": "safety-sign",
+      "designPage": "/design/safety-sign/",
+      "sides": {
+        "mode": "by_choice",
+        "group": "pack",
+        "names": {
+          "12x18_5": [
+            "Sign 1",
+            "Sign 2",
+            "Sign 3",
+            "Sign 4",
+            "Sign 5"
+          ],
+          "12x18_10": [
+            "Sign 1",
+            "Sign 2",
+            "Sign 3",
+            "Sign 4",
+            "Sign 5",
+            "Sign 6",
+            "Sign 7",
+            "Sign 8",
+            "Sign 9",
+            "Sign 10"
+          ],
+          "18x24_5": [
+            "Sign 1",
+            "Sign 2",
+            "Sign 3",
+            "Sign 4",
+            "Sign 5"
+          ],
+          "12x18_5hd": [
+            "Sign 1",
+            "Sign 2",
+            "Sign 3",
+            "Sign 4",
+            "Sign 5"
+          ]
+        },
+        "sameLabel": "Same on all signs",
+        "eachLabel": "Each sign different"
+      },
+      "qty": null,
+      "groups": [
+        {
+          "id": "pack",
+          "label": "Size and pack",
+          "choices": [
+            {
+              "id": "12x18_5",
+              "label": "12×18 in, 5 signs"
+            },
+            {
+              "id": "12x18_10",
+              "label": "12×18 in, 10 signs"
+            },
+            {
+              "id": "18x24_5",
+              "label": "18×24 in, 5 signs"
+            },
+            {
+              "id": "12x18_5hd",
+              "label": "12×18 in, 5 heavy duty (.063)"
+            }
+          ]
+        },
+        {
+          "id": "orient",
+          "label": "Layout",
+          "choices": [
+            {
+              "id": "landscape",
+              "label": "Landscape"
+            },
+            {
+              "id": "portrait",
+              "label": "Portrait"
+            }
+          ]
+        }
+      ],
+      "prices": [
+        {
+          "when": {
+            "pack": "12x18_5",
+            "orient": "landscape"
+          },
+          "source": "aluminum-safety-signs",
+          "offer": "12×18 in, 5 signs",
+          "price": 119,
+          "label": "12×18 in, 5 signs"
+        },
+        {
+          "when": {
+            "pack": "12x18_5",
+            "orient": "portrait"
+          },
+          "source": "aluminum-safety-signs",
+          "offer": "12×18 in, 5 signs",
+          "price": 119,
+          "label": "12×18 in, 5 signs"
+        },
+        {
+          "when": {
+            "pack": "12x18_10",
+            "orient": "landscape"
+          },
+          "source": "aluminum-safety-signs",
+          "offer": "12×18 in, 10 signs",
+          "price": 199,
+          "label": "12×18 in, 10 signs"
+        },
+        {
+          "when": {
+            "pack": "12x18_10",
+            "orient": "portrait"
+          },
+          "source": "aluminum-safety-signs",
+          "offer": "12×18 in, 10 signs",
+          "price": 199,
+          "label": "12×18 in, 10 signs"
+        },
+        {
+          "when": {
+            "pack": "18x24_5",
+            "orient": "landscape"
+          },
+          "source": "aluminum-safety-signs",
+          "offer": "18×24 in, 5 signs",
+          "price": 199,
+          "label": "18×24 in, 5 signs"
+        },
+        {
+          "when": {
+            "pack": "18x24_5",
+            "orient": "portrait"
+          },
+          "source": "aluminum-safety-signs",
+          "offer": "18×24 in, 5 signs",
+          "price": 199,
+          "label": "18×24 in, 5 signs"
+        },
+        {
+          "when": {
+            "pack": "12x18_5hd",
+            "orient": "landscape"
+          },
+          "source": "aluminum-safety-signs",
+          "offer": "12×18 in, 5 heavy duty (.063)",
+          "price": 169,
+          "label": "12×18 in, 5 heavy duty (.063)"
+        },
+        {
+          "when": {
+            "pack": "12x18_5hd",
+            "orient": "portrait"
+          },
+          "source": "aluminum-safety-signs",
+          "offer": "12×18 in, 5 heavy duty (.063)",
+          "price": 169,
+          "label": "12×18 in, 5 heavy duty (.063)"
+        }
+      ],
+      "templates": [
+        "bold-center",
+        "split-field",
+        "band-stripe",
+        "badge-star"
+      ],
+      "etsyId": "4603884832",
+      "days": "3-5",
+      "arrives": "5-9"
     }
   ]
 }

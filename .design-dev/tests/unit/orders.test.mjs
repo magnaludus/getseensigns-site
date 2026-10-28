@@ -14,9 +14,9 @@ import * as proofRoute from '../../../functions/proof/[token].js';
 import * as orderRoute from '../../../functions/order/[token].js';
 import * as webhook from '../../../functions/api/stripe-webhook.js';
 import { SCHEMA } from '../../../functions/_lib/db.js';
-import { CATALOG } from '../../../functions/_lib/catalog.js';
+import { CATALOG, PLACEHOLDER_PRICE_IDS } from '../../../functions/_lib/catalog.js';
 import { textOfMain, readTerms, versionLabel } from '../../../functions/_lib/terms.js';
-import { verifyWebhook, signWebhook, resolveLineItem } from '../../../functions/_lib/stripe.js';
+import { verifyWebhook, signWebhook, resolveLineItem, checkoutParams } from '../../../functions/_lib/stripe.js';
 import { recordHashOf, evidenceCore, CONSENT_TEXT } from '../../../functions/_lib/orders.js';
 import { renderEmail } from '../../../functions/_lib/emails.js';
 import { sha256Hex } from '../../../functions/_lib/util.js';
@@ -208,9 +208,12 @@ test('line item resolution: catalog sku uses the catalog amount, custom lines us
 test('the catalog has well-formed Stripe prices', () => {
   const entries = Object.entries(CATALOG);
   assert.ok(entries.length >= 60);
+  assert.deepEqual(entries.filter(([, e]) => e.priceId === '').map(([sku]) => sku).sort(), [...PLACEHOLDER_PRICE_IDS].sort());
   for (const [sku, e] of entries) {
     assert.match(sku, /^[a-z0-9.-]+$/);
-    assert.match(e.priceId, /^price_[A-Za-z0-9]{20,}$/, sku);
+    // every SKU has a saved Stripe Price unless it is listed as a placeholder (none today)
+    if (PLACEHOLDER_PRICE_IDS.includes(sku)) assert.equal(e.priceId, '', sku);
+    else assert.match(e.priceId, /^price_[A-Za-z0-9]{20,}$/, sku);
     assert.ok(Number.isInteger(e.amount) && e.amount >= 2400, sku);
   }
   assert.equal(CATALOG['banner-13oz-3x6'].amount, 5900);
@@ -231,6 +234,9 @@ test('the proof page shows the proof, the order summary, the price and a require
   assert.ok(page.includes('$267.00'), 'subtotal');
   assert.match(page, /<input type="checkbox" name="agree" value="yes" required>/);
   assert.ok(page.includes('<a href="/terms" target="_blank" rel="noopener">Terms of Service</a>'));
+  assert.equal(CONSENT_TEXT, 'I approve this proof and agree to the Terms of Service');
+  assert.match(page, /<span>I approve this proof and agree to the <a href="\/terms" target="_blank" rel="noopener">Terms of Service<\/a><br><small>Terms last updated October 28, 2026\.<\/small><\/span>/);
+  assert.ok(page.indexOf('name="agree"') < page.indexOf('Approve and continue to payment'), 'the consent box comes before the button that continues to payment');
   assert.match(page, /name="terms_hash" value="[0-9a-f]{64}"/);
   assert.ok(page.includes('3 of 3 free revisions left'));
   assert.ok(page.includes('/assets/style.css'), 'uses the site stylesheet');
@@ -309,7 +315,7 @@ test('approving stores the full evidence record and sends the customer to Stripe
   assert.equal(ev.proof_version, 1);
   assert.equal(ev.terms_hash, terms.hash);
   assert.equal(ev.terms_hash, await sha256Hex(terms.text));
-  assert.equal(ev.terms_version, 'October 27, 2026');
+  assert.equal(ev.terms_version, 'October 28, 2026');
   assert.equal(ev.terms_url, 'https://getseensignsco.com/terms');
   assert.equal(ev.consent_text, CONSENT_TEXT);
   assert.equal(ev.subtotal_cents, SUBTOTAL);
@@ -317,7 +323,7 @@ test('approving stores the full evidence record and sends the customer to Stripe
 
   const kept = one('SELECT * FROM terms_versions WHERE hash = ?', ev.terms_hash);
   assert.equal(kept.text, terms.text);
-  assert.ok(kept.text.includes('Nothing goes to production until you approve the proof'));
+  assert.ok(kept.text.includes('Nothing goes to production until you approve the proof and pay'));
 
   const order = one('SELECT * FROM orders');
   assert.equal(order.status, 'approved');
@@ -406,6 +412,23 @@ test('test-mode keys bill the catalog amount with price_data; live keys use the 
   assert.equal(p.get('line_items[0][price_data][unit_amount]'), null);
   assert.equal(p.get('line_items[1][price]'), null, 'custom totals use price_data even with a live key');
   assert.equal(p.get('line_items[1][price_data][unit_amount]'), '14900');
+});
+
+test('patch and heavy duty safety SKUs use their saved Stripe Prices with a live key and price_data in test mode', () => {
+  const items = ['patch-pvc-3in-50', 'patch-emb-50', 'patch-emb-100', 'safety-12x18-5-063'].map((sku) => resolveLineItem({ sku, quantity: 2 }).item);
+  const order = { id: 'GS-UNIT', customer_email: 'a@example.com' };
+  const approval = { id: 'EV-1', approved_at: NOW.toISOString(), proof_version: 1, proof_hash: 'h', terms_hash: 't' };
+  const base = { order, approval, items, successUrl: 'https://x/s', cancelUrl: 'https://x/c', now: NOW };
+  const live = new URLSearchParams(checkoutParams({ ...base, useCatalogPrices: true }));
+  items.forEach((it, i) => {
+    assert.equal(live.get(`line_items[${i}][price]`), CATALOG[it.sku].priceId, it.sku);
+    assert.equal(live.get(`line_items[${i}][price_data][unit_amount]`), null, it.sku);
+  });
+  const test = new URLSearchParams(checkoutParams({ ...base, useCatalogPrices: false }));
+  items.forEach((it, i) => {
+    assert.equal(test.get(`line_items[${i}][price]`), null, it.sku);
+    assert.equal(test.get(`line_items[${i}][price_data][unit_amount]`), String(CATALOG[it.sku].amount), it.sku);
+  });
 });
 
 test('a shipping line is billed with the shipping tax code', async () => {
@@ -711,7 +734,7 @@ test('admin order detail returns the evidence record, its hash check, emails and
   assert.equal(body.order.status, 'paid');
   assert.equal(body.evidence.record_hash_valid, true);
   assert.equal(body.evidence.ip, IP);
-  assert.equal(body.evidence.terms_version, 'October 27, 2026');
+  assert.equal(body.evidence.terms_version, 'October 28, 2026');
   assert.equal(body.disputes.length, 1);
   assert.ok(body.emails.some((e) => e.kind === 'payment_received' && e.status === 'sent'));
   assert.ok(body.evidence_packet.includes('IP address: ' + IP));
@@ -785,7 +808,7 @@ test('the real /terms page yields a version label and a repeatable hash', async 
   const a = await readTerms(req, env);
   const b = await readTerms(req, env);
   assert.equal(a.hash, b.hash);
-  assert.equal(a.version, 'October 27, 2026');
+  assert.equal(a.version, 'October 28, 2026');
   assert.ok(a.text.includes('Everything is made to order'));
   await assert.rejects(readTerms(req, Object.assign({}, env, { ASSETS: { fetch: async () => new Response('x', { status: 500 }) } })));
 });

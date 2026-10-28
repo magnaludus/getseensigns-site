@@ -1,0 +1,19 @@
+{
+  "id": "bold-center",
+  "product": "retractable",
+  "name": "Big type",
+  "category": "business",
+  "palette": {"primary": "#14161A", "accent": "#FFD100", "ink": "#FFFFFF"},
+  "sample": {"name": "ACME FENCE", "line2": "FREE ESTIMATES", "phone": "334-555-0120", "web": "acmefence.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Top bar", "region": "art", "box": [0, 0, 1, 0.035], "fill": "@accent"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.28, 0.02, 0.44, 0.16], "square": true},
+    {"type": "text", "region": "safe", "box": [0, 0.2, 1, 0.3], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 9}, "bind": "name"},
+    {"type": "shape", "kind": "rect", "name": "Divider", "region": "art", "box": [0.1, 0.52, 0.8, 0.012], "fill": "@accent"},
+    {"type": "text", "region": "safe", "box": [0.04, 0.56, 0.92, 0.12], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 4.5}, "bind": "line2"},
+    {"type": "text", "region": "safe", "box": [0.0, 0.74, 1, 0.055], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2.6}, "bind": "phone"},
+    {"type": "text", "region": "safe", "box": [0.0, 0.8, 1, 0.045], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2.2}, "bind": "web"}
+  ]
+}

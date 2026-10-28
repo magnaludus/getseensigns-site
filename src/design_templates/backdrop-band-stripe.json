@@ -1,0 +1,21 @@
+{
+  "id": "band-stripe",
+  "product": "backdrop",
+  "name": "Stripes",
+  "category": "events",
+  "palette": {"primary": "#F4F1EA", "accent": "#2F6FED", "ink": "#172033"},
+  "sample": {"name": "MARLOW FEED", "line2": "CUSTOMER APPRECIATION", "phone": "334-555-0132", "web": "marlowfeed.example"},
+  "font": "oswald",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Stripe 1", "region": "art", "box": [0, 0.17, 1, 0.15], "fill": "@accent"},
+    {"type": "shape", "kind": "rect", "name": "Stripe 2", "region": "art", "box": [0, 0.51, 1, 0.15], "fill": "@accent"},
+    {"type": "shape", "kind": "rect", "name": "Stripe 3", "region": "art", "box": [0, 0.85, 1, 0.15], "fill": "@accent"},
+    {"type": "text", "region": "safe", "box": [0, 0.0, 1, 0.15], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 11}, "bind": "name", "name": "Name"},
+    {"type": "text", "region": "safe", "box": [0, 0.17, 1, 0.15], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 11}, "bind": "name", "name": "Name 2"},
+    {"type": "text", "region": "safe", "box": [0, 0.34, 1, 0.15], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 11}, "bind": "name", "name": "Name 3"},
+    {"type": "text", "region": "safe", "box": [0, 0.51, 1, 0.15], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 11}, "bind": "name", "name": "Name 4"},
+    {"type": "text", "region": "safe", "box": [0, 0.68, 1, 0.15], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 11}, "bind": "name", "name": "Name 5"},
+    {"type": "text", "region": "safe", "box": [0, 0.85, 1, 0.15], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 11}, "bind": "name", "name": "Name 6"}
+  ]
+}

@@ -47,11 +47,12 @@
   </section>
 
   <section class="adm-card">
-    <h2>2. Send a new proof after a revision</h2>
+    <h2>2. Send the proof</h2>
+    <p class="adm-help">Orders from the website start as <b>awaiting_proof</b> (shown as "needs proof" below). Click the order in the list, paste the link to the proof image, and the customer gets the proof email with their approval link. The same form sends a new proof after a revision request.</p>
     <form id="proof-form" class="adm-grid">
       <label>Order number<input type="text" id="p-order" placeholder="GS-XXXXXXXX" required></label>
       <label>New proof image link<input type="text" id="p-url" required></label>
-      <div class="wide"><button class="btn btn-line btn-sm" type="submit">Add proof and email customer</button></div>
+      <div class="wide"><button class="btn btn-line btn-sm" type="submit">Send proof and email customer</button></div>
     </form>
     <div id="proof-result" class="adm-result" role="status"></div>
   </section>
@@ -70,6 +71,7 @@
 
   <section class="adm-card">
     <h2>Recent orders</h2>
+    <p class="adm-help">Click a row to fill in the order number above.</p>
     <p><button class="btn btn-line btn-sm" id="refresh" type="button">Refresh list</button></p>
     <div class="adm-scroll"><table class="adm-table"><thead><tr><th>Order</th><th>Status</th><th>Customer</th><th>Total</th><th>Created</th></tr></thead><tbody id="orders"></tbody></table></div>
   </section>

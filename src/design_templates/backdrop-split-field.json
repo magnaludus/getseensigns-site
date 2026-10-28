@@ -1,0 +1,25 @@
+{
+  "id": "split-field",
+  "product": "backdrop",
+  "name": "Two color",
+  "category": "events",
+  "palette": {"primary": "#0B3A66", "accent": "#FFFFFF", "ink": "#FFFFFF"},
+  "sample": {"name": "WESTVIEW PROM", "line2": "NIGHT IN PARIS", "phone": "334-555-0131", "web": "westviewprom.example"},
+  "font": "archivo",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Left half", "region": "art", "box": [0, 0, 0.5, 1], "fill": "#13559A"},
+    {"type": "text", "region": "safe", "box": [0, 0.0, 0.5, 0.16], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 10}, "bind": "name", "name": "Name"},
+    {"type": "text", "region": "safe", "box": [0.5, 0.17, 0.5, 0.16], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 10}, "bind": "name", "name": "Name 2"},
+    {"type": "text", "region": "safe", "box": [0, 0.34, 0.5, 0.16], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 10}, "bind": "name", "name": "Name 3"},
+    {"type": "text", "region": "safe", "box": [0.5, 0.51, 0.5, 0.16], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 10}, "bind": "name", "name": "Name 4"},
+    {"type": "text", "region": "safe", "box": [0, 0.68, 0.5, 0.16], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 10}, "bind": "name", "name": "Name 5"},
+    {"type": "text", "region": "safe", "box": [0.5, 0.85, 0.5, 0.15], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 10}, "bind": "name", "name": "Name 6"},
+    {"type": "image", "frame": "logo", "name": "Logo a", "region": "safe", "box": [0.5, 0.0, 0.5, 0.16], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo b", "region": "safe", "box": [0, 0.17, 0.5, 0.16], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo c", "region": "safe", "box": [0.5, 0.34, 0.5, 0.16], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo d", "region": "safe", "box": [0, 0.51, 0.5, 0.16], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo e", "region": "safe", "box": [0.5, 0.68, 0.5, 0.16], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo f", "region": "safe", "box": [0, 0.85, 0.5, 0.15], "square": true}
+  ]
+}

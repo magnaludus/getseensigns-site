@@ -61,7 +61,14 @@
       body.textContent = '';
       data.orders.forEach(function (o) {
         var tr = document.createElement('tr');
-        [o.id, o.status, o.customer_email, '$' + (o.subtotal_cents / 100).toFixed(2), o.created_at.slice(0, 16).replace('T', ' ')].forEach(function (v) {
+        tr.style.cursor = 'pointer';
+        tr.title = 'Use this order number';
+        tr.addEventListener('click', function () {
+          $('p-order').value = o.id;
+          $('t-order').value = o.id;
+          $('p-url').focus();
+        });
+        [o.id, o.status === 'awaiting_proof' ? 'needs proof' : o.status, o.customer_email, '$' + (o.subtotal_cents / 100).toFixed(2), o.created_at.slice(0, 16).replace('T', ' ')].forEach(function (v) {
           var td = document.createElement('td');
           td.textContent = v;
           tr.appendChild(td);

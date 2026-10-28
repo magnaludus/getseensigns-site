@@ -73,17 +73,17 @@
       </ul>
     </div>
     <div class="hero-art" aria-hidden="true">
-      <figure class="ha ha-1"><picture><source srcset="assets/img/hero-tent.webp" type="image/webp"><img src="assets/img/hero-tent.jpg" alt="" width="900" height="675" fetchpriority="high"></picture></figure>
-      <figure class="ha ha-2"><picture><source srcset="assets/img/hero-banner.webp" type="image/webp"><img src="assets/img/hero-banner.jpg" alt="" width="700" height="700"></picture></figure>
-      <figure class="ha ha-3"><picture><source srcset="assets/img/hero-yard.webp" type="image/webp"><img src="assets/img/hero-yard.jpg" alt="" width="700" height="700"></picture></figure>
+      <figure class="ha ha-1"><picture><source srcset="assets/img/hero-tent-480.webp 480w, /assets/img/hero-tent-768.webp 768w, /assets/img/hero-tent.webp 900w" sizes="(max-width: 600px) 76vw, 460px" type="image/webp"><img src="assets/img/hero-tent.jpg" alt="" width="900" height="675" fetchpriority="high"></picture></figure>
+      <figure class="ha ha-2"><picture><source srcset="assets/img/hero-banner-320.webp 320w, /assets/img/hero-banner-480.webp 480w, /assets/img/hero-banner.webp 700w" sizes="(max-width: 600px) 42vw, 260px" type="image/webp"><img src="assets/img/hero-banner.jpg" alt="" width="700" height="700"></picture></figure>
+      <figure class="ha ha-3"><picture><source srcset="assets/img/hero-yard-320.webp 320w, /assets/img/hero-yard-480.webp 480w, /assets/img/hero-yard.webp 700w" sizes="(max-width: 600px) 36vw, 230px" type="image/webp"><img src="assets/img/hero-yard.jpg" alt="" width="700" height="700"></picture></figure>
       <span class="sticker">Free<br>proof</span>
     </div>
   </div>
 </section>
 
 <div class="ticker" aria-hidden="true"><div class="ticker-track">
-  <span>Yard signs</span><span>Banners</span><span>Feather flags</span><span>Canopy tents</span><span>Car magnets</span><span>Backdrops</span><span>Table throws</span><span>Real estate</span><span>Senior night</span><span>Hard hat decals</span><span>Safety signs</span><span>Challenge coins</span>
-  <span>Yard signs</span><span>Banners</span><span>Feather flags</span><span>Canopy tents</span><span>Car magnets</span><span>Backdrops</span><span>Table throws</span><span>Real estate</span><span>Senior night</span><span>Hard hat decals</span><span>Safety signs</span><span>Challenge coins</span>
+  <span>Yard signs</span><span>Banners</span><span>Feather flags</span><span>Canopy tents</span><span>Car magnets</span><span>Backdrops</span><span>Table throws</span><span>Real estate</span><span>Senior night</span><span>Hard hat decals</span><span>Safety signs</span><span>Challenge coins</span><span>Custom patches</span><span>Metal business cards</span>
+  <span>Yard signs</span><span>Banners</span><span>Feather flags</span><span>Canopy tents</span><span>Car magnets</span><span>Backdrops</span><span>Table throws</span><span>Real estate</span><span>Senior night</span><span>Hard hat decals</span><span>Safety signs</span><span>Challenge coins</span><span>Custom patches</span><span>Metal business cards</span>
 </div></div>
 
 <section class="sec paper" id="products">
@@ -151,10 +151,8 @@
       </ul>
       {{REACH}}
     </div>
-    <!-- TODO(form backend): to receive submissions without the visitor's email app,
-         create a free Formspree or Web3Forms form and paste its URL into data-endpoint below
-         (e.g. https://formspree.io/f/XXXXXXX). Leave data-endpoint empty to use the mailto: fallback. -->
-    <form class="quote-form" id="quote-form" data-endpoint="" data-mailto="sales@getseensignsco.com" novalidate>
+    <!-- Posts to /api/quote-request (saved in D1, emailed through Brevo). The mailto: link in data-mailto is only the fallback for a server error or a 503. -->
+    <form class="quote-form" id="quote-form" data-endpoint="/api/quote-request" data-mailto="sales@getseensignsco.com" novalidate>
       <div class="f2">
         <label>Name<input name="name" autocomplete="name" required></label>
         <label>Email<input name="email" type="email" autocomplete="email" required></label>
@@ -181,7 +179,7 @@
       <h2>Good questions.</h2>
     </div>
     <div class="faq">
-      <details open><summary>How long does it take?</summary><p>Most orders arrive <b>3-8 business days</b> after you approve your proof. Canopy tents and step-and-repeat backdrops arrive in <b>5-10 business days</b>. Challenge coins take longer, about 4 to 5 weeks. Need it fast? Ask about a rush in your quote request.</p></details>
+      <details open><summary>How long does it take?</summary><p>Most orders arrive <b>3-8 business days</b> after you approve your proof. Canopy tents and step-and-repeat backdrops arrive in <b>5-10 business days</b>. Challenge coins take longer, about 4 to 5 weeks, custom patches take about 11 to 15 business days after you approve your proof, and metal business cards take 2 to 3 weeks. Need it fast? Ask about a rush in your quote request.</p></details>
       <details><summary>Is the design really free?</summary><p>Yes. Design included — no design fee. Every order includes a free digital proof within 12 hours, 7 days a week, 3 revisions included. Send your own artwork or just tell us your text and we'll design it.</p></details>
       <details><summary>How much is shipping?</summary><p>Shipping is free to the lower 48 states. Orders are made to order and ship direct from our print partner to you.</p></details>
       <details><summary>What file types can I send?</summary><p>PNG, JPG, PDF, SVG or AI all work. Higher resolution is better, but if all you have is a phone photo of your logo, send it and we'll let you know if it'll print clean.</p></details>

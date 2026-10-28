@@ -188,6 +188,23 @@ function drawBanner(ctx, art, spec, box) {
   }
 }
 
+// Retractable banners, backdrops, magnets, decals and safety signs: the print on a card with a soft shadow.
+function drawPanel(ctx, art, spec, box) {
+  const s = Math.min(box.w / (spec.artboard.w * 1.12), box.h / (spec.artboard.h * 1.08));
+  const w = spec.artboard.w * s;
+  const h = spec.artboard.h * s;
+  const x = box.x + (box.w - w) / 2;
+  const y = box.y + (box.h - h) / 2;
+  ctx.save();
+  ctx.shadowColor = 'rgba(20,22,26,.3)';
+  ctx.shadowBlur = Math.max(6, Math.min(w, h) * 0.04);
+  ctx.drawImage(art, x, y, w, h);
+  ctx.restore();
+  ctx.strokeStyle = 'rgba(20,22,26,.3)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+}
+
 export function renderSimple(ctx, { doc, pi, si, env, assets, width, height }) {
   const piece = doc.project.pieces[pi];
   const spec = specFor(env.specs, piece.productId, piece.choices);
@@ -203,5 +220,6 @@ export function renderSimple(ctx, { doc, pi, si, env, assets, width, height }) {
   else if (piece.productId === 'feather') drawFeather(ctx, art, spec, box);
   else if (piece.productId === 'yard') drawYard(ctx, art, spec, box);
   else if (piece.productId === 'throw') drawThrow(ctx, art, spec, box, baseColor);
-  else drawBanner(ctx, art, spec, box);
+  else if (piece.productId === 'banner') drawBanner(ctx, art, spec, box);
+  else drawPanel(ctx, art, spec, box);
 }

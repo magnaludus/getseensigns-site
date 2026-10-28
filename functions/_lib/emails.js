@@ -13,7 +13,7 @@ const LOGO = SITE + '/assets/brand/getseen-horizontal-for-dark-bg.png';
 const FONT = "'Barlow','Helvetica Neue',Helvetica,Arial,sans-serif";
 const HEAD_FONT = "'Barlow Condensed','Arial Narrow',Impact,Helvetica,Arial,sans-serif";
 
-function button(href, label) {
+export function button(href, label) {
   return (
     '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 8px"><tr><td style="background:' + YELLOW + ';border-radius:10px;border-bottom:4px solid #B89600">' +
     '<a href="' + esc(href) + '" style="display:inline-block;padding:15px 28px;font-family:' + HEAD_FONT + ';font-weight:800;font-size:20px;letter-spacing:.04em;text-transform:uppercase;color:' + INK + ';text-decoration:none">' + esc(label) + '</a>' +
@@ -59,7 +59,7 @@ export function layout({ heading, preheader, bodyHtml }) {
   );
 }
 
-const p = (html) => '<p style="margin:0 0 12px">' + html + '</p>';
+export const p = (html) => '<p style="margin:0 0 12px">' + html + '</p>';
 const small = (html) => '<p style="margin:14px 0 0;font-size:13px;color:#5B5F66">' + html + '</p>';
 
 function textFooter() {
@@ -157,17 +157,18 @@ export function renderShopAlert(subject, lines) {
   return { subject: subject, html: html, text: lines.join('\n') };
 }
 
-export async function brevoSend(env, { to, toName, subject, html, text, tags }) {
+export async function brevoSend(env, { to, toName, subject, html, text, tags, replyTo, attachments }) {
   if (!env.BREVO_API_KEY) throw new Error('BREVO_API_KEY is not set');
   const body = {
     sender: SENDER,
-    replyTo: { email: SHOP_EMAIL, name: SENDER.name },
+    replyTo: replyTo || { email: SHOP_EMAIL, name: SENDER.name },
     to: [toName ? { email: to, name: toName } : { email: to }],
     subject: subject,
     htmlContent: html,
     textContent: text,
   };
   if (tags && tags.length) body.tags = tags;
+  if (attachments && attachments.length) body.attachment = attachments;
   const res = await fetch(BREVO_URL, { method: 'POST', headers: { 'api-key': env.BREVO_API_KEY, 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) });
   let data = null;
   try {

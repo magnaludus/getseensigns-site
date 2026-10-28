@@ -1,0 +1,18 @@
+{
+  "id": "split-field",
+  "product": "retractable",
+  "name": "Split field",
+  "category": "business",
+  "palette": {"primary": "#0B3A66", "accent": "#FFFFFF", "ink": "#FFFFFF"},
+  "sample": {"name": "NORTHSIDE DENTAL", "line2": "NOW ACCEPTING PATIENTS", "phone": "334-555-0121", "web": "northsidedental.example"},
+  "font": "barlow",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Light block", "region": "art", "box": [0, 0.3, 1, 0.34], "fill": "@accent"},
+    {"type": "text", "region": "safe", "box": [0.02, 0.0, 0.96, 0.24], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 3.8}, "bind": "line2"},
+    {"type": "text", "region": "safe", "box": [0.02, 0.32, 0.96, 0.3], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 8}, "bind": "name"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.3, 0.67, 0.4, 0.14], "square": true},
+    {"type": "text", "region": "safe", "box": [0.0, 0.83, 1, 0.045], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2.6}, "bind": "phone"},
+    {"type": "text", "region": "safe", "box": [0.0, 0.88, 1, 0.04], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2.2}, "bind": "web"}
+  ]
+}

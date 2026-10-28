@@ -2,7 +2,9 @@
 // turnaround wording, and the footer. Reads the pages the Python build wrote at the repo root.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync, statSync, mkdtempSync, cpSync, rmSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -71,15 +73,15 @@ test('every matching product page embeds its video with a poster', () => {
   const map = {
     'bulk-campaign-signs': ['02-bulk-yard-signs'], 'vinyl-banners': ['03-vinyl-banner'], 'feather-flags': ['04-feather-flags'], 'retractable-banners': ['05-retractable-banner'],
     'car-magnets': ['06-car-magnets'], 'real-estate-signs': ['07-real-estate-sign'], 'step-and-repeat-backdrops': ['08-step-and-repeat'], 'table-throws': ['09-table-throw'],
-    'custom-canopy-tents': ['10-canopy-tent'], 'holiday-yard-signs': ['11-christmas-banner', '14-thanksgiving-yard-sign'], 'senior-night-banners': ['12-senior-night-banner'], 'trade-show-booth-kit': ['15-vendor-booth-kit'],
+    'custom-canopy-tents': ['10-canopy-tent'], 'holiday-yard-signs': ['11-christmas-banner', '14-thanksgiving-yard-sign'], 'senior-night-banners': ['12-senior-night-banner'], 'trade-show-booth-kit': ['15-trade-show-booth-kit'],
   };
   let count = 0;
   for (const [slug, names] of Object.entries(map)) {
     const html = read(`${slug}/index.html`);
     for (const n of names) {
       count++;
-      assert.match(html, new RegExp(`<video controls muted playsinline preload="none" poster="/assets/video/${n}-poster.jpg"[^>]*><source src="/assets/video/${n}.mp4" type="video/mp4">`), slug + ' ' + n);
-      assert.ok(existsSync(new URL(`assets/video/${n}.mp4`, root)) && existsSync(new URL(`assets/video/${n}-poster.jpg`, root)), n);
+      assert.match(html, new RegExp(`<video controls muted playsinline preload="none" poster="/assets/video/${n}-poster.webp"[^>]*><source src="/assets/video/${n}.mp4" type="video/mp4">`), slug + ' ' + n);
+      assert.ok(existsSync(new URL(`assets/video/${n}.mp4`, root)) && existsSync(new URL(`assets/video/${n}-poster.webp`, root)), n);
     }
   }
   assert.equal(count, 13);
@@ -139,14 +141,14 @@ test('Vendor Booth Kit is now the Trade Show Booth Kit, same price, old URL redi
   const html = read('trade-show-booth-kit/index.html');
   assert.ok(!existsSync(new URL('vendor-booth-kit/index.html', root)), 'old page removed');
   assert.match(html, /<title>Trade Show Booth Kit: Throw, Banner &amp; Flag \| Get Seen Signs<\/title>/);
-  assert.match(html, /<h1>Trade show booth kit /);
+  assert.match(html, /<h1>Trade show booth kit: <span class="block">throw, banner and flag, matched\.<\/span><\/h1>/);
   assert.match(html, /<link rel="canonical" href="https:\/\/getseensignsco.com\/trade-show-booth-kit\/">/);
   const text = body(html);
   assert.ok(text.includes('Built for exhibitors at gun shows, industry expos, and manufacturing and industrial trade shows.'));
   const product = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html)[1])['@graph'].find((n) => n['@type'] === 'Product');
   assert.equal(product.name, 'Trade Show Booth Kit');
   assert.equal(product.offers.price, '339.00');
-  assert.ok(product.offers.url.endsWith('/4600470595'));
+  assert.equal(product.offers.url, 'https://getseensignsco.com/trade-show-booth-kit/');
   for (const sku of ['6 ft 3-sided table throw', '33×81 in retractable banner stand', '10.5 ft feather flag with ground spike']) assert.ok(text.includes(sku), sku);
   const sitemap = read('sitemap.xml');
   assert.ok(sitemap.includes('/trade-show-booth-kit/') && !sitemap.includes('vendor-booth-kit'));
@@ -159,4 +161,134 @@ test('Vendor Booth Kit is now the Trade Show Booth Kit, same price, old URL redi
   }
   assert.match(read('index.html'), /<h3>Trade Show Booth Kit<\/h3>/);
   assert.match(read('index.html'), /<option>Trade Show Booth Kit<\/option>/);
+});
+
+test('the Columbus page links the working sign inspection page, not the old broken address', () => {
+  const html = read('signs-columbus-ga-phenix-city/index.html');
+  assert.ok(html.includes('href="https://columbusga.gov/inscode/What-We-Do/Sign-Inspection"'));
+  for (const f of pages()) assert.ok(!readFileSync(f, 'utf8').includes('inspections-and-code-2'), f);
+});
+
+test('sitemap dates come from the build date (America/New_York, or BUILD_DATE) and a rebuild only touches the sitemap and blog dateModified', () => {
+  const sm = read('sitemap.xml');
+  const dates = [...sm.matchAll(/<loc>([^<]+)<\/loc><lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g)];
+  assert.ok(dates.length >= 40);
+  const lastmod = (path) => dates.find((m) => m[1] === 'https://getseensignsco.com' + path)[2];
+  assert.equal(lastmod('/terms'), '2026-10-28');
+  assert.equal(lastmod('/privacy'), '2026-10-28');
+  assert.equal(lastmod('/contact'), '2026-10-27');
+  const src = read('src/site-src-pages.py');
+  assert.match(src, /ZoneInfo\('America\/New_York'\)/);
+  assert.match(src, /os\.environ\.get\('BUILD_DATE'\)/);
+
+  const tmp = mkdtempSync(join(tmpdir(), 'gss-build-'));
+  try {
+    const top = fileURLToPath(root).replace(/\/$/, '');
+    for (const name of readdirSync(top)) {
+      if (['.git', '.design-dev', 'node_modules'].includes(name)) continue;
+      cpSync(join(top, name), join(tmp, name), { recursive: true });
+    }
+    const build = (date) => execFileSync('python3', ['src/site-src-pages.py'], { cwd: tmp, env: { ...process.env, BUILD_DATE: date }, stdio: 'pipe' });
+    const snapshot = () => {
+      const out = new Map();
+      const walk = (dir) => { for (const n of readdirSync(dir)) { const p = join(dir, n); if (statSync(p).isDirectory()) { if (n !== '__pycache__') walk(p); } else if (/\.(html|xml|txt|json)$/.test(n)) out.set(p.slice(tmp.length), readFileSync(p, 'utf8')); } };
+      walk(tmp);
+      return out;
+    };
+    build('2031-02-03');
+    const first = snapshot();
+    assert.match(first.get('/sitemap.xml'), /<loc>https:\/\/getseensignsco.com\/shop\/<\/loc><lastmod>2031-02-03<\/lastmod>/);
+    assert.match(first.get('/sitemap.xml'), /<loc>https:\/\/getseensignsco.com\/privacy<\/loc><lastmod>2026-10-28<\/lastmod>/, 'an explicit override stays');
+    build('2031-02-03');
+    const again = snapshot();
+    assert.deepEqual([...again].filter(([k, v]) => first.get(k) !== v).map(([k]) => k), [], 'the same date rebuilds to identical files');
+    build('2031-02-04');
+    const next = snapshot();
+    const changed = [...next].filter(([k, v]) => first.get(k) !== v).map(([k]) => k).sort();
+    assert.ok(changed.includes('/sitemap.xml'));
+    assert.deepEqual(changed.filter((k) => k !== '/sitemap.xml' && !k.startsWith('/blog/')), [], 'only the sitemap and the blog pages (JSON-LD dateModified) use the date');
+    assert.throws(() => execFileSync('python3', ['src/site-src-pages.py'], { cwd: tmp, env: { ...process.env, BUILD_DATE: 'tomorrow' }, stdio: 'pipe' }));
+  } finally {
+    rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test('every product Offer points at our own page and ships free to the lower 48 only', () => {
+  const LOWER_48 = 'AL AR AZ CA CO CT DE FL GA IA ID IL IN KS KY LA MA MD ME MI MN MO MS MT NC ND NE NH NJ NM NV NY OH OK OR PA RI SC SD TN TX UT VA VT WA WI WV WY'.split(' ');
+  assert.equal(LOWER_48.length, 48);
+  let offers = 0;
+  for (const f of pages()) {
+    const html = readFileSync(f, 'utf8');
+    const ld = /<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html);
+    if (!ld) continue;
+    for (const node of JSON.parse(ld[1])['@graph'].filter((n) => n['@type'] === 'Product')) {
+      const slug = /\/([^/]+)\/index\.html$/.exec(f)[1];
+      for (const o of [].concat(node.offers)) {
+        offers += 1;
+        assert.equal(o.url, `https://getseensignsco.com/${slug}/`, f);
+        assert.doesNotMatch(o.url, /etsy/, f);
+        const dest = o.shippingDetails.shippingDestination;
+        assert.equal(dest.addressCountry, 'US', f);
+        assert.deepEqual([...dest.addressRegion].sort(), [...LOWER_48].sort(), f + ' lower 48 only');
+        assert.ok(!dest.addressRegion.includes('AK') && !dest.addressRegion.includes('HI'), f);
+        assert.deepEqual([o.shippingDetails.shippingRate.value, o.shippingDetails.shippingRate.currency], ['0', 'USD'], f);
+      }
+    }
+  }
+  assert.ok(offers >= 60, 'checked ' + offers + ' offers');
+});
+
+test('audit fixes: meta descriptions under 160 characters, brand in the tailgate title, PNG logo, link names that start with the visible text', () => {
+  const decode = (s) => s.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  for (const f of pages()) {
+    const html = readFileSync(f, 'utf8');
+    const m = /<meta name="description" content="([^"]*)"/.exec(html);
+    if (m) assert.ok(decode(m[1]).length < 160, `${f} description is ${decode(m[1]).length} characters`);
+    // an accessible name that is set must start with the text people see on the link
+    for (const a of html.matchAll(/<a\b[^>]*\baria-label="([^"]+)"[^>]*>([^<]+)<\/a>/g)) {
+      const visible = decode(a[2]).trim().toLowerCase();
+      if (!visible || a[1].startsWith('Get Seen Signs home')) continue;
+      assert.ok(decode(a[1]).toLowerCase().startsWith(visible), `${f}: aria-label "${a[1]}" vs visible "${visible}"`);
+    }
+  }
+  assert.match(read('tailgate-and-gameday-signs/index.html'), /<title>Tailgate Tents &amp; Gameday Signs \| Get Seen Signs<\/title>/);
+  const org = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(read('index.html'))[1])['@graph'].find((n) => n['@type'] === 'Organization');
+  assert.equal(org.logo, 'https://getseensignsco.com/assets/brand/getseen-horizontal-for-dark-bg.png');
+  assert.ok(existsSync(new URL('assets/brand/getseen-horizontal-for-dark-bg.png', root)));
+  const html = read('index.html');
+  assert.ok(html.includes('aria-label="Text us at (334) 232-9003"') && html.includes('aria-label="Chat on WhatsApp with Get Seen Signs"'));
+  assert.ok(!html.includes('aria-label="Text Get Seen Signs at'));
+  assert.ok(read('assets/design/ui/tabs/templates.js').includes("'aria-hidden': 'true'"));
+});
+
+test('the booth kit images and video use the trade-show-booth-kit file names (key 15 kept), and no vendor-booth-kit asset is left', () => {
+  for (const f of ['p-15-trade-show-booth-kit.jpg', 'p-15-trade-show-booth-kit.webp', 'p-15-trade-show-booth-kit-sm.webp', 'g-15-trade-show-booth-kit-2.jpg', 'g-15-trade-show-booth-kit-2.webp', 'g-15-trade-show-booth-kit-2-sm.webp']) assert.ok(existsSync(new URL('assets/img/' + f, root)), f);
+  for (const f of ['15-trade-show-booth-kit.mp4', '15-trade-show-booth-kit-poster.webp']) assert.ok(existsSync(new URL('assets/video/' + f, root)), f);
+  for (const dir of ['assets/img', 'assets/video']) assert.deepEqual(readdirSync(new URL(dir, root)).filter((n) => /vendor-booth/.test(n)), [], dir);
+  const html = read('trade-show-booth-kit/index.html');
+  assert.ok(html.includes('/assets/img/p-15-trade-show-booth-kit.webp') && html.includes('/assets/video/15-trade-show-booth-kit.mp4'));
+  assert.ok(!/15-vendor-booth-kit/.test(html + read('index.html') + read('shop/index.html')));
+});
+
+test('mobile image weight: responsive hero srcset, WebP video posters, lazy gallery images', () => {
+  const home = read('index.html');
+  assert.match(home, /srcset="\/assets\/img\/hero-tent-480\.webp 480w, \/assets\/img\/hero-tent-768\.webp 768w, \/assets\/img\/hero-tent\.webp 900w" sizes="[^"]+"/);
+  assert.match(home, /srcset="\/assets\/img\/hero-banner-320\.webp 320w, \/assets\/img\/hero-banner-480\.webp 480w, \/assets\/img\/hero-banner\.webp 700w" sizes="[^"]+"/);
+  assert.match(home, /srcset="\/assets\/img\/hero-yard-320\.webp 320w, \/assets\/img\/hero-yard-480\.webp 480w, \/assets\/img\/hero-yard\.webp 700w" sizes="[^"]+"/);
+  const size = (f) => statSync(new URL('assets/img/' + f, root)).size;
+  assert.ok(size('hero-tent-480.webp') < size('hero-tent.webp') / 2 && size('hero-banner-320.webp') < size('hero-banner.webp') / 2);
+  for (const f of readdirSync(new URL('assets/video', root)).filter((n) => n.endsWith('-poster.webp'))) {
+    assert.ok(existsSync(new URL('assets/video/' + f.replace('.webp', '.jpg'), root)) === false, 'no jpg poster left for ' + f);
+  }
+  for (const f of pages()) {
+    const html = readFileSync(f, 'utf8');
+    assert.doesNotMatch(html, /poster="[^"]+\.jpg"/, f + ' uses webp posters');
+  }
+  for (const slug of ['vinyl-banners', 'trade-show-booth-kit', 'custom-canopy-tents']) {
+    const html = read(`${slug}/index.html`);
+    // the hero is eager and preloaded; every gallery picture below the fold is lazy
+    assert.match(html, /<link rel="preload" as="image" href="\/assets\/img\/p-[^"]+\.webp" type="image\/webp" fetchpriority="high">/);
+    const gallery = /<div class="gal">([\s\S]*?)<\/div>\s*<\/div>\s*<\/section>/.exec(html)[1];
+    for (const img of gallery.match(/<img [^>]*>/g)) assert.match(img, /loading="lazy"/, slug);
+  }
 });

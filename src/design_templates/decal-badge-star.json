@@ -1,0 +1,16 @@
+{
+  "id": "badge-star",
+  "product": "decal",
+  "name": "Badge",
+  "category": "business",
+  "palette": {"primary": "#1E3A2F", "accent": "#D6F25C", "ink": "#F4FFE0"},
+  "sample": {"name": "PINE HOLLOW", "line2": "UTILITIES", "phone": "334-555-0153", "web": "pinehollow.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "badge", "name": "Seal", "region": "art", "box": [0.2, 0.02, 0.6, 0.5], "fill": "@accent", "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.28, 0.08, 0.44, 0.38], "square": true},
+    {"type": "text", "region": "safe", "box": [0.03, 0.55, 0.94, 0.28], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 0.6, "min": 0.08}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.1, 0.85, 0.8, 0.12], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 0.24, "min": 0.08}, "bind": "line2"}
+  ]
+}

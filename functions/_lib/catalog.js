@@ -1,6 +1,8 @@
 // Existing live-mode Stripe Prices for the Get Seen Signs account, keyed by SKU.
 // Generated from the account's catalog map; every price is USD, tax behavior exclusive, tax code txcd_20090028.
 // Test-mode keys cannot see these live Price IDs, so stripe.js sends the same amount as price_data instead.
+// An entry with an empty priceId has no saved Stripe Price yet and is always sent as price_data (name and amount below).
+// Every such SKU must be listed in PLACEHOLDER_PRICE_IDS at the bottom; a unit test checks the two agree (the list is empty today).
 
 export const TAX_CODE = 'txcd_20090028';
 export const SHIPPING_TAX_CODE = 'txcd_92010001';
@@ -24,8 +26,7 @@ export const CATALOG = {
   "throw-8ft-4sided": { name: "Table Throw (8 ft 4-sided)", priceId: "price_1UV28w67epULNprTxtUQ6WXQ", amount: 18900 },
   "fitted-6ft": { name: "Fitted Table Cover (6 ft fitted)", priceId: "price_1UV27f67epULNprT3lNTGO4j", amount: 15900 },
   "fitted-8ft": { name: "Fitted Table Cover (8 ft fitted)", priceId: "price_1UV28p67epULNprTFmBgCh4c", amount: 17900 },
-  "tent-standard": { name: "Canopy Tent 10x10 (Standard top only)", priceId: "price_1UV27i67epULNprTbSonW7v0", amount: 58900 },
-  "tent-top-only": { name: "Canopy Tent 10x10 (Top Only)", priceId: "price_1UV28x67epULNprThLKn7BCz", amount: 64900 },
+  "tent-standard": { name: "Canopy Tent 10x10 (Standard top and valance)", priceId: "price_1UV27i67epULNprTbSonW7v0", amount: 58900 },
   "tent-top-wall": { name: "Canopy Tent 10x10 (Top + Back Wall)", priceId: "price_1UV28z67epULNprTdaehROaN", amount: 84900 },
   "tent-full-kit": { name: "Canopy Tent 10x10 (Full Kit)", priceId: "price_1UV29067epULNprTwNKJ35ES", amount: 145900 },
   "yardsign-5-1s": { name: "Bulk Yard Signs (1-sided 5-pack)", priceId: "price_1UV27l67epULNprT2o04qAMs", amount: 7400 },
@@ -71,4 +72,18 @@ export const CATALOG = {
   "safety-12x18-5": { name: "Aluminum Safety Sign Pack (12x18, 5 signs)", priceId: "price_1UV28J67epULNprT4j39c1NI", amount: 11900 },
   "safety-12x18-10": { name: "Aluminum Safety Sign Pack (12x18, 10 signs)", priceId: "price_1UV2Ab67epULNprTdym2Ru9H", amount: 19900 },
   "safety-18x24-5": { name: "Aluminum Safety Sign Pack (18x24, 5 signs)", priceId: "price_1UV2Ad67epULNprTKevwIi3y", amount: 19900 },
+  "safety-12x18-5-063": { name: "Aluminum Safety Sign Pack (12x18, 5 heavy duty .063)", priceId: "price_1UVNpR67epULNprTAbPoa2eq", amount: 16900 },
+  "patch-pvc-3in-50": { name: "Custom Patches (50 PVC, 3 in)", priceId: "price_1UVNcM67epULNprTeoeIIg0R", amount: 32900 },
+  "patch-emb-50": { name: "Custom Patches (50 embroidered)", priceId: "price_1UVNcP67epULNprTFpBjmMvQ", amount: 23900 },
+  "patch-emb-100": { name: "Custom Patches (100 embroidered)", priceId: "price_1UVNcR67epULNprTbdkhaw6s", amount: 30900 },
+  "card-ss-50": { name: "Metal Business Cards (50 stainless steel)", priceId: "price_1UVNp967epULNprTZyyyTzjm", amount: 24900 },
+  "card-ss-100": { name: "Metal Business Cards (100 stainless steel)", priceId: "price_1UVNpC67epULNprTUC86fNMh", amount: 29900 },
+  "card-ss-250": { name: "Metal Business Cards (250 stainless steel)", priceId: "price_1UVNpE67epULNprTx1SJO3AH", amount: 49900 },
+  "card-blk-50": { name: "Metal Business Cards (50 black)", priceId: "price_1UVNpG67epULNprTZW2LtJ87", amount: 35900 },
+  "card-blk-100": { name: "Metal Business Cards (100 black)", priceId: "price_1UVNpJ67epULNprT1BdBEnAY", amount: 44900 },
+  "card-gold-100": { name: "Metal Business Cards (100 gold)", priceId: "price_1UVNpM67epULNprTkz7k8r90", amount: 32900 },
+  "card-rosegold-100": { name: "Metal Business Cards (100 rose gold)", priceId: "price_1UVNpO67epULNprTmLFIo0o2", amount: 32900 },
 };
+
+// SKUs that still have no saved Stripe Price (empty priceId above). Add a SKU here while its price is a placeholder, remove it once the real price id is saved.
+export const PLACEHOLDER_PRICE_IDS = [];
