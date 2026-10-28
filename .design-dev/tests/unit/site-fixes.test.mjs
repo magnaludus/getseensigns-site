@@ -176,7 +176,8 @@ test('sitemap dates come from the build date (America/New_York, or BUILD_DATE) a
   const lastmod = (path) => dates.find((m) => m[1] === 'https://getseensignsco.com' + path)[2];
   assert.equal(lastmod('/terms'), '2026-10-28');
   assert.equal(lastmod('/privacy'), '2026-10-28');
-  assert.equal(lastmod('/contact'), '2026-10-27');
+  assert.equal(lastmod('/contact'), '2026-10-28');
+  assert.equal(lastmod('/quote'), '2026-10-28');
   const src = read('src/site-src-pages.py');
   assert.match(src, /ZoneInfo\('America\/New_York'\)/);
   assert.match(src, /os\.environ\.get\('BUILD_DATE'\)/);

@@ -3,7 +3,9 @@
 // The "Get a quote" form on the home page (#quote) posts here (multipart/form-data or a URL-encoded form):
 //   name, email, product (required); quantity, size, needed_by (YYYY-MM-DD), details (optional);
 //   _gotcha (honeypot: any value gets a fake success and nothing is stored); elapsedMs (ms since the form was shown,
-//   under 3 seconds gets a fake success).
+//   under 3 seconds gets a fake success); attempt (optional, 16 to 64 letters, digits, - or _: one id per filled-in
+//   form, reused when the page retries). The reference is derived from it, so a retry of a request that already
+//   went through answers with the same reference instead of saving or emailing it twice.
 //
 // What it does: saves the request in D1 (table quote_requests), emails sales@getseensignsco.com through Brevo with
 // Reply-To set to the customer, and emails the customer a short confirmation with a reference (QR-XXXXXXXX).
@@ -12,10 +14,11 @@
 //
 // Answers: 200 {ok, ref, emailed, stored, confirmed}; 400 {ok:false, error:'fields', fields:[...]};
 // 429 {ok:false, error:'rate'}; 500 {ok:false, error:'storage'|'server'}; 503 {ok:false, enabled:false}.
-// emailed is true when the email to the shop went out. emailed false with stored true means the request is saved
-// but nobody was notified, so the page opens its mailto fallback with the reference. No IP, cookie or user agent is kept.
+// emailed is true when the email to the shop went out (one automatic retry first). emailed false with stored true
+// means the request is saved but the shop email failed: the page shows the reference and says so, and the request
+// is listed by GET /api/admin/quote-requests (shop_email = 'failed'). No IP, cookie or user agent is kept.
 
-import { getDb, run } from '../_lib/db.js';
+import { getDb, run, one, changes } from '../_lib/db.js';
 import { brevoSend, layout, p as para } from '../_lib/emails.js';
 import { SHOP_EMAIL, SHOP_PHONE, esc, oneLine, multiLine, validEmail, nowIso, json } from '../_lib/util.js';
 import { proofEnabled } from './design-proof.js';
@@ -27,15 +30,29 @@ const MAX_BODY = 64 * 1024;
 const REF_CHARS = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 export const QUOTE_REF_RE = /^QR-[0-9A-HJKMNP-TV-Z]{8}$/;
 
+const ATTEMPT_RE = /^[A-Za-z0-9_-]{16,64}$/;
+const RETRY_MS = 300;
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export function makeQuoteRef() {
   const bytes = crypto.getRandomValues(new Uint8Array(8));
   return 'QR-' + Array.from(bytes, (b) => REF_CHARS[b & 31]).join('');
+}
+
+export async function refFromAttempt(attempt) {
+  const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('quote-request:' + attempt)));
+  return 'QR-' + Array.from(digest.slice(0, 8), (b) => REF_CHARS[b & 31]).join('');
 }
 
 const hits = new Map();
 
 export function resetRateLimit() {
   hits.clear();
+}
+
+function refund(ip) {
+  const list = ip && hits.get(ip);
+  if (list && list.length) list.pop();
 }
 
 function limited(ip, ms) {
@@ -99,14 +116,20 @@ async function sendShopEmail(env, ref, q) {
   const configured = oneLine(env.DESIGN_PROOF_TO, 200);
   const to = validEmail(configured) ? configured : SHOP_EMAIL;
   const text = summaryLines(ref, q).join('\n');
-  await brevoSend(env, {
+  const mail = {
     to: to,
     subject: 'Quote request: ' + q.product + ' (' + q.name + ') ' + ref,
     html: '<div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.5;white-space:pre-wrap">' + esc(text) + '</div>',
     text: text,
     replyTo: { email: q.email, name: q.name },
     tags: ['quote-request'],
-  });
+  };
+  try {
+    await brevoSend(env, mail);
+  } catch (_) {
+    await sleep(RETRY_MS);
+    await brevoSend(env, mail);
+  }
 }
 
 async function sendConfirmation(env, ref, q) {
@@ -161,36 +184,54 @@ export async function handle(request, env, now) {
   const { quote: q, bad } = readQuote(form);
   if (bad.length) return json({ ok: false, error: 'fields', fields: bad }, 400);
 
-  const ref = makeQuoteRef();
+  const attempt = field(form, 'attempt');
+  const ip = request.headers.get('cf-connecting-ip');
+  const ref = ATTEMPT_RE.test(attempt) ? await refFromAttempt(attempt) : makeQuoteRef();
+  let sendShop = true;
+  let sendConfirm = true;
   try {
-    await getDb(env).then((db) =>
-      run(db, 'INSERT INTO quote_requests (ref, created_at, status, customer_name, customer_email, product, quantity, size, needed_by, details) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-        ref, nowIso(when), 'new', q.name, q.email, q.product, q.quantity, q.size, q.neededBy, q.details,
-      ])
+    const db = await getDb(env);
+    const inserted = await run(
+      db,
+      'INSERT OR IGNORE INTO quote_requests (ref, created_at, status, customer_name, customer_email, product, quantity, size, needed_by, details) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [ref, nowIso(when), 'new', q.name, q.email, q.product, q.quantity, q.size, q.neededBy, q.details]
     );
+    if (!changes(inserted)) {
+      // A retry of a request that is already saved: do not count it, do not save it again, and only send what is missing.
+      refund(ip);
+      const row = await one(db, 'SELECT customer_email, shop_email, customer_email_status FROM quote_requests WHERE ref = ?', [ref]);
+      if (!row || String(row.customer_email).toLowerCase() !== q.email.toLowerCase()) return json({ ok: false, error: 'fields', fields: [] }, 400);
+      sendShop = row.shop_email !== 'sent';
+      sendConfirm = row.customer_email_status !== 'sent';
+    }
   } catch (_) {
     console.error('quote-request database failed');
+    refund(ip);
     return json({ ok: false, error: 'storage' }, 500);
   }
 
-  let emailed = false;
-  let confirmed = false;
+  let emailed = !sendShop;
+  let confirmed = !sendConfirm;
   let error = '';
-  try {
-    await sendShopEmail(env, ref, q);
-    emailed = true;
-  } catch (err) {
-    error = (err && err.message) || 'shop email failed';
-    console.error('quote-request shop email failed');
+  if (sendShop) {
+    try {
+      await sendShopEmail(env, ref, q);
+      emailed = true;
+    } catch (err) {
+      error = (err && err.message) || 'shop email failed';
+      console.error('quote-request shop email failed');
+    }
   }
-  try {
-    await sendConfirmation(env, ref, q);
-    confirmed = true;
-  } catch (err) {
-    error = error || (err && err.message) || 'confirmation failed';
-    console.error('quote-request confirmation failed');
+  if (sendConfirm) {
+    try {
+      await sendConfirmation(env, ref, q);
+      confirmed = true;
+    } catch (err) {
+      error = error || (err && err.message) || 'confirmation failed';
+      console.error('quote-request confirmation failed');
+    }
   }
-  await mark(env, ref, emailed ? 'sent' : 'failed', confirmed ? 'sent' : 'failed', error);
+  if (sendShop || sendConfirm) await mark(env, ref, emailed ? 'sent' : 'failed', confirmed ? 'sent' : 'failed', error);
   return json({ ok: true, ref: ref, emailed: emailed, stored: true, confirmed: confirmed });
 }
 
@@ -199,6 +240,7 @@ export async function onRequestPost(context) {
     return await handle(context.request, context.env, context.now);
   } catch (_) {
     console.error('quote-request failed');
+    refund(context.request.headers.get('cf-connecting-ip'));
     return json({ ok: false, error: 'server' }, 500);
   }
 }

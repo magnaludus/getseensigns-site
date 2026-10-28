@@ -1,6 +1,6 @@
-// "Get my free proof" and "Rather we design it?": review, contact form, send, and the fallback when
-// the server is off (a zip of previews plus a prefilled email). Nothing here talks to a server
-// except POST /api/design-proof, which answers 503 until the shop turns it on.
+// "Get my free proof" and "Rather we design it?": review, contact form and send. Nothing here talks to a
+// server except POST /api/design-proof. It never opens the visitor's email app: if sending fails the form
+// stays open with everything typed, says so plainly, and offers Try again, call or text (334) 232-9003.
 import { h, icon } from './dom.js';
 import { createSummary } from './summary.js';
 import { sideThumb } from '../render/thumbs.js';
@@ -9,10 +9,11 @@ import { renderToCanvas } from '../render/canvas.js';
 import { collectWarnings } from '../model/review.js';
 import { projectTotal, money, productById } from '../model/pricing.js';
 import { sideNamesFor, productOf } from '../model/document.js';
-import { zipStore } from '../model/zip.js';
 
 const ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
-const MAILTO = 'sales@getseensignsco.com';
+const PHONE = '(334) 232-9003';
+const TEL = 'tel:+13342329003';
+const SMS = 'sms:+13342329003?body=Hi%2C%20I%20have%20a%20question%20about%20a%20sign';
 
 function makeRef() {
   const bytes = new Uint8Array(8);
@@ -51,70 +52,6 @@ export function createProof(ctx) {
     return out;
   }
 
-  function summaryText(ref, contact, extra) {
-    const doc = S.doc;
-    const t = projectTotal(env.catalog, doc);
-    const lines = ['Design proof request', 'Reference: ' + ref, '', `Name: ${contact.name}`, `Email: ${contact.email}`, `Phone: ${contact.phone || '-'}`, `Event date: ${contact.eventDate || '-'}`, `Notes: ${contact.notes || '-'}`, ''];
-    if (extra && extra.mode === 'design_for_me') {
-      lines.push('They asked us to design it.', `Products: ${(extra.productLabels || []).join(', ') || '-'}`, `Wording: ${extra.wording || '-'}`, `Website to match: ${extra.siteUrl || '-'}`);
-    } else {
-      doc.project.pieces.forEach((piece, i) => {
-        const product = productOf(env, piece.productId);
-        const row = t.lines[i];
-        const names = sideNamesFor(product, piece.choices);
-        const sides = names.length > 1 ? (piece.sidesMode === 'same' ? `same on all ${names.length} sides` : 'each side different') : 'one print area';
-        lines.push(`Product: ${product.name}`, `Option: ${row ? row.label : '-'}`, `Quantity: ${piece.qty}`, `Template: ${piece.templateId}`, `Sides: ${sides}`);
-      });
-      const f = doc.project.fields;
-      lines.push(`Text: ${[f.name, f.line2, f.phone, f.web].filter(Boolean).join(' | ') || '-'}`);
-      const p = doc.project.palette;
-      lines.push(`Colors: primary ${p.primary}, accent ${p.accent}, ink ${p.ink}`);
-      if (doc.project.logos.length) lines.push('Logo files: ' + doc.project.logos.map((l) => l.name).join(', '));
-      lines.push(`Price shown: ${money(t.total)}, free shipping in the lower 48`);
-    }
-    lines.push('', 'Attach the file you downloaded (it has the previews). This is a preview, not the print file. Reply with the free proof.');
-    return lines.join('\n');
-  }
-
-  function download(blob, name) {
-    const url = URL.createObjectURL(blob);
-    const a = h('a', { href: url, download: name, style: { display: 'none' } });
-    document.body.append(a);
-    a.click();
-    setTimeout(() => {
-      a.remove();
-      URL.revokeObjectURL(url);
-    }, 4000);
-  }
-
-  function openMail(ref, contact, extra) {
-    const subject = `Design proof request ${ref}`;
-    let body = summaryText(ref, contact, extra);
-    if (body.length > 1700) body = body.slice(0, 1650) + '\n(shortened)';
-    const url = `mailto:${MAILTO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    if (ctx.debug) ctx.debug.lastMailto = url;
-    if (!(ctx.debug && ctx.debug.noNavigate)) window.location.href = url;
-    return url;
-  }
-
-  async function fallbackFiles(ref, contact, previews, extra) {
-    const files = [];
-    const enc = new TextEncoder();
-    for (const p of previews) files.push({ name: p.name, data: new Uint8Array(await p.blob.arrayBuffer()) });
-    files.push({ name: 'summary.txt', data: enc.encode(summaryText(ref, contact, extra)) });
-    if (!(extra && extra.mode === 'design_for_me')) files.push({ name: 'design.json', data: enc.encode(JSON.stringify(S.doc)) });
-    let n = 0;
-    for (const logo of S.doc.project.logos) {
-      const asset = S.assets.get(logo.id);
-      if (asset) {
-        n += 1;
-        const ext = (asset.type.split('/')[1] || 'png').replace('svg+xml', 'svg').replace('jpeg', 'jpg');
-        files.push({ name: `logo-${n}.${ext}`, data: new Uint8Array(await asset.file.arrayBuffer()) });
-      }
-    }
-    return files;
-  }
-
   async function post(fd) {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 25000);
@@ -128,6 +65,26 @@ export function createProof(ctx) {
     } finally {
       clearTimeout(timer);
     }
+  }
+
+  // Plain words for a failed send, plus phone and text links. Never an email link.
+  function reasonText(reason) {
+    if (reason === 'off') return 'Online requests are paused right now.';
+    if (reason === 'rate') return 'You have sent a few requests already. Please try again later.';
+    if (reason === 'too-large') return 'Those files are too big to send. Try smaller ones, or call or text us.';
+    return 'That did not go through, and we are sorry.';
+  }
+
+  function showFailure(error, reason) {
+    error.textContent = '';
+    error.append(
+      `${reasonText(reason)} What you typed is still here. Tap Try again, or call `,
+      h('a', { href: TEL }, PHONE),
+      ' or ',
+      h('a', { href: SMS }, 'text us'),
+      ' and we will take it from there.'
+    );
+    error.hidden = false;
   }
 
   // ---------- dialog frame ----------
@@ -227,7 +184,12 @@ export function createProof(ctx) {
       submit.disabled = true;
       submit.textContent = 'Sending…';
       const contact = { name: name.value.trim(), email: email.value.trim(), phone: phone.value.trim(), eventDate: date.value, notes: notes.value.trim(), hear: hear.value };
-      await send(f, contact, trap.value, extra);
+      const failure = await send(f, contact, trap.value, extra);
+      if (failure) {
+        submit.disabled = false;
+        submit.textContent = 'Try again';
+        showFailure(error, failure);
+      }
     });
     function fail(msg, el) {
       error.textContent = msg;
@@ -256,13 +218,16 @@ export function createProof(ctx) {
     if (res.data && res.data.ok && res.data.emailed) {
       ctx.track('proof_submit_ok', { mode: 'self' });
       stepDone(f, res.data.ref, contact, res.data.order);
-      return;
+      return null;
     }
-    const reason = res.status === 503 ? 'off' : res.data && res.data.ok ? 'not-emailed' : res.status === 0 ? 'network' : (res.data && res.data.error) || 'error';
+    if (res.data && res.data.ok) {
+      ctx.track('proof_submit_ok', { mode: 'self' });
+      stepDone(f, res.data.ref, contact, res.data.order, true);
+      return null;
+    }
+    const reason = res.status === 503 ? 'off' : res.status === 429 ? 'rate' : res.status === 413 ? 'too-large' : res.status === 0 ? 'network' : (res.data && res.data.error) || 'error';
     ctx.track('proof_submit_fallback', { reason });
-    const ref = (res.data && res.data.ref) || makeRef();
-    const files = await fallbackFiles(ref, contact, previews, extra);
-    stepFallback(f, ref, contact, files, extra, reason);
+    return reason;
   }
 
   function etsyLink() {
@@ -271,42 +236,20 @@ export function createProof(ctx) {
     return `https://www.etsy.com/listing/${product.etsyId}`;
   }
 
-  function stepDone(f, ref, contact, order) {
+  function stepDone(f, ref, contact, order, notEmailed) {
     const { body } = f;
     f.title.textContent = 'Got it. Your proof is on the way.';
     body.textContent = '';
     body.append(
       h('p', { class: 'dz-ref' }, 'Reference ', h('b', null, ref)),
       h('p', null, "We'll email your proof within 12 hours, 7 days a week. 3 revisions included. Nothing prints until you approve it."),
+      notEmailed ? h('p', null, 'Our email hiccuped on this one, but your design is saved. If you do not hear from us in a day, call or text ', h('a', { href: TEL }, PHONE), ` and give us ${ref}.`) : null,
       order ? h('p', null, 'Nothing is charged until you approve your proof and pay from your proof link. ', h('a', { href: order.url }, 'See your order status'), '.') : null,
       h('p', { class: 'dz-help' }, 'Prefer Etsy? ', h('a', { href: etsyLink(), target: '_blank', rel: 'noopener' }, 'Order on Etsy'), ` and mention reference ${ref}.`),
       h('div', { class: 'dz-dlg-foot' },
         h('button', { type: 'button', class: 'dz-btn dz-btn-ghost', onclick: () => ctx.copyShareLink() }, 'Copy a link to this design'),
         h('button', { type: 'button', class: 'dz-btn dz-btn-primary', onclick: () => close() }, 'Done'))
     );
-  }
-
-  function stepFallback(f, ref, contact, files, extra, reason) {
-    const { body } = f;
-    f.title.textContent = 'One more step to send it';
-    body.textContent = '';
-    const zipName = `getseen-design-${ref}.zip`;
-    const blob = new Blob([zipStore(files)], { type: 'application/zip' });
-    download(blob, zipName);
-    body.append(
-      h('p', { class: 'dz-ref' }, 'Reference ', h('b', null, ref)),
-      h('p', null, reason === 'not-emailed'
-        ? 'We saved your design, but our email did not go out. Please send it to us by email:'
-        : 'Our online form is not available right now, so we put your files in one download and opened an email to us:'),
-      h('ol', { class: 'dz-steps' },
-        h('li', null, 'Attach the file ', h('b', null, zipName), ' that just downloaded.'),
-        h('li', null, `Send the email to ${MAILTO}. It already has your details and the reference.`)),
-      h('p', { class: 'dz-help' }, "We'll reply with your free proof within 12 hours, 7 days a week."),
-      h('div', { class: 'dz-dlg-foot' },
-        h('button', { type: 'button', class: 'dz-btn dz-btn-ghost', onclick: () => download(blob, zipName) }, 'Download my files again'),
-        h('button', { type: 'button', class: 'dz-btn dz-btn-primary', onclick: () => openMail(ref, contact, extra) }, 'Open my email'))
-    );
-    setTimeout(() => openMail(ref, contact, extra), 700);
   }
 
   // ---------- "Rather we design it" ----------
@@ -354,34 +297,26 @@ export function createProof(ctx) {
       fd.append('_gotcha', trap.value || '');
       [...logo.files].slice(0, 4).forEach((file, i) => fd.append(`logo-${i}`, file));
       const res = await post(fd);
-      if (res.data && res.data.ok && res.data.emailed) {
+      if (res.data && res.data.ok) {
         ctx.track('proof_submit_ok', { mode: 'design_for_me' });
         f.title.textContent = 'Got it.';
         body.textContent = '';
-        body.append(h('p', { class: 'dz-ref' }, 'Reference ', h('b', null, res.data.ref)), h('p', null, 'Your free proof is coming within 12 hours, 7 days a week.'), h('div', { class: 'dz-dlg-foot' }, h('button', { type: 'button', class: 'dz-btn dz-btn-primary', onclick: () => close() }, 'Done')));
+        body.append(
+          h('p', { class: 'dz-ref' }, 'Reference ', h('b', null, res.data.ref)),
+          h('p', null, 'Your free proof is coming within 12 hours, 7 days a week.'),
+          res.data.emailed ? null : h('p', null, 'Our email hiccuped on this one, but your request is saved. If you do not hear from us in a day, call or text ', h('a', { href: TEL }, PHONE), ` and give us ${res.data.ref}.`),
+          h('div', { class: 'dz-dlg-foot' }, h('button', { type: 'button', class: 'dz-btn dz-btn-primary', onclick: () => close() }, 'Done'))
+        );
         return;
       }
-      const reason = res.status === 503 ? 'off' : res.status === 0 ? 'network' : (res.data && res.data.error) || 'error';
+      const reason = res.status === 503 ? 'off' : res.status === 429 ? 'rate' : res.status === 413 ? 'too-large' : res.status === 0 ? 'network' : (res.data && res.data.error) || 'error';
       ctx.track('proof_submit_fallback', { reason });
-      const ref = (res.data && res.data.ref) || makeRef();
-      f.title.textContent = 'One more step to send it';
-      body.textContent = '';
-      const url = openMailLater(ref, contact, extra);
-      body.append(
-        h('p', { class: 'dz-ref' }, 'Reference ', h('b', null, ref)),
-        h('p', null, 'Our online form is not available right now, so we opened an email to us with your details. Send it, and attach your logo to that email if you have one.'),
-        h('p', { class: 'dz-help' }, `If no email opened, write to ${MAILTO} and mention ${ref}.`),
-        h('div', { class: 'dz-dlg-foot' }, h('button', { type: 'button', class: 'dz-btn dz-btn-primary', onclick: () => openMail(ref, contact, extra) }, 'Open my email'))
-      );
-      void url;
+      submit.disabled = false;
+      submit.textContent = 'Try again';
+      showFailure(error, reason);
     });
     body.append(form);
     name.focus();
-  }
-
-  function openMailLater(ref, contact, extra) {
-    setTimeout(() => openMail(ref, contact, extra), 600);
-    return null;
   }
 
   return { openSend, openHelp, close, buildPreviews, makeRef };

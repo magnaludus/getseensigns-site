@@ -177,7 +177,7 @@ def foot(chat=True):
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
       <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
-      <div><p class="fh">Shop</p><a href="/shop/">Shop all products</a><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
+      <div><p class="fh">Shop</p><a href="/shop/">Shop all products</a><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
     </div>
   </div>
   <div class="wrap legal">
@@ -216,7 +216,7 @@ def quote_cta(product_label, extra=''):
     return f'''<section class="sec yellow cta-band">
   <div class="wrap cta-band-in">
     <div><p class="eyebrow">Free proof · free shipping</p><h2>Need a custom size, a rush or a big order?</h2><p>Tell us what you need and we'll reply with a price and next steps, usually within 1 business day.{extra}</p></div>
-    <div class="cta-row"><a class="btn btn-ink" href="/?product={urllib.parse.quote_plus(product_label)}#quote">Get a quote <span aria-hidden="true">→</span></a><a class="btn btn-line" href="mailto:sales@getseensignsco.com?subject={urllib.parse.quote('Quote: '+product_label)}">Email us</a></div>
+    <div class="cta-row"><a class="btn btn-ink" href="/?product={urllib.parse.quote_plus(product_label)}#quote">Get a quote <span aria-hidden="true">→</span></a></div>
     <p class="reach-line">Or <a href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">text us</a>, <a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">chat on WhatsApp</a>, or call <a href="{TEL_HREF}" >{PHONE_DISPLAY}</a>.</p>
   </div>
 </section>'''
@@ -630,7 +630,7 @@ def design_page(path, title, desc, h1, lede, items, pre_html, product_id, copy_h
     page=page.replace('</body>',('' if hub else DESIGN_PRELOAD)+f'<script type="module" src="/assets/design/{"hub" if hub else "main"}.js"></script>\n</body>',1)
     write(path, page)
 
-NOSCRIPT=f'<noscript><p>The designer needs JavaScript. Email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a>, <a href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">text us</a>, or <a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">chat on WhatsApp</a> at <a href="{TEL_HREF}" >{PHONE_DISPLAY}</a> and we will make the proof with you.</p></noscript>'
+NOSCRIPT=f'<noscript><p>The designer needs JavaScript. You can <a href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">text us</a>, or <a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">chat on WhatsApp</a>, or call <a href="{TEL_HREF}" >{PHONE_DISPLAY}</a>, and we will make the proof with you.</p></noscript>'
 
 # hub: /design/ lists the five products as plain links. The editor itself lives on the product pages.
 _cards=''.join(
@@ -668,7 +668,6 @@ for d in DESIGN_PRODUCTS:
 def _legal_inline(s):
     s=e(s)
     s=_r0.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
-    s=s.replace('sales@getseensignsco.com', '<a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a>')
     s=s.replace(PHONE_DISPLAY, f'<a href="{TEL_HREF}" >{PHONE_DISPLAY}</a>')
     opt='tools.google.com/dlpage/gaoptout'
     s=s.replace(opt, f'<a href="https://{opt}" rel="noopener noreferrer">{opt}</a>')
@@ -743,33 +742,12 @@ write_doc('/terms', 'Terms of Service | Get Seen Signs',
 write_doc('/privacy', 'Privacy Policy | Get Seen Signs',
           'How Get Seen Signs handles the information you share with us.',
           render_legal(PRIVACY_MD))
-_sms,_wa,_tel=reach_links()
-_call=f'<a class="btn btn-y btn-sm" href="{TEL_HREF}" aria-label="Call {PHONE_DISPLAY} to reach Get Seen Signs">Call {PHONE_DISPLAY}</a>'
-_text=_sms.replace('<a ', '<a class="btn btn-ink btn-sm" ', 1)
-_whats=_wa.replace('<a ', '<a class="btn btn-line btn-sm" ', 1)
-CONTACT_BODY=f'''<h1>Contact</h1>
-<p>Get Seen Signs</p>
-<p>Smiths Station, AL</p>
-<p><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a></p>
-<p><a href="{TEL_HREF}" >{PHONE_DISPLAY}</a></p>
-<div class="reach">
-  <p class="reach-kicker">Text, WhatsApp or call</p>
-  <div class="cta-row">{_text}{_whats}{_call}</div>
-</div>
-<p>For a price on a custom order, use the quote form.</p>
-<p><a class="btn btn-ink" href="/#quote">Get a quote <span aria-hidden="true">→</span></a></p>'''
-if 'Scott' in CONTACT_BODY or _r0.search(r'\b(Street|Avenue|Road|Lane|Drive|Blvd|Boulevard)\b', CONTACT_BODY):
-    raise SystemExit('contact page has a personal name or a street address')
-write_doc('/contact', 'Contact | Get Seen Signs',
-          'Contact Get Seen Signs in Smiths Station, AL. Email sales@getseensignsco.com or call (334) 232-9003.',
-          CONTACT_BODY)
-
 # ---------- sitemap, robots ----------
 LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
-LASTMOD['/terms']='2026-10-28'; LASTMOD['/contact']='2026-10-27'
-LASTMOD['/privacy']='2026-10-28'
-urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/terms','/privacy','/contact']
+LASTMOD['/terms']='2026-10-28'; LASTMOD['/contact']='2026-10-28'
+LASTMOD['/privacy']='2026-10-28'; LASTMOD['/quote']='2026-10-28'
+urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/terms','/privacy','/contact','/quote']
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)
 open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
@@ -838,9 +816,34 @@ REACH_HOME=f'''<div class="reach">
           <a class="btn btn-ink btn-sm" href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">Text us</a>
           <a class="btn btn-line btn-sm" href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">Chat on WhatsApp</a>
         </div>
-        <p class="mail">Call <a href="{TEL_HREF}" >{PHONE_DISPLAY}</a> · or email <a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a></p>
+        <p class="mail">Prefer to talk? Call <a href="{TEL_HREF}" >{PHONE_DISPLAY}</a>.</p>
       </div>'''
-main=main.replace('{{BIZ}}','\n'.join(hcard(k) for k in BIZK)).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options).replace('{{REACH}}',REACH_HOME)
+def quote_form(selected=''):
+    """The one quote form (home, /quote, /contact). Posts to /api/quote-request through assets/site.js.
+    It never opens an email app: on a failure the page keeps the answers, retries and offers phone or text."""
+    opts=options
+    if selected:
+        opts=opts.replace(f'<option>{selected}</option>', f'<option selected>{selected}</option>')
+    return f"""<!-- Posts to /api/quote-request (saved in D1, emailed through Brevo). Nothing here opens a visitor's email app. -->
+    <form class="quote-form" id="quote-form" data-endpoint="/api/quote-request" novalidate>
+      <div class="f2">
+        <label>Name<input name="name" autocomplete="name" required></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+      </div>
+      <label>Product<select name="product" required><option value="">Choose a product…</option>{opts}</select></label>
+      <div class="f3">
+        <label>Quantity<input name="quantity" type="number" min="1" inputmode="numeric" placeholder="e.g. 50"></label>
+        <label>Size<input name="size" placeholder="e.g. 18×24"></label>
+        <label>Needed by<input name="needed_by" type="date"></label>
+      </div>
+      <label>Details<textarea name="details" rows="4" placeholder="Text, colors, where it'll be used, sides, anything else."></textarea></label>
+      <p class="note"><b>Have a logo or photo?</b> Send the request first, then reply to our email with your file attached (PNG, JPG, PDF, SVG or AI).</p>
+      <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-ink" type="submit">Send quote request <span aria-hidden="true">→</span></button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>"""
+
+main=main.replace('{{QUOTE_FORM}}',quote_form()).replace('{{BIZ}}','\n'.join(hcard(k) for k in BIZK)).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options).replace('{{REACH}}',REACH_HOME)
 LOCALSEC='''
 <section class="sec paper2" id="local">
   <div class="wrap">
@@ -865,6 +868,58 @@ title='Custom Yard Signs, Banners, Flags & Tents | Get Seen Signs'
 desc='Custom yard signs, banners, feather flags, car magnets, backdrops and canopy tents. Free design proof, free shipping. Veteran-owned, Smiths Station, AL.'
 page=head(title,desc,'/',ld({"@type":"WebPage","@id":BASE+"/","url":BASE+"/","name":title,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}},faqpage(home_faqs)))+NAV.replace('href="/#products"','href="#products"')+main+'\n'+foot()
 write('/',page)
+
+_sms,_wa,_tel=reach_links()
+_call=f'<a class="btn btn-y btn-sm" href="{TEL_HREF}" aria-label="Call {PHONE_DISPLAY} to reach Get Seen Signs">Call {PHONE_DISPLAY}</a>'
+_text=_sms.replace('<a ', '<a class="btn btn-ink btn-sm" ', 1)
+_whats=_wa.replace('<a ', '<a class="btn btn-line btn-sm" ', 1)
+
+# ---------- /quote and /contact: both carry the working quote form ----------
+QUOTE_TITLE='Get a Quote | Get Seen Signs'
+QUOTE_DESC='Tell us what you need and Get Seen Signs will reply with a price and next steps, usually within 1 business day. Free design help and digital proof.'
+_qitems=[('Home','/'),('Get a quote','/quote')]
+quote_page=head(QUOTE_TITLE,QUOTE_DESC,'/quote',ld(crumbs(_qitems),{"@type":"WebPage","@id":BASE+"/quote","url":BASE+"/quote","name":QUOTE_TITLE,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}))+NAV+f"""<main id="main">
+<section class="phero ink">
+  <div class="wrap">
+    {bc_html(_qitems)}
+    <h1>Get a <span class="block">quote.</span></h1>
+    <p class="lede">Big order, custom size, a rush, or something not in the shop? Send the details and we'll reply with a price and next steps, usually within 1 business day.</p>
+  </div>
+</section>
+<section class="sec yellow" id="quote">
+  <div class="wrap quote-in">
+    <div class="quote-copy">
+      <ul class="checks">
+        <li>Free design help and digital proof</li>
+        <li>Volume pricing for teams, campaigns and franchises</li>
+        <li>Ships anywhere in the US</li>
+      </ul>
+      {REACH_HOME}
+    </div>
+    {quote_form()}
+  </div>
+</section>
+</main>
+"""+foot()
+write('/quote.html',quote_page)
+
+CONTACT_BODY=f"""<h1>Contact</h1>
+<p>Get Seen Signs</p>
+<p>Smiths Station, AL</p>
+<p>sales@getseensignsco.com</p>
+<p><a href="{TEL_HREF}" >{PHONE_DISPLAY}</a></p>
+<div class="reach">
+  <p class="reach-kicker">Text, WhatsApp or call</p>
+  <div class="cta-row">{_text}{_whats}{_call}</div>
+</div>
+<h2>Send us a message</h2>
+<p>Questions, a custom size, a rush, or a price on a custom order? Send it here and we'll reply, usually within 1 business day.</p>
+{quote_form('Something else')}"""
+if 'Scott' in CONTACT_BODY or _r0.search(r'\b(Street|Avenue|Road|Lane|Drive|Blvd|Boulevard)\b', CONTACT_BODY):
+    raise SystemExit('contact page has a personal name or a street address')
+write_doc('/contact', 'Contact | Get Seen Signs',
+          'Contact Get Seen Signs in Smiths Station, AL. Send a message through our form or call (334) 232-9003.',
+          CONTACT_BODY)
 
 # ---------- shop page: every product with its "from" price and a way to order ----------
 def shop_card(k):

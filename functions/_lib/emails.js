@@ -53,7 +53,7 @@ export function layout({ heading, preheader, bodyHtml }) {
     '<div style="font-family:' + HEAD_FONT + ';font-weight:900;font-size:20px;letter-spacing:.08em;text-transform:uppercase;color:#ffffff">Get Seen Signs</div>' +
     '<div>Veteran-owned, family-run online sign shop. Smiths Station, AL.</div>' +
     '<div style="margin-top:8px"><a href="tel:' + SHOP_PHONE_TEL + '" style="color:#ffffff;font-weight:700;text-decoration:none">' + SHOP_PHONE + '</a> &middot; ' +
-    '<a href="mailto:' + SHOP_EMAIL + '" style="color:#BDBAB2">' + SHOP_EMAIL + '</a> &middot; <a href="' + SITE + '/" style="color:#BDBAB2">getseensignsco.com</a></div>' +
+    SHOP_EMAIL + ' &middot; <a href="' + SITE + '/" style="color:#BDBAB2">getseensignsco.com</a></div>' +
     '<div style="margin-top:8px;font-size:13px"><a href="' + SITE + '/terms" style="color:#8D8A83">Terms</a> &middot; <a href="' + SITE + '/privacy" style="color:#8D8A83">Privacy</a></div>' +
     '</td></tr></table></td></tr></table></body></html>'
   );

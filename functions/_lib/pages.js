@@ -65,7 +65,7 @@ const FOOT = `<footer class="foot">
       <p class="foot-tag">Veteran-owned, family-run online sign shop. Smiths Station, AL.</p>
     </div>
     <div class="foot-cols">
-      <div><p class="fh">Reach us</p><a class="foot-phone" href="tel:${SHOP_PHONE_TEL}" aria-label="Call Get Seen Signs at ${SHOP_PHONE}">${SHOP_PHONE}</a><a href="sms:${SHOP_PHONE_TEL}?body=Hi%2C%20I%20have%20a%20question%20about%20my%20order" aria-label="Text Get Seen Signs at ${SHOP_PHONE}">Text us</a><a href="mailto:${SHOP_EMAIL}">${SHOP_EMAIL}</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a></div>
+      <div><p class="fh">Reach us</p><a class="foot-phone" href="tel:${SHOP_PHONE_TEL}" aria-label="Call Get Seen Signs at ${SHOP_PHONE}">${SHOP_PHONE}</a><a href="sms:${SHOP_PHONE_TEL}?body=Hi%2C%20I%20have%20a%20question%20about%20my%20order" aria-label="Text Get Seen Signs at ${SHOP_PHONE}">Text us</a><a href="/contact">Send a message</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a></div>
     </div>
   </div>
   <div class="wrap legal"><p>&copy; <span id="yr">2026</span> Get Seen Signs. Smiths Station, AL.</p></div>
@@ -166,13 +166,13 @@ ${left > 0 ? `<form method="post" action="/proof/${esc(order.token)}">
     body = `${ref}
 <h1>We are making your proof</h1>
 <p class="lead">We got your order request. Your free proof will be emailed to you within 12 hours, 7 days a week, with 3 revisions included. Nothing is charged and nothing prints until you approve the proof and pay.</p>
-<p class="fine">Questions? Call ${SHOP_PHONE} or email <a href="mailto:${SHOP_EMAIL}">${SHOP_EMAIL}</a>.</p>`;
+<p class="fine">Questions? Call ${SHOP_PHONE} or <a href="/contact">send us a message</a>.</p>`;
   } else if (order.status === 'revision_requested') {
     body = `${ref}
 <h1>We are on it</h1>
 ${alertBox('ok', o.notice)}${alertBox('bad', o.error)}
 <p class="lead">We got your change request and will email a new proof within 12 hours. You have used ${esc(order.revisions_used)} of ${MAX_FREE_REVISIONS} free revisions.</p>
-<p class="fine">Questions? Call ${SHOP_PHONE} or email <a href="mailto:${SHOP_EMAIL}">${SHOP_EMAIL}</a>.</p>`;
+<p class="fine">Questions? Call ${SHOP_PHONE} or <a href="/contact">send us a message</a>.</p>`;
   } else {
     body = `${ref}
 <h1>Proof ${order.status === 'approved' || order.status === 'paid' || order.status === 'shipped' ? 'approved' : 'closed'}</h1>
@@ -221,7 +221,7 @@ ${stepsHtml}
 ${pay}${ship}
 <section class="ocard" aria-label="Order summary"><h2>Your order</h2>${summary(items, order)}${order.amount_total_cents != null ? `<p class="fine">Paid in full: ${esc(money(order.amount_total_cents))} including sales tax${order.amount_tax_cents ? ' of ' + esc(money(order.amount_tax_cents)) : ''}.</p>` : ''}</section>
 <div class="row-btns">${order.status === 'proof_sent' ? `<a class="btn btn-y" href="/proof/${esc(order.token)}">Review your proof</a>` : approval ? `<a class="btn btn-line" href="/proof/${esc(order.token)}">View approved proof</a>` : ''}</div>
-<p class="fine">Questions? Call <a href="tel:${SHOP_PHONE_TEL}">${SHOP_PHONE}</a> or email <a href="mailto:${SHOP_EMAIL}">${SHOP_EMAIL}</a>.</p>`;
+<p class="fine">Questions? Call <a href="tel:${SHOP_PHONE_TEL}">${SHOP_PHONE}</a> or <a href="/contact">send us a message</a>.</p>`;
   return shell({ title: 'Order status', body, refresh: confirming ? 6 : 0 });
 }
 

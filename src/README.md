@@ -11,7 +11,7 @@ Cloudflare Pages publishes `main` automatically about a minute after every merge
 | `src/seo_products.py` | Product page copy, FAQs and the "from" prices (`price=`). `price=None` shows no price and adds no Offer. Optional per product: `etsy='<listing id>'` (leave it out for a product with no Etsy listing, like `custom-patches`: the page then has no Etsy links and its Offers point at its own page), `videos=[(file, label)]` (files in `assets/video/NN-name.mp4` plus `NN-name-poster.jpg`, embedded muted with a poster and `preload="none"`), `gallery_extra=[(image base, alt)]`, and `turnaround='...'` with `handling=(lo,hi)`, `transit=(lo,hi)` for products that do not use Etsy's standard "Arrives 3-8 business days after proof approval; tents and backdrops 5-10 business days." |
 | `src/seo_pages.py` | Local landing pages, blog posts and the gameday page. |
 | `src/site-src-index.tpl.html` | Home page body (between `<main>` and `</main>`). |
-| `src/site-src-pages.py` | Builds every HTML page, sitemap.xml, robots.txt and 404.html. Shared head, nav, footer and the shipping schema (`shipping_details`, `TRANSIT`, `RETURNS`). |
+| `src/site-src-pages.py` | Builds every HTML page (including `/quote` and `/contact`, which carry the same working quote form as the home page, from one `quote_form()`), sitemap.xml, robots.txt and 404.html. Shared head, nav, footer and the shipping schema (`shipping_details`, `TRANSIT`, `RETURNS`). |
 | `src/design_catalog.json` | Designer products, option groups, fonts, palettes and scenes. Prices are not stored here. |
 | `src/order_catalog.py` | Self-serve ordering: maps every product page's options to a saved Stripe SKU and writes `assets/order/catalog.json`. The build stops if a price disagrees with `functions/_lib/catalog.js` or a priced option has no SKU. |
 | `assets/order/` | The order panel (`order.js`, `order.css`) and the generated `catalog.json`. |
@@ -92,17 +92,13 @@ The current 2048 files are 2x upscales of the 1024 photos, because no larger ori
 
 ### Sending a proof request
 
-The form posts to `POST /api/design-proof` (the design as JSON, the customer's details, a preview PNG per side and any logo files). Until that function is switched on it answers 503 and the page uses the fallback, which needs no server:
-
-- It downloads `getseen-design-GS-XXXXXXXX.zip` with the previews, the design file, the logo and a plain-text summary.
-- It opens a `mailto:sales@getseensignsco.com` message with the summary and the same `GS-XXXXXXXX` reference.
-- The customer attaches the zip. Browsers cannot attach files to a mailto link for them.
+The form posts to `POST /api/design-proof` (the design as JSON, the customer's details, a preview PNG per side and any logo files). Until that function is switched on it answers 503. **Nothing on the site ever opens the visitor's email app** (a test, `.design-dev/tests/unit/no-mailto.test.mjs`, fails the build if a `mailto:` shows up anywhere). On a failure (503, server error, network, too many requests) the dialog stays open with everything the customer typed, says so in plain words, turns the button into "Try again" and offers the call and text links for (334) 232-9003. The designer does not retry by itself, because a repeated send could create a second order; the customer taps Try again. If the request was saved but the shop email failed (`ok: true, emailed: false`), the page shows the reference and asks them to call or text if they hear nothing in a day.
 
 "Rather have us design it" sends only the short form (the wording, the products and a link to their website or logo).
 
 ### Turn on the Pages Function
 
-Do this in the Cloudflare account that already hosts the site. Do not create a new service, and do not put secrets in the repo. Leave it off and the site still deploys; the mailto path keeps working.
+Do this in the Cloudflare account that already hosts the site. Do not create a new service, and do not put secrets in the repo. Leave it off and the site still deploys; the designer and the order panel then tell the visitor to try again or call or text.
 
 **Recommended: D1 + Brevo (the same database and mail account the store checkout uses).** Nothing new to buy, no R2, no Email Routing.
 
@@ -110,9 +106,9 @@ Do this in the Cloudflare account that already hosts the site. Do not create a n
 2. `BREVO_API_KEY` must be set as a secret in Pages → Settings → Environment variables, with `sales@getseensignsco.com` verified as a Brevo sender.
 3. Redeploy (a merge to `main` does that). No other variable is needed: the function turns itself on when both `DB` and `BREVO_API_KEY` exist.
 
-`DESIGN_PROOF_ENABLED` is optional: `false` forces the function off (the page uses the mailto path), `true` forces it on, anything else or unset means "on when `DB` and `BREVO_API_KEY` are both present".
+`DESIGN_PROOF_ENABLED` is optional: `false` forces the function off (the page asks the visitor to try again or call or text), `true` forces it on, anything else or unset means "on when `DB` and `BREVO_API_KEY` are both present".
 
-What happens to a request: it is saved in D1 (`design_proof_requests`: the request fields, the design JSON, the file list with sizes and SHA-256 hashes, and the email status; no IP, cookie or user agent), and emailed through Brevo to `sales@getseensignsco.com` from "Get Seen Signs <sales@getseensignsco.com>" with Reply-To set to the customer, the previews first and then the logos attached while they total under 3 MB. Files that did not fit are saved in D1 (`design_proof_files`, base64 chunks of 256 KB, up to 10 MB per request) and the email says so; anything beyond that is only listed, with a note to ask the customer to reply with it. The customer gets a short confirmation email with the reference and the 12-hour promise. The page shows success only when the email to the shop went out; if Brevo is down the request is still saved, and the customer sees the mailto fallback with their reference. Read requests back with `GET /api/admin/design-proofs`, `GET /api/admin/design-proofs/<ref>` and `GET /api/admin/design-proofs/<ref>/<file>` (bearer `ADMIN_TOKEN`).
+What happens to a request: it is saved in D1 (`design_proof_requests`: the request fields, the design JSON, the file list with sizes and SHA-256 hashes, and the email status; no IP, cookie or user agent), and emailed through Brevo to `sales@getseensignsco.com` from "Get Seen Signs <sales@getseensignsco.com>" with Reply-To set to the customer, the previews first and then the logos attached while they total under 3 MB. Files that did not fit are saved in D1 (`design_proof_files`, base64 chunks of 256 KB, up to 10 MB per request) and the email says so; anything beyond that is only listed, with a note to ask the customer to reply with it. The customer gets a short confirmation email with the reference and the 12-hour promise. The page shows success only when the email to the shop went out; if Brevo is down the request is still saved, and the customer sees their reference and is asked to call or text if they hear nothing. Read requests back with `GET /api/admin/design-proofs`, `GET /api/admin/design-proofs/<ref>` and `GET /api/admin/design-proofs/<ref>/<file>` (bearer `ADMIN_TOKEN`).
 
 **Older option: R2 + Email Routing (still supported, not required).**
 

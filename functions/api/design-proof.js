@@ -7,7 +7,7 @@
 //            (SEND_EMAIL binding with DESIGN_PROOF_TO and DESIGN_PROOF_FROM) for the request email only.
 //
 // On or off:
-//   DESIGN_PROOF_ENABLED = "false"  always off (503 {enabled:false}); the page keeps its mailto + PNG path.
+//   DESIGN_PROOF_ENABLED = "false"  always off (503 {enabled:false}); the page tells the visitor to try again or call or text.
 //   DESIGN_PROOF_ENABLED = "true"   on (needs at least one storage binding, otherwise 500 storage).
 //   anything else or unset          on when the DB binding and BREVO_API_KEY are both present, otherwise off.
 //

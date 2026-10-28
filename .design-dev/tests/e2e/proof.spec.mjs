@@ -1,11 +1,8 @@
-// The proof request: what the page sends when the function is on, and the fallback (a zip of
-// previews plus a prefilled email with a reference) when it answers 503 or fails.
+// The proof request: what the page sends when the function is on, and what it does when the function answers 503
+// or fails: it never opens the visitor's email app. The form stays open with everything typed, says so, and offers
+// Try again plus call and text links.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { execFileSync } from 'node:child_process';
-import { mkdtempSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
 import { startServer, launch, newPage, openDesigner, makePng } from './helpers.mjs';
 
 async function fillAndSend(page, { skipHoney = true } = {}) {
@@ -56,55 +53,91 @@ test('server on: posts design, request, previews and logo, then shows the refere
   }
 });
 
-test('server off (503): downloads a zip of previews and opens a prefilled email with a reference', async () => {
+test('server off (503): no email app, no download, the form stays open with the answers, Try again, call and text', async () => {
   const server = await startServer();
   const browser = await launch();
-  const dir = mkdtempSync(join(tmpdir(), 'proof-'));
   try {
     const { page, problems } = await newPage(browser, 'phone', { acceptDownloads: true });
-    await page.route('**/api/design-proof', (route) => route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false, enabled: false }) }));
+    let posts = 0;
+    await page.route('**/api/design-proof', (route) => { posts += 1; return route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false, enabled: false }) }); });
     await openDesigner(page, server.base, '/design/canopy-tent/');
-    const dl = page.waitForEvent('download');
+    const opened = [];
+    page.on('download', (d) => opened.push('download ' + d.suggestedFilename()));
+    page.on('request', (req) => { if (req.url().startsWith('mailto:')) opened.push(req.url()); });
     await fillAndSend(page);
-    const download = await dl;
-    assert.match(download.suggestedFilename(), /^getseen-design-GS-[0-9A-Z]{8}\.zip$/);
-    const path = join(dir, download.suggestedFilename());
-    await download.saveAs(path);
-    const listing = JSON.parse(execFileSync('python3', ['-I', '-c', 'import zipfile,sys,json; z=zipfile.ZipFile(sys.argv[1]); assert z.testzip() is None; print(json.dumps({n: z.getinfo(n).file_size for n in z.namelist()}))', path], { encoding: 'utf8' }));
-    const names = Object.keys(listing);
-    assert.ok(names.some((n) => /^preview-1-.*\.png$/.test(n)), 'preview PNG in the zip: ' + names.join(', '));
-    assert.ok(names.includes('summary.txt') && names.includes('design.json'));
-    await page.getByRole('heading', { name: 'One more step to send it' }).waitFor();
-    await page.waitForFunction(() => window.GSSDesigner.lastMailto, null, { timeout: 5000 });
-    const mailto = await page.evaluate(() => window.GSSDesigner.lastMailto);
-    assert.ok(mailto.startsWith('mailto:sales@getseensignsco.com?subject='));
-    const body = decodeURIComponent(mailto.split('body=')[1]);
-    const ref = download.suggestedFilename().match(/GS-[0-9A-Z]{8}/)[0];
-    assert.ok(body.includes('Reference: ' + ref), 'ref is in the email');
-    for (const line of ['Name: Test Customer', 'Email: customer@example.com', 'Product: 10×10 pop-up canopy tent', 'Price shown: $599']) assert.ok(body.includes(line), line);
+    await page.locator('dialog .dz-warn', { hasText: 'Online requests are paused' }).waitFor();
+    const note = page.locator('dialog .dz-warn');
+    assert.match(await note.innerText(), /What you typed is still here/);
+    assert.equal(await note.locator('a[href="tel:+13342329003"]').count(), 1);
+    assert.equal(await note.locator('a[href^="sms:+13342329003"]').count(), 1);
+    assert.equal(await page.locator('dialog a[href^="mailto:"]').count(), 0);
+    assert.equal(await page.locator('dialog input[autocomplete="name"]').inputValue(), 'Test Customer');
+    assert.equal(await page.locator('dialog input[type="email"]').inputValue(), 'customer@example.com');
+    const again = page.getByRole('button', { name: 'Try again' });
+    assert.equal(await again.isDisabled(), false);
+    await page.waitForTimeout(1500);
+    assert.deepEqual(opened, [], 'nothing opened and nothing downloaded');
+    assert.equal(posts, 1);
+    // the second try goes through
+    await page.unroute('**/api/design-proof');
+    await page.route('**/api/design-proof', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, ref: 'GS-RETRY001', emailed: true, stored: true }) }));
+    await again.click();
+    await page.getByRole('heading', { name: /Your proof is on the way/ }).waitFor({ timeout: 15000 });
+    assert.match(await page.locator('.dz-ref').innerText(), /GS-RETRY001/);
     // the browser logs the expected 503 itself; nothing else may be reported
     assert.deepEqual(problems.filter((p) => !/status of 503/.test(p)), []);
     await page.context().close();
   } finally {
-    rmSync(dir, { recursive: true, force: true });
     await browser.close();
     server.stop();
   }
 });
 
-test('stored but not emailed: shows the fallback with the server reference', async () => {
+test('stored but not emailed: shows the reference and says to call or text if no reply, no email app', async () => {
   const server = await startServer();
   const browser = await launch();
   try {
     const { page } = await newPage(browser, 'desktop', { acceptDownloads: true });
     await page.route('**/api/design-proof', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, ref: 'GS-STORED99', emailed: false, stored: true }) }));
     await openDesigner(page, server.base, '/design/table-throw/');
-    const dl = page.waitForEvent('download');
+    const opened = [];
+    page.on('download', (d) => opened.push(d.suggestedFilename()));
+    page.on('request', (req) => { if (req.url().startsWith('mailto:')) opened.push(req.url()); });
     await fillAndSend(page);
-    const download = await dl;
-    assert.match(download.suggestedFilename(), /GS-STORED99\.zip$/);
-    await page.getByRole('heading', { name: 'One more step to send it' }).waitFor();
-    assert.match(await page.locator('.dz-dlg-body').innerText(), /We saved your design, but our email did not go out/);
+    await page.getByRole('heading', { name: /Your proof is on the way/ }).waitFor();
+    const text = await page.locator('.dz-dlg-body').innerText();
+    assert.match(text, /GS-STORED99/);
+    assert.match(text, /Our email hiccuped on this one, but your design is saved/);
+    assert.equal(await page.locator('dialog a[href^="mailto:"]').count(), 0);
+    await page.waitForTimeout(1500);
+    assert.deepEqual(opened, []);
+    await page.context().close();
+  } finally {
+    await browser.close();
+    server.stop();
+  }
+});
+
+test('"Rather we design it" on a failure keeps the form, says so and offers Try again, with no email app', async () => {
+  const server = await startServer();
+  const browser = await launch();
+  try {
+    const { page } = await newPage(browser, 'desktop');
+    await page.route('**/api/design-proof', (route) => route.fulfill({ status: 500, contentType: 'application/json', body: JSON.stringify({ ok: false, error: 'server' }) }));
+    await openDesigner(page, server.base, '/design/vinyl-banner/');
+    const opened = [];
+    page.on('request', (req) => { if (req.url().startsWith('mailto:')) opened.push(req.url()); });
+    await page.getByRole('button', { name: "Rather we design it? It's free." }).first().click();
+    await page.locator('dialog input[autocomplete="name"]').fill('Help Customer');
+    await page.locator('dialog input[type="email"]').fill('help@example.com');
+    await page.locator('dialog textarea').first().fill('GRAND OPENING SATURDAY');
+    await page.getByRole('button', { name: 'Send it to us' }).click();
+    await page.locator('dialog .dz-warn', { hasText: 'That did not go through' }).waitFor();
+    assert.equal(await page.locator('dialog textarea').first().inputValue(), 'GRAND OPENING SATURDAY');
+    assert.equal(await page.locator('dialog .dz-warn a[href="tel:+13342329003"]').count(), 1);
+    assert.equal(await page.locator('dialog a[href^="mailto:"]').count(), 0);
+    assert.equal(await page.getByRole('button', { name: 'Try again' }).isDisabled(), false);
+    assert.deepEqual(opened, []);
     await page.context().close();
   } finally {
     await browser.close();

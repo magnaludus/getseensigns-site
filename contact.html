@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact | Get Seen Signs</title>
-<meta name="description" content="Contact Get Seen Signs in Smiths Station, AL. Email sales@getseensignsco.com or call (334) 232-9003.">
+<meta name="description" content="Contact Get Seen Signs in Smiths Station, AL. Send a message through our form or call (334) 232-9003.">
 <link rel="canonical" href="https://getseensignsco.com/contact">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#14161A">
@@ -12,13 +12,13 @@
 <meta property="og:site_name" content="Get Seen Signs">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="Contact | Get Seen Signs">
-<meta property="og:description" content="Contact Get Seen Signs in Smiths Station, AL. Email sales@getseensignsco.com or call (334) 232-9003.">
+<meta property="og:description" content="Contact Get Seen Signs in Smiths Station, AL. Send a message through our form or call (334) 232-9003.">
 <meta property="og:url" content="https://getseensignsco.com/contact">
 <meta property="og:image" content="https://getseensignsco.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Contact | Get Seen Signs">
-<meta name="twitter:description" content="Contact Get Seen Signs in Smiths Station, AL. Email sales@getseensignsco.com or call (334) 232-9003.">
+<meta name="twitter:description" content="Contact Get Seen Signs in Smiths Station, AL. Send a message through our form or call (334) 232-9003.">
 <meta name="twitter:image" content="https://getseensignsco.com/assets/og-image.jpg">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -60,14 +60,32 @@
 <h1>Contact</h1>
 <p>Get Seen Signs</p>
 <p>Smiths Station, AL</p>
-<p><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a></p>
+<p>sales@getseensignsco.com</p>
 <p><a href="tel:+13342329003" >(334) 232-9003</a></p>
 <div class="reach">
   <p class="reach-kicker">Text, WhatsApp or call</p>
   <div class="cta-row"><a class="btn btn-ink btn-sm" href="sms:+13342329003?body=Hi%2C%20I%20have%20a%20question%20about%20a%20sign" aria-label="Text us at (334) 232-9003">Text us</a><a class="btn btn-line btn-sm" href="https://wa.me/13342329003?text=Hi%2C%20I%20have%20a%20question%20about%20a%20sign" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">Chat on WhatsApp</a><a class="btn btn-y btn-sm" href="tel:+13342329003" aria-label="Call (334) 232-9003 to reach Get Seen Signs">Call (334) 232-9003</a></div>
 </div>
-<p>For a price on a custom order, use the quote form.</p>
-<p><a class="btn btn-ink" href="/#quote">Get a quote <span aria-hidden="true">→</span></a></p>
+<h2>Send us a message</h2>
+<p>Questions, a custom size, a rush, or a price on a custom order? Send it here and we'll reply, usually within 1 business day.</p>
+<!-- Posts to /api/quote-request (saved in D1, emailed through Brevo). Nothing here opens a visitor's email app. -->
+    <form class="quote-form" id="quote-form" data-endpoint="/api/quote-request" novalidate>
+      <div class="f2">
+        <label>Name<input name="name" autocomplete="name" required></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+      </div>
+      <label>Product<select name="product" required><option value="">Choose a product…</option><option>Bulk Yard Signs</option><option>Vinyl Banner</option><option>Feather Flag Kit</option><option>Retractable Banner</option><option>Car Magnet Pair</option><option>Real Estate Sign</option><option>Step & Repeat Backdrop</option><option>Table Throw</option><option>10×10 Canopy Tent</option><option>Trade Show Booth Kit</option><option>Hard Hat Decals</option><option>Aluminum Safety Signs</option><option>Challenge Coins</option><option>Custom Patches</option><option>Metal Business Cards</option><option>Christmas Family Banner</option><option>Senior Night Banner</option><option>Thanksgiving Yard Sign</option><option>Election / campaign signs</option><option>Birthday or graduation sign</option><option selected>Something else</option></select></label>
+      <div class="f3">
+        <label>Quantity<input name="quantity" type="number" min="1" inputmode="numeric" placeholder="e.g. 50"></label>
+        <label>Size<input name="size" placeholder="e.g. 18×24"></label>
+        <label>Needed by<input name="needed_by" type="date"></label>
+      </div>
+      <label>Details<textarea name="details" rows="4" placeholder="Text, colors, where it'll be used, sides, anything else."></textarea></label>
+      <p class="note"><b>Have a logo or photo?</b> Send the request first, then reply to our email with your file attached (PNG, JPG, PDF, SVG or AI).</p>
+      <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-ink" type="submit">Send quote request <span aria-hidden="true">→</span></button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
 </main>
 <footer class="foot">
   <div class="wrap foot-in">
@@ -78,7 +96,7 @@
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p><a href="/bulk-campaign-signs/">Bulk Campaign Yard Signs</a><a href="/vinyl-banners/">Custom Vinyl Banners</a><a href="/feather-flags/">Custom Feather Flags</a><a href="/retractable-banners/">Retractable Banner Stands</a><a href="/car-magnets/">Custom Car Magnets</a><a href="/real-estate-signs/">Real Estate Signs</a><a href="/step-and-repeat-backdrops/">Step and Repeat Backdrops</a><a href="/table-throws/">Custom Table Throws</a><a href="/custom-canopy-tents/">Custom Canopy Tents</a><a href="/trade-show-booth-kit/">Trade Show Booth Kit</a><a href="/hard-hat-decals/">Custom Hard Hat Decals</a><a href="/aluminum-safety-signs/">Custom Aluminum Safety Signs</a><a href="/challenge-coins/">Custom Challenge Coins</a><a href="/custom-patches/">Custom Patches</a><a href="/metal-business-cards/">Metal Business Cards</a><a href="/senior-night-banners/">Senior Night Banners</a><a href="/holiday-yard-signs/">Holiday Yard Signs & Banners</a></div>
       <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
-      <div><p class="fh">Shop</p><a href="/shop/">Shop all products</a><a href="https://www.etsy.com/shop/GetSeenSigns" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><p class="fh mt">Reach us</p><a class="foot-phone" href="tel:+13342329003" >(334) 232-9003</a><a href="sms:+13342329003?body=Hi%2C%20I%20have%20a%20question%20about%20a%20sign" aria-label="Text us at (334) 232-9003">Text us</a><a href="https://wa.me/13342329003?text=Hi%2C%20I%20have%20a%20question%20about%20a%20sign" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">Chat on WhatsApp</a><a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
+      <div><p class="fh">Shop</p><a href="/shop/">Shop all products</a><a href="https://www.etsy.com/shop/GetSeenSigns" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><p class="fh mt">Reach us</p><a class="foot-phone" href="tel:+13342329003" >(334) 232-9003</a><a href="sms:+13342329003?body=Hi%2C%20I%20have%20a%20question%20about%20a%20sign" aria-label="Text us at (334) 232-9003">Text us</a><a href="https://wa.me/13342329003?text=Hi%2C%20I%20have%20a%20question%20about%20a%20sign" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">Chat on WhatsApp</a><a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
     </div>
   </div>
   <div class="wrap legal">
