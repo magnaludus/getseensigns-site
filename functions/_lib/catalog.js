@@ -2,7 +2,7 @@
 // Generated from the account's catalog map; every price is USD, tax behavior exclusive, tax code txcd_20090028.
 // Test-mode keys cannot see these live Price IDs, so stripe.js sends the same amount as price_data instead.
 // An entry with an empty priceId has no saved Stripe Price yet and is always sent as price_data (name and amount below).
-// Every such SKU must be listed in PLACEHOLDER_PRICE_IDS at the bottom; a unit test checks the two agree.
+// Every such SKU must be listed in PLACEHOLDER_PRICE_IDS at the bottom; a unit test checks the two agree (the list is empty today).
 
 export const TAX_CODE = 'txcd_20090028';
 export const SHIPPING_TAX_CODE = 'txcd_92010001';
@@ -73,15 +73,11 @@ export const CATALOG = {
   "safety-12x18-5": { name: "Aluminum Safety Sign Pack (12x18, 5 signs)", priceId: "price_1UV28J67epULNprT4j39c1NI", amount: 11900 },
   "safety-12x18-10": { name: "Aluminum Safety Sign Pack (12x18, 10 signs)", priceId: "price_1UV2Ab67epULNprTdym2Ru9H", amount: 19900 },
   "safety-18x24-5": { name: "Aluminum Safety Sign Pack (18x24, 5 signs)", priceId: "price_1UV2Ad67epULNprTKevwIi3y", amount: 19900 },
-  "safety-12x18-5-hd": { name: "Aluminum Safety Sign Pack (12x18, 5 heavy duty .063)", priceId: "", amount: 16900 },
-  // !!! PLACEHOLDER STRIPE PRICES: CUSTOM PATCHES. These Stripe prices have not been created yet. !!!
-  // priceId is empty on purpose, so checkout sends the name and amount as price_data until the real ids are pasted in.
-  // To finish: create the three prices in Stripe (USD, tax behavior exclusive, tax code txcd_20090028), paste each
-  // price_... id into priceId below, then delete that SKU from PLACEHOLDER_PRICE_IDS. Amounts are in cents.
-  "patch-pvc-50-3in": { name: "Custom Patches (50 PVC, 3 in)", priceId: "", amount: 32900 },
-  "patch-emb-50": { name: "Custom Patches (50 embroidered)", priceId: "", amount: 23900 },
-  "patch-emb-100": { name: "Custom Patches (100 embroidered)", priceId: "", amount: 30900 },
+  "safety-12x18-5-063": { name: "Aluminum Safety Sign Pack (12x18, 5 heavy duty .063)", priceId: "price_1UVNpR67epULNprTAbPoa2eq", amount: 16900 },
+  "patch-pvc-3in-50": { name: "Custom Patches (50 PVC, 3 in)", priceId: "price_1UVNcM67epULNprTeoeIIg0R", amount: 32900 },
+  "patch-emb-50": { name: "Custom Patches (50 embroidered)", priceId: "price_1UVNcP67epULNprTFpBjmMvQ", amount: 23900 },
+  "patch-emb-100": { name: "Custom Patches (100 embroidered)", priceId: "price_1UVNcR67epULNprTbdkhaw6s", amount: 30900 },
 };
 
-// SKUs that still have no saved Stripe Price (empty priceId above). Remove a SKU from this list when its real price id is added.
-export const PLACEHOLDER_PRICE_IDS = ['safety-12x18-5-hd', 'patch-pvc-50-3in', 'patch-emb-50', 'patch-emb-100'];
+// SKUs that still have no saved Stripe Price (empty priceId above). Add a SKU here while its price is a placeholder, remove it once the real price id is saved.
+export const PLACEHOLDER_PRICE_IDS = [];

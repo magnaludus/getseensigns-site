@@ -128,7 +128,7 @@ ORDER = {
         qtyLabel='packs', designer='safety', designerMap={'pack': 'pack'},
         groups=[dict(id='pack', label='Size and pack', choices=[('12x18_5', '12×18 in, 5 signs'), ('12x18_10', '12×18 in, 10 signs'), ('18x24_5', '18×24 in, 5 signs'), ('12x18_5hd', '12×18 in, 5 heavy duty (.063)')])],
         rows=[({'pack': '12x18_5'}, '12×18 in, 5 signs', 'safety-12x18-5'), ({'pack': '12x18_10'}, '12×18 in, 10 signs', 'safety-12x18-10'),
-              ({'pack': '18x24_5'}, '18×24 in, 5 signs', 'safety-18x24-5'), ({'pack': '12x18_5hd'}, '12×18 in, 5 heavy duty (.063)', 'safety-12x18-5-hd')],
+              ({'pack': '18x24_5'}, '18×24 in, 5 signs', 'safety-18x24-5'), ({'pack': '12x18_5hd'}, '12×18 in, 5 heavy duty (.063)', 'safety-12x18-5-063')],
         options=[dict(id='orient', label='Sign layout', choices=[('landscape', 'Landscape'), ('portrait', 'Portrait')], hide={},
                       note='Every sign in a pack can say something different. Put the wording for each sign in the notes.')],
     ),
@@ -140,7 +140,7 @@ ORDER = {
     'custom-patches': dict(
         qtyLabel='orders', upload_only=True,
         groups=[dict(id='pack', label='Patch type and quantity', choices=[('pvc50', '50 PVC patches, 3 in'), ('emb50', '50 embroidered patches'), ('emb100', '100 embroidered patches')])],
-        rows=[({'pack': 'pvc50'}, '50 PVC patches, 3 in', 'patch-pvc-50-3in'), ({'pack': 'emb50'}, '50 embroidered patches', 'patch-emb-50'),
+        rows=[({'pack': 'pvc50'}, '50 PVC patches, 3 in', 'patch-pvc-3in-50'), ({'pack': 'emb50'}, '50 embroidered patches', 'patch-emb-50'),
               ({'pack': 'emb100'}, '100 embroidered patches', 'patch-emb-100')],
     ),
     'senior-night-banners': dict(

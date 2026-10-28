@@ -150,8 +150,8 @@ test('every orderable sku is priced from the server catalog, and the browser cat
   }
 });
 
-test('custom patches are priced on the server from the placeholder SKUs, whatever the browser says', async () => {
-  const cases = [['patch-pvc-50-3in', 32900, 'Custom Patches (50 PVC, 3 in)'], ['patch-emb-50', 23900, 'Custom Patches (50 embroidered)'], ['patch-emb-100', 30900, 'Custom Patches (100 embroidered)']];
+test('custom patches are priced on the server from the saved SKUs, whatever the browser says', async () => {
+  const cases = [['patch-pvc-3in-50', 32900, 'Custom Patches (50 PVC, 3 in)'], ['patch-emb-50', 23900, 'Custom Patches (50 embroidered)'], ['patch-emb-100', 30900, 'Custom Patches (100 embroidered)']];
   for (const [sku, cents, name] of cases) {
     const env = mkEnv();
     const items = [{ sku, quantity: 2, unit_amount_cents: 1, price: 0.01, name: 'Free patches', price_id: 'price_free' }];
@@ -159,7 +159,8 @@ test('custom patches are priced on the server from the placeholder SKUs, whateve
     assert.equal(res.status, 200, JSON.stringify(body));
     assert.equal(body.order.subtotal, cents * 2, sku);
     const stored = JSON.parse(one(env, 'SELECT line_items_json FROM orders').line_items_json)[0];
-    assert.deepEqual([stored.sku, stored.name, stored.unit_amount_cents, stored.price_id], [sku, name, cents, ''], sku + ' has no saved Stripe price yet, so it is billed as price_data');
+    assert.deepEqual([stored.sku, stored.name, stored.unit_amount_cents, stored.price_id], [sku, name, cents, CATALOG[sku].priceId], sku + ' uses its saved Stripe Price');
+    assert.match(stored.price_id, /^price_[A-Za-z0-9]{20,}$/, sku);
     assert.equal(one(env, 'SELECT status FROM orders').status, 'awaiting_proof');
   }
   net.brevo.length = 0;
@@ -171,7 +172,7 @@ test('custom patches are priced on the server from the placeholder SKUs, whateve
   assert.match(all, /Custom Patches \(100 embroidered\)/);
   assert.match(all, /within 12 hours, 7 days a week/);
   assert.doesNotMatch(all, /3-8 business|3 to 8 business|etsy/i, 'the confirmation email makes no standard-turnaround or Etsy claim for patches');
-  for (const skuName of ['patch-pvc-50-3in', 'patch-emb-50', 'patch-emb-100']) assert.ok(orderCatalog.skus[skuName], skuName + ' is orderable');
+  for (const skuName of ['patch-pvc-3in-50', 'patch-emb-50', 'patch-emb-100']) assert.ok(orderCatalog.skus[skuName], skuName + ' is orderable');
   assert.deepEqual(resolveLineItem({ sku: 'patch-emb-50', quantity: 1 }).item.unit_amount_cents, 23900);
 });
 
@@ -209,11 +210,11 @@ test('bad order input is refused before anything is stored or sent', async () =>
 test('wording options become a short note on the line and cannot carry a price or markup into the email', async () => {
   const env = mkEnv();
   const evil = '<script>alert(1)</script>';
-  const { body } = await place(env, uploadReq([{ sku: 'safety-12x18-5-hd', quantity: 1 }], { name: evil }, { options: [{ label: 'Sign layout', value: 'Landscape' }, { label: evil, value: evil }, 'junk', null, { label: 'x'.repeat(100), value: 'y'.repeat(200) }] }));
+  const { body } = await place(env, uploadReq([{ sku: 'safety-12x18-5-063', quantity: 1 }], { name: evil }, { options: [{ label: 'Sign layout', value: 'Landscape' }, { label: evil, value: evil }, 'junk', null, { label: 'x'.repeat(100), value: 'y'.repeat(200) }] }));
   assert.equal(body.ok, true);
   const stored = JSON.parse(one(env, 'SELECT line_items_json FROM orders').line_items_json)[0];
   assert.equal(stored.unit_amount_cents, 16900);
-  assert.equal(stored.price_id, '', 'the heavy duty pack is sent to Stripe as price_data');
+  assert.equal(stored.price_id, 'price_1UVNpR67epULNprTAbPoa2eq', 'the heavy duty pack uses its saved Stripe Price');
   assert.ok(stored.description.length <= 120 && stored.description.startsWith('Sign layout: Landscape'));
   const mail = confirmMail().body;
   assert.ok(!mail.htmlContent.includes(evil));

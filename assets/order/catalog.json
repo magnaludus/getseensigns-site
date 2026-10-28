@@ -1033,7 +1033,7 @@
      "when": {
       "pack": "12x18_5hd"
      },
-     "sku": "safety-12x18-5-hd",
+     "sku": "safety-12x18-5-063",
      "price": 169
     }
    ],
@@ -1138,7 +1138,7 @@
      "when": {
       "pack": "pvc50"
      },
-     "sku": "patch-pvc-50-3in",
+     "sku": "patch-pvc-3in-50",
      "price": 329
     },
     {
@@ -1387,10 +1387,10 @@
   "aluminum-safety-signs|12×18 in, 5 signs": "safety-12x18-5",
   "aluminum-safety-signs|12×18 in, 10 signs": "safety-12x18-10",
   "aluminum-safety-signs|18×24 in, 5 signs": "safety-18x24-5",
-  "aluminum-safety-signs|12×18 in, 5 heavy duty (.063)": "safety-12x18-5-hd",
+  "aluminum-safety-signs|12×18 in, 5 heavy duty (.063)": "safety-12x18-5-063",
   "challenge-coins|50 coins": "coins-50",
   "challenge-coins|100 coins": "coins-100",
-  "custom-patches|50 PVC patches, 3 in": "patch-pvc-50-3in",
+  "custom-patches|50 PVC patches, 3 in": "patch-pvc-3in-50",
   "custom-patches|50 embroidered patches": "patch-emb-50",
   "custom-patches|100 embroidered patches": "patch-emb-100",
   "senior-night-banners|2×3 ft": "senior-2x3",
@@ -1502,7 +1502,7 @@
   "patch-emb-50": {
    "name": "Custom Patches (50 embroidered)"
   },
-  "patch-pvc-50-3in": {
+  "patch-pvc-3in-50": {
    "name": "Custom Patches (50 PVC, 3 in)"
   },
   "re-aluminum": {
@@ -1529,7 +1529,7 @@
   "safety-12x18-5": {
    "name": "Aluminum Safety Sign Pack (12x18, 5 signs)"
   },
-  "safety-12x18-5-hd": {
+  "safety-12x18-5-063": {
    "name": "Aluminum Safety Sign Pack (12x18, 5 heavy duty .063)"
   },
   "safety-18x24-5": {

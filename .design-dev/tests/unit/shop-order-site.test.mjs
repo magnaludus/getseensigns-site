@@ -89,7 +89,7 @@ test('the Custom Patches page: exact prices, upload-only paths, 11 to 15 day tur
   const product = graph.find((n) => n['@type'] === 'Product');
   assert.deepEqual(product.offers.map((o) => [o.price, o.description]), [['329.00', '50 PVC patches, 3 in'], ['239.00', '50 embroidered patches'], ['309.00', '100 embroidered patches']]);
   const data = JSON.parse(/<script type="application\/json" id="order-data">(.*?)<\/script>/s.exec(html)[1]);
-  assert.deepEqual(data.rows.map((r) => [r.sku, r.price]), [['patch-pvc-50-3in', 329], ['patch-emb-50', 239], ['patch-emb-100', 309]]);
+  assert.deepEqual(data.rows.map((r) => [r.sku, r.price]), [['patch-pvc-3in-50', 329], ['patch-emb-50', 239], ['patch-emb-100', 309]]);
   assert.deepEqual(order.products['custom-patches'].rows.map((r) => r.price), [329, 239, 309]);
   for (const price of ['$329', '$239', '$309']) assert.ok(text.includes(price), price);
   assert.match(text, /from<\/small> \$239/);
@@ -139,12 +139,14 @@ test('the Custom Patches page: exact prices, upload-only paths, 11 to 15 day tur
   assert.ok(read('index.html').includes('business days after you approve your proof'));
 });
 
-test('catalog.js lists exactly which SKUs still have no saved Stripe price', () => {
+test('every SKU has a saved Stripe price, and the placeholder list is empty', () => {
   const unsaved = Object.entries(CATALOG).filter(([, e]) => e.priceId === '').map(([sku]) => sku).sort();
   assert.deepEqual(unsaved, [...PLACEHOLDER_PRICE_IDS].sort());
-  assert.deepEqual([...PLACEHOLDER_PRICE_IDS].sort(), ['patch-emb-100', 'patch-emb-50', 'patch-pvc-50-3in', 'safety-12x18-5-hd']);
-  assert.deepEqual([CATALOG['patch-pvc-50-3in'].amount, CATALOG['patch-emb-50'].amount, CATALOG['patch-emb-100'].amount], [32900, 23900, 30900]);
-  assert.match(read('functions/_lib/catalog.js'), /PLACEHOLDER STRIPE PRICES: CUSTOM PATCHES/);
+  assert.deepEqual(PLACEHOLDER_PRICE_IDS, []);
+  assert.deepEqual(unsaved, []);
+  assert.deepEqual([CATALOG['patch-pvc-3in-50'].priceId, CATALOG['patch-emb-50'].priceId, CATALOG['patch-emb-100'].priceId, CATALOG['safety-12x18-5-063'].priceId], ['price_1UVNcM67epULNprTeoeIIg0R', 'price_1UVNcP67epULNprTFpBjmMvQ', 'price_1UVNcR67epULNprTbdkhaw6s', 'price_1UVNpR67epULNprTAbPoa2eq']);
+  assert.ok(!('safety-12x18-5-hd' in CATALOG) && !('patch-pvc-50-3in' in CATALOG), 'old SKU names are gone');
+  assert.deepEqual([CATALOG['patch-pvc-3in-50'].amount, CATALOG['patch-emb-50'].amount, CATALOG['patch-emb-100'].amount], [32900, 23900, 30900]);
 });
 
 test('the Shop page lists every product with its from price and an order link, and is in the sitemap', () => {

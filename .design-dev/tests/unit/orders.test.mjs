@@ -16,7 +16,7 @@ import * as webhook from '../../../functions/api/stripe-webhook.js';
 import { SCHEMA } from '../../../functions/_lib/db.js';
 import { CATALOG, PLACEHOLDER_PRICE_IDS } from '../../../functions/_lib/catalog.js';
 import { textOfMain, readTerms, versionLabel } from '../../../functions/_lib/terms.js';
-import { verifyWebhook, signWebhook, resolveLineItem } from '../../../functions/_lib/stripe.js';
+import { verifyWebhook, signWebhook, resolveLineItem, checkoutParams } from '../../../functions/_lib/stripe.js';
 import { recordHashOf, evidenceCore, CONSENT_TEXT } from '../../../functions/_lib/orders.js';
 import { renderEmail } from '../../../functions/_lib/emails.js';
 import { sha256Hex } from '../../../functions/_lib/util.js';
@@ -211,7 +211,7 @@ test('the catalog has well-formed Stripe prices', () => {
   assert.deepEqual(entries.filter(([, e]) => e.priceId === '').map(([sku]) => sku).sort(), [...PLACEHOLDER_PRICE_IDS].sort());
   for (const [sku, e] of entries) {
     assert.match(sku, /^[a-z0-9.-]+$/);
-    // the heavy duty safety pack and the three custom patch SKUs have no saved Stripe Price yet and are billed with price_data
+    // every SKU has a saved Stripe Price unless it is listed as a placeholder (none today)
     if (PLACEHOLDER_PRICE_IDS.includes(sku)) assert.equal(e.priceId, '', sku);
     else assert.match(e.priceId, /^price_[A-Za-z0-9]{20,}$/, sku);
     assert.ok(Number.isInteger(e.amount) && e.amount >= 2400, sku);
@@ -409,6 +409,23 @@ test('test-mode keys bill the catalog amount with price_data; live keys use the 
   assert.equal(p.get('line_items[0][price_data][unit_amount]'), null);
   assert.equal(p.get('line_items[1][price]'), null, 'custom totals use price_data even with a live key');
   assert.equal(p.get('line_items[1][price_data][unit_amount]'), '14900');
+});
+
+test('patch and heavy duty safety SKUs use their saved Stripe Prices with a live key and price_data in test mode', () => {
+  const items = ['patch-pvc-3in-50', 'patch-emb-50', 'patch-emb-100', 'safety-12x18-5-063'].map((sku) => resolveLineItem({ sku, quantity: 2 }).item);
+  const order = { id: 'GS-UNIT', customer_email: 'a@example.com' };
+  const approval = { id: 'EV-1', approved_at: NOW.toISOString(), proof_version: 1, proof_hash: 'h', terms_hash: 't' };
+  const base = { order, approval, items, successUrl: 'https://x/s', cancelUrl: 'https://x/c', now: NOW };
+  const live = new URLSearchParams(checkoutParams({ ...base, useCatalogPrices: true }));
+  items.forEach((it, i) => {
+    assert.equal(live.get(`line_items[${i}][price]`), CATALOG[it.sku].priceId, it.sku);
+    assert.equal(live.get(`line_items[${i}][price_data][unit_amount]`), null, it.sku);
+  });
+  const test = new URLSearchParams(checkoutParams({ ...base, useCatalogPrices: false }));
+  items.forEach((it, i) => {
+    assert.equal(test.get(`line_items[${i}][price]`), null, it.sku);
+    assert.equal(test.get(`line_items[${i}][price_data][unit_amount]`), String(CATALOG[it.sku].amount), it.sku);
+  });
 });
 
 test('a shipping line is billed with the shipping tax code', async () => {
