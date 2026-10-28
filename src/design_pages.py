@@ -33,7 +33,7 @@ PRODUCTS = [
             ('What you can design', 'Your tent has a roof peak and a valance on all four sides. Put the same design on every side, or choose Each side different and design the front, right, back and left one at a time. Pick top and valance, top with back wall, or the full kit. The designer covers the printed top and valance. Walls, the flag and the table throw in the full kit are laid out on your free proof.'),
             ('How the designer works', 'Start from one of four layouts, then change the words, colors and font, and add your logo as a PNG, JPG, WebP or SVG. Drag, resize and rotate anything on the flat view, then switch to 3D and walk around the tent to check every side. Guides show the roof shape, the valance line and a safe zone so your name does not land where it could be trimmed.'),
             ('What it costs', 'Tents start at {price} with free shipping in the lower 48. The price you see in the designer is the price for the package you choose, and it matches our Etsy listing.'),
-            ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Tents take 5 to 10 business days to make after you approve, plus shipping.'),
+            ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Tents arrive 5 to 10 business days after you approve.'),
         ],
         'faqs': [
             ('Can each side of the tent be different?', 'Yes. Choose Each side different in the Sides tab, then design the front, right, back and left sides one at a time. You can also copy one side onto the others.'),
@@ -52,7 +52,7 @@ PRODUCTS = [
             ('What you can design', 'Choose a 10.5, 14 or 18 ft flag and a ground spike or a cross base. Flags are tall and narrow, so the layouts use big stacked words or one long name running up the flag. Add your logo, change the colors, and the designer warns you when text is too small to read from a distance.'),
             ('How the designer works', 'Pick a layout, type your business name, and change anything you like. Drag, resize and rotate text and shapes on the flat view. Switch to 3D to see the flag on its pole, then send it. A guide shows the flag shape and the pole sleeve edge, so you can see what stays clear of the seam.'),
             ('What it costs', 'Feather flag kits start at {price} with free shipping in the lower 48. Your price updates as you pick a height and a base, and it matches our Etsy listing.'),
-            ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Flags take 3 to 5 business days to make after you approve, plus shipping.'),
+            ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Flags arrive 3 to 8 business days after you approve.'),
         ],
         'faqs': [
             ('Which sizes can I design?', 'The 10.5, 14 and 18 ft flag kits. Each one has a ground spike or a cross base to choose from.'),
@@ -71,7 +71,7 @@ PRODUCTS = [
             ('What you can design', 'Choose a pack of 5, 10, 25, 50 or 100 18×24 yard signs, printed on one side or two. Every sign comes with a metal H-stake. Pick a layout, add the name or message, the phone number and a logo, and every sign in the pack gets your design.'),
             ('How the designer works', 'Start from one of four layouts and change the words and colors. Yard signs are read from a car, so the designer checks that your main words are big enough and keeps everything inside a safe margin. For two-sided packs you can use the same design on both sides or design the front and back separately.'),
             ('What it costs', 'Packs start at {price} for 5 signs, stakes included, with free shipping in the lower 48. Your price updates as you pick a pack size and one or two sides, and it matches our Etsy listing.'),
-            ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Signs take 3 to 5 business days to make after you approve, plus shipping.'),
+            ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Signs arrive 3 to 8 business days after you approve.'),
         ],
         'faqs': [
             ('Can I print both sides?', 'Yes. Choose two sides, then use the same design on both or design the front and back separately.'),
@@ -90,7 +90,7 @@ PRODUCTS = [
             ('What you can design', 'Pick a 6 ft or 8 ft table and a 3-sided style (open back) or a 4-sided style that covers all the way around. Your design goes on the front panel, which is the part customers see from the aisle. Layouts put your name wide and low so it reads over a crowd.'),
             ('How the designer works', 'Choose a layout, type your name, and add your logo. The front panel is long and short, so the designer keeps your words big and inside a safe margin. Switch to 3D to see the cover on a table and walk around the back to see the open or closed style.'),
             ('What it costs', 'Table throws start at {price} with free shipping in the lower 48. Your price updates as you pick a length and a style, and it matches our Etsy listing.'),
-            ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Throws take 3 to 5 business days to make after you approve, plus shipping.'),
+            ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Throws arrive 3 to 8 business days after you approve.'),
         ],
         'faqs': [
             ('Where does my design go?', 'On the front panel. We lay out the rest of the cover with you on your free proof.'),
@@ -109,7 +109,7 @@ PRODUCTS = [
             ('What you can design', 'Choose 2×4, 3×6, 4×8 or 3×10 ft. Banners are printed on 13 oz outdoor vinyl with hemmed edges and metal grommets. The designer shows where the grommets and hems fall and keeps a safe margin, so your words stay clear of the edges.'),
             ('How the designer works', 'Pick a layout, type your headline and the details, and add a logo. Drag and resize anything on the flat view, and check readability: the designer warns you when letters are too small to read from across a parking lot. Switch to 3D to see the banner on a fence or a wall.'),
             ('What it costs', 'Banners start at {price} with free shipping in the lower 48. Your price updates as you pick a size, and it matches our Etsy listing.'),
-            ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Banners take 3 to 5 business days to make after you approve, plus shipping.'),
+            ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Banners arrive 3 to 8 business days after you approve.'),
         ],
         'faqs': [
             ('Where do the grommets go?', 'The designer shows grommet spots and a safe zone so your words stay clear of the hems. You can ask for pole pockets instead of grommets when you send your proof request.'),
