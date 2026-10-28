@@ -49,6 +49,10 @@ A customer can start an order from any product page (or from the Shop page): the
 
 **Env vars and D1.** No new variables: it uses `DB`, `BREVO_API_KEY` and `ADMIN_TOKEN`, and turns on with the same rule as the designer proof form (`DESIGN_PROOF_ENABLED=false` switches it off). No new SQL: the order tables from `migrations/0001_orders.sql` and the request tables from `migrations/0002_design_proof_requests.sql` are all it needs; `awaiting_proof` is just a new status value.
 
+### Response headers (`_headers`)
+
+`_headers` at the repo root is hand-written (the Python build never touches it) and Cloudflare Pages applies it to static files: `nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY` plus `Content-Security-Policy: frame-ancestors 'none'` (frame-ancestors only, no full CSP, so the 3D designer and the Stripe redirect cannot break), a minimal `Permissions-Policy`, `Strict-Transport-Security: max-age=300` (5 minutes, no includeSubDomains, no preload; raise it later once the site has run on HTTPS for a while), and `Cache-Control: no-store` on `/proof/*`, `/order/*` and `/admin*`. The proof and order pages come from Functions, which set their own frame, CSP and no-store headers (`functions/_lib/util.js`), because `_headers` does not apply to Function responses.
+
 ### One-time setup in Cloudflare
 
 1. **D1 database.** Workers & Pages → D1 → *Create database* named `getseensigns-orders`. Then Pages project → Settings → *Bindings* → *Add* → *D1 database*, variable name **`DB`**, for Production (and Preview if you use it). The tables are created automatically on first use; the same SQL is in `migrations/0001_orders.sql` if you prefer `wrangler d1 execute`.
