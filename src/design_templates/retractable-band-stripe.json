@@ -1,0 +1,19 @@
+{
+  "id": "band-stripe",
+  "product": "retractable",
+  "name": "Band",
+  "category": "events",
+  "palette": {"primary": "#F4F1EA", "accent": "#E10600", "ink": "#172033"},
+  "sample": {"name": "FALL FESTIVAL", "line2": "SAT OCT 17 AT NOON", "phone": "334-555-0122", "web": "fallfestival.example"},
+  "font": "oswald",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Top stripe", "region": "art", "box": [0, 0.06, 1, 0.025], "fill": "@accent"},
+    {"type": "text", "region": "safe", "box": [0.02, 0.1, 0.96, 0.34], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 9}, "bind": "name"},
+    {"type": "shape", "kind": "rect", "name": "Band", "region": "art", "box": [0, 0.46, 1, 0.14], "fill": "@accent"},
+    {"type": "text", "region": "safe", "box": [0.02, 0.46, 0.96, 0.14], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 4.5}, "bind": "line2"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.28, 0.63, 0.44, 0.14], "square": true},
+    {"type": "text", "region": "safe", "box": [0.0, 0.8, 1, 0.05], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2.6}, "bind": "phone"},
+    {"type": "text", "region": "safe", "box": [0.0, 0.85, 1, 0.045], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2.2}, "bind": "web"}
+  ]
+}

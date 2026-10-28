@@ -26,7 +26,7 @@ export function createSummary(ctx) {
       h('ul', { class: 'dz-perks' },
         h('li', null, 'Free shipping in the lower 48'),
         h('li', null, 'Free design proof within 12 hours, 7 days a week'),
-        h('li', null, `Ready in ${productionText(first)}`),
+        h('li', null, `Arrives in ${productionText(first)}`),
         h('li', null, '3 revisions. Nothing prints until you approve.')
       )
     );

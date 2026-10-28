@@ -22,31 +22,46 @@
           "artboard": {
             "w": 119, "h": 84.28,
             "source": "printer template",
-            "note": "Each of the 4 sides is a separate 119 x 84.28 in panel (peak and valance in one piece)."
+            "note": "Each of the 4 sides is a separate 119 x 84.28 in panel (peak and valance in one piece). Only the gable and the valance print: the page corners outside the roof outline are cut away."
           },
-          "bleed": {"in": 0, "source": "printer template", "note": "The printer's template is the artboard. Fill it to the edge."},
+          "bleed": {"in": 0, "source": "printer template", "note": "The template page is the print area and its bleed band (2 in between the cut outline and the safe line) is already inside the 119 x 84.28 page, so there is no extra bleed to add. Fill the page to the outline."},
           "safe": {
-            "w": 115, "h": 78.85, "x": 2, "y": 2.715,
+            "w": 115, "h": 78.84, "x": 2, "y": 3.45,
+            "outline_inset": 2,
             "source": "printer template",
-            "note": "w and h are from the template. x and y assume the safe zone is centered."
+            "note": "Box around the template's safe line. The line runs 2 in inside the cut outline, so across the roof it follows the roof edges; the box only gives its extent."
           },
           "dpi": {"target": 150, "source": "printer template"},
           "valance_line": {
-            "y": 76.28,
-            "status": "TODO_SPEC",
-            "note": "Placeholder: an 8 in valance. Take the real line from the printer's canopy template guide layer."
+            "y": 71.24,
+            "source": "printer template",
+            "note": "The template draws no fold line. This is the outline corner where the sloped roof edge turns into the valance edge, which makes the valance 13.04 in tall."
           },
           "roof": {
-            "shape": "triangle", "apex_x": 59.5, "apex_y": 0,
-            "status": "TODO_SPEC",
-            "note": "Placeholder triangle from the top center to both ends of the valance line. Replace with the template's peak outline."
+            "shape": "polygon",
+            "points": [
+              [0.5, 71.24], [2.89, 69.03], [5.94, 66], [9.63, 62.15],
+              [13.81, 57.65], [18.07, 52.95], [25.56, 44.55], [29.85, 39.6],
+              [33.87, 34.83], [38.36, 29.27], [42.42, 23.93], [45.17, 20.1],
+              [47.58, 16.58], [47.63, 16.58], [59.5, 0], [71.37, 16.58],
+              [71.41, 16.58], [73.88, 20.18], [76.65, 24.02], [80.72, 29.38],
+              [85.22, 34.94], [89.23, 39.71], [93.52, 44.65], [100.83, 52.85],
+              [105.19, 57.65], [109.37, 62.16], [113.06, 66.01], [116.11, 69.03],
+              [118.5, 71.24]
+            ],
+            "source": "printer template",
+            "note": "The cut outline above the valance line: a gable with slightly bowed sides, within 0.03 in of the true curve, clockwise from the left base corner over the tip to the right base corner. Each side has a 0.05 in horizontal step at y 16.58, kept as drawn. The valance edges run from the base corners (0.5 in in) straight down to the page corners."
           },
           "min_cap_in": {"value": 4, "status": "UX_DEFAULT", "applies_to": "valance", "source": "designer spec 5.3"}
         }
       },
       "other_pieces": {
-        "back_wall": {"w": 115.07, "h": 80.07, "source": "printer template", "safe": {"status": "TODO_SPEC"}, "phase": 3},
-        "half_wall": {"w": 115.07, "h": 41.07, "source": "printer template", "safe": {"status": "TODO_SPEC"}, "phase": 3}
+        "back_wall": {"w": 115.07, "h": 80.07, "source": "printer template", "safe": {"x": 2.03, "y": 2.03, "w": 111, "h": 76, "source": "printer template"}, "phase": 3},
+        "half_wall": {
+          "w": 115.07, "h": 41.07, "source": "printer template",
+          "safe": {"x": 2.06, "y": 2.03, "w": 111, "h": 37, "source": "printer template", "note": "Box around a stepped line: the outline has a notch at each top corner, and the safe line drops to y 5.52 for x below 7.08 and above 108.08."},
+          "phase": 3
+        }
       }
     },
     "feather": {
@@ -56,38 +71,91 @@
       "overlays": ["trim", "safe", "outline", "sleeve"],
       "variants": {
         "10.5": {
-          "artboard": {"w": 24, "h": 104, "source": "printer template"},
-          "bleed": {"in": 0, "source": "printer template"},
-          "safe": {"inset": 1.5, "status": "TODO_SPEC", "note": "Placeholder inset. Use the template's inner line."},
+          "artboard": {
+            "w": 24, "h": 104,
+            "source": "printer template",
+            "note": "The flag outline's own size. The template page is 25.5 x 105.5 in with the flag at x 0.71, y 1.25; the grey area outside the flag is a mask. Listed as 24 x 104 in on the product page."
+          },
+          "bleed": {"in": 0, "source": "printer template", "note": "File setup says no crop marks or bleed."},
+          "safe": {"inset": 2, "outline_inset": 2, "source": "printer template", "note": "The template says to keep text and images 2 in from the edge of the product. No safe line is drawn, so the safe zone is the outline moved in 2 in."},
           "dpi": {"target": 150, "source": "printer template"},
-          "outline": {"shape": "feather", "status": "TODO_SPEC", "note": "Placeholder curve. Trace the Single Sided Print Thru template for this size."},
-          "pole_sleeve_in": {"value": 2.5, "status": "TODO_SPEC"},
+          "outline": {
+            "pole_side": "left",
+            "points": [
+              [0, 41.96], [0.03, 40.1], [0.11, 38.01], [0.23, 35.95],
+              [0.39, 33.93], [0.6, 31.82], [0.85, 29.76], [1.12, 27.82],
+              [1.45, 25.83], [1.84, 23.81], [2.27, 21.89], [2.73, 20.08],
+              [3.26, 18.29], [3.84, 16.55], [4.49, 14.86], [5.17, 13.34],
+              [5.91, 11.88], [6.68, 10.59], [7.54, 9.31], [8.46, 8.14],
+              [9.46, 7.02], [10.56, 5.95], [11.74, 4.94], [12.94, 4.06],
+              [14.19, 3.25], [15.55, 2.49], [16.99, 1.82], [18.41, 1.26],
+              [19.88, 0.78], [21.39, 0.4], [22.85, 0.13], [24, 0],
+              [24, 90.19], [0, 104]
+            ],
+            "template_page": {"w": 25.5, "h": 105.5, "offset_x": 0.71, "offset_y": 1.25},
+            "source": "printer template",
+            "note": "Single Sided Print Thru. The points are the template's flag outline moved to the flag's top left corner. They start where the curved top meets the straight pole edge and run clockwise: the curve to the top tip, down the right edge, along the slanted bottom, and back up the pole edge."
+          },
+          "pole_sleeve": {"side": "left", "width_in": null, "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page. We sell the sleeve-left flag only; the reverse flag (sleeve on the right) is not sold, so only this outline is stored."},
           "min_cap_in": {"value": 4, "status": "UX_DEFAULT"}
         },
         "14": {
-          "artboard": {"w": 28, "h": 138, "source": "printer template"},
-          "bleed": {"in": 0, "source": "printer template"},
-          "safe": {"inset": 1.5, "status": "TODO_SPEC", "note": "Placeholder inset. Use the template's inner line."},
+          "artboard": {
+            "w": 28.04, "h": 138,
+            "source": "printer template",
+            "note": "The flag outline's own size. The template page is 29.5 x 139.5 in with the flag at x 1.23, y 1.25; the grey area outside the flag is a mask. Listed as 28 x 138 in on the product page."
+          },
+          "bleed": {"in": 0, "source": "printer template", "note": "File setup says no crop marks or bleed."},
+          "safe": {"inset": 2, "outline_inset": 2, "source": "printer template", "note": "The template says to keep text and images 2 in from the edge of the product. No safe line is drawn, so the safe zone is the outline moved in 2 in."},
           "dpi": {"target": 150, "source": "printer template"},
-          "outline": {"shape": "feather", "status": "TODO_SPEC", "note": "Placeholder curve. Trace the Single Sided Print Thru template for this size."},
-          "pole_sleeve_in": {"value": 2.5, "status": "TODO_SPEC"},
+          "outline": {
+            "pole_side": "left",
+            "points": [
+              [0.04, 49.99], [0, 47.91], [0.04, 45.66], [0.13, 43.29],
+              [0.29, 40.91], [0.51, 38.6], [0.78, 36.24], [1.11, 33.98],
+              [1.51, 31.65], [1.98, 29.37], [2.49, 27.18], [3.09, 24.97],
+              [3.73, 22.87], [4.46, 20.78], [5.22, 18.84], [6.12, 16.8],
+              [7.05, 14.92], [8.03, 13.16], [9.07, 11.53], [10.21, 9.95],
+              [11.39, 8.52], [12.67, 7.17], [14.03, 5.91], [15.47, 4.76],
+              [16.9, 3.77], [18.51, 2.81], [20.07, 2.04], [21.73, 1.35],
+              [23.42, 0.79], [25.15, 0.36], [26.79, 0.09], [28.04, 0],
+              [28.04, 121.95], [0.04, 138]
+            ],
+            "template_page": {"w": 29.5, "h": 139.5, "offset_x": 1.23, "offset_y": 1.25},
+            "source": "printer template",
+            "note": "Single Sided Print Thru. The points are the template's flag outline moved to the flag's top left corner. They start where the curved top meets the straight pole edge and run clockwise: the curve to the top tip, down the right edge, along the slanted bottom, and back up the pole edge."
+          },
+          "pole_sleeve": {"side": "left", "width_in": null, "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page. We sell the sleeve-left flag only; the reverse flag (sleeve on the right) is not sold, so only this outline is stored."},
           "min_cap_in": {"value": 4, "status": "UX_DEFAULT"}
         },
         "18": {
-          "artboard": {"w": 24, "h": 183.5, "source": "printer template"},
-          "bleed": {"in": 0, "source": "printer template"},
-          "safe": {"inset": 1.5, "status": "TODO_SPEC", "note": "Placeholder inset. Use the template's inner line."},
+          "artboard": {
+            "w": 24.11, "h": 183.68,
+            "source": "printer template",
+            "note": "The flag outline's own size. The template page is 27 x 187.5 in with the flag at x 1.75, y 1.92; the grey area outside the flag is a mask. Listed as 24 x 183.5 in on the product page."
+          },
+          "bleed": {"in": 0, "source": "printer template", "note": "File setup says no crop marks or bleed."},
+          "safe": {"inset": 2, "outline_inset": 2, "source": "printer template", "note": "The template says to keep text and images 2 in from the edge of the product. No safe line is drawn, so the safe zone is the outline moved in 2 in."},
           "dpi": {"target": 150, "source": "printer template"},
-          "outline": {"shape": "feather", "status": "TODO_SPEC", "note": "Placeholder curve. Trace the Single Sided Print Thru template for this size."},
-          "pole_sleeve_in": {"value": 2.5, "status": "TODO_SPEC"},
+          "outline": {
+            "pole_side": "left",
+            "points": [
+              [0.23, 28.87], [0.31, 27.92], [0.47, 26.69], [0.7, 25.43],
+              [0.98, 24.11], [1.29, 22.88], [1.68, 21.55], [2.09, 20.32],
+              [2.57, 19.04], [3.08, 17.82], [3.62, 16.67], [4.21, 15.5],
+              [4.88, 14.33], [5.54, 13.24], [6.27, 12.16], [6.99, 11.19],
+              [7.84, 10.12], [8.67, 9.17], [9.56, 8.23], [10.41, 7.41],
+              [11.42, 6.51], [12.38, 5.73], [13.39, 4.97], [14.46, 4.25],
+              [15.46, 3.62], [16.64, 2.95], [17.73, 2.39], [19.02, 1.79],
+              [20.22, 1.29], [21.46, 0.82], [22.76, 0.39], [24.11, 0],
+              [23.98, 169.99], [0, 183.68]
+            ],
+            "template_page": {"w": 27, "h": 187.5, "offset_x": 1.75, "offset_y": 1.92},
+            "source": "printer template",
+            "note": "Single Sided Print Thru. The points are the template's flag outline moved to the flag's top left corner. They start where the curved top meets the straight pole edge and run clockwise: the curve to the top tip, down the right edge, along the slanted bottom, and back up the pole edge. The template repeats one vertex 0.1 in up the right edge; it is dropped."
+          },
+          "pole_sleeve": {"side": "left", "width_in": null, "note": "A separate black nylon sleeve is sewn on outside the print, to the left of it when you face the front. Its width is not on the template or the product page. We sell the sleeve-left flag only; the reverse flag (sleeve on the right) is not sold, so only this outline is stored."},
           "min_cap_in": {"value": 4, "status": "UX_DEFAULT"}
-        }
-      },
-      "outline_shapes": {
-        "feather": {
-          "status": "TODO_SPEC",
-          "note": "Placeholder outline in unit coordinates (x 0..1 left to right, y 0..1 top to bottom). The straight left edge is the pole sleeve side.",
-          "points": [[0, 0], [0.18, 0.012], [0.46, 0.07], [0.74, 0.19], [0.92, 0.36], [1, 0.58], [0.98, 0.8], [0.88, 0.94], [0.7, 0.995], [0.4, 1], [0, 1]]
         }
       }
     },
@@ -103,38 +171,102 @@
             "note": "Sold as an 18x24 sign, laid out 24 wide by 18 tall. This is the trim size."
           },
           "bleed": {"in": 0.125, "source": "printer template", "note": "Bleed for the print profile that needs it (24.25 x 18.25 in). Other profiles build at 24 x 18 with no bleed."},
-          "safe": {"inset": 1, "status": "UX_DEFAULT", "note": "Printers need 0.25 in. We keep 1 in clear."},
+          "safe": {"inset": 1, "status": "UX_DEFAULT", "note": "Our choice, confirmed: keep 1 in clear on every side. Neither printer publishes a safe inset; the nearest published numbers are 0.25 in for the first printer and 3/8 in for borders on a two-sided sign at the second."},
           "dpi": {"target": 150, "source": "printer template"},
-          "grass_line": {"h": 2, "status": "TODO_SPEC", "note": "Bottom ~2 in may sit in the ground. A guide, not a rule. Confirm with Scott."},
+          "flutes": {"direction": "vertical", "status": "UX_DEFAULT", "note": "What we order: the flutes run vertically, parallel to the 18 in side of the 24 x 18 sign, so the H stake slides up into them from the bottom edge. It is an order choice at the printer, not a file setting."},
+          "grass_line": {"h": 2, "status": "UX_DEFAULT", "note": "Our own guide, not a printer number: the bottom ~2 in may sit in the ground. Change it if the stakes go in deeper or shallower."},
           "min_cap_in": {"value": 3, "status": "UX_DEFAULT", "applies_to": "name", "source": "designer spec 5.3"}
         }
       },
       "profiles": [
         {"profile": "with bleed", "bleed": 0.125, "artboard": {"w": 24.25, "h": 18.25}, "source": "printer template"},
         {"profile": "no bleed", "bleed": 0, "artboard": {"w": 24, "h": 18}, "source": "printer template"},
-        {"profile": "second printer", "status": "TODO_SPEC", "note": "A second printer's yard sign spec has not been collected yet."}
+        {
+          "profile": "second printer", "bleed": 0, "artboard": {"w": 24, "h": 18}, "dpi_min": 100,
+          "color_mode": "CMYK", "file_types": ["pdf"], "max_file_mb": 150,
+          "source": "printer spec page",
+          "note": "From the printer's public product, design guide and FAQ pages; there is no downloadable 18 x 24 template. The size must match the order: either 24 wide x 18 tall or 18 wide x 24 tall. Bleed is added by the printer, so leave it out. PDF only, fonts outlined, images embedded. No safe inset is published. Flute direction is an order choice (vertical, horizontal or mixed), not a file setting; we order vertical."
+        }
       ]
     },
     "throw": {
-      "variant_by": ["length"],
+      "variant_by": ["length", "style"],
       "sides": 1,
       "overlays": ["trim", "safe"],
-      "table": {"height_in": 30, "hem_above_floor_in": 2, "status": "UX_DEFAULT", "note": "Standard folding table height. The visible front panel is the table height minus the hem gap."},
+      "table": {"height_in": 30, "status": "UX_DEFAULT", "note": "Standard folding table height. The front panel hangs from the table top, so the gap above the floor is the table height minus the template's front panel height."},
       "variants": {
-        "6": {
-          "artboard": {"w": 72, "h": 28, "source": "printer template", "note": "Editable area = the visible front panel of a 6 ft table. Top, sides and back use the background color."},
+        "6-3": {
+          "artboard": {"w": 72.23, "h": 28.33, "source": "printer template", "note": "Editable area = the front panel of a 6 ft 3-sided throw. Top, sides and back use the background color."},
           "bleed": {"in": 0, "source": "printer template"},
-          "safe": {"inset": 1, "status": "UX_DEFAULT"},
+          "safe": {"x": 3.17, "y": 4.25, "w": 65.98, "h": 19.45, "source": "printer template", "note": "The template's safe viewable area, which sits 3.17 in from the left, 3.08 in from the right, 4.25 in from the top and 4.63 in from the bottom of the front panel."},
           "dpi": {"target": 150, "source": "printer template"},
-          "panel_in_template": {"status": "TODO_SPEC", "note": "Where the front panel sits inside the printer's template. Read from the template guides."},
+          "panels_in_template": {
+            "source": "printer template",
+            "front": {"x": 28.13, "y": 35.52, "w": 72.23, "h": 28.33},
+            "top": {"x": 28.13, "y": 6.99, "w": 72.23, "h": 28.53},
+            "left": {"x": 1.02, "y": 6.99, "w": 27.11, "h": 28.53},
+            "right": {"x": 100.36, "y": 6.99, "w": 27.12, "h": 28.53},
+            "back": {"x": 28.13, "y": 1.15, "w": 72.23, "h": 5.84}
+          },
           "min_cap_in": {"value": 2, "status": "UX_DEFAULT"}
         },
-        "8": {
-          "artboard": {"w": 96, "h": 28, "source": "printer template", "note": "Editable area = the visible front panel of an 8 ft table."},
+        "6-4": {
+          "artboard": {"w": 72.66, "h": 27.65, "source": "printer template", "note": "Editable area = the front panel of a 6 ft 4-sided throw. Top, sides and back use the background color."},
           "bleed": {"in": 0, "source": "printer template"},
-          "safe": {"inset": 1, "status": "UX_DEFAULT"},
+          "safe": {"x": 3.34, "y": 3.84, "w": 65.99, "h": 19.43, "source": "printer template", "note": "The template's safe viewable area, which sits 3.34 in from the left, 3.33 in from the right, 3.84 in from the top and 4.38 in from the bottom of the front panel."},
           "dpi": {"target": 150, "source": "printer template"},
-          "panel_in_template": {"status": "TODO_SPEC", "note": "Where the front panel sits inside the printer's template. Read from the template guides."},
+          "panels_in_template": {
+            "source": "printer template",
+            "front": {"x": 27.46, "y": 56.83, "w": 72.66, "h": 27.65},
+            "top": {"x": 27.46, "y": 28.32, "w": 72.66, "h": 28.51},
+            "left": {"x": 0.51, "y": 28.32, "w": 26.95, "h": 28.51},
+            "right": {"x": 100.12, "y": 28.32, "w": 26.88, "h": 28.51},
+            "back": {"x": 0.51, "y": 0.51, "w": 126.49, "h": 27.81}
+          },
+          "min_cap_in": {"value": 2, "status": "UX_DEFAULT"}
+        },
+        "8-3": {
+          "artboard": {"w": 95.92, "h": 28.02, "source": "printer template", "note": "Editable area = the front panel of a 8 ft 3-sided throw. Top, sides and back use the background color."},
+          "bleed": {"in": 0, "source": "printer template"},
+          "safe": {"x": 2.79, "y": 3.91, "w": 89.95, "h": 19.61, "source": "printer template", "note": "The template's safe viewable area, which sits 2.79 in from the left, 3.18 in from the right, 3.91 in from the top and 4.5 in from the bottom of the front panel."},
+          "dpi": {"target": 150, "source": "printer template"},
+          "panels_in_template": {
+            "source": "printer template",
+            "front": {"x": 28.76, "y": 36.34, "w": 95.92, "h": 28.02},
+            "top": {"x": 28.76, "y": 7.63, "w": 95.92, "h": 28.7},
+            "left": {"x": 1.51, "y": 7.63, "w": 27.25, "h": 28.7},
+            "right": {"x": 124.68, "y": 7.63, "w": 27.25, "h": 28.7},
+            "back": {"x": 28.76, "y": 1.68, "w": 95.92, "h": 5.95}
+          },
+          "min_cap_in": {"value": 2, "status": "UX_DEFAULT"}
+        },
+        "8-4": {
+          "artboard": {"w": 96.03, "h": 27.59, "source": "printer template", "note": "Editable area = the front panel of a 8 ft 4-sided throw. Top, sides and back use the background color."},
+          "bleed": {"in": 0, "source": "printer template"},
+          "safe": {"x": 2.52, "y": 4.37, "w": 89.99, "h": 19.24, "source": "printer template", "note": "The template's safe viewable area, which sits 2.52 in from the left, 3.52 in from the right, 4.37 in from the top and 3.98 in from the bottom of the front panel."},
+          "dpi": {"target": 150, "source": "printer template"},
+          "panels_in_template": {
+            "source": "printer template",
+            "front": {"x": 28.05, "y": 56.89, "w": 96.03, "h": 27.59},
+            "top": {"x": 28.05, "y": 28.49, "w": 96.03, "h": 28.4},
+            "left": {"x": 0.51, "y": 28.49, "w": 27.54, "h": 28.4},
+            "right": {"x": 124.08, "y": 28.49, "w": 26.92, "h": 28.4},
+            "back": {"x": 0.51, "y": 0.51, "w": 150.49, "h": 27.98}
+          },
+          "min_cap_in": {"value": 2, "status": "UX_DEFAULT"}
+        },
+        "6-fitted": {
+          "artboard": {"w": 72.23, "h": 28.33, "status": "UX_DEFAULT", "note": "Not a printer template. A fitted closed-back cover uses the same editable front panel size as a 6 ft 3-sided throw until a fitted cover template is added."},
+          "bleed": {"in": 0, "status": "UX_DEFAULT"},
+          "safe": {"x": 3.17, "y": 4.25, "w": 65.98, "h": 19.45, "status": "UX_DEFAULT", "note": "Same safe area as the 6 ft 3-sided front panel. Our own default, not a printer number."},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 2, "status": "UX_DEFAULT"}
+        },
+        "8-fitted": {
+          "artboard": {"w": 95.92, "h": 28.02, "status": "UX_DEFAULT", "note": "Not a printer template. A fitted closed-back cover uses the same editable front panel size as an 8 ft 3-sided throw until a fitted cover template is added."},
+          "bleed": {"in": 0, "status": "UX_DEFAULT"},
+          "safe": {"x": 2.79, "y": 3.91, "w": 89.95, "h": 19.61, "status": "UX_DEFAULT", "note": "Same safe area as the 8 ft 3-sided front panel. Our own default, not a printer number."},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
           "min_cap_in": {"value": 2, "status": "UX_DEFAULT"}
         }
       },
@@ -184,6 +316,179 @@
         }
       },
       "dpi_override": {"green_min": 100, "amber_min": 72, "status": "UX_DEFAULT", "note": "The banner file spec allows 100 to 150 dpi, so 100 dpi is green here."}
+    },
+    "retractable": {
+      "variant_by": ["size"],
+      "sides": 1,
+      "overlays": ["trim", "bleed", "safe", "base_zone"],
+      "variants": {
+        "33x81": {
+          "artboard": {"w": 33, "h": 81, "source": "product listing"},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 1.5, "status": "UX_DEFAULT"},
+          "dpi": {"target": 100, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1.5, "status": "UX_DEFAULT", "source": "designer spec 5.3"},
+          "base_zone": {"h": 10, "status": "UX_DEFAULT", "note": "About the bottom 10 in often sits behind tables and feet, and the lowest few inches go into the base. Keep names and phone numbers above this line."}
+        },
+        "47x81": {
+          "artboard": {"w": 47, "h": 81, "source": "product listing"},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 1.5, "status": "UX_DEFAULT"},
+          "dpi": {"target": 100, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1.5, "status": "UX_DEFAULT", "source": "designer spec 5.3"},
+          "base_zone": {"h": 10, "status": "UX_DEFAULT", "note": "About the bottom 10 in often sits behind tables and feet, and the lowest few inches go into the base. Keep names and phone numbers above this line."}
+        }
+      },
+      "dpi_override": {"green_min": 100, "amber_min": 72, "status": "UX_DEFAULT", "note": "Large-format film prints from 100 dpi files, so 100 dpi is green here."}
+    },
+    "backdrop": {
+      "variant_by": ["size"],
+      "sides": 1,
+      "overlays": ["trim", "bleed", "safe"],
+      "variants": {
+        "8x8": {
+          "artboard": {"w": 96, "h": 96, "source": "product listing", "note": "Sold as 8x8 ft: 96 by 96 in, width by height."},
+          "bleed": {"in": 0.5, "status": "UX_DEFAULT"},
+          "safe": {"inset": 4, "status": "UX_DEFAULT"},
+          "dpi": {"target": 100, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 3, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "10x8": {
+          "artboard": {"w": 120, "h": 96, "source": "product listing", "note": "Sold as 10x8 ft: 120 in wide by 96 in tall."},
+          "bleed": {"in": 0.5, "status": "UX_DEFAULT"},
+          "safe": {"inset": 4, "status": "UX_DEFAULT"},
+          "dpi": {"target": 100, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 3, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        }
+      },
+      "dpi_override": {"green_min": 100, "amber_min": 72, "status": "UX_DEFAULT", "note": "Fabric backdrops print from 100 dpi files, so 100 dpi is green here."}
+    },
+    "magnet": {
+      "variant_by": ["size"],
+      "sides": 1,
+      "overlays": ["trim", "bleed", "safe"],
+      "variants": {
+        "12x18": {
+          "artboard": {"w": 18, "h": 12, "source": "product listing", "note": "Sold as a 12x18 pair, laid out 18 wide by 12 tall. The same design goes on both magnets."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "18x24": {
+          "artboard": {"w": 24, "h": 18, "source": "product listing", "note": "Sold as an 18x24 pair, laid out 24 wide by 18 tall. The same design goes on both magnets."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        }
+      }
+    },
+    "decal": {
+      "variant_by": ["pack"],
+      "sides": 1,
+      "overlays": ["trim", "bleed", "safe"],
+      "variants": {
+        "2in100": {
+          "artboard": {"w": 2, "h": 2, "source": "product listing", "note": "The 2 in measure is the longest side. The proof cuts the decal to the shape of your logo."},
+          "bleed": {"in": 0.0625, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.125, "status": "UX_DEFAULT"},
+          "dpi": {"target": 300, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 0.15, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "2in250": {
+          "artboard": {"w": 2, "h": 2, "source": "product listing", "note": "The 2 in measure is the longest side. The proof cuts the decal to the shape of your logo."},
+          "bleed": {"in": 0.0625, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.125, "status": "UX_DEFAULT"},
+          "dpi": {"target": 300, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 0.15, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "2in500": {
+          "artboard": {"w": 2, "h": 2, "source": "product listing", "note": "The 2 in measure is the longest side. The proof cuts the decal to the shape of your logo."},
+          "bleed": {"in": 0.0625, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.125, "status": "UX_DEFAULT"},
+          "dpi": {"target": 300, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 0.15, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "3in250": {
+          "artboard": {"w": 3, "h": 3, "source": "product listing", "note": "The 3 in measure is the longest side. The proof cuts the decal to the shape of your logo."},
+          "bleed": {"in": 0.0625, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.125, "status": "UX_DEFAULT"},
+          "dpi": {"target": 300, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 0.15, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "3in500": {
+          "artboard": {"w": 3, "h": 3, "source": "product listing", "note": "The 3 in measure is the longest side. The proof cuts the decal to the shape of your logo."},
+          "bleed": {"in": 0.0625, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.125, "status": "UX_DEFAULT"},
+          "dpi": {"target": 300, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 0.15, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        }
+      },
+      "dpi_override": {"green_min": 250, "amber_min": 150, "status": "UX_DEFAULT", "note": "Small decals need sharp art: 250 dpi and up is green."}
+    },
+    "safety": {
+      "variant_by": ["pack", "orient"],
+      "sides": 1,
+      "overlays": ["trim", "bleed", "safe"],
+      "variants": {
+        "12x18_5-landscape": {
+          "artboard": {"w": 18, "h": 12, "source": "product listing", "note": "Landscape: 18 wide by 12 tall."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "12x18_5-portrait": {
+          "artboard": {"w": 12, "h": 18, "source": "product listing", "note": "Portrait: 12 wide by 18 tall."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "12x18_10-landscape": {
+          "artboard": {"w": 18, "h": 12, "source": "product listing", "note": "Landscape: 18 wide by 12 tall."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "12x18_10-portrait": {
+          "artboard": {"w": 12, "h": 18, "source": "product listing", "note": "Portrait: 12 wide by 18 tall."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "18x24_5-landscape": {
+          "artboard": {"w": 24, "h": 18, "source": "product listing", "note": "Landscape: 24 wide by 18 tall."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "18x24_5-portrait": {
+          "artboard": {"w": 18, "h": 24, "source": "product listing", "note": "Portrait: 18 wide by 24 tall."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "12x18_5hd-landscape": {
+          "artboard": {"w": 18, "h": 12, "source": "product listing", "note": "Landscape: 18 wide by 12 tall."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "12x18_5hd-portrait": {
+          "artboard": {"w": 12, "h": 18, "source": "product listing", "note": "Portrait: 12 wide by 18 tall."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        }
+      }
     }
   }
 }

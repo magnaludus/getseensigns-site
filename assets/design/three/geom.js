@@ -94,6 +94,11 @@ const VIEW = {
   throw: { el: 16, side: 60 },
   banner: { el: 6, side: 45 },
   yard: { el: 10, side: 50 },
+  retractable: { el: 6, side: 40 },
+  backdrop: { el: 6, side: 40 },
+  magnet: { el: 6, side: 35 },
+  decal: { el: 8, side: 30 },
+  safety: { el: 6, side: 35 },
 };
 
 // zoom multiplies the fit distance; presets never depend on the viewport.
@@ -126,7 +131,8 @@ export function canopyFace(spec, eave = 84) {
   const run = w / 2;
   const k = Math.min(0.95, run / slant);
   const kv = Math.sqrt(1 - k * k);
-  return { w, h, vy, top, slant, run, k, kv, rise: slant * kv, eave, valance: h - vy, poly };
+  const apex = poly.reduce((best, p) => (p[1] < best[1] ? p : best), poly[0]);
+  return { w, h, vy, top, slant, run, k, kv, rise: slant * kv, eave, valance: h - vy, poly, apex };
 }
 
 // Art space (x right, y down from the top of the artboard) to the side-0 frame (+Z outward).
@@ -142,11 +148,11 @@ export function outlineToUV(points, art) {
   return points.map(([x, y]) => [x / art.w, 1 - y / art.h]);
 }
 
-// For each of rows+1 horizontal lines (top to bottom) the span of the outline polygon: [y, x0, x1].
-export function outlineRows(points, rows, height) {
+// For each y in `ys` the span of the outline polygon: [y, x0, x1]. A line that misses the polygon
+// repeats the previous span (or 0), so every row has a position.
+export function outlineRowsAt(points, ys) {
   const out = [];
-  for (let r = 0; r <= rows; r++) {
-    const y = (r / rows) * height;
+  ys.forEach((y, r) => {
     let x0 = Infinity;
     let x1 = -Infinity;
     for (let i = 0; i < points.length; i++) {
@@ -168,8 +174,15 @@ export function outlineRows(points, rows, height) {
       x0 = x1 = prev ? prev[1] : 0;
     }
     out.push([y, x0, x1]);
-  }
+  });
   return out;
+}
+
+// The same for rows+1 evenly spaced lines from the top (y = 0) to `height`.
+export function outlineRows(points, rows, height) {
+  const ys = [];
+  for (let r = 0; r <= rows; r++) ys.push((r / rows) * height);
+  return outlineRowsAt(points, ys);
 }
 
 export function poleHeightIn(choices) {
@@ -180,8 +193,10 @@ export function poleHeightIn(choices) {
 export function throwDims(spec) {
   const t = spec.table || {};
   const H = t.height_in || 30;
-  const hem = t.hem_above_floor_in != null ? t.hem_above_floor_in : 2;
-  return { L: spec.artboard.w, D: 30, H, hem, panelH: spec.artboard.h, frontTop: Math.min(H, hem + spec.artboard.h) };
+  const panelH = spec.artboard.h;
+  // The front panel hangs from the table top, so the gap above the floor is what is left of the table height.
+  const hem = Math.max(0, H - panelH);
+  return { L: spec.artboard.w, D: 30, H, hem, panelH, frontTop: H };
 }
 
 // Grommet centers in inches from the banner's top left corner: corners plus roughly every `every` inches.

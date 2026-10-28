@@ -1,0 +1,16 @@
+{
+  "id": "split-field",
+  "product": "decal",
+  "name": "Split",
+  "category": "business",
+  "palette": {"primary": "#0B3A66", "accent": "#FFFFFF", "ink": "#FFFFFF"},
+  "sample": {"name": "RIVER ELECTRIC", "line2": "LICENSED", "phone": "334-555-0151", "web": "northsideelectric.example"},
+  "font": "archivo",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Top half", "region": "art", "box": [0, 0, 1, 0.5], "fill": "@accent"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.3, 0.04, 0.4, 0.42], "square": true},
+    {"type": "text", "region": "safe", "box": [0.03, 0.52, 0.94, 0.3], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 0.6, "min": 0.08}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.05, 0.84, 0.9, 0.14], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 0.26, "min": 0.08}, "bind": "line2"}
+  ]
+}

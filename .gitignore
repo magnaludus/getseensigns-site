@@ -4,3 +4,5 @@ __pycache__/
 src/urls.json
 .design-dev/node_modules/
 .design-dev/out/
+.wrangler/
+.dev.vars

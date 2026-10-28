@@ -1,6 +1,7 @@
 // Box math for the editor: rotated boxes, hit tests, resize and rotate handles, pinch gestures and
 // snapping. A box is {x, y, w, h, rot} in inches with rot in degrees about the box center.
 // Pure functions, no DOM.
+import { bandRect, columnRect } from './outline.js';
 
 const RAD = Math.PI / 180;
 
@@ -188,6 +189,15 @@ export function computeSnap(bbox, targets, threshold) {
 }
 
 // ---------- alignment ----------
+
+// What one element aligns to: the safe box, or on a shaped product (canopy gable, curved flag) the part of
+// the safe line that runs through the element's own row or column, so Left on the curved flag top stops at the curve.
+export function alignArea(spec, box, edge) {
+  if (!spec.safePoly) return spec.safe;
+  const b = aabb(box);
+  const sideways = edge === 'left' || edge === 'center' || edge === 'right';
+  return (sideways ? bandRect(spec.safePoly, b.y, b.y + b.h) : columnRect(spec.safePoly, b.x, b.x + b.w)) || spec.safe;
+}
 
 // Align boxes inside `area` ({x,y,w,h}). edge: left|center|right|top|middle|bottom. Returns {id: {x, y}} patches.
 export function alignBoxes(items, area, edge) {

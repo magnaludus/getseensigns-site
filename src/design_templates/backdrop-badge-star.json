@@ -1,0 +1,29 @@
+{
+  "id": "badge-star",
+  "product": "backdrop",
+  "name": "Stars",
+  "category": "events",
+  "palette": {"primary": "#3D1020", "accent": "#F2C14E", "ink": "#FFFFFF"},
+  "sample": {"name": "GOLD COAST CLUB", "line2": "ANNUAL BANQUET", "phone": "334-555-0133", "web": "goldcoast.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "text", "region": "safe", "box": [0, 0.0, 1, 0.15], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 11}, "bind": "name", "name": "Name"},
+    {"type": "shape", "kind": "star", "name": "Star 1", "region": "art", "box": [0.03, 0.17, 0.14, 0.14], "fill": "@accent", "square": true},
+    {"type": "shape", "kind": "star", "name": "Star 2", "region": "art", "box": [0.23, 0.17, 0.14, 0.14], "fill": "@accent", "square": true},
+    {"type": "shape", "kind": "star", "name": "Star 3", "region": "art", "box": [0.43000000000000005, 0.17, 0.14, 0.14], "fill": "@accent", "square": true},
+    {"type": "shape", "kind": "star", "name": "Star 4", "region": "art", "box": [0.6300000000000001, 0.17, 0.14, 0.14], "fill": "@accent", "square": true},
+    {"type": "shape", "kind": "star", "name": "Star 5", "region": "art", "box": [0.8300000000000001, 0.17, 0.14, 0.14], "fill": "@accent", "square": true},
+    {"type": "text", "region": "safe", "box": [0, 0.34, 1, 0.15], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 11}, "bind": "name", "name": "Name 2"},
+    {"type": "image", "frame": "logo", "name": "Logo a 1", "region": "safe", "box": [0.0375, 0.51, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo a 2", "region": "safe", "box": [0.2875, 0.51, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo a 3", "region": "safe", "box": [0.5375, 0.51, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo a 4", "region": "safe", "box": [0.7875, 0.51, 0.175, 0.14], "square": true},
+    {"type": "text", "region": "safe", "box": [0, 0.68, 1, 0.15], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 11}, "bind": "name", "name": "Name 3"},
+    {"type": "shape", "kind": "star", "name": "Star 6", "region": "art", "box": [0.03, 0.85, 0.14, 0.14], "fill": "@accent", "square": true},
+    {"type": "shape", "kind": "star", "name": "Star 7", "region": "art", "box": [0.23, 0.85, 0.14, 0.14], "fill": "@accent", "square": true},
+    {"type": "shape", "kind": "star", "name": "Star 8", "region": "art", "box": [0.43000000000000005, 0.85, 0.14, 0.14], "fill": "@accent", "square": true},
+    {"type": "shape", "kind": "star", "name": "Star 9", "region": "art", "box": [0.6300000000000001, 0.85, 0.14, 0.14], "fill": "@accent", "square": true},
+    {"type": "shape", "kind": "star", "name": "Star 10", "region": "art", "box": [0.8300000000000001, 0.85, 0.14, 0.14], "fill": "@accent", "square": true}
+  ]
+}

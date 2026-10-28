@@ -24,6 +24,8 @@ export function buildYard(ctx) {
   const own = [];
   const backArt = String(choices && choices.print) === '2';
 
+  // The flutes run vertically, parallel to the sign's short side (what we order, so the H stake slides up into
+  // them). The cut top and bottom edges therefore show their cross section and the side edges are solid.
   const edgeTex = new CanvasTexture(fluteCanvas());
   edgeTex.colorSpace = SRGBColorSpace;
   edgeTex.wrapS = edgeTex.wrapT = RepeatWrapping;

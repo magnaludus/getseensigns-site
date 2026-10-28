@@ -17,7 +17,7 @@ export function createTemplatesTab(ctx) {
     for (const tpl of env.templates[piece.productId]) {
       const active = side.templateId === tpl.id;
       const btn = h('button', { type: 'button', class: 'dz-tpl', 'aria-pressed': String(active), 'aria-label': `${tpl.name} template`, onclick: () => choose(tpl) });
-      const thumb = h('span', { class: 'dz-tpl-thumb' });
+      const thumb = h('span', { class: 'dz-tpl-thumb', 'aria-hidden': 'true' });
       thumb.innerHTML = templateThumb(doc, pi, tpl, env, store.state.assets);
       btn.append(thumb, h('span', { class: 'dz-tpl-name' }, tpl.name));
       grid.append(btn);

@@ -39,7 +39,9 @@ export function money(n) {
   return '$' + Math.round(n).toLocaleString('en-US');
 }
 
+// Etsy's wording: arrives 3-8 business days after proof approval, tents and backdrops 5-10. A product can have its own
+// range (`arrives`, set from seo_products.py).
 export function productionText(product) {
-  const days = String(product.days || '3-5').replace('-', ' to ');
+  const days = String(product.arrives || '3-8').replace('-', ' to ');
   return days + ' business days after you approve the proof';
 }

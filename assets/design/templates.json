@@ -536,9 +536,9 @@
           "region": "art",
           "box": [
             0,
-            0.8,
+            0.7,
             1,
-            0.2
+            0.3
           ],
           "fill": "@accent"
         },
@@ -783,7 +783,7 @@
         "phone": "334-555-0142",
         "web": "meadowbrook.example"
       },
-      "font": "condensed",
+      "font": "oswald",
       "bg": {
         "type": "solid",
         "color": "@primary"
@@ -2123,6 +2123,2812 @@
           "fit": {
             "lines": 1,
             "max": 3.4
+          },
+          "bind": "phone"
+        }
+      ]
+    }
+  ],
+  "retractable": [
+    {
+      "id": "bold-center",
+      "product": "retractable",
+      "name": "Big type",
+      "category": "business",
+      "palette": {
+        "primary": "#14161A",
+        "accent": "#FFD100",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "ACME FENCE",
+        "line2": "FREE ESTIMATES",
+        "phone": "334-555-0120",
+        "web": "acmefence.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Top bar",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            1,
+            0.035
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.28,
+            0.02,
+            0.44,
+            0.16
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.2,
+            1,
+            0.3
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 9
+          },
+          "bind": "name"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Divider",
+          "region": "art",
+          "box": [
+            0.1,
+            0.52,
+            0.8,
+            0.012
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.04,
+            0.56,
+            0.92,
+            0.12
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 4.5
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.74,
+            1,
+            0.055
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.6
+          },
+          "bind": "phone"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.8,
+            1,
+            0.045
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.2
+          },
+          "bind": "web"
+        }
+      ]
+    },
+    {
+      "id": "split-field",
+      "product": "retractable",
+      "name": "Split field",
+      "category": "business",
+      "palette": {
+        "primary": "#0B3A66",
+        "accent": "#FFFFFF",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "NORTHSIDE DENTAL",
+        "line2": "NOW ACCEPTING PATIENTS",
+        "phone": "334-555-0121",
+        "web": "northsidedental.example"
+      },
+      "font": "barlow",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Light block",
+          "region": "art",
+          "box": [
+            0,
+            0.3,
+            1,
+            0.34
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.0,
+            0.96,
+            0.24
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 3.8
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.32,
+            0.96,
+            0.3
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 8
+          },
+          "bind": "name"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.3,
+            0.67,
+            0.4,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.83,
+            1,
+            0.045
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.6
+          },
+          "bind": "phone"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.88,
+            1,
+            0.04
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.2
+          },
+          "bind": "web"
+        }
+      ]
+    },
+    {
+      "id": "band-stripe",
+      "product": "retractable",
+      "name": "Band",
+      "category": "events",
+      "palette": {
+        "primary": "#F4F1EA",
+        "accent": "#E10600",
+        "ink": "#172033"
+      },
+      "sample": {
+        "name": "FALL FESTIVAL",
+        "line2": "SAT OCT 17 AT NOON",
+        "phone": "334-555-0122",
+        "web": "fallfestival.example"
+      },
+      "font": "oswald",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Top stripe",
+          "region": "art",
+          "box": [
+            0,
+            0.06,
+            1,
+            0.025
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.1,
+            0.96,
+            0.34
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 9
+          },
+          "bind": "name"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Band",
+          "region": "art",
+          "box": [
+            0,
+            0.46,
+            1,
+            0.14
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.46,
+            0.96,
+            0.14
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 4.5
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.28,
+            0.63,
+            0.44,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.8,
+            1,
+            0.05
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.6
+          },
+          "bind": "phone"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.85,
+            1,
+            0.045
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.2
+          },
+          "bind": "web"
+        }
+      ]
+    },
+    {
+      "id": "badge-star",
+      "product": "retractable",
+      "name": "Badge",
+      "category": "business",
+      "palette": {
+        "primary": "#1E3A2F",
+        "accent": "#D6F25C",
+        "ink": "#F4FFE0"
+      },
+      "sample": {
+        "name": "PINE HOLLOW",
+        "line2": "LAWN AND LANDSCAPE",
+        "phone": "334-555-0123",
+        "web": "pinehollow.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "badge",
+          "name": "Seal",
+          "region": "art",
+          "box": [
+            0.2,
+            0.03,
+            0.6,
+            0.2
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.3,
+            0.06,
+            0.4,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.27,
+            1,
+            0.3
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 9
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.04,
+            0.6,
+            0.92,
+            0.1
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 4.2
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star left",
+          "region": "art",
+          "box": [
+            0.05,
+            0.73,
+            0.15,
+            0.06
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star right",
+          "region": "art",
+          "box": [
+            0.8,
+            0.73,
+            0.15,
+            0.06
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.2,
+            0.73,
+            0.6,
+            0.06
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.6
+          },
+          "bind": "phone"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.81,
+            1,
+            0.045
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.2
+          },
+          "bind": "web"
+        }
+      ]
+    }
+  ],
+  "backdrop": [
+    {
+      "id": "bold-center",
+      "product": "backdrop",
+      "name": "Repeat",
+      "category": "events",
+      "palette": {
+        "primary": "#14161A",
+        "accent": "#FFD100",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "ACME GALA",
+        "line2": "SPRING BENEFIT",
+        "phone": "334-555-0130",
+        "web": "acmegala.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.0,
+            1,
+            0.15
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 12
+          },
+          "bind": "name",
+          "name": "Name"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo a 1",
+          "region": "safe",
+          "box": [
+            0.0375,
+            0.17,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo a 2",
+          "region": "safe",
+          "box": [
+            0.2875,
+            0.17,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo a 3",
+          "region": "safe",
+          "box": [
+            0.5375,
+            0.17,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo a 4",
+          "region": "safe",
+          "box": [
+            0.7875,
+            0.17,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.34,
+            1,
+            0.15
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 12
+          },
+          "bind": "name",
+          "name": "Name"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo b 1",
+          "region": "safe",
+          "box": [
+            0.0375,
+            0.51,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo b 2",
+          "region": "safe",
+          "box": [
+            0.2875,
+            0.51,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo b 3",
+          "region": "safe",
+          "box": [
+            0.5375,
+            0.51,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo b 4",
+          "region": "safe",
+          "box": [
+            0.7875,
+            0.51,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.68,
+            1,
+            0.15
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 12
+          },
+          "bind": "name",
+          "name": "Name 3"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo c 1",
+          "region": "safe",
+          "box": [
+            0.0375,
+            0.85,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo c 2",
+          "region": "safe",
+          "box": [
+            0.2875,
+            0.85,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo c 3",
+          "region": "safe",
+          "box": [
+            0.5375,
+            0.85,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo c 4",
+          "region": "safe",
+          "box": [
+            0.7875,
+            0.85,
+            0.175,
+            0.14
+          ],
+          "square": true
+        }
+      ]
+    },
+    {
+      "id": "split-field",
+      "product": "backdrop",
+      "name": "Two color",
+      "category": "events",
+      "palette": {
+        "primary": "#0B3A66",
+        "accent": "#FFFFFF",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "WESTVIEW PROM",
+        "line2": "NIGHT IN PARIS",
+        "phone": "334-555-0131",
+        "web": "westviewprom.example"
+      },
+      "font": "archivo",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Left half",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            0.5,
+            1
+          ],
+          "fill": "#13559A"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.0,
+            0.5,
+            0.16
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 10
+          },
+          "bind": "name",
+          "name": "Name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.5,
+            0.17,
+            0.5,
+            0.16
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 10
+          },
+          "bind": "name",
+          "name": "Name 2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.34,
+            0.5,
+            0.16
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 10
+          },
+          "bind": "name",
+          "name": "Name 3"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.5,
+            0.51,
+            0.5,
+            0.16
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 10
+          },
+          "bind": "name",
+          "name": "Name 4"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.68,
+            0.5,
+            0.16
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 10
+          },
+          "bind": "name",
+          "name": "Name 5"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.5,
+            0.85,
+            0.5,
+            0.15
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 10
+          },
+          "bind": "name",
+          "name": "Name 6"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo a",
+          "region": "safe",
+          "box": [
+            0.5,
+            0.0,
+            0.5,
+            0.16
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo b",
+          "region": "safe",
+          "box": [
+            0,
+            0.17,
+            0.5,
+            0.16
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo c",
+          "region": "safe",
+          "box": [
+            0.5,
+            0.34,
+            0.5,
+            0.16
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo d",
+          "region": "safe",
+          "box": [
+            0,
+            0.51,
+            0.5,
+            0.16
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo e",
+          "region": "safe",
+          "box": [
+            0.5,
+            0.68,
+            0.5,
+            0.16
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo f",
+          "region": "safe",
+          "box": [
+            0,
+            0.85,
+            0.5,
+            0.15
+          ],
+          "square": true
+        }
+      ]
+    },
+    {
+      "id": "band-stripe",
+      "product": "backdrop",
+      "name": "Stripes",
+      "category": "events",
+      "palette": {
+        "primary": "#F4F1EA",
+        "accent": "#2F6FED",
+        "ink": "#172033"
+      },
+      "sample": {
+        "name": "MARLOW FEED",
+        "line2": "CUSTOMER APPRECIATION",
+        "phone": "334-555-0132",
+        "web": "marlowfeed.example"
+      },
+      "font": "oswald",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Stripe 1",
+          "region": "art",
+          "box": [
+            0,
+            0.17,
+            1,
+            0.15
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Stripe 2",
+          "region": "art",
+          "box": [
+            0,
+            0.51,
+            1,
+            0.15
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Stripe 3",
+          "region": "art",
+          "box": [
+            0,
+            0.85,
+            1,
+            0.15
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.0,
+            1,
+            0.15
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 11
+          },
+          "bind": "name",
+          "name": "Name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.17,
+            1,
+            0.15
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 11
+          },
+          "bind": "name",
+          "name": "Name 2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.34,
+            1,
+            0.15
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 11
+          },
+          "bind": "name",
+          "name": "Name 3"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.51,
+            1,
+            0.15
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 11
+          },
+          "bind": "name",
+          "name": "Name 4"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.68,
+            1,
+            0.15
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 11
+          },
+          "bind": "name",
+          "name": "Name 5"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.85,
+            1,
+            0.15
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 11
+          },
+          "bind": "name",
+          "name": "Name 6"
+        }
+      ]
+    },
+    {
+      "id": "badge-star",
+      "product": "backdrop",
+      "name": "Stars",
+      "category": "events",
+      "palette": {
+        "primary": "#3D1020",
+        "accent": "#F2C14E",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "GOLD COAST CLUB",
+        "line2": "ANNUAL BANQUET",
+        "phone": "334-555-0133",
+        "web": "goldcoast.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.0,
+            1,
+            0.15
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 11
+          },
+          "bind": "name",
+          "name": "Name"
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star 1",
+          "region": "art",
+          "box": [
+            0.03,
+            0.17,
+            0.14,
+            0.14
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star 2",
+          "region": "art",
+          "box": [
+            0.23,
+            0.17,
+            0.14,
+            0.14
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star 3",
+          "region": "art",
+          "box": [
+            0.43000000000000005,
+            0.17,
+            0.14,
+            0.14
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star 4",
+          "region": "art",
+          "box": [
+            0.6300000000000001,
+            0.17,
+            0.14,
+            0.14
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star 5",
+          "region": "art",
+          "box": [
+            0.8300000000000001,
+            0.17,
+            0.14,
+            0.14
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.34,
+            1,
+            0.15
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 11
+          },
+          "bind": "name",
+          "name": "Name 2"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo a 1",
+          "region": "safe",
+          "box": [
+            0.0375,
+            0.51,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo a 2",
+          "region": "safe",
+          "box": [
+            0.2875,
+            0.51,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo a 3",
+          "region": "safe",
+          "box": [
+            0.5375,
+            0.51,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo a 4",
+          "region": "safe",
+          "box": [
+            0.7875,
+            0.51,
+            0.175,
+            0.14
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.68,
+            1,
+            0.15
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 11
+          },
+          "bind": "name",
+          "name": "Name 3"
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star 6",
+          "region": "art",
+          "box": [
+            0.03,
+            0.85,
+            0.14,
+            0.14
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star 7",
+          "region": "art",
+          "box": [
+            0.23,
+            0.85,
+            0.14,
+            0.14
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star 8",
+          "region": "art",
+          "box": [
+            0.43000000000000005,
+            0.85,
+            0.14,
+            0.14
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star 9",
+          "region": "art",
+          "box": [
+            0.6300000000000001,
+            0.85,
+            0.14,
+            0.14
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "shape",
+          "kind": "star",
+          "name": "Star 10",
+          "region": "art",
+          "box": [
+            0.8300000000000001,
+            0.85,
+            0.14,
+            0.14
+          ],
+          "fill": "@accent",
+          "square": true
+        }
+      ]
+    }
+  ],
+  "magnet": [
+    {
+      "id": "bold-center",
+      "product": "magnet",
+      "name": "Big type",
+      "category": "business",
+      "palette": {
+        "primary": "#FFD100",
+        "accent": "#14161A",
+        "ink": "#14161A"
+      },
+      "sample": {
+        "name": "SUMMIT PLUMBING",
+        "line2": "LICENSED AND INSURED",
+        "phone": "334-555-0140",
+        "web": "summitplumbing.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Top bar",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            1,
+            0.07
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Bottom bar",
+          "region": "art",
+          "box": [
+            0,
+            0.93,
+            1,
+            0.07
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.04,
+            1,
+            0.5
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 7
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.04,
+            0.58,
+            0.92,
+            0.16
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 3
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.8,
+            0.5,
+            0.17
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.2
+          },
+          "bind": "phone"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.5,
+            0.8,
+            0.5,
+            0.17
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.2
+          },
+          "bind": "web"
+        }
+      ]
+    },
+    {
+      "id": "split-field",
+      "product": "magnet",
+      "name": "Split field",
+      "category": "business",
+      "palette": {
+        "primary": "#0B3A66",
+        "accent": "#FFFFFF",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "BULLDOG LAWN CARE",
+        "line2": "MOWING AND EDGING",
+        "phone": "334-555-0141",
+        "web": "bulldoglawn.example"
+      },
+      "font": "archivo",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Left block",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            0.3,
+            1
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.1,
+            0.26,
+            0.8
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.32,
+            0.04,
+            0.66,
+            0.5
+          ],
+          "fill": "@ink",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 6
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.32,
+            0.58,
+            0.66,
+            0.16
+          ],
+          "fill": "@accent",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.6
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.32,
+            0.8,
+            0.66,
+            0.17
+          ],
+          "fill": "@ink",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.4
+          },
+          "bind": "phone"
+        }
+      ]
+    },
+    {
+      "id": "band-stripe",
+      "product": "magnet",
+      "name": "Band",
+      "category": "business",
+      "palette": {
+        "primary": "#F4F1EA",
+        "accent": "#2F6FED",
+        "ink": "#172033"
+      },
+      "sample": {
+        "name": "CLEAN SLATE",
+        "line2": "HOME CLEANING",
+        "phone": "334-555-0142",
+        "web": "cleanslate.example"
+      },
+      "font": "oswald",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Band",
+          "region": "art",
+          "box": [
+            0,
+            0.3,
+            1,
+            0.4
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.0,
+            1,
+            0.26
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 3
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.28,
+            0.96,
+            0.44
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 7
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.78,
+            0.5,
+            0.2
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.4
+          },
+          "bind": "phone"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.5,
+            0.78,
+            0.5,
+            0.2
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.4
+          },
+          "bind": "web"
+        }
+      ]
+    },
+    {
+      "id": "badge-star",
+      "product": "magnet",
+      "name": "Badge",
+      "category": "business",
+      "palette": {
+        "primary": "#101820",
+        "accent": "#E10600",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "MILE MARKER",
+        "line2": "AUTO REPAIR",
+        "phone": "334-555-0143",
+        "web": "milemarker.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "badge",
+          "name": "Seal",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            0.3,
+            1
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.04,
+            0.2,
+            0.22,
+            0.6
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.33,
+            0.04,
+            0.65,
+            0.5
+          ],
+          "fill": "@ink",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 6
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.33,
+            0.58,
+            0.65,
+            0.16
+          ],
+          "fill": "@accent",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.6
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.33,
+            0.8,
+            0.65,
+            0.17
+          ],
+          "fill": "@ink",
+          "align": "left",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 2.4
+          },
+          "bind": "phone"
+        }
+      ]
+    }
+  ],
+  "decal": [
+    {
+      "id": "bold-center",
+      "product": "decal",
+      "name": "Logo and name",
+      "category": "business",
+      "palette": {
+        "primary": "#14161A",
+        "accent": "#FFD100",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "ACME MFG",
+        "line2": "SAFETY FIRST",
+        "phone": "334-555-0150",
+        "web": "acmemfg.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Bottom bar",
+          "region": "art",
+          "box": [
+            0,
+            0.82,
+            1,
+            0.18
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.26,
+            0.04,
+            0.48,
+            0.46
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0,
+            0.5,
+            1,
+            0.3
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 0.7,
+            "min": 0.08
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.05,
+            0.82,
+            0.9,
+            0.16
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 0.28,
+            "min": 0.08
+          },
+          "bind": "line2"
+        }
+      ]
+    },
+    {
+      "id": "split-field",
+      "product": "decal",
+      "name": "Split",
+      "category": "business",
+      "palette": {
+        "primary": "#0B3A66",
+        "accent": "#FFFFFF",
+        "ink": "#FFFFFF"
+      },
+      "sample": {
+        "name": "RIVER ELECTRIC",
+        "line2": "LICENSED",
+        "phone": "334-555-0151",
+        "web": "northsideelectric.example"
+      },
+      "font": "archivo",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Top half",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            1,
+            0.5
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.3,
+            0.04,
+            0.4,
+            0.42
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.03,
+            0.52,
+            0.94,
+            0.3
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 0.6,
+            "min": 0.08
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.05,
+            0.84,
+            0.9,
+            0.14
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 0.26,
+            "min": 0.08
+          },
+          "bind": "line2"
+        }
+      ]
+    },
+    {
+      "id": "band-stripe",
+      "product": "decal",
+      "name": "Band",
+      "category": "business",
+      "palette": {
+        "primary": "#F4F1EA",
+        "accent": "#E10600",
+        "ink": "#172033"
+      },
+      "sample": {
+        "name": "RIVER CREW",
+        "line2": "SINCE 1998",
+        "phone": "334-555-0152",
+        "web": "rivercrew.example"
+      },
+      "font": "oswald",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Band",
+          "region": "art",
+          "box": [
+            0,
+            0.36,
+            1,
+            0.3
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.3,
+            0.02,
+            0.4,
+            0.32
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.03,
+            0.36,
+            0.94,
+            0.3
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 0.6,
+            "min": 0.08
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.05,
+            0.7,
+            0.9,
+            0.14
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 0.28,
+            "min": 0.08
+          },
+          "bind": "line2"
+        }
+      ]
+    },
+    {
+      "id": "badge-star",
+      "product": "decal",
+      "name": "Badge",
+      "category": "business",
+      "palette": {
+        "primary": "#1E3A2F",
+        "accent": "#D6F25C",
+        "ink": "#F4FFE0"
+      },
+      "sample": {
+        "name": "PINE HOLLOW",
+        "line2": "UTILITIES",
+        "phone": "334-555-0153",
+        "web": "pinehollow.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "badge",
+          "name": "Seal",
+          "region": "art",
+          "box": [
+            0.2,
+            0.02,
+            0.6,
+            0.5
+          ],
+          "fill": "@accent",
+          "square": true
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.28,
+            0.08,
+            0.44,
+            0.38
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.03,
+            0.55,
+            0.94,
+            0.28
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 0.6,
+            "min": 0.08
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.1,
+            0.85,
+            0.8,
+            0.12
+          ],
+          "fill": "@accent",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 0.24,
+            "min": 0.08
+          },
+          "bind": "line2"
+        }
+      ]
+    }
+  ],
+  "safety": [
+    {
+      "id": "bold-center",
+      "product": "safety",
+      "name": "Notice",
+      "category": "business",
+      "palette": {
+        "primary": "#FFFFFF",
+        "accent": "#14161A",
+        "ink": "#14161A"
+      },
+      "sample": {
+        "name": "PPE REQUIRED",
+        "line2": "BEYOND THIS POINT",
+        "phone": "334-555-0160",
+        "web": "acmemfg.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Header",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            1,
+            0.22
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.0,
+            1,
+            0.2
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 4.5
+          },
+          "text": "NOTICE",
+          "name": "Header"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.03,
+            0.26,
+            0.94,
+            0.34
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 4.5
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.05,
+            0.62,
+            0.9,
+            0.13
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 1.8
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Footer bar",
+          "region": "art",
+          "box": [
+            0,
+            0.84,
+            1,
+            0.16
+          ],
+          "fill": "@ink"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.855,
+            0.14,
+            0.13
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.2,
+            0.855,
+            0.78,
+            0.13
+          ],
+          "fill": "@primary",
+          "align": "right",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 1.1
+          },
+          "bind": "phone"
+        }
+      ]
+    },
+    {
+      "id": "split-field",
+      "product": "safety",
+      "name": "Caution",
+      "category": "business",
+      "palette": {
+        "primary": "#FFFFFF",
+        "accent": "#FFD100",
+        "ink": "#14161A"
+      },
+      "sample": {
+        "name": "HEARING PROTECTION",
+        "line2": "REQUIRED IN THIS AREA",
+        "phone": "334-555-0161",
+        "web": "acmemfg.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Header",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            1,
+            0.22
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.0,
+            1,
+            0.2
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 4.5
+          },
+          "text": "CAUTION",
+          "name": "Header"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.03,
+            0.26,
+            0.94,
+            0.34
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 4.5
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.05,
+            0.62,
+            0.9,
+            0.13
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 1.8
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Footer bar",
+          "region": "art",
+          "box": [
+            0,
+            0.84,
+            1,
+            0.16
+          ],
+          "fill": "@ink"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.855,
+            0.14,
+            0.13
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.2,
+            0.855,
+            0.78,
+            0.13
+          ],
+          "fill": "@primary",
+          "align": "right",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 1.1
+          },
+          "bind": "phone"
+        }
+      ]
+    },
+    {
+      "id": "band-stripe",
+      "product": "safety",
+      "name": "Warning",
+      "category": "business",
+      "palette": {
+        "primary": "#FFFFFF",
+        "accent": "#F26B21",
+        "ink": "#14161A"
+      },
+      "sample": {
+        "name": "AUTHORIZED PERSONNEL ONLY",
+        "line2": "ALL VISITORS CHECK IN AT THE OFFICE",
+        "phone": "334-555-0162",
+        "web": "acmemfg.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Header",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            1,
+            0.22
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.0,
+            1,
+            0.2
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 4.5
+          },
+          "text": "WARNING",
+          "name": "Header"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.03,
+            0.26,
+            0.94,
+            0.34
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 4.5
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.05,
+            0.62,
+            0.9,
+            0.13
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 1.8
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Footer bar",
+          "region": "art",
+          "box": [
+            0,
+            0.84,
+            1,
+            0.16
+          ],
+          "fill": "@ink"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.855,
+            0.14,
+            0.13
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.2,
+            0.855,
+            0.78,
+            0.13
+          ],
+          "fill": "@primary",
+          "align": "right",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 1.1
+          },
+          "bind": "phone"
+        }
+      ]
+    },
+    {
+      "id": "badge-star",
+      "product": "safety",
+      "name": "Danger",
+      "category": "business",
+      "palette": {
+        "primary": "#FFFFFF",
+        "accent": "#D32F2F",
+        "ink": "#14161A"
+      },
+      "sample": {
+        "name": "KEEP OUT",
+        "line2": "MOVING EQUIPMENT",
+        "phone": "334-555-0163",
+        "web": "acmemfg.example"
+      },
+      "font": "condensed",
+      "bg": {
+        "type": "solid",
+        "color": "@primary"
+      },
+      "elements": [
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Header",
+          "region": "art",
+          "box": [
+            0,
+            0,
+            1,
+            0.22
+          ],
+          "fill": "@accent"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.0,
+            0.0,
+            1,
+            0.2
+          ],
+          "fill": "@primary",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 4.5
+          },
+          "text": "DANGER",
+          "name": "Header"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.03,
+            0.26,
+            0.94,
+            0.34
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 4.5
+          },
+          "bind": "name"
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.05,
+            0.62,
+            0.9,
+            0.13
+          ],
+          "fill": "@ink",
+          "align": "center",
+          "valign": "middle",
+          "fit": {
+            "lines": 2,
+            "max": 1.8
+          },
+          "bind": "line2"
+        },
+        {
+          "type": "shape",
+          "kind": "rect",
+          "name": "Footer bar",
+          "region": "art",
+          "box": [
+            0,
+            0.84,
+            1,
+            0.16
+          ],
+          "fill": "@ink"
+        },
+        {
+          "type": "image",
+          "frame": "logo",
+          "name": "Logo",
+          "region": "safe",
+          "box": [
+            0.02,
+            0.855,
+            0.14,
+            0.13
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "region": "safe",
+          "box": [
+            0.2,
+            0.855,
+            0.78,
+            0.13
+          ],
+          "fill": "@primary",
+          "align": "right",
+          "valign": "middle",
+          "fit": {
+            "lines": 1,
+            "max": 1.1
           },
           "bind": "phone"
         }

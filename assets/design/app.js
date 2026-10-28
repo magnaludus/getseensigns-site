@@ -3,7 +3,7 @@
 // modules. Nothing is sent anywhere until the customer sends a proof request.
 import { h, icon, iconButton } from './ui/dom.js';
 import { createMeasurer, loadFonts, fontsReady } from './render/measure.js';
-import { createDocument, setField, setPalette } from './model/document.js';
+import { createDocument, setField, setPalette, setChoices, setQty } from './model/document.js';
 import { createStore } from './store.js';
 import { createActions } from './editor/actions.js';
 import { createStage } from './editor/stage-svg.js';
@@ -246,7 +246,16 @@ export async function boot(root) {
     data = await Promise.all(['catalog', 'print-specs', 'templates'].map((n) => loadJson(`${base}${n}.json`)));
   } catch (_) {
     root.textContent = '';
-    root.append(h('p', { class: 'designer-loading' }, 'The designer could not load. Email sales@getseensignsco.com and we will make your proof with you.'));
+    root.append(h('p', { class: 'designer-loading' },
+      'The designer could not load. Email ',
+      h('a', { href: 'mailto:sales@getseensignsco.com' }, 'sales@getseensignsco.com'),
+      ', ',
+      h('a', { href: 'sms:+13342329003?body=Hi%2C%20I%20have%20a%20question%20about%20a%20sign', 'aria-label': 'Text us at (334) 232-9003' }, 'text us'),
+      ', or ',
+      h('a', { href: 'https://wa.me/13342329003?text=Hi%2C%20I%20have%20a%20question%20about%20a%20sign', rel: 'noopener noreferrer', 'aria-label': 'Chat on WhatsApp with Get Seen Signs' }, 'chat on WhatsApp'),
+      ' at ',
+      h('a', { href: 'tel:+13342329003' }, '(334) 232-9003'),
+      ' and we will make your proof with you.'));
     return;
   }
   const [catalog, specs, templates] = data;
@@ -289,5 +298,18 @@ export async function boot(root) {
     debug.ready = true;
     return;
   }
-  if (catalog.products.some((p) => p.id === productId)) open(createDocument(env, productId));
+  const product = catalog.products.find((p) => p.id === productId);
+  if (product) {
+    // The order panel on the product page opens the designer with its choices in the address: ?size=3x6&qty=2
+    let doc = createDocument(env, productId);
+    const patch = {};
+    for (const g of product.groups) {
+      const v = params.get(g.id);
+      if (v && g.choices.some((c) => c.id === v)) patch[g.id] = v;
+    }
+    if (Object.keys(patch).length) doc = setChoices(doc, 0, patch, env);
+    const qty = Number(params.get('qty'));
+    if (product.qty && Number.isInteger(qty) && qty >= product.qty.min && qty <= product.qty.max) doc = setQty(doc, 0, qty);
+    open(doc);
+  }
 }

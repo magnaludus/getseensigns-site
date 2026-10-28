@@ -79,21 +79,36 @@ function drawFeather(ctx, art, spec, box) {
   const flagW = spec.artboard.w * s;
   const poleX = box.x + box.w / 2 - flagW / 2;
   const top = ground - poleH * s;
+  const at = (x, y) => [poleX + x * s, top + y * s];
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  // bare pole up to the flag, then the black sleeve along the sewn edge and over the bent top
   ctx.strokeStyle = '#7B8087';
-  ctx.lineWidth = Math.max(2, s * 1.3);
+  ctx.lineWidth = Math.max(2, s * 1.1);
   ctx.beginPath();
   ctx.moveTo(poleX, ground);
-  ctx.lineTo(poleX, top);
+  ctx.lineTo(...at(0, spec.artboard.h));
   ctx.stroke();
   ctx.save();
-  clipPolygon(ctx, spec.outline, (x, y) => [poleX + x * s, top + y * s]);
+  clipPolygon(ctx, spec.outline, at);
   ctx.clip();
   ctx.drawImage(art, poleX, top, flagW, flagH);
   ctx.restore();
   ctx.strokeStyle = 'rgba(20,22,26,.3)';
   ctx.lineWidth = 1;
-  clipPolygon(ctx, spec.outline, (x, y) => [poleX + x * s, top + y * s]);
+  clipPolygon(ctx, spec.outline, at);
   ctx.stroke();
+  if (spec.poleEdge) {
+    ctx.strokeStyle = '#2A2D31';
+    ctx.lineWidth = Math.max(2, s * 1.5);
+    ctx.beginPath();
+    spec.poleEdge.forEach(([x, y], i) => {
+      const p = at(x - 0.6, y - 0.4);
+      if (i) ctx.lineTo(p[0], p[1]);
+      else ctx.moveTo(p[0], p[1]);
+    });
+    ctx.stroke();
+  }
   shadow(ctx, poleX, ground, flagW * 0.6);
 }
 
@@ -125,7 +140,7 @@ function drawThrow(ctx, art, spec, box, base) {
   const w = spec.artboard.w * s;
   const x = box.x + (box.w - w) / 2;
   const ground = box.y + box.h - 2 * s;
-  const frontH = 28 * s;
+  const frontH = spec.artboard.h * s;
   const topH = 5 * s;
   ctx.fillStyle = base;
   ctx.beginPath();
@@ -173,6 +188,23 @@ function drawBanner(ctx, art, spec, box) {
   }
 }
 
+// Retractable banners, backdrops, magnets, decals and safety signs: the print on a card with a soft shadow.
+function drawPanel(ctx, art, spec, box) {
+  const s = Math.min(box.w / (spec.artboard.w * 1.12), box.h / (spec.artboard.h * 1.08));
+  const w = spec.artboard.w * s;
+  const h = spec.artboard.h * s;
+  const x = box.x + (box.w - w) / 2;
+  const y = box.y + (box.h - h) / 2;
+  ctx.save();
+  ctx.shadowColor = 'rgba(20,22,26,.3)';
+  ctx.shadowBlur = Math.max(6, Math.min(w, h) * 0.04);
+  ctx.drawImage(art, x, y, w, h);
+  ctx.restore();
+  ctx.strokeStyle = 'rgba(20,22,26,.3)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+}
+
 export function renderSimple(ctx, { doc, pi, si, env, assets, width, height }) {
   const piece = doc.project.pieces[pi];
   const spec = specFor(env.specs, piece.productId, piece.choices);
@@ -188,5 +220,6 @@ export function renderSimple(ctx, { doc, pi, si, env, assets, width, height }) {
   else if (piece.productId === 'feather') drawFeather(ctx, art, spec, box);
   else if (piece.productId === 'yard') drawYard(ctx, art, spec, box);
   else if (piece.productId === 'throw') drawThrow(ctx, art, spec, box, baseColor);
-  else drawBanner(ctx, art, spec, box);
+  else if (piece.productId === 'banner') drawBanner(ctx, art, spec, box);
+  else drawPanel(ctx, art, spec, box);
 }

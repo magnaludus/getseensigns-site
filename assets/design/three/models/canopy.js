@@ -9,7 +9,7 @@ import { surface } from '../materials.js';
 
 const EAVE = 84;
 
-// One side's roof triangle and valance strip as a single geometry, UVs = position on the artboard.
+// One side's roof face and valance strip as a single geometry, UVs = position on the artboard.
 function sideGeometry(f) {
   const pos = [];
   const uv = [];
@@ -26,7 +26,10 @@ function sideGeometry(f) {
     if (n.dot(out) < 0) idx.push(a, c, b);
     else idx.push(a, b, c);
   };
-  const sg = new ShapeGeometry(new Shape(f.poly.map((p) => new Vector2(p[0], p[1]))));
+  // The roof is a plain pyramid face: apex to both ends of the valance line, so neighbors meet cleanly at
+  // the hips. The printer's roof edges bow in by up to 3 in; the art runs out to the hips instead of
+  // showing a gap, and the flat editor's guides show the true cut line.
+  const sg = new ShapeGeometry(new Shape([new Vector2(f.apex[0], f.apex[1]), new Vector2(f.w, f.vy), new Vector2(0, f.vy)]));
   const base = [];
   const sp = sg.attributes.position;
   for (let i = 0; i < sp.count; i++) base.push(add(sp.getX(i), sp.getY(i)));

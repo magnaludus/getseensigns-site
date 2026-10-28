@@ -190,9 +190,12 @@ test('canopy face numbers come from the spec and the art is not stretched', () =
   near(f.slant, s.valanceLine);
   near(f.valance, s.artboard.h - s.valanceLine);
   near(f.rise, Math.sqrt(s.valanceLine ** 2 - (s.artboard.w / 2) ** 2), 1e-9);
-  assert.ok(f.rise > 40 && f.rise < 55, String(f.rise));
-  const apex = G.canopyPoint(f, s.roof.polygon[0][0], s.roof.polygon[0][1]);
-  near(apex[0], 0); near(apex[1], f.eave + f.rise, 1e-9); near(apex[2], 0, 1e-9);
+  assert.ok(f.rise > 35 && f.rise < 45, String(f.rise));
+  // the apex is the top point of the printer's outline, in the middle of the page
+  assert.equal(f.apex[1], Math.min(...s.roof.polygon.map((p) => p[1])));
+  near(f.apex[0], s.artboard.w / 2, 0.1);
+  const apex = G.canopyPoint(f, f.apex[0], f.apex[1]);
+  near(apex[0], 0, 0.1); near(apex[1], f.eave + f.rise, 1e-9); near(apex[2], 0, 0.1);
   const left = G.canopyPoint(f, 0, s.valanceLine);
   const right = G.canopyPoint(f, s.artboard.w, s.valanceLine);
   assert.deepEqual([left[0], left[1], left[2]], [-59.5, 84, 59.5]);
@@ -201,7 +204,7 @@ test('canopy face numbers come from the spec and the art is not stretched', () =
   near(lowerLeft[1], 84 - f.valance);
   near(lowerLeft[2], 59.5);
   // isometry on the roof plane: 3D distances equal art distances
-  const pts = [[59.5, 0], [10, 60], [100, 30], [0, 76.28], [119, 76.28], [59.5, 40]];
+  const pts = [[59.5, 0], [10, 60], [100, 30], [0, s.valanceLine], [119, s.valanceLine], [59.5, 40]];
   for (let i = 0; i < pts.length; i++) {
     for (let j = i + 1; j < pts.length; j++) {
       const a = G.canopyPoint(f, ...pts[i]);
@@ -230,33 +233,41 @@ test('canopy face follows a changed valance line (data, not constants)', () => {
 });
 
 test('outlineToUV maps the artboard corners to texture corners', () => {
-  const s = specFor(specs, 'feather', { height: '10.5' });
-  const uv = G.outlineToUV(s.outline, s.artboard);
-  assert.equal(uv.length, s.outline.length);
-  assert.deepEqual(uv[0], [0, 1]);
-  assert.ok(uv.every(([u, v]) => u >= 0 && u <= 1 && v >= 0 && v <= 1));
-  assert.equal(Math.max(...uv.map((p) => p[0])), 1);
-  const last = uv[uv.length - 1];
-  assert.deepEqual(last, [0, 0]);
-  // v decreases down the flag
-  assert.ok(uv[3][1] < uv[1][1]);
+  const art = { w: 10, h: 20 };
+  const uv = G.outlineToUV([[0, 0], [10, 0], [10, 20], [0, 20]], art);
+  assert.deepEqual(uv, [[0, 1], [1, 1], [1, 0], [0, 0]]);
+  // the real flag outline stays inside the texture, with the top tip at v = 1 and the right edge at u = 1
+  for (const height of ['10.5', '14', '18']) {
+    const s = specFor(specs, 'feather', { height });
+    const flag = G.outlineToUV(s.outline, s.artboard);
+    assert.equal(flag.length, s.outline.length);
+    assert.ok(flag.every(([u, v]) => u >= -1e-9 && u <= 1 + 1e-9 && v >= -1e-9 && v <= 1 + 1e-9));
+    near(Math.max(...flag.map((p) => p[1])), 1, 1e-9);
+    near(Math.max(...flag.map((p) => p[0])), 1, 1e-9);
+  }
 });
 
-test('outlineRows follows the feather outline row by row', () => {
-  for (const h of ['10.5', '14', '18']) {
-    const s = specFor(specs, 'feather', { height: h });
-    const rows = G.outlineRows(s.outline, 60, s.artboard.h);
+test('outlineRows follows the real feather outline row by row', () => {
+  for (const height of ['10.5', '14', '18']) {
+    const s = specFor(specs, 'feather', { height });
+    const { w, h } = s.artboard;
+    const rows = G.outlineRows(s.outline, 60, h);
     assert.equal(rows.length, 61);
     near(rows[0][0], 0);
-    near(rows[60][0], s.artboard.h);
-    assert.ok(rows.every(([, x0]) => x0 === 0), 'the left edge is the straight pole sleeve edge');
-    assert.ok(rows.every(([, , x1]) => x1 >= 0 && x1 <= s.artboard.w + 1e-9));
-    near(rows[0][2], 0, 1e-9);
-    const widest = Math.max(...rows.map((r) => r[2]));
-    near(widest, s.artboard.w, s.artboard.w * 0.03);
-    const wi = rows.findIndex((r) => r[2] === widest);
-    assert.ok(wi > 20 && wi < 45, `widest row ${wi}`);
-    assert.ok(rows[60][2] > 0.3 * s.artboard.w && rows[60][2] < 0.5 * s.artboard.w, 'the base edge ends at 40 percent of the width');
+    near(rows[60][0], h);
+    // the top row is the tip on the right edge, the bottom row is the corner on the pole side
+    near(rows[0][1], w, 0.2); near(rows[0][2], w, 0.2);
+    near(rows[60][1], 0, 0.3); near(rows[60][2], 0, 0.3);
+    // down the curve the left edge only moves toward the pole; below the curve it sits on the pole edge
+    const curveEnd = Math.ceil((s.outline[0][1] / h) * 60) + 1;
+    assert.ok(curveEnd > 5 && curveEnd < 45, `curve ends at row ${curveEnd}`);
+    // (the 14 ft curve bulges 0.04 in past its straight edge, hence the small allowance)
+    for (let r = 1; r <= curveEnd; r++) assert.ok(rows[r][1] <= rows[r - 1][1] + 0.05, `row ${r} moves toward the pole`);
+    for (let r = curveEnd; r <= 60; r++) assert.ok(rows[r][1] < 0.3, `row ${r} is on the pole edge`);
+    // the right edge is straight, then the slanted bottom pulls it in toward the pole side
+    for (let r = 1; r <= 30; r++) assert.ok(rows[r][2] > w - 0.3, `row ${r} reaches the right edge`);
+    assert.ok(rows[60][2] < rows[56][2] && rows[56][2] < rows[52][2] + 1e-9);
+    assert.ok(rows.every(([, x0, x1]) => x0 >= -0.3 && x1 <= w + 1e-9 && x0 <= x1 + 1e-9));
   }
 });
 
@@ -275,16 +286,21 @@ test('poleHeightIn follows the height choice', () => {
 });
 
 test('throwDims comes from the table spec', () => {
-  for (const [len, w] of [['6', 72], ['8', 96]]) {
-    const s = specFor(specs, 'throw', { length: len, style: '3' });
+  for (const [len, style] of [['6', '3'], ['6', '4'], ['8', '3'], ['8', '4']]) {
+    const s = specFor(specs, 'throw', { length: len, style });
     const d = G.throwDims(s);
-    assert.equal(d.L, w);
+    assert.equal(d.L, s.artboard.w);
     assert.equal(d.D, 30);
     assert.equal(d.H, 30);
-    assert.equal(d.hem, 2);
-    assert.equal(d.panelH, 28);
+    assert.equal(d.panelH, s.artboard.h);
+    // the front panel hangs from the table top, so the gap above the floor is what is left of 30 in
+    near(d.hem, 30 - s.artboard.h, 1e-9);
+    assert.ok(d.hem > 1 && d.hem < 3, String(d.hem));
     assert.equal(d.frontTop, 30);
   }
+  // a front panel taller than the table sits on the floor
+  const tall = { artboard: { w: 72, h: 40 }, table: { height_in: 30 } };
+  assert.equal(G.throwDims(tall).hem, 0);
 });
 
 test('grommetPoints: corners plus about every 24 inches, no duplicates', () => {
