@@ -314,6 +314,7 @@ dict(
  included='Die-cut decals in your pack size, one design per order, free digital proof',
  days='3-5',
  turnaround='We print in 1 to 3 business days. Most orders arrive 4 to 8 business days after proof approval.',
+ arrives='4-8',
  handling=(2,3), transit=(2,5),
  offer_rows=[
   (54,'2 in, 100 decals'),(79,'2 in, 250 decals'),(119,'2 in, 500 decals'),
@@ -347,6 +348,7 @@ dict(
  included='5 or 10 signs per pack, your logo on each sign, OSHA style headers (Danger, Warning, Caution, Notice), free digital proof',
  days='3-5',
  turnaround='We print in 1 to 3 business days. Most packs arrive 5 to 9 business days after proof approval.',
+ arrives='5-9',
  handling=(2,3), transit=(3,6),
  offer_rows=[
   (119,'12×18 in, 5 signs'),(199,'12×18 in, 10 signs'),(199,'18×24 in, 5 signs'),(169,'12×18 in, 5 heavy duty (.063)'),

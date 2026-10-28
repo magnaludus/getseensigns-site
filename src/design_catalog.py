@@ -21,7 +21,7 @@ EXTRA_REGIONS = {'canopy': {'peak', 'valance', 'valancebar', 'roofarea'}, 'feath
 CATEGORIES = {'business', 'campaign', 'team', 'events', 'holiday'}
 # overlay name -> the variant key that carries its data (None = derived from the artboard)
 OVERLAYS = {'trim': None, 'bleed': None, 'safe': None, 'valance_line': 'valance_line', 'roof': 'roof',
-            'outline': 'outline', 'sleeve': 'pole_sleeve', 'grass_line': 'grass_line', 'grommets': 'grommets'}
+            'outline': 'outline', 'sleeve': 'pole_sleeve', 'grass_line': 'grass_line', 'base_zone': 'base_zone', 'grommets': 'grommets'}
 HEX = re.compile(r'^#[0-9A-Fa-f]{6}$')
 
 
@@ -124,6 +124,7 @@ def build_catalog():
         page_src = BY.get(rows[0]['source'])
         product['etsyId'] = str(page_src['etsy'])
         product['days'] = str(page_src['days'])
+        product['arrives'] = str(page_src.get('arrives') or ('5-10' if product['days'].startswith('5') else '3-8'))
         qty = product.get('qty')
         if qty is not None and not (1 <= qty['min'] <= qty['max'] <= 20):
             _fail(f'{pid} qty must stay within 1 to 20')

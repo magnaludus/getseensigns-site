@@ -75,6 +75,11 @@ export function guidesSvg(spec, on, s) {
     out.push(line(0, y, t.w, y, '#C58B3C', s, 4));
     out.push(label(t.x + 6 * s, y - 5 * s, 'Ground line', s));
   }
+  if (has('base_zone') && spec.baseZoneIn) {
+    const y = t.h - spec.baseZoneIn;
+    out.push(line(0, y, t.w, y, '#C58B3C', s, 4));
+    out.push(label(t.x + 6 * s, y - 5 * s, 'Often hidden by the stand', s));
+  }
   if (has('grommets') && spec.grommetEveryIn) {
     const count = Math.max(1, Math.round(t.w / spec.grommetEveryIn));
     const r = Math.min(0.45, t.h / 40);
@@ -92,7 +97,7 @@ export function guidesSvg(spec, on, s) {
 export function guideChoices(spec) {
   const names = {
     trim: 'Trim line', bleed: 'Bleed', safe: 'Safe zone', valance_line: 'Valance line', roof: 'Roof shape',
-    outline: 'Flag shape', sleeve: 'Pole side', grass_line: 'Ground line', grommets: 'Grommets',
+    outline: 'Flag shape', sleeve: 'Pole side', grass_line: 'Ground line', base_zone: 'Stand zone', grommets: 'Grommets',
   };
   return spec.overlays.filter((k) => names[k] && !(k === 'bleed' && !(spec.bleed > 0))).map((k) => [k, names[k]]);
 }

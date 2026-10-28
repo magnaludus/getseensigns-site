@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from seo_products import P, BY, TURNAROUND, TURNAROUND_LONG
 from seo_pages import LOCAL, BLOG, GAMEDAY
 from design_catalog import build_design_assets
+from order_catalog import build_order_catalog
 from design_pages import HUB as DESIGN_HUB, PRODUCTS as DESIGN_PRODUCTS, PROOF as DESIGN_PROOF, start_price as design_start_price
 SRC=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(SRC); SITE=ROOT  # repo root: built pages are written here
 BASE='https://getseensignsco.com'
@@ -26,6 +27,11 @@ DESIGN_SLUGS={p['page']:p['slug'] for p in DESIGN_PRODUCTS}  # product page slug
 # set this to True and rebuild (see src/README.md). While False the page makes no analytics requests.
 DESIGN_EVENTS_CLIENT=False
 e=html.escape
+ORDER_CATALOG=build_order_catalog()
+os.makedirs(SITE+'/assets/order', exist_ok=True)
+with open(SITE+'/assets/order/catalog.json','w',encoding='utf-8') as _out:
+    json.dump(ORDER_CATALOG, _out, ensure_ascii=False, indent=1)
+    _out.write('\n')
 import re as _r0
 CSS=_r0.sub(r'\s*\n\s*','',open(SITE+'/assets/style.css').read()).replace('/*','\n/*')
 CSS=_r0.sub(r'/\*.*?\*/','',CSS,flags=_r0.S)
@@ -113,8 +119,9 @@ NAV='''<header class="nav">
   <div class="wrap nav-in">
     <a class="nav-logo" href="/" aria-label="Get Seen Signs home"><img src="/assets/brand/getseen-wordmark-only-for-dark-bg.svg" alt="Get Seen Signs" width="150" height="58"></a>
     <nav class="nav-links" aria-label="Main">
-      <a href="/#products">Products</a><a href="/design/">Design</a><a href="/signs-columbus-ga-phenix-city/">Columbus</a><a href="/signs-auburn-opelika-al/">Auburn</a><a href="/blog/">Guides</a><a href="/#faq">FAQ</a>
+      <a href="/shop/">Shop</a><a href="/#products">Products</a><a href="/design/">Design</a><a href="/signs-columbus-ga-phenix-city/">Columbus</a><a href="/signs-auburn-opelika-al/">Auburn</a><a href="/blog/">Guides</a><a href="/#faq">FAQ</a>
     </nav>
+    <a class="nav-shop" href="/shop/">Shop</a>
     <a class="nav-design" href="/design/">Design</a>
     <a class="btn btn-y btn-sm" href="/#quote">Get a quote</a>
   </div>
@@ -154,7 +161,7 @@ def foot(chat=True):
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
       <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
-      <div><p class="fh">Shop</p><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
+      <div><p class="fh">Shop</p><a href="/shop/">Shop all products</a><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="mailto:sales@getseensignsco.com">sales@getseensignsco.com</a><a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
     </div>
   </div>
   <div class="wrap legal">
@@ -202,6 +209,73 @@ def write(path, s):
     os.makedirs(os.path.dirname(full), exist_ok=True); open(full,'w').write(s)
 
 # ---------- product pages ----------
+
+# ---------- order panel (every product page with approved prices) ----------
+def order_panel(p, d):
+    """The 'Start my order' section. Prices shown here are the page prices; the order endpoint prices from the server's catalog."""
+    slug=p['slug']; name=p['name']
+    def sel(g):
+        opts=''.join(f'<option value="{e(c["id"])}">{e(c["label"])}</option>' for c in g['choices'])
+        return f'<label class="ord-field"><span>{e(g["label"])}</span><select name="g-{e(g["id"])}" data-group="{e(g["id"])}">{opts}</select></label>'
+    groups=''.join(sel(g) for g in d['groups'])
+    options=''.join(
+        f'<label class="ord-field"><span>{e(o["label"])}</span><select name="o-{e(o["id"])}" data-option="{e(o["id"])}">'+''.join(f'<option value="{e(c["id"])}">{e(c["label"])}</option>' for c in o['choices'])+f'</select>{"<small>"+e(o["note"])+"</small>" if o["note"] else ""}</label>'
+        for o in d['options'])
+    addons=''
+    if d['addons']:
+        addons='<div class="ord-addons"><span class="ord-lab">Add-ons</span>'+''.join(
+            f'<label class="ord-addon"><input type="checkbox" name="a-{e(a["id"])}" data-addon="{e(a["id"])}"> <span>{e(a["label"])} <b>{money(a["price"])}</b> each</span></label>' for a in d['addons'])+'</div>'
+    qty=f'<label class="ord-field ord-qty"><span>How many {e(d["qtyLabel"])}?</span><input type="number" name="qty" min="1" max="{d["maxQty"]}" value="1" inputmode="numeric" required></label>'
+    designer=''
+    if d['designer']:
+        designer=f'<label class="ord-path" id="ord-path-designer"><input type="radio" name="path" value="designer" checked> <span><b>Design it online</b> Open the designer with your options already picked, then send it for your free proof.</span></label>'
+    first='' if d['designer'] else ' checked'
+    paths=designer+f'<label class="ord-path"><input type="radio" name="path" value="upload"{first}> <span><b>I have my artwork or logo</b> Upload it here. PNG, JPG, WebP or SVG.</span></label><label class="ord-path"><input type="radio" name="path" value="dfm"> <span><b>Rather have us design it</b> Tell us the words and colors. Design help is part of your free proof.</span></label>'
+    design_link=f'/design/{DESIGN_SLUGS_BY_ID[d["designer"]]}/' if d['designer'] else ''
+    data=json.dumps(dict(slug=slug, name=name, designUrl=design_link, **{k:d[k] for k in ('groups','rows','addons','options','qtyLabel','maxQty','designer','designerMap','designerOk','uploadOnly')}), ensure_ascii=False, separators=(',',':')).replace('</','<\\/')
+    return f'''<section class="sec paper2 ord" id="order" aria-labelledby="order-h">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Order this</p><h2 id="order-h">Start my order</h2>
+    <p class="sub">Proof first, then pay. Pick your options and how you want it made. We email your free proof within 12 hours, 7 days a week, with 3 revisions included. Nothing is charged and nothing prints until you approve the proof and pay from your proof link.</p></div>
+    <form class="ord-form" id="order-form" novalidate>
+      <div class="ord-grid">
+        <div class="ord-col">
+          <fieldset class="ord-step"><legend><span class="num">1</span> Pick your options</legend>
+            {groups}{options}{addons}{qty}
+            <p class="ord-price" aria-live="polite"><span class="ord-total" id="ord-total"></span><small>Free shipping in the lower 48. Sales tax is added at checkout where required.</small></p>
+          </fieldset>
+          <fieldset class="ord-step"><legend><span class="num">2</span> How do you want to make it?</legend>
+            <div class="ord-paths">{paths}</div>
+            <p class="ord-fine" id="ord-design-off" hidden>The online designer does not cover this choice yet. Upload your artwork or let us design it, and your free proof comes the same way.</p>
+            <div class="ord-panel" data-for="designer" hidden><a class="btn btn-ink btn-sm" id="ord-design" href="{design_link}">Open the designer <span aria-hidden="true">→</span></a><small>Your options carry over. In the designer, press "Get my free proof" when you are happy with it.</small></div>
+            <div class="ord-panel" data-for="upload" hidden><label class="ord-field"><span>Your artwork or logo (up to 4 files, 25 MB each)</span><input type="file" name="logo" id="ord-files" accept="image/png,image/jpeg,image/webp,image/svg+xml" multiple></label></div>
+            <div class="ord-panel" data-for="dfm" hidden><label class="ord-field"><span>The words you want on it</span><textarea name="wording" rows="3" maxlength="1000" placeholder="Business name, phone, website, anything else that goes on it"></textarea></label><label class="ord-field"><span>Website or logo link (optional)</span><input type="text" name="siteUrl" maxlength="200"></label><label class="ord-field"><span>Have a logo file? (optional)</span><input type="file" name="dfmlogo" id="ord-dfm-files" accept="image/png,image/jpeg,image/webp,image/svg+xml" multiple></label></div>
+          </fieldset>
+        </div>
+        <div class="ord-col">
+          <fieldset class="ord-step"><legend><span class="num">3</span> Your details</legend>
+            <p class="ord-panel" data-for="designer" hidden><small>In the designer you enter your name and email when you press "Get my free proof".</small></p>
+            <div class="ord-details">
+            <label class="ord-field"><span>Name</span><input name="name" autocomplete="name" maxlength="120" required></label>
+            <label class="ord-field"><span>Email</span><input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+            <label class="ord-field"><span>Phone (optional)</span><input name="phone" type="tel" autocomplete="tel" maxlength="40"></label>
+            <label class="ord-field"><span>Needed by (optional)</span><input name="eventDate" type="date"></label>
+            <label class="ord-field"><span>Notes (optional)</span><textarea name="notes" rows="3" maxlength="2000" placeholder="Colors, sizes, wording for each sign, where it will be used"></textarea></label>
+            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            </div>
+            <button class="btn btn-y" type="submit" id="ord-submit">Start my order <span aria-hidden="true">→</span></button>
+            <p class="ord-status" id="ord-status" role="status" aria-live="polite"></p>
+            <p class="ord-fine">No payment now. When your proof is ready we email you a private link to approve it and pay securely with Stripe. Prefer Etsy? <a href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy</a> or <a href="/?product={urllib.parse.quote_plus(p["short"])}#quote">get a quote</a>.</p>
+          </fieldset>
+        </div>
+      </div>
+      <noscript><p class="ord-fine">Ordering here needs JavaScript. You can <a href="https://www.etsy.com/listing/{p["etsy"]}">order on Etsy</a> or <a href="/#quote">send a quote request</a>.</p></noscript>
+    </form>
+    <script type="application/json" id="order-data">{data}</script>
+  </div>
+</section>'''
+
+DESIGN_SLUGS_BY_ID={p['id']:p['slug'] for p in DESIGN_PRODUCTS}
 ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per listing
  '01-custom-yard-sign':('Example 18×24 custom yard sign for a lawn care business on a metal H-stake','Close-up of a coroplast yard sign on its wire H-stake in grass'),
  '02-bulk-yard-signs':('Stack of printed campaign yard signs for a school board race','Stack of printed VOTE PAT HOLLOWAY campaign signs with a bundle of H-stakes'),
@@ -279,10 +353,10 @@ for p in P:
     body=''.join(f'<h2>{e(h)}</h2><p>{t}</p>' for h,t in p['body'])
     if p.get('extra'):
         buy='<div class="buy-list">'+''.join(f'<a class="buy" href="https://www.etsy.com/listing/{x["etsy"]}" target="_blank" rel="noopener"><span><b>{e(x["name"])}</b><small>{e(x["base"])}</small></span><span class="price"><small>from</small> {money(x["price"])}</span><span class="go">Etsy <span aria-hidden="true">→</span></span></a>' for x in p['extra'])+'</div>'
-        etsy_btn=f'<a class="btn btn-y" href="#buy">Shop the designs <span aria-hidden="true">↓</span></a>'
+        etsy_btn=f'<a class="btn btn-ghost" href="#buy">Shop the designs on Etsy <span aria-hidden="true">↓</span></a>'
     else:
         buy=''
-        etsy_btn=f'<a class="btn btn-y" href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy <span aria-hidden="true">→</span></a>'
+        etsy_btn=f'<a class="btn btn-ghost" href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy <span aria-hidden="true">→</span></a>'
     rel=''.join(card(BY[s]) for s in p['related'])
     design_btn=(f'<a class="btn btn-ghost" href="/design/{DESIGN_SLUGS[p["slug"]]}/">Design yours online</a>' if p['slug'] in DESIGN_SLUGS else '')
     hero_img=pic(f'/assets/img/p-{k}', HERO_ALT.get(k, f'{p["name"]} by Get Seen Signs'), 1024, 1024, eager=True)
@@ -296,12 +370,13 @@ for p in P:
         <h1>{e(p["h1"][0])} <span class="block">{e(p["h1"][1])}</span></h1>
         <p class="lede">{e(p["lede"])}</p>
         {price_html}
-        <div class="cta-row">{etsy_btn}{design_btn}<a class="btn btn-ghost" href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a></div>
+        <div class="cta-row"><a class="btn btn-y" href="#order">Start my order <span aria-hidden="true">↓</span></a>{etsy_btn}{design_btn}<a class="btn btn-ghost" href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a></div>
       </div>
       <figure class="phero-img sq">{hero_img}</figure>
     </div>
   </div>
 </section>
+{order_panel(p, ORDER_CATALOG['products'][p['slug']])}
 <section class="sec paper">
   <div class="wrap two">
     <div><p class="eyebrow">Sizes &amp; specs</p><h2 class="h2s">What you get</h2>{spec}{buy and '<h2 class="h2s" id="buy">Pick a design</h2>'+buy}</div>
@@ -323,6 +398,7 @@ for p in P:
 </section>
 </main>
 '''+foot()
+    page=page.replace('</head>','<link rel="stylesheet" href="/assets/order/order.css">\n</head>',1).replace('</body>','<script type="module" src="/assets/order/order.js"></script>\n</body>',1)
     write(path,page)
 
 # ---------- local pages ----------
@@ -459,6 +535,10 @@ for _name,_data in (('catalog',CATALOG),('print-specs',PRINT_SPECS),('templates'
     with open(SITE+f'/assets/design/{_name}.json','w',encoding='utf-8') as _out:
         json.dump(_data, _out, ensure_ascii=False, indent=2)
         _out.write('\n')
+for _prod in CATALOG['products']:
+    for _row in _prod['prices']:
+        if f"{_row['source']}|{_row['offer']}" not in ORDER_CATALOG['offers']:
+            raise SystemExit(f"order catalog: designer price row {_prod['id']} {_row['offer']!r} has no SKU in order_catalog.py")
 print('design prices:', ', '.join(p['id']+' $'+str(p['prices'][0]['price']) for p in CATALOG['products']))
 
 def design_modules(entry='assets/design/main.js'):
@@ -658,7 +738,7 @@ LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
 LASTMOD['/terms']=LASTMOD['/contact']='2026-10-27'
 LASTMOD['/privacy']='2026-10-28'
-urls=['/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/terms','/privacy','/contact']
+urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/terms','/privacy','/contact']
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)
 open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
@@ -752,6 +832,44 @@ title='Custom Yard Signs, Banners, Flags & Tents | Get Seen Signs'
 desc='Custom yard signs, banners, feather flags, car magnets, backdrops and canopy tents. Free design proof, free shipping. Veteran-owned, Smiths Station, AL.'
 page=head(title,desc,'/',ld({"@type":"WebPage","@id":BASE+"/","url":BASE+"/","name":title,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}},faqpage(home_faqs)))+NAV.replace('href="/#products"','href="#products"')+main+'\n'+foot()
 write('/',page)
+
+# ---------- shop page: every product with its "from" price and a way to order ----------
+def shop_card(k):
+    slug,d=SHORT[k]; pr,u=price_of(k); n=NAMES[k]
+    alt=HERO_ALT.get(k, html.unescape(n)+" by Get Seen Signs")
+    price=f'<span class="price"><small>from</small> {money(pr)}<small class="unit"> {u}</small></span>'
+    return f'''<article class="card shop-card">
+  <a class="card-img" href="/{slug}/" tabindex="-1" aria-hidden="true">{pic("/assets/img/p-"+k, alt, 1024, 1024, sm="/assets/img/p-"+k+"-sm", sizes="(max-width: 480px) 92vw, (max-width: 800px) 46vw, (max-width: 1100px) 30vw, 270px")}</a>
+  <div class="card-body"><h3><a href="/{slug}/">{n}</a></h3><p>{d}</p>{price}
+  <div class="shop-btns"><a class="btn btn-y btn-sm" href="/{slug}/#order" aria-label="Start my order: {e(html.unescape(n))}">Start my order</a><a class="more" href="/{slug}/">Details</a></div></div>
+</article>'''
+path='/shop/'; items=[('Home','/'),('Shop','/shop/')]
+shop_title='Shop Custom Signs, Banners, Flags, Tents & More | Get Seen Signs'
+shop_desc='Every Get Seen Signs product with its price: yard signs, banners, feather flags, tents, car magnets, backdrops, decals, safety signs and coins. Order now, free proof first, free shipping.'
+shop_ld=[crumbs(items),{"@type":"CollectionPage","@id":BASE+path,"url":BASE+path,"name":shop_title,"description":shop_desc,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID},
+    "mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":i+1,"name":html.unescape(NAMES[k]),"url":BASE+"/"+SHORT[k][0]+"/"} for i,k in enumerate(BIZK+SEAK)]}}]
+shop_page=head(shop_title,shop_desc,path,ld(*shop_ld))+NAV+f'''<main id="main">
+<section class="phero ink">
+  <div class="wrap">
+    {bc_html(items)}
+    <h1>Shop <span class="block">custom signs.</span></h1>
+    <p class="lede">Pick a product, pick your size and quantity, and start your order. Proof first, then pay: we email your free proof within 12 hours, 7 days a week, and nothing is charged or printed until you approve it. Free shipping in the lower 48.</p>
+    <div class="cta-row"><a class="btn btn-y" href="#business">Business, events &amp; teams</a><a class="btn btn-ghost" href="#seasonal">Seasonal &amp; personal</a><a class="btn btn-ghost" href="/#quote">Get a quote</a></div>
+  </div>
+</section>
+<section class="sec paper">
+  <div class="wrap">
+    <h2 class="group" id="business">Business, events &amp; teams</h2>
+    <div class="shop-grid">{''.join(shop_card(k) for k in BIZK)}</div>
+    <h2 class="group" id="seasonal" style="margin-top:56px">Seasonal &amp; personal</h2>
+    <div class="shop-grid">{''.join(shop_card(k) for k in SEAK)}</div>
+  </div>
+</section>
+{quote_cta("Something else")}
+</main>
+'''+foot()
+shop_page=shop_page.replace('</head>','<link rel="stylesheet" href="/assets/order/order.css">\n</head>',1)
+write(path,shop_page)
 
 # 404
 nf=head('Page not found | Get Seen Signs','That page is not here. Browse custom signs, banners, flags and tents from Get Seen Signs.','/404.html','')

@@ -39,7 +39,8 @@ test('every option combination of every product is priced exactly as seo_product
       count += 1;
     }
   }
-  assert.equal(count, 3 + 6 + 10 + 4 + 4, 'all combinations were checked');
+  // canopy 3, feather 6, yard 10, throw 4, banner 12 (4 sizes x 3 materials), retractable 2, backdrop 2, magnet 2, decal 5, safety 8 (4 packs x 2 layouts)
+  assert.equal(count, 3 + 6 + 10 + 4 + 12 + 2 + 2 + 2 + 5 + 8, 'all combinations were checked');
 });
 
 test('totals are price times quantity, whole dollars, free shipping', () => {
@@ -62,11 +63,16 @@ test('yard sign packs ignore quantity', () => {
   assert.equal(piecePrice(env.catalog, doc.project.pieces[0]).total, 209);
 });
 
-test('production text comes from the product days', () => {
+test('arrival text follows the Etsy wording: 3 to 8 business days, tents and backdrops 5 to 10, decals and safety signs their own', () => {
   const canopy = env.catalog.products.find((p) => p.id === 'canopy');
   const yard = env.catalog.products.find((p) => p.id === 'yard');
   assert.equal(productionText(canopy), '5 to 10 business days after you approve the proof');
-  assert.equal(productionText(yard), '3 to 5 business days after you approve the proof');
+  assert.equal(productionText(yard), '3 to 8 business days after you approve the proof');
+  const by = (id) => env.catalog.products.find((p) => p.id === id);
+  assert.equal(productionText(by('backdrop')), '5 to 10 business days after you approve the proof');
+  assert.equal(productionText(by('decal')), '4 to 8 business days after you approve the proof');
+  assert.equal(productionText(by('safety')), '5 to 9 business days after you approve the proof');
+  assert.equal(productionText({}), '3 to 8 business days after you approve the proof');
 });
 
 test('an unknown choice has no price', () => {

@@ -35,7 +35,7 @@ test('prices in the page match the catalog for every option', async () => {
       assert.deepEqual(problems, [], product.id + ' console problems');
       await page.context().close();
     }
-    assert.equal(checked, 27);
+    assert.equal(checked, 54);
   } finally {
     await browser.close();
     server.stop();

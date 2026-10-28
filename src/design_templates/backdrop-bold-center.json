@@ -1,0 +1,27 @@
+{
+  "id": "bold-center",
+  "product": "backdrop",
+  "name": "Repeat",
+  "category": "events",
+  "palette": {"primary": "#14161A", "accent": "#FFD100", "ink": "#FFFFFF"},
+  "sample": {"name": "ACME GALA", "line2": "SPRING BENEFIT", "phone": "334-555-0130", "web": "acmegala.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "text", "region": "safe", "box": [0, 0.0, 1, 0.15], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 12}, "bind": "name", "name": "Name"},
+    {"type": "image", "frame": "logo", "name": "Logo a 1", "region": "safe", "box": [0.0375, 0.17, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo a 2", "region": "safe", "box": [0.2875, 0.17, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo a 3", "region": "safe", "box": [0.5375, 0.17, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo a 4", "region": "safe", "box": [0.7875, 0.17, 0.175, 0.14], "square": true},
+    {"type": "text", "region": "safe", "box": [0, 0.34, 1, 0.15], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 12}, "bind": "name", "name": "Name"},
+    {"type": "image", "frame": "logo", "name": "Logo b 1", "region": "safe", "box": [0.0375, 0.51, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo b 2", "region": "safe", "box": [0.2875, 0.51, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo b 3", "region": "safe", "box": [0.5375, 0.51, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo b 4", "region": "safe", "box": [0.7875, 0.51, 0.175, 0.14], "square": true},
+    {"type": "text", "region": "safe", "box": [0, 0.68, 1, 0.15], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 12}, "bind": "name", "name": "Name 3"},
+    {"type": "image", "frame": "logo", "name": "Logo c 1", "region": "safe", "box": [0.0375, 0.85, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo c 2", "region": "safe", "box": [0.2875, 0.85, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo c 3", "region": "safe", "box": [0.5375, 0.85, 0.175, 0.14], "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo c 4", "region": "safe", "box": [0.7875, 0.85, 0.175, 0.14], "square": true}
+  ]
+}

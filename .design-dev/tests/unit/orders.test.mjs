@@ -210,7 +210,9 @@ test('the catalog has well-formed Stripe prices', () => {
   assert.ok(entries.length >= 60);
   for (const [sku, e] of entries) {
     assert.match(sku, /^[a-z0-9.-]+$/);
-    assert.match(e.priceId, /^price_[A-Za-z0-9]{20,}$/, sku);
+    // the heavy duty safety pack has no saved Stripe Price yet and is billed with price_data
+    if (sku === 'safety-12x18-5-hd') assert.equal(e.priceId, '', sku);
+    else assert.match(e.priceId, /^price_[A-Za-z0-9]{20,}$/, sku);
     assert.ok(Number.isInteger(e.amount) && e.amount >= 2400, sku);
   }
   assert.equal(CATALOG['banner-13oz-3x6'].amount, 5900);

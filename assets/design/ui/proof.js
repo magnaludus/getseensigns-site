@@ -255,7 +255,7 @@ export function createProof(ctx) {
     const res = await post(fd);
     if (res.data && res.data.ok && res.data.emailed) {
       ctx.track('proof_submit_ok', { mode: 'self' });
-      stepDone(f, res.data.ref, contact);
+      stepDone(f, res.data.ref, contact, res.data.order);
       return;
     }
     const reason = res.status === 503 ? 'off' : res.data && res.data.ok ? 'not-emailed' : res.status === 0 ? 'network' : (res.data && res.data.error) || 'error';
@@ -271,13 +271,14 @@ export function createProof(ctx) {
     return `https://www.etsy.com/listing/${product.etsyId}`;
   }
 
-  function stepDone(f, ref, contact) {
+  function stepDone(f, ref, contact, order) {
     const { body } = f;
     f.title.textContent = 'Got it. Your proof is on the way.';
     body.textContent = '';
     body.append(
       h('p', { class: 'dz-ref' }, 'Reference ', h('b', null, ref)),
       h('p', null, "We'll email your proof within 12 hours, 7 days a week. 3 revisions included. Nothing prints until you approve it."),
+      order ? h('p', null, 'Nothing is charged until you approve your proof and pay from your proof link. ', h('a', { href: order.url }, 'See your order status'), '.') : null,
       h('p', { class: 'dz-help' }, 'Prefer Etsy? ', h('a', { href: etsyLink(), target: '_blank', rel: 'noopener' }, 'Order on Etsy'), ` and mention reference ${ref}.`),
       h('div', { class: 'dz-dlg-foot' },
         h('button', { type: 'button', class: 'dz-btn dz-btn-ghost', onclick: () => ctx.copyShareLink() }, 'Copy a link to this design'),

@@ -22,6 +22,9 @@ admin creates order + proof ──► proof email ──► /proof/<token> ─�
 |---|---|
 | `/proof/<token>` | Proof approval page: proof image(s), order summary and price, name field, required Terms checkbox, Approve button, and a revision form (3 free). |
 | `/order/<token>` | Order status page: progress, pay button for approved orders, tracking once shipped. |
+| `/shop/` | Every product with its "from" price and a "Start my order" link. In the main nav (desktop and phone header). |
+| `/<product>/#order` | The "Start my order" panel on every product page: options, quantity, price, then design online, upload artwork, or "rather have us design it". |
+| `POST /api/order-request` | Where the order panel posts. Creates the order in D1 as `awaiting_proof`, stores the files, emails sales@ and the customer. |
 | `/admin/` | Private page for the owner (asks for `ADMIN_TOKEN`): create an order + proof, send a new proof, add tracking. |
 | `POST /api/admin/orders` | Create an order and proof, email the proof link. Returns the proof link. |
 | `GET /api/admin/orders`, `GET /api/admin/orders/<id>` | List orders; full detail with the evidence record and a dispute evidence packet. |
@@ -31,6 +34,18 @@ admin creates order + proof ──► proof email ──► /proof/<token> ─�
 
 The token in `/proof/<token>` and `/order/<token>` is 256 random bits per order. The pages are `noindex`,
 never cached, and the admin endpoints answer 401 without the bearer token (and 503 if `ADMIN_TOKEN` is unset or shorter than 16 characters).
+
+### Self-serve orders: proof first, then pay
+
+A customer can start an order from any product page (or from the Shop page): they pick the options and quantity from the prices already on the page, choose how the artwork happens (open the designer with those options, upload a logo, or "rather have us design it"), and give their name, email, phone, date and notes. Nothing is charged.
+
+1. `POST /api/order-request` (or a designer proof request, `POST /api/design-proof`, when the design maps to a priced option) saves the request and the files (see `src/README.md`, "Turn on the Pages Function"), creates the order in D1 with status `awaiting_proof` (the order number is the `GS-XXXXXXXX` reference the customer was given), emails `sales@getseensignsco.com` through Brevo, and emails the customer a confirmation: reference, the free proof within 12 hours (7 days a week, 3 revisions), and that nothing is charged or printed until they approve the proof and pay from their proof link. Their `/order/<token>` page says "We are making your proof".
+2. In `/admin/` the order shows as **needs proof**. Click it, paste the link to the proof image and send. The customer gets the proof email, approves on `/proof/<token>` and pays through Stripe Checkout, exactly as for orders created by hand. `GET /api/admin/orders/<id>` also returns what the customer sent (phone, date, notes, files).
+3. **Prices.** The browser sends only a SKU and a quantity. The server looks every SKU up in `functions/_lib/catalog.js` (the saved Stripe prices) and ignores any amount, name or total in the request. Only the SKUs in `assets/order/catalog.json` can be ordered; the shipping line and the $589 standard tent top (in Stripe but not on the site) cannot.
+4. **Where the choices come from.** `src/order_catalog.py` maps each product page's options to a SKU. The build reads each price from `seo_products.py` and **stops** if a SKU's amount in `catalog.js` differs, an offer string is missing, a priced offer on a page has no SKU, or a designer price row has no SKU. It writes `assets/order/catalog.json`, which the panel and the endpoint both read. To add or change a priced option: change Etsy, then `seo_products.py`, then `order_catalog.py` and `catalog.js`, then rebuild.
+5. **Upload only.** Challenge coins and the Trade Show Booth Kit have no designer, so they offer upload or "rather have us design it". Fitted table covers have no designer path either (the designer has 3-sided and 4-sided throws).
+
+**Env vars and D1.** No new variables: it uses `DB`, `BREVO_API_KEY` and `ADMIN_TOKEN`, and turns on with the same rule as the designer proof form (`DESIGN_PROOF_ENABLED=false` switches it off). No new SQL: the order tables from `migrations/0001_orders.sql` and the request tables from `migrations/0002_design_proof_requests.sql` are all it needs; `awaiting_proof` is just a new status value.
 
 ### One-time setup in Cloudflare
 

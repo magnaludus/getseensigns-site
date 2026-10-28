@@ -18,6 +18,7 @@ const MAX_PROOF_BYTES = 20 * 1024 * 1024;
 const PROOF_TYPES = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/gif']);
 
 export const STATUS_LABELS = {
+  awaiting_proof: 'We are making your proof',
   proof_sent: 'Proof ready for your review',
   revision_requested: 'Revision in progress',
   approved: 'Proof approved, waiting for payment',
@@ -176,6 +177,23 @@ export async function createOrder(db, body, now) {
   return { order: await getOrderById(db, order.id), version: 1 };
 }
 
+// An order that came from the website's order panel or the designer: no proof yet, status awaiting_proof.
+// `items` come from resolveLineItem on SKUs the server knows, so the prices are the server's. The order id is the
+// reference the customer was given (the same GS- number as the design_proof_requests row).
+export async function createPendingOrder(db, input, now) {
+  const items = input.items;
+  const subtotal = items.reduce((sum, it) => sum + it.unit_amount_cents * it.quantity, 0);
+  if (!items.length || subtotal < 50) return { error: 'order total must be at least $0.50' };
+  const stamp = nowIso(now);
+  const order = { id: input.id, token: newToken(), email: oneLine(input.email, 200).toLowerCase(), name: oneLine(input.name, 120), notes: multiLine(input.notes, 2000) };
+  await run(
+    db,
+    "INSERT INTO orders (id, token, customer_email, customer_name, status, line_items_json, subtotal_cents, notes, created_at, updated_at) VALUES (?, ?, ?, ?, 'awaiting_proof', ?, ?, ?, ?, ?)",
+    [order.id, order.token, order.email, order.name, JSON.stringify(items), subtotal, order.notes, stamp, stamp]
+  );
+  return { order: await getOrderById(db, order.id), subtotal };
+}
+
 // A new proof after a revision request (status revision_requested) or a replacement before the customer has acted.
 export async function addProof(db, order, body, now) {
   const pu = proofUrlsFrom(body);
@@ -186,10 +204,10 @@ export async function addProof(db, order, body, now) {
   const results = await db.batch([
     db
       .prepare(
-        "INSERT INTO proofs (order_id, version, files_json, proof_hash, note, created_at) SELECT ?, (SELECT COALESCE(MAX(version), 0) + 1 FROM proofs WHERE order_id = ?), ?, ?, ?, ? WHERE EXISTS (SELECT 1 FROM orders WHERE id = ? AND status IN ('proof_sent', 'revision_requested'))"
+        "INSERT INTO proofs (order_id, version, files_json, proof_hash, note, created_at) SELECT ?, (SELECT COALESCE(MAX(version), 0) + 1 FROM proofs WHERE order_id = ?), ?, ?, ?, ? WHERE EXISTS (SELECT 1 FROM orders WHERE id = ? AND status IN ('awaiting_proof', 'proof_sent', 'revision_requested'))"
       )
       .bind(order.id, order.id, JSON.stringify(hashed.files), hashed.proofHash, multiLine(body.proof_note, 1000), stamp, order.id),
-    db.prepare("UPDATE orders SET status = 'proof_sent', updated_at = ? WHERE id = ? AND status IN ('proof_sent', 'revision_requested')").bind(stamp, order.id),
+    db.prepare("UPDATE orders SET status = 'proof_sent', updated_at = ? WHERE id = ? AND status IN ('awaiting_proof', 'proof_sent', 'revision_requested')").bind(stamp, order.id),
   ]);
   if (changes(results[0]) !== 1) return { error: 'this order already has an approved proof; a new proof cannot be added', status: 409 };
   const proof = await one(db, 'SELECT version FROM proofs WHERE order_id = ? ORDER BY version DESC LIMIT 1', [order.id]);

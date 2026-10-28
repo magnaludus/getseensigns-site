@@ -17,6 +17,15 @@
 // binding SEND_EMAIL and set DESIGN_PROOF_TO / DESIGN_PROOF_FROM. If both Brevo and SEND_EMAIL exist, Brevo is
 // tried first and SEND_EMAIL is the fallback.
 //
+// Orders: a request that names what to buy becomes an order in D1 (status awaiting_proof, order id = the reference).
+//   - The order panel on the product pages posts to POST /api/order-request (functions/api/order-request.js), which
+//     uses this same code with an order required. request.order = {items:[{sku, quantity}], options:[{label, value}]}.
+//     Only SKUs listed in assets/order/catalog.json are accepted and every price comes from functions/_lib/catalog.js,
+//     so nothing the browser sends can change a price. mode is "upload" (artwork files), "design_for_me" or "self".
+//   - A designer request (this endpoint) becomes an order too when every piece of the design maps to a SKU; the
+//     items are derived from the design on the server, never taken from the browser.
+// Nothing is charged: the customer pays from the proof link after approving the proof (see functions/proof/).
+//
 // Request, multipart/form-data:
 //   design       JSON string, the v2 design document (200 KB max). Optional when request.mode is design_for_me.
 //   request      JSON string {name, email, phone, eventDate, notes, mode, source, viewport, clientTotal,
@@ -46,9 +55,12 @@
 import catalog from '../../assets/design/catalog.json' with { type: 'json' };
 import { projectTotal, productById, money } from '../../assets/design/model/pricing.js';
 import { validateDocument } from '../../assets/design/model/document.js';
+import orderCatalog from '../../assets/order/catalog.json' with { type: 'json' };
 import { getDb } from '../_lib/db.js';
+import { resolveLineItem } from '../_lib/stripe.js';
+import { createPendingOrder, linksFor } from '../_lib/orders.js';
 import { brevoSend, layout, button, p as para } from '../_lib/emails.js';
-import { SHOP_EMAIL, SHOP_PHONE, esc, sha256Hex } from '../_lib/util.js';
+import { SHOP_EMAIL, SHOP_PHONE, esc, sha256Hex, money as dollars, baseUrl } from '../_lib/util.js';
 
 const MAX_DESIGN = 200000;
 const MAX_REQUEST = 32000;
@@ -442,9 +454,9 @@ function optionLabels(piece) {
 function summaryText(d) {
   const c = d.contact;
   const lines = [
-    'Design proof request',
+    d.order ? 'New order request (awaiting proof)' : 'Design proof request',
     'Reference: ' + d.ref,
-    'Mode: ' + (d.mode === 'design_for_me' ? 'Design it for me' : 'Self-designed'),
+    'Mode: ' + (d.mode === 'design_for_me' ? 'Design it for me' : d.mode === 'upload' ? 'Uploaded artwork' : 'Self-designed'),
     'Received: ' + d.when.toISOString(),
     '',
     'Name: ' + c.name,
@@ -455,6 +467,12 @@ function summaryText(d) {
     'Source: ' + (c.source || '-') + (c.viewport ? ' (' + (c.viewport === 'm' ? 'phone' : 'desktop') + ')' : ''),
     'Notes: ' + (c.notes || '-'),
   ];
+  if (d.order) {
+    lines.push('', 'Order ' + d.order.id + ' (nothing charged yet)');
+    for (const it of d.order.items) lines.push('  - ' + it.name + ' x ' + it.quantity + ' = ' + dollars(it.unit_amount_cents * it.quantity) + (it.description ? ' (' + it.description + ')' : ''));
+    lines.push('  Subtotal before tax: ' + dollars(d.order.subtotal) + ', free shipping');
+    lines.push('  Next: send the proof for order ' + d.order.id + ' on the /admin/ page. The customer approves it and pays from the proof link.');
+  }
   if (d.dfm) {
     lines.push('', 'Design it for me');
     lines.push('Products: ' + (d.dfm.products.map((id) => productById(catalog, id).short).join(', ') || '-'));
@@ -507,10 +525,11 @@ function productShorts(d) {
     const short = productById(catalog, id).short;
     if (shorts.indexOf(short) < 0) shorts.push(short);
   }
+  if (!shorts.length && d.order) for (const it of d.order.items) if (shorts.indexOf(it.name) < 0 && shorts.length < 2) shorts.push(it.name);
   return shorts;
 }
 
-const subjectOf = (d) => 'Design proof request: ' + (productShorts(d).join(' + ') || 'sign') + ' (' + d.contact.name + ') ' + d.ref;
+const subjectOf = (d) => (d.order ? 'New order request: ' : 'Design proof request: ') + (productShorts(d).join(' + ') || 'sign') + ' (' + d.contact.name + ') ' + d.ref;
 
 // Brevo: the request to the shop, customer as Reply-To, previews and logos attached (d.attach).
 async function sendBrevoMail(env, d) {
@@ -533,23 +552,36 @@ async function sendBrevoMail(env, d) {
 async function sendConfirmation(env, d) {
   const first = d.contact.name.split(/\s+/)[0];
   const shorts = productShorts(d);
-  const lead = d.mode === 'design_for_me' ? 'Thanks for sending your request. We will design it for you.' : 'Thanks for sending your design to Get Seen Signs.';
-  const proof = 'Your free proof will be in your inbox within 12 hours, 7 days a week. Three revisions are included, and nothing prints until you approve the proof.';
+  const order = d.order;
+  const lead = order
+    ? d.mode === 'design_for_me' ? 'Thanks for your order request. We will design it for you.' : 'Thanks for your order request.'
+    : d.mode === 'design_for_me' ? 'Thanks for sending your request. We will design it for you.' : 'Thanks for sending your design to Get Seen Signs.';
+  const proof = 'Your free proof will be in your inbox within 12 hours, 7 days a week. Three revisions are included.';
+  const nothing = 'Nothing is charged and nothing prints until you approve your proof and pay from your proof link.';
+  const lines = order ? order.items.map((it) => it.name + ' x ' + it.quantity + ': ' + dollars(it.unit_amount_cents * it.quantity)) : [];
+  const itemsHtml = order
+    ? '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:6px 0 4px;font-size:15px">' +
+      order.items.map((it) => '<tr><td style="padding:8px 0;border-bottom:1px solid #E4DFD2">' + esc(it.name) + (it.description ? '<br><span style="color:#5B5F66;font-size:13px">' + esc(it.description) + '</span>' : '') + '<br><span style="color:#5B5F66;font-size:13px">Qty ' + esc(it.quantity) + '</span></td><td align="right" style="padding:8px 0;border-bottom:1px solid #E4DFD2;font-weight:700;white-space:nowrap">' + esc(dollars(it.unit_amount_cents * it.quantity)) + '</td></tr>').join('') +
+      '</table><p style="margin:6px 0 12px;font-weight:700">Total before sales tax: ' + esc(dollars(order.subtotal)) + ' (free shipping in the lower 48)</p>'
+    : '';
   const html = layout({
-    heading: 'We got your request',
+    heading: order ? 'We got your order request' : 'We got your request',
     preheader: 'Reference ' + d.ref + '. Your free proof is coming within 12 hours.',
     bodyHtml:
       para('Hi ' + esc(first) + ',') + para(esc(lead)) +
       '<p style="margin:0 0 12px;font-size:20px"><strong>Reference ' + esc(d.ref) + '</strong></p>' +
+      itemsHtml +
       para(esc(proof)) +
-      (shorts.length ? para('You asked about: ' + esc(shorts.join(', ')) + '.') : '') +
+      (order ? para('<strong>' + esc(nothing) + '</strong>') : '') +
+      (order ? button(order.url, 'See your order status') : '') +
+      (!order && shorts.length ? para('You asked about: ' + esc(shorts.join(', ')) + '.') : '') +
       para('Want to add a logo file or change something? Just reply to this email and mention your reference.') +
-      '<p style="margin:14px 0 0;font-size:13px;color:#5B5F66">This was a preview request, not an order. Prices and details are confirmed on your proof.</p>',
+      (order ? '' : '<p style="margin:14px 0 0;font-size:13px;color:#5B5F66">This was a preview request, not an order. Prices and details are confirmed on your proof.</p>'),
   });
-  const text = ['Hi ' + first + ',', '', lead, '', 'Reference ' + d.ref, '', proof, shorts.length ? 'You asked about: ' + shorts.join(', ') + '.' : '', 'Want to add a logo file or change something? Just reply to this email and mention your reference.', '', '--', 'Get Seen Signs', 'Smiths Station, AL', SHOP_PHONE + ' | ' + SHOP_EMAIL + ' | getseensignsco.com']
-    .filter((l, i, a) => l !== '' || a[i - 1] !== '')
+  const text = ['Hi ' + first + ',', '', lead, '', 'Reference ' + d.ref, '', ...lines, order ? 'Total before sales tax: ' + dollars(order.subtotal) + ' (free shipping in the lower 48)' : '', order ? '' : '', proof, order ? nothing : '', order ? 'Order status: ' + order.url : '', !order && shorts.length ? 'You asked about: ' + shorts.join(', ') + '.' : '', 'Want to add a logo file or change something? Just reply to this email and mention your reference.', '', '--', 'Get Seen Signs', 'Smiths Station, AL', SHOP_PHONE + ' | ' + SHOP_EMAIL + ' | getseensignsco.com']
+    .filter((l, i, a) => l !== '' || (a[i - 1] !== '' && i > 0))
     .join('\n');
-  await brevoSend(env, { to: d.contact.email, toName: d.contact.name, subject: 'We got your proof request (reference ' + d.ref + ')', html: html, text: text, tags: ['design-proof', 'confirmation'] });
+  await brevoSend(env, { to: d.contact.email, toName: d.contact.name, subject: order ? 'We got your order request (reference ' + d.ref + ')' : 'We got your proof request (reference ' + d.ref + ')', html: html, text: text, tags: ['design-proof', 'confirmation'] });
 }
 
 async function sendMail(env, d, deps) {
@@ -598,7 +630,7 @@ function readContact(req) {
     viewport: req.viewport === 'm' || req.viewport === 'd' ? req.viewport : '',
     notes: multiLine(req.notes, 4000),
   };
-  if (!contact.name || !validEmail(contact.email) || (mode !== 'self' && mode !== 'design_for_me')) throw new Reject(400, 'fields');
+  if (!contact.name || !validEmail(contact.email) || (mode !== 'self' && mode !== 'design_for_me' && mode !== 'upload')) throw new Reject(400, 'fields');
   let dfm = null;
   if (mode === 'design_for_me') {
     const d = req.designForMe && typeof req.designForMe === 'object' ? req.designForMe : {};
@@ -610,7 +642,57 @@ function readContact(req) {
   return { contact: contact, mode: mode, dfm: dfm, clientTotal: clientTotal };
 }
 
+// ---------- orders ----------
+
+const MAX_ORDER_LINES = 6;
+const MAX_NOTE = 120;
+
+// Items the browser asked for. Only the sku and the quantity are read; a price, name or total in the request is
+// ignored, and the amount comes from the server's catalog through resolveLineItem. Unknown or non-public SKUs
+// (the shipping line, anything not in assets/order/catalog.json) are refused.
+export function itemsFromRequest(req) {
+  const order = req.order;
+  if (order == null) return null;
+  if (typeof order !== 'object' || !Array.isArray(order.items) || !order.items.length || order.items.length > MAX_ORDER_LINES) throw new Reject(400, 'order');
+  const items = [];
+  for (const raw of order.items) {
+    const sku = raw && typeof raw.sku === 'string' ? raw.sku : '';
+    const quantity = raw ? Number(raw.quantity) : NaN;
+    if (!Object.prototype.hasOwnProperty.call(orderCatalog.skus, sku)) throw new Reject(400, 'order');
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > orderCatalog.maxQty) throw new Reject(400, 'order');
+    const res = resolveLineItem({ sku: sku, quantity: quantity });
+    if (res.error) throw new Reject(400, 'order');
+    items.push(res.item);
+  }
+  // Wording choices (finish, style, layout) are notes on the first line. They never change a price.
+  const notes = (Array.isArray(order.options) ? order.options : [])
+    .slice(0, 4)
+    .map((o) => (o && typeof o === 'object' ? oneLine(o.label, 30) + ': ' + oneLine(o.value, 50) : ''))
+    .filter((t) => t.length > 2);
+  if (notes.length) items[0].description = notes.join(', ').slice(0, MAX_NOTE);
+  return items;
+}
+
+// The items a design stands for, from the designer's own price rows. Returns null when any piece has no SKU.
+export function itemsFromDesign(design) {
+  const items = [];
+  for (const piece of design.project.pieces) {
+    const product = productById(catalog, piece.productId);
+    const row = product.prices.find((r) => Object.keys(r.when).every((k) => r.when[k] === piece.choices[k]));
+    const sku = row && orderCatalog.offers[row.source + '|' + row.offer];
+    if (!sku) return null;
+    const quantity = product.qty ? Math.min(orderCatalog.maxQty, Math.max(1, piece.qty | 0)) : 1;
+    const res = resolveLineItem({ sku: sku, quantity: quantity });
+    if (res.error) return null;
+    const same = items.find((it) => it.sku === sku);
+    if (same) same.quantity = Math.min(orderCatalog.maxQty, same.quantity + quantity);
+    else items.push(res.item);
+  }
+  return items.length ? items : null;
+}
+
 function readDesign(form, mode) {
+  if (mode === 'upload') return null;
   const raw = form.get('design');
   if (raw == null || raw === '') {
     if (mode === 'design_for_me') return null;
@@ -804,8 +886,9 @@ export function proofEnabled(env) {
   return !!(env.DB && env.BREVO_API_KEY);
 }
 
-async function run(request, env, when, deps) {
-  if (!proofEnabled(env)) return json({ ok: false, enabled: false }, 503);
+async function run(request, env, when, deps, options) {
+  const orderRequired = !!(options && options.orderRequired);
+  if (!proofEnabled(env) || (orderRequired && !env.DB)) return json({ ok: false, enabled: false }, 503);
   if (!env.PROOFS && !env.DB) throw new Reject(500, 'storage');
   if (limited(request.headers.get('cf-connecting-ip'), when.getTime())) return json({ ok: false, error: 'rate' }, 429, { 'Retry-After': '3600' });
   if (Number(request.headers.get('content-length') || 0) > MAX_BODY) throw new Reject(413, 'too-large');
@@ -835,7 +918,11 @@ async function run(request, env, when, deps) {
   const who = readContact(req);
   const design = readDesign(form, who.mode);
   const files = await readFiles(form);
-  if (!files.previews.length && who.mode !== 'design_for_me') throw new Reject(400, 'preview');
+  if (who.mode === 'upload' && !files.logos.length) throw new Reject(400, 'logo');
+  if (!files.previews.length && who.mode === 'self') throw new Reject(400, 'preview');
+  const explicit = itemsFromRequest(req);
+  const items = explicit || (design && env.DB ? itemsFromDesign(design) : null);
+  if (orderRequired && !explicit) throw new Reject(400, 'order');
 
   const total = design ? projectTotal(catalog, design) : null;
   const serverTotal = total && total.ok ? total.total : null;
@@ -857,6 +944,7 @@ async function run(request, env, when, deps) {
     priceMismatch: priceMismatch,
     elapsedMs: typeof req.elapsedMs === 'number' ? req.elapsedMs : null,
   };
+  if (items) record.order = { items: items.map((it) => ({ sku: it.sku, quantity: it.quantity, note: it.description || '' })) };
 
   const prepared = await prepareFiles(files);
   const primaryLimit = env.BREVO_API_KEY ? BREVO_ATTACH_LIMIT : ATTACH_LIMIT;
@@ -881,6 +969,16 @@ async function run(request, env, when, deps) {
   }
   if (!r2 && !d1) throw new Reject(500, 'storage');
 
+  let order = null;
+  if (items && d1) {
+    try {
+      const made = await createPendingOrder(await getDb(env), { id: ref, email: who.contact.email, name: who.contact.name, items: items, notes: who.contact.notes }, when);
+      if (made.order) order = { id: made.order.id, items: items, subtotal: made.subtotal, url: linksFor(baseUrl(request, env), made.order).order };
+    } catch (_) {
+      console.error('design-proof order failed');
+    }
+  }
+
   const mail = {
     ref: ref,
     when: when,
@@ -896,6 +994,7 @@ async function run(request, env, when, deps) {
     fileNames: prepared.map((f) => f.file),
     d1: !!d1,
     d1Saved: d1 ? d1.saved : [],
+    order: order,
   };
   let emailed = false;
   let confirmed = false;
@@ -935,13 +1034,14 @@ async function run(request, env, when, deps) {
   if (d1) await markEmail(env, ref, when, shopStatus, customerStatus, error);
   const answer = { ok: true, ref: ref, emailed: emailed, stored: true, serverTotal: serverTotal, priceMismatch: priceMismatch };
   if (env.BREVO_API_KEY) answer.confirmed = confirmed;
+  if (order) answer.order = { id: order.id, url: order.url, subtotal: order.subtotal };
   return json(answer);
 }
 
-export async function handle(request, env, now, deps) {
+export async function handle(request, env, now, deps, options) {
   const when = now instanceof Date ? now : new Date(now == null ? Date.now() : now);
   try {
-    return await run(request, env, when, deps);
+    return await run(request, env, when, deps, options);
   } catch (err) {
     if (err instanceof Reject) return json({ ok: false, error: err.code }, err.status);
     throw err;

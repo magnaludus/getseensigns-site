@@ -103,11 +103,11 @@ test('a request is saved in D1 and emailed to the shop through Brevo with the fi
   assert.deepEqual(mail.sender, { name: 'Get Seen Signs', email: 'sales@getseensignsco.com' });
   assert.deepEqual(mail.to, [{ email: 'sales@getseensignsco.com' }]);
   assert.deepEqual(mail.replyTo, { email: 'pat@example.com', name: 'Pat Smith' });
-  assert.equal(mail.subject, 'Design proof request: Canopy tent (Pat Smith) ' + body.ref);
+  assert.equal(mail.subject, 'New order request: Canopy tent (Pat Smith) ' + body.ref, 'a designer request with D1 is an order too');
   assert.deepEqual(mail.attachment.map((a) => a.name), ['preview-0.png', 'preview-1.png', 'logo-0.png']);
   assert.equal(mail.attachment[0].content, b64(bytesOf('png', 50000)));
   assert.equal(shopMail().headers['api-key'], env.BREVO_API_KEY);
-  for (const line of ['Reference: ' + body.ref, 'Name: Pat Smith', 'Email: pat@example.com', 'Attached: preview-0.png, preview-1.png, logo-0.png', 'Saved in D1: design_proof_requests, ref ' + body.ref]) {
+  for (const line of ['New order request (awaiting proof)', 'Order ' + body.ref + ' (nothing charged yet)', 'Reference: ' + body.ref, 'Name: Pat Smith', 'Email: pat@example.com', 'Attached: preview-0.png, preview-1.png, logo-0.png', 'Saved in D1: design_proof_requests, ref ' + body.ref]) {
     assert.ok(mail.textContent.split('\n').includes(line), line + '\n' + mail.textContent);
   }
   assert.ok(!mail.textContent.includes('R2'));
@@ -120,11 +120,13 @@ test('the customer gets a short Get Seen Signs confirmation with the reference a
   assert.deepEqual(mail.sender, { name: 'Get Seen Signs', email: 'sales@getseensignsco.com' });
   assert.deepEqual(mail.to, [{ email: 'pat@example.com', name: 'Pat Smith' }]);
   assert.deepEqual(mail.replyTo, { email: 'sales@getseensignsco.com', name: 'Get Seen Signs' });
-  assert.equal(mail.subject, 'We got your proof request (reference ' + body.ref + ')');
+  assert.equal(mail.subject, 'We got your order request (reference ' + body.ref + ')');
   const all = mail.htmlContent + '\n' + mail.textContent;
   assert.ok(all.includes(body.ref));
   assert.match(mail.textContent, /within 12 hours, 7 days a week/);
-  assert.match(mail.textContent, /nothing prints until you approve/i);
+  assert.match(mail.textContent, /Three revisions are included/);
+  assert.match(mail.textContent, /Nothing is charged and nothing prints until you approve your proof and pay from your proof link/);
+  assert.match(mail.textContent, /Order status: https:\/\/getseensignsco\.com\/order\/[A-Za-z0-9_-]{43}/);
   assert.ok(all.includes('Smiths Station, AL') && all.includes('(334) 232-9003') && all.includes('#14161A') && all.includes('#FFD100'));
   assert.doesNotMatch(all, /Veracity|\bdba\b|d\/b\/a|\bLLC\b|Scott|Shadow Wood|36877|trade name/i);
   assert.ok(!mail.attachment, 'the confirmation carries no attachments');

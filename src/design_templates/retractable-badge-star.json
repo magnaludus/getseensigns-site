@@ -1,0 +1,20 @@
+{
+  "id": "badge-star",
+  "product": "retractable",
+  "name": "Badge",
+  "category": "business",
+  "palette": {"primary": "#1E3A2F", "accent": "#D6F25C", "ink": "#F4FFE0"},
+  "sample": {"name": "PINE HOLLOW", "line2": "LAWN AND LANDSCAPE", "phone": "334-555-0123", "web": "pinehollow.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "badge", "name": "Seal", "region": "art", "box": [0.2, 0.03, 0.6, 0.2], "fill": "@accent", "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.3, 0.06, 0.4, 0.14], "square": true},
+    {"type": "text", "region": "safe", "box": [0.0, 0.27, 1, 0.3], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 9}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.04, 0.6, 0.92, 0.1], "fill": "@accent", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 4.2}, "bind": "line2"},
+    {"type": "shape", "kind": "star", "name": "Star left", "region": "art", "box": [0.05, 0.73, 0.15, 0.06], "fill": "@accent", "square": true},
+    {"type": "shape", "kind": "star", "name": "Star right", "region": "art", "box": [0.8, 0.73, 0.15, 0.06], "fill": "@accent", "square": true},
+    {"type": "text", "region": "safe", "box": [0.2, 0.73, 0.6, 0.06], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2.6}, "bind": "phone"},
+    {"type": "text", "region": "safe", "box": [0.0, 0.81, 1, 0.045], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 2.2}, "bind": "web"}
+  ]
+}

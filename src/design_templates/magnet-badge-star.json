@@ -1,0 +1,17 @@
+{
+  "id": "badge-star",
+  "product": "magnet",
+  "name": "Badge",
+  "category": "business",
+  "palette": {"primary": "#101820", "accent": "#E10600", "ink": "#FFFFFF"},
+  "sample": {"name": "MILE MARKER", "line2": "AUTO REPAIR", "phone": "334-555-0143", "web": "milemarker.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "badge", "name": "Seal", "region": "art", "box": [0, 0, 0.3, 1], "fill": "@accent", "square": true},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.04, 0.2, 0.22, 0.6], "square": true},
+    {"type": "text", "region": "safe", "box": [0.33, 0.04, 0.65, 0.5], "fill": "@ink", "align": "left", "valign": "middle", "fit": {"lines": 2, "max": 6}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.33, 0.58, 0.65, 0.16], "fill": "@accent", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 2.6}, "bind": "line2"},
+    {"type": "text", "region": "safe", "box": [0.33, 0.8, 0.65, 0.17], "fill": "@ink", "align": "left", "valign": "middle", "fit": {"lines": 1, "max": 2.4}, "bind": "phone"}
+  ]
+}

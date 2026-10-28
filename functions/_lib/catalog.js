@@ -1,6 +1,7 @@
 // Existing live-mode Stripe Prices for the Get Seen Signs account, keyed by SKU.
 // Generated from the account's catalog map; every price is USD, tax behavior exclusive, tax code txcd_20090028.
 // Test-mode keys cannot see these live Price IDs, so stripe.js sends the same amount as price_data instead.
+// An entry with an empty priceId (the heavy duty safety pack) has no saved Stripe Price yet and is always sent as price_data.
 
 export const TAX_CODE = 'txcd_20090028';
 export const SHIPPING_TAX_CODE = 'txcd_92010001';
@@ -71,4 +72,5 @@ export const CATALOG = {
   "safety-12x18-5": { name: "Aluminum Safety Sign Pack (12x18, 5 signs)", priceId: "price_1UV28J67epULNprT4j39c1NI", amount: 11900 },
   "safety-12x18-10": { name: "Aluminum Safety Sign Pack (12x18, 10 signs)", priceId: "price_1UV2Ab67epULNprTdym2Ru9H", amount: 19900 },
   "safety-18x24-5": { name: "Aluminum Safety Sign Pack (18x24, 5 signs)", priceId: "price_1UV2Ad67epULNprTKevwIi3y", amount: 19900 },
+  "safety-12x18-5-hd": { name: "Aluminum Safety Sign Pack (12x18, 5 heavy duty .063)", priceId: "", amount: 16900 },
 };

@@ -50,7 +50,7 @@
       "id": "studio",
       "label": "Studio",
       "plate": null,
-      "bestFor": ["canopy", "feather", "yard", "throw", "banner"],
+      "bestFor": ["canopy", "feather", "yard", "throw", "banner", "retractable", "backdrop", "magnet", "decal", "safety"],
       "phase": 1
     },
     {"id": "yard", "label": "Front yard", "plate": "yard", "bestFor": ["yard"], "phase": 1},
@@ -298,13 +298,177 @@
             {"id": "4x8", "label": "4×8 ft"},
             {"id": "3x10", "label": "3×10 ft"}
           ]
+        },
+        {
+          "id": "material",
+          "label": "Material",
+          "choices": [
+            {"id": "13oz", "label": "13 oz standard"},
+            {"id": "18oz", "label": "18 oz heavy duty"},
+            {"id": "mesh", "label": "Mesh wind-through"}
+          ]
         }
       ],
       "prices": [
-        {"when": {"size": "2x4"}, "source": "vinyl-banners", "offer": "2×4 ft with grommets"},
-        {"when": {"size": "3x6"}, "source": "vinyl-banners", "offer": "3×6 ft"},
-        {"when": {"size": "4x8"}, "source": "vinyl-banners", "offer": "4×8 ft"},
-        {"when": {"size": "3x10"}, "source": "vinyl-banners", "offer": "3×10 ft"}
+        {"when": {"size": "2x4", "material": "13oz"}, "source": "vinyl-banners", "offer": "2×4 ft with grommets"},
+        {"when": {"size": "3x6", "material": "13oz"}, "source": "vinyl-banners", "offer": "3×6 ft"},
+        {"when": {"size": "4x8", "material": "13oz"}, "source": "vinyl-banners", "offer": "4×8 ft"},
+        {"when": {"size": "3x10", "material": "13oz"}, "source": "vinyl-banners", "offer": "3×10 ft"},
+        {"when": {"size": "2x4", "material": "18oz"}, "source": "vinyl-banners", "offer": "18 oz heavy duty, 2×4 ft"},
+        {"when": {"size": "3x6", "material": "18oz"}, "source": "vinyl-banners", "offer": "18 oz heavy duty, 3×6 ft"},
+        {"when": {"size": "4x8", "material": "18oz"}, "source": "vinyl-banners", "offer": "18 oz heavy duty, 4×8 ft"},
+        {"when": {"size": "3x10", "material": "18oz"}, "source": "vinyl-banners", "offer": "18 oz heavy duty, 3×10 ft"},
+        {"when": {"size": "2x4", "material": "mesh"}, "source": "vinyl-banners", "offer": "Mesh wind-through, 2×4 ft"},
+        {"when": {"size": "3x6", "material": "mesh"}, "source": "vinyl-banners", "offer": "Mesh wind-through, 3×6 ft"},
+        {"when": {"size": "4x8", "material": "mesh"}, "source": "vinyl-banners", "offer": "Mesh wind-through, 4×8 ft"},
+        {"when": {"size": "3x10", "material": "mesh"}, "source": "vinyl-banners", "offer": "Mesh wind-through, 3×10 ft"}
+      ],
+      "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]
+    },
+    {
+      "id": "retractable",
+      "name": "Retractable banner stand",
+      "short": "Retractable banner",
+      "page": "/retractable-banners/",
+      "slug": "retractable-banner",
+      "designPage": "/design/retractable-banner/",
+      "sides": {"mode": "fixed", "names": ["Banner"]},
+      "qty": {"min": 1, "max": 20, "unit": "stand"},
+      "groups": [
+        {
+          "id": "size",
+          "label": "Size",
+          "choices": [
+            {"id": "33x81", "label": "33×81 in"},
+            {"id": "47x81", "label": "47×81 in"}
+          ]
+        }
+      ],
+      "prices": [
+        {"when": {"size": "33x81"}, "source": "retractable-banners", "offer": "33×81 in stand"},
+        {"when": {"size": "47x81"}, "source": "retractable-banners", "offer": "47×81 in stand"}
+      ],
+      "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]
+    },
+    {
+      "id": "backdrop",
+      "name": "Step and repeat backdrop",
+      "short": "Step & repeat backdrop",
+      "page": "/step-and-repeat-backdrops/",
+      "slug": "step-and-repeat",
+      "designPage": "/design/step-and-repeat/",
+      "sides": {"mode": "fixed", "names": ["Backdrop"]},
+      "qty": {"min": 1, "max": 5, "unit": "backdrop"},
+      "groups": [
+        {
+          "id": "size",
+          "label": "Size",
+          "choices": [
+            {"id": "8x8", "label": "8×8 ft"},
+            {"id": "10x8", "label": "10×8 ft"}
+          ]
+        }
+      ],
+      "prices": [
+        {"when": {"size": "8x8"}, "source": "step-and-repeat-backdrops", "offer": "8×8 ft with stand and case"},
+        {"when": {"size": "10x8"}, "source": "step-and-repeat-backdrops", "offer": "10×8 ft with stand and case"}
+      ],
+      "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]
+    },
+    {
+      "id": "magnet",
+      "name": "Car magnet pair",
+      "short": "Car magnet pair",
+      "page": "/car-magnets/",
+      "slug": "car-magnet",
+      "designPage": "/design/car-magnet/",
+      "sides": {"mode": "fixed", "names": ["Magnet"]},
+      "qty": {"min": 1, "max": 10, "unit": "pair"},
+      "groups": [
+        {
+          "id": "size",
+          "label": "Size (a pair)",
+          "choices": [
+            {"id": "12x18", "label": "12×18 in"},
+            {"id": "18x24", "label": "18×24 in"}
+          ]
+        }
+      ],
+      "prices": [
+        {"when": {"size": "12x18"}, "source": "car-magnets", "offer": "12×18 in pair"},
+        {"when": {"size": "18x24"}, "source": "car-magnets", "offer": "18×24 in pair"}
+      ],
+      "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]
+    },
+    {
+      "id": "decal",
+      "name": "Hard hat decals",
+      "short": "Hard hat decals",
+      "page": "/hard-hat-decals/",
+      "slug": "hard-hat-decal",
+      "designPage": "/design/hard-hat-decal/",
+      "sides": {"mode": "fixed", "names": ["Decal"]},
+      "qty": null,
+      "groups": [
+        {
+          "id": "pack",
+          "label": "Size and quantity",
+          "choices": [
+            {"id": "2in100", "label": "2 in, 100 decals"},
+            {"id": "2in250", "label": "2 in, 250 decals"},
+            {"id": "2in500", "label": "2 in, 500 decals"},
+            {"id": "3in250", "label": "3 in, 250 decals"},
+            {"id": "3in500", "label": "3 in, 500 decals"}
+          ]
+        }
+      ],
+      "prices": [
+        {"when": {"pack": "2in100"}, "source": "hard-hat-decals", "offer": "2 in, 100 decals"},
+        {"when": {"pack": "2in250"}, "source": "hard-hat-decals", "offer": "2 in, 250 decals"},
+        {"when": {"pack": "2in500"}, "source": "hard-hat-decals", "offer": "2 in, 500 decals"},
+        {"when": {"pack": "3in250"}, "source": "hard-hat-decals", "offer": "3 in, 250 decals"},
+        {"when": {"pack": "3in500"}, "source": "hard-hat-decals", "offer": "3 in, 500 decals"}
+      ],
+      "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]
+    },
+    {
+      "id": "safety",
+      "name": "Aluminum safety sign pack",
+      "short": "Safety sign pack",
+      "page": "/aluminum-safety-signs/",
+      "slug": "safety-sign",
+      "designPage": "/design/safety-sign/",
+      "sides": {"mode": "by_choice", "group": "pack", "names": {"12x18_5": ["Sign 1", "Sign 2", "Sign 3", "Sign 4", "Sign 5"], "12x18_10": ["Sign 1", "Sign 2", "Sign 3", "Sign 4", "Sign 5", "Sign 6", "Sign 7", "Sign 8", "Sign 9", "Sign 10"], "18x24_5": ["Sign 1", "Sign 2", "Sign 3", "Sign 4", "Sign 5"], "12x18_5hd": ["Sign 1", "Sign 2", "Sign 3", "Sign 4", "Sign 5"]}, "sameLabel": "Same on all signs", "eachLabel": "Each sign different"},
+      "qty": null,
+      "groups": [
+        {
+          "id": "pack",
+          "label": "Size and pack",
+          "choices": [
+            {"id": "12x18_5", "label": "12×18 in, 5 signs"},
+            {"id": "12x18_10", "label": "12×18 in, 10 signs"},
+            {"id": "18x24_5", "label": "18×24 in, 5 signs"},
+            {"id": "12x18_5hd", "label": "12×18 in, 5 heavy duty (.063)"}
+          ]
+        },
+        {
+          "id": "orient",
+          "label": "Layout",
+          "choices": [
+            {"id": "landscape", "label": "Landscape"},
+            {"id": "portrait", "label": "Portrait"}
+          ]
+        }
+      ],
+      "prices": [
+        {"when": {"pack": "12x18_5", "orient": "landscape"}, "source": "aluminum-safety-signs", "offer": "12×18 in, 5 signs"},
+        {"when": {"pack": "12x18_5", "orient": "portrait"}, "source": "aluminum-safety-signs", "offer": "12×18 in, 5 signs"},
+        {"when": {"pack": "12x18_10", "orient": "landscape"}, "source": "aluminum-safety-signs", "offer": "12×18 in, 10 signs"},
+        {"when": {"pack": "12x18_10", "orient": "portrait"}, "source": "aluminum-safety-signs", "offer": "12×18 in, 10 signs"},
+        {"when": {"pack": "18x24_5", "orient": "landscape"}, "source": "aluminum-safety-signs", "offer": "18×24 in, 5 signs"},
+        {"when": {"pack": "18x24_5", "orient": "portrait"}, "source": "aluminum-safety-signs", "offer": "18×24 in, 5 signs"},
+        {"when": {"pack": "12x18_5hd", "orient": "landscape"}, "source": "aluminum-safety-signs", "offer": "12×18 in, 5 heavy duty (.063)"},
+        {"when": {"pack": "12x18_5hd", "orient": "portrait"}, "source": "aluminum-safety-signs", "offer": "12×18 in, 5 heavy duty (.063)"}
       ],
       "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]
     }

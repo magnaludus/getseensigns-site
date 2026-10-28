@@ -3,7 +3,7 @@
 // modules. Nothing is sent anywhere until the customer sends a proof request.
 import { h, icon, iconButton } from './ui/dom.js';
 import { createMeasurer, loadFonts, fontsReady } from './render/measure.js';
-import { createDocument, setField, setPalette } from './model/document.js';
+import { createDocument, setField, setPalette, setChoices, setQty } from './model/document.js';
 import { createStore } from './store.js';
 import { createActions } from './editor/actions.js';
 import { createStage } from './editor/stage-svg.js';
@@ -298,5 +298,18 @@ export async function boot(root) {
     debug.ready = true;
     return;
   }
-  if (catalog.products.some((p) => p.id === productId)) open(createDocument(env, productId));
+  const product = catalog.products.find((p) => p.id === productId);
+  if (product) {
+    // The order panel on the product page opens the designer with its choices in the address: ?size=3x6&qty=2
+    let doc = createDocument(env, productId);
+    const patch = {};
+    for (const g of product.groups) {
+      const v = params.get(g.id);
+      if (v && g.choices.some((c) => c.id === v)) patch[g.id] = v;
+    }
+    if (Object.keys(patch).length) doc = setChoices(doc, 0, patch, env);
+    const qty = Number(params.get('qty'));
+    if (product.qty && Number.isInteger(qty) && qty >= product.qty.min && qty <= product.qty.max) doc = setQty(doc, 0, qty);
+    open(doc);
+  }
 }
