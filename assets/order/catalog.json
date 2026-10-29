@@ -247,7 +247,7 @@
       "material": "mesh"
      },
      "sku": "banner-mesh-2x4",
-     "price": 54
+     "price": 59
     },
     {
      "when": {
@@ -271,7 +271,7 @@
       "material": "mesh"
      },
      "sku": "banner-mesh-3x6",
-     "price": 84
+     "price": 94
     },
     {
      "when": {
@@ -311,7 +311,7 @@
       "material": "18oz"
      },
      "sku": "banner-18oz-3x10",
-     "price": 119
+     "price": 129
     },
     {
      "when": {
@@ -319,7 +319,7 @@
       "material": "mesh"
      },
      "sku": "banner-mesh-3x10",
-     "price": 119
+     "price": 139
     }
    ],
    "addons": [],

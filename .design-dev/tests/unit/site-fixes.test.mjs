@@ -55,12 +55,12 @@ test('the three new Etsy products have pages with the approved prices and links'
 
 test('banner page lists 13 oz, 18 oz heavy duty and mesh at the approved prices', () => {
   const html = body(read('vinyl-banners/index.html'));
-  for (const text of ['13 oz $44', '13 oz $59', '13 oz $89', '13 oz $79', '18 oz or mesh $54', '18 oz or mesh $84', '18 oz or mesh $149', '18 oz or mesh $119']) assert.ok(html.includes(text), text);
+  for (const text of ['13 oz $44', '13 oz $59', '13 oz $89', '13 oz $79', '18 oz $54, mesh $59', '18 oz $84, mesh $94', '18 oz or mesh $149', '18 oz $129, mesh $139']) assert.ok(html.includes(text), text);
   assert.ok(read('vinyl-banners/index.html').includes('g-03-vinyl-banner-materials'));
   assert.ok(read('vinyl-banners/index.html').includes('g-03-vinyl-banner-fence'));
   const offers = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(read('vinyl-banners/index.html'))[1])['@graph'].find((n) => n['@type'] === 'Product').offers;
   assert.equal(offers.length, 12);
-  assert.deepEqual(offers.map((o) => o.price), ['44.00', '59.00', '89.00', '79.00', '54.00', '84.00', '149.00', '119.00', '54.00', '84.00', '149.00', '119.00']);
+  assert.deepEqual(offers.map((o) => o.price), ['44.00', '59.00', '89.00', '79.00', '54.00', '84.00', '149.00', '129.00', '59.00', '94.00', '149.00', '139.00']);
 });
 
 test('table page offers fitted closed-back covers at $159 and $179 and no stretch cover', () => {

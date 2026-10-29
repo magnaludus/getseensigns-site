@@ -271,8 +271,8 @@ test('the designer covers ten products, with the same prices as the product page
   const banner = env.catalog.products.find((p) => p.id === 'banner');
   assert.deepEqual(banner.groups.map((g) => g.id), ['size', 'material']);
   assert.equal(banner.prices.length, 12);
-  assert.deepEqual(banner.prices.filter((r) => r.when.material === '18oz').map((r) => r.price), [54, 84, 149, 119]);
-  assert.deepEqual(banner.prices.filter((r) => r.when.material === 'mesh').map((r) => r.price), [54, 84, 149, 119]);
+  assert.deepEqual(banner.prices.filter((r) => r.when.material === '18oz').map((r) => r.price), [54, 84, 149, 129]);
+  assert.deepEqual(banner.prices.filter((r) => r.when.material === 'mesh').map((r) => r.price), [59, 94, 149, 139]);
 });
 
 test('new designer products have the right aspect ratio, bleed, safe area and dpi rules', () => {

@@ -54,15 +54,15 @@ dict(
  desc='Custom outdoor vinyl banners in 13 oz, 18 oz heavy duty or mesh, hemmed with metal grommets. 2x4 to 3x10 ft. Free design proof. From $44, free shipping.',
  h1=('Custom vinyl banners', 'for storefronts, fences and events.'),
  lede='Outdoor vinyl banners in 13 oz standard, 18 oz heavy duty or mesh wind-through, with hemmed edges and metal grommets (or pole pockets). Grand openings, sales, church events, team fences and job sites. Free design and a proof before it prints.',
- sizes=['2×4 ft: 13 oz $44, 18 oz or mesh $54','3×6 ft: 13 oz $59, 18 oz or mesh $84','4×8 ft: 13 oz $89, 18 oz or mesh $149','3×10 ft: 13 oz $79, 18 oz or mesh $119'],
+ sizes=['2×4 ft: 13 oz $44, 18 oz $54, mesh $59','3×6 ft: 13 oz $59, 18 oz $84, mesh $94','4×8 ft: 13 oz $89, 18 oz or mesh $149','3×10 ft: 13 oz $79, 18 oz $129, mesh $139'],
  material='13 oz standard (scrim-reinforced vinyl), 18 oz heavy duty (thicker blockout vinyl) or mesh wind-through (perforated vinyl). Hemmed edges.',
  included='Hemmed edges and metal grommets about every 2 ft (pole pockets also on 13 oz and 18 oz), free custom design and digital proof',
  days='3-5',
  design_included=True,
  offer_rows=[
   (44,'2×4 ft with grommets'),(59,'3×6 ft'),(89,'4×8 ft'),(79,'3×10 ft'),
-  (54,'18 oz heavy duty, 2×4 ft'),(84,'18 oz heavy duty, 3×6 ft'),(149,'18 oz heavy duty, 4×8 ft'),(119,'18 oz heavy duty, 3×10 ft'),
-  (54,'Mesh wind-through, 2×4 ft'),(84,'Mesh wind-through, 3×6 ft'),(149,'Mesh wind-through, 4×8 ft'),(119,'Mesh wind-through, 3×10 ft'),
+  (54,'18 oz heavy duty, 2×4 ft'),(84,'18 oz heavy duty, 3×6 ft'),(149,'18 oz heavy duty, 4×8 ft'),(129,'18 oz heavy duty, 3×10 ft'),
+  (59,'Mesh wind-through, 2×4 ft'),(94,'Mesh wind-through, 3×6 ft'),(149,'Mesh wind-through, 4×8 ft'),(139,'Mesh wind-through, 3×10 ft'),
  ],
  gallery_extra=[
   ('/assets/img/g-03-vinyl-banner-materials','Pick your banner material card showing 13 oz standard, 18 oz heavy duty and mesh wind-through vinyl'),
@@ -70,7 +70,7 @@ dict(
  ],
  body=[
   ('Which material?', '13 oz standard is our everyday banner: scrim-reinforced vinyl for indoor and outdoor use, great for events, storefronts and parties. 18 oz heavy duty is our heaviest vinyl, a thicker blockout material for long-term outdoor jobs and rougher conditions. Mesh wind-through is perforated vinyl that lets wind pass through, made for fences, scaffolds and construction sites. Mesh lets some light through, so colors look a little less solid up close.'),
-  ('Which size?', 'In 13 oz, 2×4 ft is $44, 3×6 ft is $59, 4×8 ft is $89 and 3×10 ft is $79. In 18 oz heavy duty or mesh, 2×4 ft is $54, 3×6 ft is $84, 4×8 ft is $149 and 3×10 ft is $119. 2×4 ft fits a table front, a doorway or a small fence panel. 3×6 ft is the go-to for storefronts and "Now Open" banners. 4×8 ft and 3×10 ft are for building faces, long fences and anywhere people read from across a parking lot.'),
+  ('Which size?', 'In 13 oz, 2×4 ft is $44, 3×6 ft is $59, 4×8 ft is $89 and 3×10 ft is $79. In 18 oz heavy duty, 2×4 ft is $54, 3×6 ft is $84, 4×8 ft is $149 and 3×10 ft is $129. In mesh, 2×4 ft is $59, 3×6 ft is $94, 4×8 ft is $149 and 3×10 ft is $139. 2×4 ft fits a table front, a doorway or a small fence panel. 3×6 ft is the go-to for storefronts and "Now Open" banners. 4×8 ft and 3×10 ft are for building faces, long fences and anywhere people read from across a parking lot.'),
   ('Grommets or pole pockets?', 'Grommets are for tying or zip-tying the banner to a fence, railing or wall, and sit about every 2 ft. Pole pockets are sleeves at the top and bottom for hanging on poles or a banner stand. Pole pockets are available on 13 oz and 18 oz banners at the same price. Mesh banners come with grommets.'),
   ('Related', 'For indoor trade shows, a <a href="/retractable-banners/">retractable banner</a> stands on its own. For holiday banners with your family name, see <a href="/holiday-yard-signs/">holiday signs and banners</a>.'),
  ],
