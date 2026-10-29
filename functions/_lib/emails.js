@@ -51,7 +51,7 @@ export function layout({ heading, preheader, bodyHtml }) {
     '</td></tr>' +
     '<tr><td style="background:' + INK + ';padding:24px 28px;font-size:14px;line-height:1.6;color:#BDBAB2">' +
     '<div style="font-family:' + HEAD_FONT + ';font-weight:900;font-size:20px;letter-spacing:.08em;text-transform:uppercase;color:#ffffff">Get Seen Signs</div>' +
-    '<div>Veteran-owned, family-run online sign shop. Smiths Station, AL.</div>' +
+    '<div>Veteran-owned, family-run online sign shop.</div>' +
     '<div style="margin-top:8px"><a href="tel:' + SHOP_PHONE_TEL + '" style="color:#ffffff;font-weight:700;text-decoration:none">' + SHOP_PHONE + '</a> &middot; ' +
     SHOP_EMAIL + ' &middot; <a href="' + SITE + '/" style="color:#BDBAB2">getseensignsco.com</a></div>' +
     '<div style="margin-top:8px;font-size:13px"><a href="' + SITE + '/terms" style="color:#8D8A83">Terms</a> &middot; <a href="' + SITE + '/privacy" style="color:#8D8A83">Privacy</a></div>' +
@@ -63,7 +63,7 @@ export const p = (html) => '<p style="margin:0 0 12px">' + html + '</p>';
 const small = (html) => '<p style="margin:14px 0 0;font-size:13px;color:#5B5F66">' + html + '</p>';
 
 function textFooter() {
-  return ['', '--', 'Get Seen Signs', 'Smiths Station, AL', SHOP_PHONE + ' | ' + SHOP_EMAIL + ' | getseensignsco.com'].join('\n');
+  return ['', '--', 'Get Seen Signs', SHOP_PHONE + ' | ' + SHOP_EMAIL + ' | getseensignsco.com'].join('\n');
 }
 
 function itemsText(items) {

@@ -164,16 +164,44 @@ test('Vendor Booth Kit is now the Trade Show Booth Kit, same price, old URL redi
   assert.match(read('index.html'), /<option>Trade Show Booth Kit<\/option>/);
 });
 
-test('the Columbus page links the working sign inspection page, not the old broken address', () => {
-  const html = read('signs-columbus-ga-phenix-city/index.html');
-  assert.ok(html.includes('href="https://columbusga.gov/inscode/What-We-Do/Sign-Inspection"'));
-  for (const f of pages()) assert.ok(!readFileSync(f, 'utf8').includes('inspections-and-code-2'), f);
+test('the area pages and the Alabama and Georgia election guide are retired: not built, not in the sitemap, redirected, and nothing links to them', () => {
+  const retired = [
+    ['signs-columbus-ga-phenix-city', '/'],
+    ['signs-auburn-opelika-al', '/'],
+    ['blog/election-yard-sign-rules-alabama-georgia', '/bulk-campaign-signs/'],
+  ];
+  const redirects = read('_redirects');
+  const sitemap = read('sitemap.xml');
+  for (const [slug, target] of retired) {
+    assert.ok(!existsSync(new URL(slug + '/index.html', root)), slug + ' is not built');
+    assert.ok(!sitemap.includes(slug), slug + ' is not in the sitemap');
+    for (const variant of ['/' + slug, '/' + slug + '/', '/' + slug + '/index.html']) {
+      assert.ok(redirects.split('\n').includes(variant + ' ' + target + ' 301'), variant + ' redirects to ' + target);
+    }
+    for (const f of pages()) assert.ok(!readFileSync(f, 'utf8').includes(slug), f + ' links to ' + slug);
+  }
+});
+
+test('public pages and the store emails do not name the shop\'s city or area (the Terms and Privacy pages are legal copy and keep theirs)', () => {
+  const place = /Smiths Station|Lee County|Phenix City|Opelika|Fort Benning|Columbus, GA|Auburn, AL/;
+  const legal = new Set(['terms.html', 'privacy.html']);
+  const root_ = fileURLToPath(root).replace(/\/$/, '');
+  for (const f of pages()) {
+    if (legal.has(f.slice(root_.length + 1))) continue;
+    assert.doesNotMatch(readFileSync(f, 'utf8'), place, f);
+  }
+  for (const rel of ['functions/_lib/emails.js', 'functions/_lib/pages.js', 'functions/api/design-proof.js', 'functions/api/quote-request.js']) {
+    assert.doesNotMatch(read(rel), place, rel);
+  }
+  const org = read('index.html').match(/"@type":"Organization".*?"sameAs"/s)[0];
+  assert.doesNotMatch(org, /PostalAddress|addressLocality|"City"/);
+  assert.match(org, /"areaServed":\{"@type":"Country","name":"United States"\}/);
 });
 
 test('sitemap dates come from the build date (America/New_York, or BUILD_DATE) and a rebuild only touches the sitemap and blog dateModified', () => {
   const sm = read('sitemap.xml');
   const dates = [...sm.matchAll(/<loc>([^<]+)<\/loc><lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g)];
-  assert.ok(dates.length >= 40);
+  assert.ok(dates.length >= 37);
   const lastmod = (path) => dates.find((m) => m[1] === 'https://getseensignsco.com' + path)[2];
   assert.equal(lastmod('/terms'), '2026-10-28');
   assert.equal(lastmod('/privacy'), '2026-10-28');

@@ -109,7 +109,7 @@ test('an upload order creates an awaiting_proof order, stores the files, emails 
   assert.match(mail.textContent, /Nothing is charged and nothing prints until you approve your proof and pay from your proof link/);
   assert.ok(mail.textContent.includes('Order status: ' + body.order.url));
   assert.doesNotMatch(all, /Veracity|\bdba\b|d\/b\/a|\bLLC\b|Scott|Shadow Wood|36877|trade name/i);
-  assert.ok(all.includes('Smiths Station, AL'));
+  assert.ok(!all.includes('Smiths Station'), 'no city in the order email');
 });
 
 test('the "rather have us design it" path takes the wording and website, with optional logo files', async () => {

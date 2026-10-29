@@ -1,86 +1,4 @@
-# Local landing pages and blog posts. HTML fragments; every outside fact links its source.
-LOCAL = [
-dict(
- slug='signs-columbus-ga-phenix-city', img=('/assets/img/g-03-vinyl-banner-2','Example Now Open vinyl banner outside a hardware store'), area='Columbus, GA & Phenix City, AL',
- title='Signs & Banners, Columbus GA & Phenix City | Get Seen Signs',
- desc='Custom yard signs, gameday banners, campaign signs, tents and car magnets for Columbus, GA and Phenix City, AL. Smiths Station based. Free proof and shipping.',
- h1=('Signs for Columbus', '& Phenix City.'),
- lede='We\'re a veteran-owned, family-run online sign shop in Smiths Station, Alabama, just up the road from Phenix City and across the river from Columbus. Order online or send a quote request, approve a free proof, and your signs ship to your door.',
- places=['Columbus, GA','Phenix City, AL','Fort Benning, GA','Smiths Station, AL','Muscogee County, GA','Russell County, AL'],
- html='''
-<h2>What Columbus and Phenix City order most</h2>
-<ul class="ticks">
-<li><b>Campaign signs.</b> <a href="/bulk-campaign-signs/">Bulk yard sign packs</a> of 5 to 100 with stakes. Georgia's general election runoff is <a href="https://georgia.gov/events/2026-12-01/election-day-general-election-runoff" rel="noopener">December 1, 2026</a>, so plan runoff signs early.</li>
-<li><b>Senior night and team banners</b> for high school football, basketball, baseball and soccer. See <a href="/senior-night-banners/">senior night banners</a>.</li>
-<li><b>Grand opening and storefront banners.</b> <a href="/vinyl-banners/">Vinyl banners</a> from 2×4 to 3×10 ft.</li>
-<li><b>Contractor and service trucks.</b> <a href="/car-magnets/">Car door magnets</a> and <a href="/bulk-campaign-signs/">job-site yard signs</a> (packs start at 5).</li>
-<li><b>Vendor booths and ballfield tents.</b> <a href="/custom-canopy-tents/">10×10 canopy tents</a>, <a href="/table-throws/">table throws</a>, <a href="/feather-flags/">feather flags</a> and the <a href="/trade-show-booth-kit/">trade show booth kit</a> ($339).</li>
-<li><b>Military homecomings and retirements.</b> Custom <a href="/vinyl-banners/">vinyl banners</a> for a welcome home or a retirement. Our founder is a retired Army and Marine veteran.</li>
-</ul>
-<h2>Gameday and tailgate signs for Columbus and Phenix City</h2>
-<p>Friday nights, Saturday tailgates and ballpark summers. We make gameday banners, tailgate tents and yard signs for Columbus, GA and Phenix City, AL in your colors, with your family or group name on them.</p>
-<ul class="ticks">
-<li><b>Game Day yard signs.</b> 18×24 with a stake, your name and year. <a href="/bulk-campaign-signs/">Packs of 5 from $74</a>.</li>
-<li><b>House Divided signs.</b> Two color blocks for the family that can't agree. Same price as a yard sign.</li>
-<li><b>Fence and dugout banners</b> for rec leagues and travel ball. A 3×10 <a href="/vinyl-banners/">vinyl banner</a> is $79.</li>
-<li><b>Senior night banners</b> with photo, name and number, from $39. See <a href="/senior-night-banners/">senior night banners</a>.</li>
-</ul>
-<p>We use your colors and your words. We don't print team, school or league names, logos or slogans. See the full <a href="/tailgate-and-gameday-signs/">gameday and tailgate line</a>.</p>
-<h2>Know the local sign rules</h2>
-<p><b>Columbus (city right-of-way).</b> Columbus Consolidated Government runs an "Operation Illegal Sign Roundup" to pull signs from city right-of-way, which covers streets, sidewalks, utility poles, medians and the strip next to the street. The city has said it will ask the court for the maximum $1,000 fine (<a href="https://www.ledger-enquirer.com/news/politics-government/article301101754.html" rel="noopener">Ledger-Enquirer, Feb. 2025</a>). Business signs on your own property go through the city's <a href="https://columbusga.gov/inscode/What-We-Do/Sign-Inspection" rel="noopener">Inspections and Code sign process</a>.</p>
-<p><b>Georgia state highways.</b> Georgia Code 32-6-51 makes it unlawful to place a sign in the right-of-way of any public road without authorization. GDOT pulls them, and violations can bring a fine (<a href="https://www.dot.ga.gov/PartnerSmart/Public/PressReleases/SignPosting-2-23-16.pdf" rel="noopener">GDOT</a>).</p>
-<p><b>Phenix City and Alabama highways.</b> ALDOT treats unofficial signs on state right-of-way as encroachments, removes them and stores them for up to 90 days (<a href="https://www.dot.state.al.us/publications/Maintenance/pdf/MiscellaneousGuideSignManual.pdf" rel="noopener">ALDOT sign manual</a>). Check with Phenix City about city streets before placing signs.</p>
-<p>The simple rule on both sides of the river: put signs on private property, with the owner's permission. More in our <a href="/blog/election-yard-sign-rules-alabama-georgia/">Alabama and Georgia election sign guide</a>.</p>
-<h2>How ordering works from here</h2>
-<p>We don't have a storefront. Everything is made to order and ships to you. Order on Etsy or send a quote request. You get a free digital proof within 12 hours, 7 days a week, 3 revisions included, and nothing prints until you approve it. Arrives 3-8 business days after proof approval; tents and backdrops 5-10 business days. Shipping is free in the lower 48. Need it sooner? Ask about a rush.</p>
-''',
- faqs=[
-  ('Do you have a shop in Columbus or Phenix City?', 'No. We\'re an online shop based in Smiths Station, Alabama, and we ship to Columbus, Phenix City and everywhere else in the lower 48 for free.'),
-  ('Can I get campaign signs for the Georgia runoff?', 'Yes. Bulk packs of 25, 50 and 100 signs with stakes are ready to order. Orders arrive 3-8 business days after you approve the proof, so order as soon as you know you\'re in the runoff.'),
-  ('Can I put yard signs along Columbus roads?', 'Not in the public right-of-way. Columbus removes signs from streets, medians, sidewalks and utility poles. Place signs on private property with the owner\'s permission.'),
- ],
-),
-dict(
- slug='signs-auburn-opelika-al', img=('/assets/img/g-10-canopy-tent-2','Example custom 10×10 canopy tent with a printed valance at an outdoor event'), area='Auburn & Opelika, AL',
- title='Custom Signs & Banners, Auburn & Opelika AL | Get Seen Signs',
- desc='Yard signs, banners, tailgate tents, table throws and realtor signs for Auburn and Opelika, AL. Based in Smiths Station, Lee County. Free proof and shipping.',
- h1=('Signs for Auburn', '& Opelika.'),
- lede='Get Seen Signs is a veteran-owned, family-run online sign shop in Smiths Station, in Lee County, the same county as Auburn and Opelika. Order online or by quote, approve a free proof, and your signs ship free to your door.',
- places=['Auburn, AL','Opelika, AL','Smiths Station, AL','Lee County, AL'],
- html='''
-<h2>What Auburn and Opelika order most</h2>
-<ul class="ticks">
-<li><b>Tailgate and game-day tents.</b> A <a href="/custom-canopy-tents/">custom 10×10 canopy tent</a> with your family or business name, plus a <a href="/feather-flags/">feather flag</a> so your group can find you.</li>
-<li><b>Realtor signs.</b> <a href="/real-estate-signs/">Real estate signs</a> in coroplast or aluminum, with riders and post frames, and <a href="/car-magnets/">car magnets</a> for agents.</li>
-<li><b>Shops and restaurants.</b> <a href="/vinyl-banners/">Grand opening banners</a>, <a href="/bulk-campaign-signs/">yard sign packs</a> for sales, and <a href="/retractable-banners/">retractable banners</a> for events.</li>
-<li><b>Vendors and nonprofits.</b> <a href="/table-throws/">Logo table throws</a>, the <a href="/trade-show-booth-kit/">trade show booth kit</a> ($339) and <a href="/step-and-repeat-backdrops/">step and repeat backdrops</a> for galas, banquets and fundraisers.</li>
-<li><b>High school teams.</b> <a href="/senior-night-banners/">Senior night banners</a> with team pricing for 10 or more.</li>
-<li><b>Campaigns.</b> <a href="/bulk-campaign-signs/">Bulk yard signs</a> for city council, school board and county races.</li>
-</ul>
-<h2>Tailgate tents and gameday signs for Auburn and Opelika</h2>
-<p>Home game weekends fill every lot in town. A printed tent, a table throw and a flag make your spot easy to find. We make a tailgate tent for Auburn, AL and Opelika crews in your colors, with your group's name on the valance.</p>
-<ul class="ticks">
-<li><b>Tailgate HQ tent.</b> 10×10 printed top and valance from $599. Back wall and full kits too. See <a href="/custom-canopy-tents/">canopy tents</a>.</li>
-<li><b>Home of the Fans table throw.</b> Fits a 6 ft table, from $139. See <a href="/table-throws/">table throws</a>.</li>
-<li><b>Game Day and House Divided yard signs.</b> 18×24 with a stake. Packs of 5 from $74.</li>
-<li><b>Family name banners.</b> THE [NAME]S, GAME DAY, EST. [YEAR]. 2×4 from $44.</li>
-</ul>
-<p>See the full <a href="/tailgate-and-gameday-signs/">gameday and tailgate line</a>.</p>
-<h2>One thing about team logos</h2>
-<p>We print your design, your business logo, or your family name. We don\'t print university, pro team, high school or league names, logos or slogans. Your own colors and your own words are fine. Anything you send us to print, you confirm you have the right to use. If you\'re not sure about a design, ask before you order.</p>
-<h2>Sign placement in Lee County</h2>
-<p>ALDOT treats unofficial signs on state highway right-of-way as encroachments and removes them (<a href="https://www.dot.state.al.us/publications/Maintenance/pdf/MiscellaneousGuideSignManual.pdf" rel="noopener">ALDOT sign manual</a>). Auburn and Opelika each have their own sign rules for city streets and businesses, so check with the city's planning or code office before you put up a permanent business sign. Campaign signers: see our <a href="/blog/election-yard-sign-rules-alabama-georgia/">Alabama and Georgia election sign guide</a>.</p>
-<h2>How ordering works</h2>
-<p>We don't have a storefront. Everything is made to order and ships to you. You get a free digital proof within 12 hours, 7 days a week, 3 revisions included, and nothing prints until you approve it. Arrives 3-8 business days after proof approval; tents and backdrops 5-10 business days. Shipping is free in the lower 48.</p>
-''',
- faqs=[
-  ('Are you located in Auburn?', 'We\'re based in Smiths Station, also in Lee County. We\'re an online shop with no storefront, and we ship free to Auburn, Opelika and the rest of the lower 48.'),
-  ('Can you print a college or pro team logo?', 'No. We don\'t print university, pro team, high school or league logos, names or slogans. We can make a gameday tent or banner with your own name, words and colors.'),
-  ('How fast can I get a tent before a home game?', 'Canopy tents arrive 5-10 business days after you approve the proof. Order a few weeks ahead of the game you have in mind.'),
- ],
-),
-]
-
+# Blog posts and the gameday page. HTML fragments; every outside fact links its source.
 BLOG = [
 dict(
  slug='welcome-home-military-retirement-banners',
@@ -132,7 +50,7 @@ dict(
 <p>Use a zip tie or bungee at every grommet so the wind can't catch a corner. On brick or siding, use outdoor removable hooks, not nails. Hang it the night before so it's up when the car pulls in.</p>
 <h2>When to order</h2>
 <p>You get a free digital proof within 12 hours, 7 days a week, 3 revisions included. After you approve it, it arrives in 3 to 8 business days. Order <b>at least two weeks before</b> the earliest date they might be home. For the holidays, order and approve your proof by <b>December 10</b> for delivery before Christmas.</p>
-<p>We're a veteran-owned sign shop in Smiths Station, Alabama, near Columbus and Fort Benning. If you're local to <a href="/signs-columbus-ga-phenix-city/">Columbus or Phenix City</a>, it's the same timeline: proof, print, and free shipping to your door.</p>
+<p>We're a veteran-owned sign shop. Every order follows the same steps: proof, print, and free shipping to your door in the lower 48.</p>
 ''',
 ),
 dict(
@@ -184,49 +102,7 @@ dict(
 <p>Banners come with metal grommets. Use a zip tie or bungee at every grommet so the wind can't catch a loose corner. After the holidays, store the banner rolled, not folded, and the yard sign flat, somewhere dry. They'll be ready next season.</p>
 <h2>When to order</h2>
 <p>You get a free digital proof within 12 hours, 7 days a week, 3 revisions included. After you approve it, it arrives in 3 to 8 business days. <b>Order and approve your proof by December 10</b> for delivery by Christmas in the lower 48. If you want it up for Thanksgiving weekend, order in early November.</p>
-<p>Live around <a href="/signs-columbus-ga-phenix-city/">Columbus, Phenix City</a> or Smiths Station? We're a veteran-owned shop in Smiths Station, Alabama, and the same timeline applies: proof, print, and free shipping to your door.</p>
 <p><a href="https://www.etsy.com/listing/4597121675" target="_blank" rel="noopener">Order the Christmas family name banner on Etsy</a>, or send a quote request below for a custom size or a different design.</p>
-''',
-),
-dict(
- slug='election-yard-sign-rules-alabama-georgia',
- title='Election Yard Sign Rules: Alabama & Georgia (2026)',
- desc='Where campaign yard signs can go in Alabama and Georgia: polling place distances, road right-of-way, Columbus rules and "paid for by" lines. Sourced.',
- h1='Election yard sign rules in Alabama and Georgia',
- date='2026-10-17', kicker='Campaigns',
- img='/assets/img/g-02-bulk-yard-signs-2.jpg', img_alt='Example campaign yard signs stacked for a school board race',
- quote='Bulk Yard Signs',
- lede='Georgia and Alabama vote on November 3, 2026, and Georgia has a general election runoff on December 1. Here\'s where campaign yard signs can go, where they can\'t, and what to print on them, with a link to the source for every rule.',
- html='''
-<p class="note"><b>Not legal advice.</b> This is a plain-English summary for sign buyers, current as of October 17, 2026. Laws and local ordinances change. Check with your county election office, city code office, or campaign attorney before you rely on it.</p>
-<h2>Key dates</h2>
-<ul class="ticks">
-<li><b>November 3, 2026:</b> general election in both states (<a href="https://ballotpedia.org/Georgia_elections,_2026" rel="noopener">Ballotpedia</a>).</li>
-<li><b>December 1, 2026:</b> Georgia general election runoff, for races where no candidate gets a majority (<a href="https://georgia.gov/events/2026-12-01/election-day-general-election-runoff" rel="noopener">Georgia.gov</a>).</li>
-</ul>
-<h2>1. Keep signs back from the polls</h2>
-<p><b>Georgia: 150 feet.</b> Under O.C.G.A. § 21-2-414, no one may display campaign material within 150 feet of the outer edge of any building with a polling place, inside a polling place, or within 25 feet of any voter standing in line (<a href="https://www.brennancenter.org/our-work/research-reports/georgia-election-interference-law-handbook" rel="noopener">Brennan Center summary</a>). County election offices note this includes signs on vehicles and hand-held signs (<a href="https://www.waltoncountyga.gov/289/Qualifying-Information" rel="noopener">example: Walton County</a>).</p>
-<p><b>Alabama: 30 feet.</b> Under Ala. Code § 17-9-50, no one other than voters, election officials, watchers and listed officials may be within 30 feet of the door of the polling place building. Campaigning is allowed outside that zone (<a href="https://www.nass.org/sites/default/files/surveys/2020-10/state-laws-polling-place-electioneering-Oct-2020.pdf" rel="noopener">NASS summary</a>).</p>
-<h2>2. Stay out of the road right-of-way</h2>
-<p><b>Georgia.</b> Georgia Code 32-6-51 makes it unlawful to place a sign within the right-of-way of any public road unless it's authorized. GDOT says violations are a misdemeanor that can bring a fine of up to $1,000 and/or up to 12 months in jail, and its crews pull hundreds of signs in election years. Owners can reclaim removed signs from the local GDOT office (<a href="https://www.dot.ga.gov/PartnerSmart/Public/PressReleases/SignPosting-2-23-16.pdf" rel="noopener">GDOT</a>). If there are power poles, the right-of-way usually runs to behind the poles.</p>
-<p><b>Columbus, GA.</b> The city runs "Operation Illegal Sign Roundup" to clear signs from city right-of-way: streets, sidewalks, utility poles, medians and the area next to the street. The city manager said the city would ask the court for the maximum $1,000 fine (<a href="https://www.ledger-enquirer.com/news/politics-government/article301101754.html" rel="noopener">Ledger-Enquirer</a>).</p>
-<p><b>Alabama.</b> ALDOT treats unofficial signs on state right-of-way as encroachments. It removes them and stores them for up to 90 days, and owners can ask for them back at the district office (<a href="https://www.dot.state.al.us/publications/Maintenance/pdf/MiscellaneousGuideSignManual.pdf" rel="noopener">ALDOT</a>). ALDOT crews are told to promptly remove political signs attached to traffic signs or sign posts (<a href="https://www.rocketcitynow.com/article/news/special-reports/fox54-ott/no-federal-law-does-not-strictly-prohibit-attaching-political-signs-to-stop-signs-what-we-can-verify/525-1d8dda2f-b84f-4afd-8c88-f6ef1e7e09b1" rel="noopener">WZDX</a>). Some Alabama counties also have their own local laws on political signs.</p>
-<p><b>The safe move in both states:</b> put signs on private property, with the owner's permission, set back from the road. Never on utility poles, medians or traffic sign posts.</p>
-<h2>3. Print the right "paid for by" line</h2>
-<p><b>Alabama.</b> Ala. Code § 17-5-12 requires paid political advertisements to identify who paid for them. The Alabama Law Institute's election handbook says the ad must include the full address of the person or group paying: name, street or P.O. box, city and state (<a href="https://alison.legislature.state.al.us/files/pdf/lsa/ALI/election_handbook/Alabama_Election_Handbook_21st_Edition.pdf" rel="noopener">Alabama Election Handbook, ch. 20</a>).</p>
-<p><b>Georgia.</b> NCSL could not find a general Georgia statute on disclaimers for political ads (<a href="https://www.ncsl.org/elections-and-campaigns/disclaimers-on-political-advertisements" rel="noopener">NCSL</a>), but independent committees must state that they paid for communications meant to affect an election (O.C.G.A. § 21-5-34(f)(3), per <a href="https://afj.org/wp-content/uploads/2023/05/Georgia-Campaign-Finance-and-Ballot-Measure-Guide-2.pdf" rel="noopener">this guide</a>). Confirm with the <a href="https://ethics.ga.gov/" rel="noopener">Georgia Government Transparency and Campaign Finance Commission</a> or your treasurer.</p>
-<p><b>Federal races (both states).</b> FEC rules require a disclaimer in a printed box set apart from the rest of the sign. 12-point type is a safe-harbor size for signs up to 24×36 inches, and black text on white is a safe-harbor color contrast (<a href="https://www.fec.gov/help-candidates-and-committees/advertising-and-disclaimers/" rel="noopener">FEC</a>).</p>
-<h2>4. Design tips that survive a drive-by</h2>
-<ul class="ticks">
-<li>Candidate name as big as the sign allows. Office and "Vote" second. Everything else small.</li>
-<li>Two or three high-contrast colors. Check the proof on your phone at arm's length.</li>
-<li>Leave room for the disclaimer from the start so it isn't squeezed in at the end.</li>
-<li>18×24 is the standard lawn size, and it fits a regular H-stake.</li>
-</ul>
-<h2>5. Order timing</h2>
-<p>Yard signs arrive 3-8 business days after you approve the proof. Our <a href="/bulk-campaign-signs/">bulk campaign sign packs</a> (5 to 100, stakes included) start at $74 for 5, or $189 for 25. Five signs is the minimum. For a runoff, order the day you know you're in it.</p>
-<h2>6. After the election</h2>
-<p>There's no single statewide removal deadline for every political sign. Cities and counties set their own rules, and signs in the right-of-way can be removed at any time. Pull yours up the week after the election and recycle or store the stakes for next time.</p>
 ''',
 ),
 dict(
@@ -280,7 +156,7 @@ dict(
 GAMEDAY=dict(
  slug='tailgate-and-gameday-signs',
  title='Tailgate Tents & Gameday Signs | Get Seen Signs',
- desc='Gameday banners, tailgate tents, table throws, House Divided and Game Day yard signs in your colors. Columbus GA, Phenix City, Auburn AL. Free shipping.',
+ desc='Gameday banners, tailgate tents, table throws, House Divided and Game Day yard signs in your colors. Free shipping.',
  h1=('Gameday signs', 'in your colors.'),
  lede='Tailgate tents, table throws, flags, banners and yard signs for the folks who show up early and stay late. Your colors, your family name, your crew. Free proof, free shipping in the lower 48.',
  colors=[('Orange &amp; Navy','#F26A21','#1B2A4A'),('Red &amp; Black','#C8102E','#111111'),('Crimson &amp; White','#9E1B32','#FFFFFF'),('Navy &amp; Red','#13274F','#CE1141')],
@@ -297,8 +173,8 @@ GAMEDAY=dict(
   (None,'g-02-bulk-yard-signs-2','Stack of printed yard signs','Player yard signs, team pack','GAME DAY / A PLAYER LIVES HERE. One design for the whole team.','<b>$189</b> for 25 with stakes','/bulk-campaign-signs/'),
  ],
  html='''
-<h2>Built for game day around here</h2>
-<p>Columbus, Phenix City, Smiths Station, Auburn and Opelika take football and baseball seriously. So do we. Pick a product, pick your colors, tell us your name. We send a free digital proof within 12 hours, 7 days a week, 3 revisions included.</p>
+<h2>Built for game day</h2>
+<p>Friday night games, Saturday tailgates and ballpark summers happen in every town. Pick a product, pick your colors, tell us your name. We send a free digital proof within 12 hours, 7 days a week, 3 revisions included.</p>
 <h2>Who orders gameday signs</h2>
 <ul class="ticks">
 <li><b>Tailgate crews</b> who want to be found from the parking lot. Tent, flag and table throw that match.</li>
@@ -321,6 +197,6 @@ GAMEDAY=dict(
   ('Which colors can I pick?', 'Any colors. Our most popular combos are orange and navy, red and black, crimson and white, and navy and red. Send color codes if you have them and we match them on the proof.'),
   ('What is a House Divided sign?', 'A yard sign split into two color blocks with HOUSE DIVIDED and your family name. You pick both colors. It\'s an 18×24 coroplast sign with a stake, printed on one side, sold in packs of 5 from $74.'),
   ('How early should I order a tailgate tent?', 'Tents arrive 5-10 business days after you approve the proof. Order about 3 weeks before the game.'),
-  ('Do you deliver to the tailgate lot?', 'No. We\'re an online shop based in Smiths Station. Everything ships free to your door in the lower 48.'),
+  ('Do you deliver to the tailgate lot?', 'No. We\'re an online shop. Everything ships free to your door in the lower 48.'),
  ],
 )

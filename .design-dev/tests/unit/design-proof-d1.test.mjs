@@ -127,7 +127,8 @@ test('the customer gets a short Get Seen Signs confirmation with the reference a
   assert.match(mail.textContent, /Three revisions are included/);
   assert.match(mail.textContent, /Nothing is charged and nothing prints until you approve your proof and pay from your proof link/);
   assert.match(mail.textContent, /Order status: https:\/\/getseensignsco\.com\/order\/[A-Za-z0-9_-]{43}/);
-  assert.ok(all.includes('Smiths Station, AL') && all.includes('(334) 232-9003') && all.includes('#14161A') && all.includes('#FFD100'));
+  assert.ok(all.includes('(334) 232-9003') && all.includes('#14161A') && all.includes('#FFD100'));
+  assert.ok(!all.includes('Smiths Station'), 'no city in the proof email');
   assert.doesNotMatch(all, /Veracity|\bdba\b|d\/b\/a|\bLLC\b|Scott|Shadow Wood|36877|trade name/i);
   assert.ok(!mail.attachment, 'the confirmation carries no attachments');
   assert.equal(net.brevo.length, 2, 'one email to the shop, one to the customer');
