@@ -1,0 +1,16 @@
+{
+  "id": "bold-center",
+  "product": "decal",
+  "name": "Logo and name",
+  "category": "business",
+  "palette": {"primary": "#14161A", "accent": "#FFD100", "ink": "#FFFFFF"},
+  "sample": {"name": "ACME MFG", "line2": "SAFETY FIRST", "phone": "334-555-0150", "web": "acmemfg.example"},
+  "font": "condensed",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Bottom bar", "region": "art", "box": [0, 0.82, 1, 0.18], "fill": "@accent"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.26, 0.04, 0.48, 0.46], "square": true},
+    {"type": "text", "region": "safe", "box": [0, 0.5, 1, 0.3], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 2, "max": 0.7, "min": 0.08}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.05, 0.82, 0.9, 0.16], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 0.28, "min": 0.08}, "bind": "line2"}
+  ]
+}

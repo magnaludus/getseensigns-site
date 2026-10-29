@@ -19,8 +19,9 @@ import { buildFeather } from './models/feather.js';
 import { buildThrow } from './models/throw.js';
 import { buildBanner } from './models/banner.js';
 import { buildYard } from './models/yard.js';
+import { buildRetractable, buildBackdrop, buildMagnet, buildDecal, buildSafety } from './models/panel.js';
 
-const BUILDERS = { canopy: buildCanopy, feather: buildFeather, throw: buildThrow, banner: buildBanner, yard: buildYard };
+const BUILDERS = { canopy: buildCanopy, feather: buildFeather, throw: buildThrow, banner: buildBanner, yard: buildYard, retractable: buildRetractable, backdrop: buildBackdrop, magnet: buildMagnet, decal: buildDecal, safety: buildSafety };
 const FIT_ELEVATION = 12;
 
 function fail(reason, message) {

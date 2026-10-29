@@ -116,10 +116,9 @@ test('keyboard only: select, move, resize an element and send a proof', async ()
     await page.keyboard.type('Key Board');
     await page.keyboard.press('Tab');
     await page.keyboard.type('keys@example.com');
-    const dl = page.waitForEvent('download');
     await page.keyboard.press('Enter');
-    await dl;
-    await page.getByRole('heading', { name: 'One more step to send it' }).waitFor();
+    await page.locator('dialog .dz-warn', { hasText: 'Online requests are paused' }).waitFor();
+    assert.equal(await page.getByRole('button', { name: 'Try again' }).isEnabled(), true, 'the keyboard user can try again');
     await page.context().close();
   } finally {
     await browser.close();

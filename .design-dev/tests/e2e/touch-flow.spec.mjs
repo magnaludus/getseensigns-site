@@ -151,7 +151,7 @@ test('touch flow on a phone, from template to proof request', async () => {
     assert.ok((await magentaShare(page)) > 0.03, 'the back of the tent shows after turning it with a finger');
     await noHorizontalScroll(page, '3D');
 
-    // 9. send the request (server off: fallback)
+    // 9. send the request (server off: the form stays open, Try again, call and text)
     await page.evaluate(() => { window.GSSDesigner.noNavigate = true; });
     await page.getByRole('button', { name: 'Flat', exact: true }).tap();
     await page.getByRole('button', { name: 'Get my free proof' }).first().tap();
@@ -160,11 +160,10 @@ test('touch flow on a phone, from template to proof request', async () => {
     await page.getByRole('button', { name: 'Continue' }).tap();
     await page.locator('input[autocomplete="name"]').fill('Phone Customer');
     await page.locator('input[type="email"]').fill('phone@example.com');
-    const dl = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Send my design' }).tap();
-    await dl;
-    await page.getByRole('heading', { name: 'One more step to send it' }).waitFor();
-    await noHorizontalScroll(page, 'fallback dialog');
+    await page.locator('dialog .dz-warn', { hasText: 'Online requests are paused' }).waitFor();
+    assert.equal(await page.locator('dialog .dz-warn a[href="tel:+13342329003"]').count(), 1);
+    await noHorizontalScroll(page, 'failure dialog');
     assert.deepEqual(problems.filter((p) => !/status of 503|swiftshader|GPU stall|GL Driver/i.test(p)), []);
     await page.context().close();
   } finally {

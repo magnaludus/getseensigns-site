@@ -3,7 +3,7 @@ LOCAL = [
 dict(
  slug='signs-columbus-ga-phenix-city', img=('/assets/img/g-03-vinyl-banner-2','Example Now Open vinyl banner outside a hardware store'), area='Columbus, GA & Phenix City, AL',
  title='Signs & Banners, Columbus GA & Phenix City | Get Seen Signs',
- desc='Custom yard signs, gameday banners, campaign signs, tents and car magnets for Columbus, GA and Phenix City, AL. Based in Smiths Station. Free proof and shipping.',
+ desc='Custom yard signs, gameday banners, campaign signs, tents and car magnets for Columbus, GA and Phenix City, AL. Smiths Station based. Free proof and shipping.',
  h1=('Signs for Columbus', '& Phenix City.'),
  lede='We\'re a veteran-owned, family-run online sign shop in Smiths Station, Alabama, just up the road from Phenix City and across the river from Columbus. Order online or send a quote request, approve a free proof, and your signs ship to your door.',
  places=['Columbus, GA','Phenix City, AL','Fort Benning, GA','Smiths Station, AL','Muscogee County, GA','Russell County, AL'],
@@ -14,7 +14,7 @@ dict(
 <li><b>Senior night and team banners</b> for high school football, basketball, baseball and soccer. See <a href="/senior-night-banners/">senior night banners</a>.</li>
 <li><b>Grand opening and storefront banners.</b> <a href="/vinyl-banners/">Vinyl banners</a> from 2×4 to 3×10 ft.</li>
 <li><b>Contractor and service trucks.</b> <a href="/car-magnets/">Car door magnets</a> and <a href="/bulk-campaign-signs/">job-site yard signs</a> (packs start at 5).</li>
-<li><b>Vendor booths and ballfield tents.</b> <a href="/custom-canopy-tents/">10×10 canopy tents</a>, <a href="/table-throws/">table throws</a>, <a href="/feather-flags/">feather flags</a> and the <a href="/vendor-booth-kit/">vendor booth kit</a> ($339).</li>
+<li><b>Vendor booths and ballfield tents.</b> <a href="/custom-canopy-tents/">10×10 canopy tents</a>, <a href="/table-throws/">table throws</a>, <a href="/feather-flags/">feather flags</a> and the <a href="/trade-show-booth-kit/">trade show booth kit</a> ($339).</li>
 <li><b>Military homecomings and retirements.</b> Custom <a href="/vinyl-banners/">vinyl banners</a> for a welcome home or a retirement. Our founder is a retired Army and Marine veteran.</li>
 </ul>
 <h2>Gameday and tailgate signs for Columbus and Phenix City</h2>
@@ -27,16 +27,16 @@ dict(
 </ul>
 <p>We use your colors and your words. We don't print team, school or league names, logos or slogans. See the full <a href="/tailgate-and-gameday-signs/">gameday and tailgate line</a>.</p>
 <h2>Know the local sign rules</h2>
-<p><b>Columbus (city right-of-way).</b> Columbus Consolidated Government runs an "Operation Illegal Sign Roundup" to pull signs from city right-of-way, which covers streets, sidewalks, utility poles, medians and the strip next to the street. The city has said it will ask the court for the maximum $1,000 fine (<a href="https://www.ledger-enquirer.com/news/politics-government/article301101754.html" rel="noopener">Ledger-Enquirer, Feb. 2025</a>). Business signs on your own property go through the city's <a href="https://www.columbusga.gov/inspections-and-code-2/What-We-Do/Sign-Inspection" rel="noopener">Inspections and Code sign process</a>.</p>
+<p><b>Columbus (city right-of-way).</b> Columbus Consolidated Government runs an "Operation Illegal Sign Roundup" to pull signs from city right-of-way, which covers streets, sidewalks, utility poles, medians and the strip next to the street. The city has said it will ask the court for the maximum $1,000 fine (<a href="https://www.ledger-enquirer.com/news/politics-government/article301101754.html" rel="noopener">Ledger-Enquirer, Feb. 2025</a>). Business signs on your own property go through the city's <a href="https://columbusga.gov/inscode/What-We-Do/Sign-Inspection" rel="noopener">Inspections and Code sign process</a>.</p>
 <p><b>Georgia state highways.</b> Georgia Code 32-6-51 makes it unlawful to place a sign in the right-of-way of any public road without authorization. GDOT pulls them, and violations can bring a fine (<a href="https://www.dot.ga.gov/PartnerSmart/Public/PressReleases/SignPosting-2-23-16.pdf" rel="noopener">GDOT</a>).</p>
 <p><b>Phenix City and Alabama highways.</b> ALDOT treats unofficial signs on state right-of-way as encroachments, removes them and stores them for up to 90 days (<a href="https://www.dot.state.al.us/publications/Maintenance/pdf/MiscellaneousGuideSignManual.pdf" rel="noopener">ALDOT sign manual</a>). Check with Phenix City about city streets before placing signs.</p>
 <p>The simple rule on both sides of the river: put signs on private property, with the owner's permission. More in our <a href="/blog/election-yard-sign-rules-alabama-georgia/">Alabama and Georgia election sign guide</a>.</p>
 <h2>How ordering works from here</h2>
-<p>We don't have a storefront. Everything is made to order and ships to you. Order on Etsy or send a quote request. You get a free digital proof within 12 hours, 7 days a week, 3 revisions included, and nothing prints until you approve it. Most items are made in 3–5 business days after approval, tents and backdrops in 5–10, and shipping is free in the lower 48. Need it sooner? Ask about a rush.</p>
+<p>We don't have a storefront. Everything is made to order and ships to you. Order on Etsy or send a quote request. You get a free digital proof within 12 hours, 7 days a week, 3 revisions included, and nothing prints until you approve it. Arrives 3-8 business days after proof approval; tents and backdrops 5-10 business days. Shipping is free in the lower 48. Need it sooner? Ask about a rush.</p>
 ''',
  faqs=[
   ('Do you have a shop in Columbus or Phenix City?', 'No. We\'re an online shop based in Smiths Station, Alabama, and we ship to Columbus, Phenix City and everywhere else in the lower 48 for free.'),
-  ('Can I get campaign signs for the Georgia runoff?', 'Yes. Bulk packs of 25, 50 and 100 signs with stakes are ready to order. Production is 3–5 business days after you approve the proof, plus shipping, so order as soon as you know you\'re in the runoff.'),
+  ('Can I get campaign signs for the Georgia runoff?', 'Yes. Bulk packs of 25, 50 and 100 signs with stakes are ready to order. Orders arrive 3-8 business days after you approve the proof, so order as soon as you know you\'re in the runoff.'),
   ('Can I put yard signs along Columbus roads?', 'Not in the public right-of-way. Columbus removes signs from streets, medians, sidewalks and utility poles. Place signs on private property with the owner\'s permission.'),
  ],
 ),
@@ -53,14 +53,14 @@ dict(
 <li><b>Tailgate and game-day tents.</b> A <a href="/custom-canopy-tents/">custom 10×10 canopy tent</a> with your family or business name, plus a <a href="/feather-flags/">feather flag</a> so your group can find you.</li>
 <li><b>Realtor signs.</b> <a href="/real-estate-signs/">Real estate signs</a> in coroplast or aluminum, with riders and post frames, and <a href="/car-magnets/">car magnets</a> for agents.</li>
 <li><b>Shops and restaurants.</b> <a href="/vinyl-banners/">Grand opening banners</a>, <a href="/bulk-campaign-signs/">yard sign packs</a> for sales, and <a href="/retractable-banners/">retractable banners</a> for events.</li>
-<li><b>Vendors and nonprofits.</b> <a href="/table-throws/">Logo table throws</a>, the <a href="/vendor-booth-kit/">vendor booth kit</a> ($339) and <a href="/step-and-repeat-backdrops/">step and repeat backdrops</a> for galas, banquets and fundraisers.</li>
+<li><b>Vendors and nonprofits.</b> <a href="/table-throws/">Logo table throws</a>, the <a href="/trade-show-booth-kit/">trade show booth kit</a> ($339) and <a href="/step-and-repeat-backdrops/">step and repeat backdrops</a> for galas, banquets and fundraisers.</li>
 <li><b>High school teams.</b> <a href="/senior-night-banners/">Senior night banners</a> with team pricing for 10 or more.</li>
 <li><b>Campaigns.</b> <a href="/bulk-campaign-signs/">Bulk yard signs</a> for city council, school board and county races.</li>
 </ul>
 <h2>Tailgate tents and gameday signs for Auburn and Opelika</h2>
 <p>Home game weekends fill every lot in town. A printed tent, a table throw and a flag make your spot easy to find. We make a tailgate tent for Auburn, AL and Opelika crews in your colors, with your group's name on the valance.</p>
 <ul class="ticks">
-<li><b>Tailgate HQ tent.</b> 10×10 printed top and valance from $649. Back wall and full kits too. See <a href="/custom-canopy-tents/">canopy tents</a>.</li>
+<li><b>Tailgate HQ tent.</b> 10×10 printed top and valance from $599. Back wall and full kits too. See <a href="/custom-canopy-tents/">canopy tents</a>.</li>
 <li><b>Home of the Fans table throw.</b> Fits a 6 ft table, from $139. See <a href="/table-throws/">table throws</a>.</li>
 <li><b>Game Day and House Divided yard signs.</b> 18×24 with a stake. Packs of 5 from $74.</li>
 <li><b>Family name banners.</b> THE [NAME]S, GAME DAY, EST. [YEAR]. 2×4 from $44.</li>
@@ -71,12 +71,12 @@ dict(
 <h2>Sign placement in Lee County</h2>
 <p>ALDOT treats unofficial signs on state highway right-of-way as encroachments and removes them (<a href="https://www.dot.state.al.us/publications/Maintenance/pdf/MiscellaneousGuideSignManual.pdf" rel="noopener">ALDOT sign manual</a>). Auburn and Opelika each have their own sign rules for city streets and businesses, so check with the city's planning or code office before you put up a permanent business sign. Campaign signers: see our <a href="/blog/election-yard-sign-rules-alabama-georgia/">Alabama and Georgia election sign guide</a>.</p>
 <h2>How ordering works</h2>
-<p>We don't have a storefront. Everything is made to order and ships to you. You get a free digital proof within 12 hours, 7 days a week, 3 revisions included, and nothing prints until you approve it. Most items are made in 3–5 business days after approval, tents and backdrops in 5–10, and shipping is free in the lower 48.</p>
+<p>We don't have a storefront. Everything is made to order and ships to you. You get a free digital proof within 12 hours, 7 days a week, 3 revisions included, and nothing prints until you approve it. Arrives 3-8 business days after proof approval; tents and backdrops 5-10 business days. Shipping is free in the lower 48.</p>
 ''',
  faqs=[
   ('Are you located in Auburn?', 'We\'re based in Smiths Station, also in Lee County. We\'re an online shop with no storefront, and we ship free to Auburn, Opelika and the rest of the lower 48.'),
   ('Can you print a college or pro team logo?', 'No. We don\'t print university, pro team, high school or league logos, names or slogans. We can make a gameday tent or banner with your own name, words and colors.'),
-  ('How fast can I get a tent before a home game?', 'Canopy tents take 5–10 business days to make after you approve the proof, plus shipping. Order a few weeks ahead of the game you have in mind.'),
+  ('How fast can I get a tent before a home game?', 'Canopy tents arrive 5-10 business days after you approve the proof. Order a few weeks ahead of the game you have in mind.'),
  ],
 ),
 ]
@@ -85,7 +85,7 @@ BLOG = [
 dict(
  slug='welcome-home-military-retirement-banners',
  title='Welcome Home and Military Retirement Banner Ideas | Get Seen Signs',
- desc='Welcome home and military retirement banner ideas: what to print, which size fits a porch, garage or fence, how to plan around a moving return date, and when to order.',
+ desc='Welcome home and military retirement banner ideas: what to print, which size fits a porch or fence, how to plan around a moving return date, and when to order.',
  h1='Welcome home and military retirement banner ideas',
  date='2026-10-21', kicker='Family',
  img='/assets/img/g-03-vinyl-banner-3.jpg', img_alt='Close-up of a vinyl banner grommet zip-tied to a chain-link fence',
@@ -131,14 +131,14 @@ dict(
 <h2>Hanging it</h2>
 <p>Use a zip tie or bungee at every grommet so the wind can't catch a corner. On brick or siding, use outdoor removable hooks, not nails. Hang it the night before so it's up when the car pulls in.</p>
 <h2>When to order</h2>
-<p>You get a free digital proof within 12 hours, 7 days a week, 3 revisions included. After you approve it, it takes 3 to 5 business days to make, plus 2 to 5 days of ground shipping. Order <b>at least two weeks before</b> the earliest date they might be home. For the holidays, order and approve your proof by <b>December 10</b> for delivery before Christmas.</p>
+<p>You get a free digital proof within 12 hours, 7 days a week, 3 revisions included. After you approve it, it arrives in 3 to 8 business days. Order <b>at least two weeks before</b> the earliest date they might be home. For the holidays, order and approve your proof by <b>December 10</b> for delivery before Christmas.</p>
 <p>We're a veteran-owned sign shop in Smiths Station, Alabama, near Columbus and Fort Benning. If you're local to <a href="/signs-columbus-ga-phenix-city/">Columbus or Phenix City</a>, it's the same timeline: proof, print, and free shipping to your door.</p>
 ''',
 ),
 dict(
  slug='christmas-family-name-banner-ideas',
  title='Christmas Family Name Banner and Yard Sign Ideas | Get Seen Signs',
- desc='Christmas family name banner and yard sign ideas: what to put on it, which size fits a porch, garage or fence, design tips that read from the street, and the Dec 10 order date.',
+ desc='Christmas family name banner and yard sign ideas: what to put on it, which size fits a porch or fence, design tips, and the Dec 10 order date.',
  h1='Christmas family name banner and yard sign ideas',
  date='2026-10-20', kicker='Holidays',
  img='/assets/img/g-11-christmas-family-banner-2.jpg', img_alt='Example Christmas family name banner hung on a front porch',
@@ -183,7 +183,7 @@ dict(
 <h2>Hanging it and saving it for next year</h2>
 <p>Banners come with metal grommets. Use a zip tie or bungee at every grommet so the wind can't catch a loose corner. After the holidays, store the banner rolled, not folded, and the yard sign flat, somewhere dry. They'll be ready next season.</p>
 <h2>When to order</h2>
-<p>You get a free digital proof within 12 hours, 7 days a week, 3 revisions included. After you approve it, it takes 3 to 5 business days to make, plus 2 to 5 days of ground shipping. <b>Order and approve your proof by December 10</b> for delivery by Christmas in the lower 48. If you want it up for Thanksgiving weekend, order in early November.</p>
+<p>You get a free digital proof within 12 hours, 7 days a week, 3 revisions included. After you approve it, it arrives in 3 to 8 business days. <b>Order and approve your proof by December 10</b> for delivery by Christmas in the lower 48. If you want it up for Thanksgiving weekend, order in early November.</p>
 <p>Live around <a href="/signs-columbus-ga-phenix-city/">Columbus, Phenix City</a> or Smiths Station? We're a veteran-owned shop in Smiths Station, Alabama, and the same timeline applies: proof, print, and free shipping to your door.</p>
 <p><a href="https://www.etsy.com/listing/4597121675" target="_blank" rel="noopener">Order the Christmas family name banner on Etsy</a>, or send a quote request below for a custom size or a different design.</p>
 ''',
@@ -224,7 +224,7 @@ dict(
 <li>18×24 is the standard lawn size, and it fits a regular H-stake.</li>
 </ul>
 <h2>5. Order timing</h2>
-<p>We make yard signs in 3–5 business days after you approve the proof, plus shipping. Our <a href="/bulk-campaign-signs/">bulk campaign sign packs</a> (5 to 100, stakes included) start at $74 for 5, or $189 for 25. Five signs is the minimum. For a runoff, order the day you know you're in it.</p>
+<p>Yard signs arrive 3-8 business days after you approve the proof. Our <a href="/bulk-campaign-signs/">bulk campaign sign packs</a> (5 to 100, stakes included) start at $74 for 5, or $189 for 25. Five signs is the minimum. For a runoff, order the day you know you're in it.</p>
 <h2>6. After the election</h2>
 <p>There's no single statewide removal deadline for every political sign. Cities and counties set their own rules, and signs in the right-of-way can be removed at any time. Pull yours up the week after the election and recycle or store the stakes for next time.</p>
 ''',
@@ -271,7 +271,7 @@ dict(
 <h2>Booster clubs: order once for the whole team</h2>
 <p>Collect every senior's photo, name, number and position in one shared folder, pick one design for the whole class, and send it all in a single <a href="/#quote">quote request</a>. Team pricing applies at 10 or more banners, and matching designs look better lined up on the fence.</p>
 <h2>When to order</h2>
-<p>Production is 3–5 business days after you approve the proof, plus shipping. Order <b>two to three weeks before senior night</b> so there's time to gather photos and go through proofs. Basketball programs should start in early January, and spring sports in March.</p>
+<p>Orders arrive 3-8 business days after you approve the proof. Order <b>two to three weeks before senior night</b> so there's time to gather photos and go through proofs. Basketball programs should start in early January, and spring sports in March.</p>
 ''',
 ),
 ]
@@ -279,14 +279,14 @@ dict(
 # Gameday / tailgate category page. NO TRADEMARKS: no team, school or league names, logos, mascots or slogans.
 GAMEDAY=dict(
  slug='tailgate-and-gameday-signs',
- title='Tailgate Tents & Gameday Signs, Columbus GA & Auburn AL',
+ title='Tailgate Tents & Gameday Signs | Get Seen Signs',
  desc='Gameday banners, tailgate tents, table throws, House Divided and Game Day yard signs in your colors. Columbus GA, Phenix City, Auburn AL. Free shipping.',
  h1=('Gameday signs', 'in your colors.'),
  lede='Tailgate tents, table throws, flags, banners and yard signs for the folks who show up early and stay late. Your colors, your family name, your crew. Free proof, free shipping in the lower 48.',
  colors=[('Orange &amp; Navy','#F26A21','#1B2A4A'),('Red &amp; Black','#C8102E','#111111'),('Crimson &amp; White','#9E1B32','#FFFFFF'),('Navy &amp; Red','#13274F','#CE1141')],
  products=[
   # (image base, fallback base, alt, name, wording, price html, link)
-  ('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2','Navy 10×10 canopy tent with an orange TAILGATE HQ valance at a tailgate','Tailgate HQ canopy tent','TAILGATE HQ on the valance. Add a back wall with THE [NAME] CREW.','<b>$649</b> top and valance · $849 with back wall · $1,459 full kit','/custom-canopy-tents/'),
+  ('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2','Navy 10×10 canopy tent with an orange TAILGATE HQ valance at a tailgate','Tailgate HQ canopy tent','TAILGATE HQ on the valance. Add a back wall with THE [NAME] CREW.','<b>$599</b> Standard: frame, printed top and valance · $849 with back wall · $1,459 full kit','/custom-canopy-tents/'),
   ('gd-table-throw-navy-red','g-09-table-throw-2','Navy table throw with a red band and HOME OF THE FANS at a tailgate','Home of the Fans table throw','HOME OF THE FANS, or THE [NAME]S TAILGATE.','<b>$139</b> 6 ft · $159 8 ft (3-sided)','/table-throws/'),
   ('gd-game-day-yard-sign-red-black','g-01-custom-yard-sign-2','Black and red GAME DAY family name yard sign in a front yard','Game Day yard sign','GAME DAY / THE [NAME]S / EST. [YEAR]. Sold in packs of 5.','<b>$74</b> for 5 · 18×24, stakes included','/bulk-campaign-signs/'),
   ('gd-house-divided-yard-sign','g-01-custom-yard-sign-3','HOUSE DIVIDED yard sign split into a red half and a navy half','House Divided yard sign','HOUSE DIVIDED / THE [NAME]S. Two color blocks, you pick both. Sold in packs of 5.','<b>$74</b> for 5 · 18×24, stakes included','/bulk-campaign-signs/'),
@@ -307,7 +307,7 @@ GAMEDAY=dict(
 <li><b>Watch-party hosts</b> and sports bars. Home of the Fans banners and table throws.</li>
 </ul>
 <h2>Order on time for the big games</h2>
-<p>Yard signs and banners take 3–5 business days to make after you approve the proof. Tents take 5–10. Shipping is 2–5 business days on top of that, free in the lower 48. For a home opener or a late-season rivalry weekend, order tents 3 weeks out and signs 2 weeks out.</p>
+<p>Yard signs and banners arrive 3-8 business days after you approve the proof. Tents arrive in 5-10. Shipping is free in the lower 48. For a home opener or a late-season rivalry weekend, order tents 3 weeks out and signs 2 weeks out.</p>
 <ul class="ticks">
 <li><b>Football:</b> late August to early December. Tents sell out of time first.</li>
 <li><b>High school senior nights:</b> October for football, late January to February for basketball, April and May for spring sports.</li>
@@ -320,7 +320,7 @@ GAMEDAY=dict(
   ('Can you put my team\'s logo on a tent or sign?', 'No. We don\'t print college, pro, high school or league logos, names or slogans. We can match your colors and print your own name and words.'),
   ('Which colors can I pick?', 'Any colors. Our most popular combos are orange and navy, red and black, crimson and white, and navy and red. Send color codes if you have them and we match them on the proof.'),
   ('What is a House Divided sign?', 'A yard sign split into two color blocks with HOUSE DIVIDED and your family name. You pick both colors. It\'s an 18×24 coroplast sign with a stake, printed on one side, sold in packs of 5 from $74.'),
-  ('How early should I order a tailgate tent?', 'Tents take 5–10 business days to make after you approve the proof, plus 2–5 days shipping. Order about 3 weeks before the game.'),
+  ('How early should I order a tailgate tent?', 'Tents arrive 5-10 business days after you approve the proof. Order about 3 weeks before the game.'),
   ('Do you deliver to the tailgate lot?', 'No. We\'re an online shop based in Smiths Station. Everything ships free to your door in the lower 48.'),
  ],
 )

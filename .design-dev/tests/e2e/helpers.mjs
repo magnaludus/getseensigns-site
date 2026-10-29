@@ -2,6 +2,7 @@
 // touch gestures through the DevTools protocol, and a tiny PNG maker for logo uploads.
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:net';
+import { get as httpGet } from 'node:http';
 import { deflateSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { chromium, devices } from 'playwright';
@@ -23,11 +24,13 @@ export async function startServer() {
   const port = await freePort();
   const proc = spawn('python3', ['-m', 'http.server', String(port), '--bind', '127.0.0.1'], { cwd: root, stdio: 'ignore' });
   const base = `http://127.0.0.1:${port}`;
+  // node:http, not fetch: some Node 22 builds trip an undici assertion on python's HTTP/1.0 replies
+  const up = () => new Promise((resolve) => {
+    const req = httpGet(base + '/design/', (res) => { res.resume(); resolve(res.statusCode === 200); });
+    req.on('error', () => resolve(false));
+  });
   for (let i = 0; i < 50; i++) {
-    try {
-      const res = await fetch(base + '/design/');
-      if (res.ok) break;
-    } catch (_) { /* not up yet */ }
+    if (await up()) break;
     await new Promise((r) => setTimeout(r, 100));
   }
   return { base, stop: () => proc.kill() };

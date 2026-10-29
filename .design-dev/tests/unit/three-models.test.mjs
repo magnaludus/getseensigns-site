@@ -25,17 +25,23 @@ const { buildFeather, flagRowYs } = await import('../../../assets/design/three/m
 const { buildThrow } = await import('../../../assets/design/three/models/throw.js');
 const { buildBanner } = await import('../../../assets/design/three/models/banner.js');
 const { buildYard } = await import('../../../assets/design/three/models/yard.js');
+const { buildRetractable, buildBackdrop, buildMagnet, buildDecal, buildSafety } = await import('../../../assets/design/three/models/panel.js');
 
 const specs = JSON.parse(readFileSync(join(root, 'assets', 'design', 'print-specs.json'), 'utf8'));
 const mats = createMaterials();
-const BUILD = { canopy: buildCanopy, feather: buildFeather, throw: buildThrow, banner: buildBanner, yard: buildYard };
+const BUILD = { canopy: buildCanopy, feather: buildFeather, throw: buildThrow, banner: buildBanner, yard: buildYard, retractable: buildRetractable, backdrop: buildBackdrop, magnet: buildMagnet, decal: buildDecal, safety: buildSafety };
 
 const VARIANTS = [
   ...['valance', 'back', 'kit'].map((package_) => ['canopy', { package: package_ }]),
   ...['10.5', '14', '18'].flatMap((height) => ['spike', 'cross'].map((base) => ['feather', { height, base }])),
-  ...['6', '8'].flatMap((length) => ['3', '4'].map((style) => ['throw', { length, style }])),
+  ...['6', '8'].flatMap((length) => ['3', '4', 'fitted'].map((style) => ['throw', { length, style }])),
   ...['2x4', '3x6', '4x8', '3x10'].map((size) => ['banner', { size }]),
   ...['5', '10', '25', '50', '100'].flatMap((pack) => ['1', '2'].map((print) => ['yard', { pack, print }])),
+  ...['33x81', '47x81'].map((size) => ['retractable', { size }]),
+  ...['8x8', '10x8'].map((size) => ['backdrop', { size }]),
+  ...['12x18', '18x24'].map((size) => ['magnet', { size }]),
+  ...['2in100', '2in250', '2in500', '3in250', '3in500'].map((pack) => ['decal', { pack }]),
+  ...['12x18_5', '12x18_10', '18x24_5', '12x18_5hd', '12x18_5hd080'].flatMap((pack) => ['landscape', 'portrait'].map((orient) => ['safety', { pack, orient }])),
 ];
 
 function make(product, choices, extra = {}) {
@@ -62,7 +68,8 @@ test('every model variant builds finite geometry that stands on the ground insid
   for (const [product, choices] of VARIANTS) {
     const { model } = make(product, choices);
     const name = label(product, choices);
-    assert.ok(model.group && model.pickables.length && model.art.length && model.base.length, name);
+    // the decal's hard hat and the safety plates keep fixed colors, so they have no base-color parts
+    assert.ok(model.group && model.pickables.length && model.art.length && (model.base.length || ['decal', 'safety'].includes(product)), name);
     model.group.updateMatrixWorld(true);
     const box = new THREE.Box3();
     // the yard box frames the first sign; the pack stands behind it on purpose
@@ -89,7 +96,7 @@ test('every model variant builds finite geometry that stands on the ground insid
 });
 
 test('textured parts expose one slot per printed side', () => {
-  const slots = { canopy: 4, feather: 1, throw: 1, banner: 1, yard: 2 };
+  const slots = { canopy: 4, feather: 1, throw: 1, banner: 1, yard: 2, retractable: 1, backdrop: 1, magnet: 1, decal: 1, safety: 5 };
   for (const [product, choices] of VARIANTS) {
     const { model } = make(product, choices);
     assert.equal(model.art.length, slots[product], label(product, choices));
@@ -97,6 +104,7 @@ test('textured parts expose one slot per printed side', () => {
     for (const s of used) assert.ok(s >= 0 && s < slots[product]);
     if (product === 'canopy') assert.deepEqual([...used].sort(), [0, 1, 2, 3]);
     if (product === 'yard') assert.deepEqual([...used].sort(), [0, 1]);
+    if (product === 'safety') assert.deepEqual([...used].sort(), [0, 1, 2, 3, 4]);
     // every slot that can show art has at least one material to carry it, except the back of a one sided sign
     model.art.forEach((list, i) => {
       if (product === 'yard' && i === 1 && String(choices.print) === '1') assert.equal(list.length, 0);

@@ -94,6 +94,11 @@ const VIEW = {
   throw: { el: 16, side: 60 },
   banner: { el: 6, side: 45 },
   yard: { el: 10, side: 50 },
+  retractable: { el: 6, side: 40 },
+  backdrop: { el: 6, side: 40 },
+  magnet: { el: 6, side: 35 },
+  decal: { el: 8, side: 30 },
+  safety: { el: 6, side: 35 },
 };
 
 // zoom multiplies the fit distance; presets never depend on the viewport.

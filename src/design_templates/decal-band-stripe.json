@@ -1,0 +1,16 @@
+{
+  "id": "band-stripe",
+  "product": "decal",
+  "name": "Band",
+  "category": "business",
+  "palette": {"primary": "#F4F1EA", "accent": "#E10600", "ink": "#172033"},
+  "sample": {"name": "RIVER CREW", "line2": "SINCE 1998", "phone": "334-555-0152", "web": "rivercrew.example"},
+  "font": "oswald",
+  "bg": {"type": "solid", "color": "@primary"},
+  "elements": [
+    {"type": "shape", "kind": "rect", "name": "Band", "region": "art", "box": [0, 0.36, 1, 0.3], "fill": "@accent"},
+    {"type": "image", "frame": "logo", "name": "Logo", "region": "safe", "box": [0.3, 0.02, 0.4, 0.32], "square": true},
+    {"type": "text", "region": "safe", "box": [0.03, 0.36, 0.94, 0.3], "fill": "@primary", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 0.6, "min": 0.08}, "bind": "name"},
+    {"type": "text", "region": "safe", "box": [0.05, 0.7, 0.9, 0.14], "fill": "@ink", "align": "center", "valign": "middle", "fit": {"lines": 1, "max": 0.28, "min": 0.08}, "bind": "line2"}
+  ]
+}
