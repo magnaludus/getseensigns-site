@@ -240,7 +240,7 @@ test('the proof page shows the proof, the order summary, the price and a require
   assert.match(page, /name="terms_hash" value="[0-9a-f]{64}"/);
   assert.ok(page.includes('3 of 3 free revisions left'));
   assert.ok(page.includes('/assets/style.css'), 'uses the site stylesheet');
-  assert.ok(page.includes('Smiths Station, AL'));
+  assert.ok(!page.includes('Smiths Station'), 'no city on the order page');
 });
 
 test('unknown or malformed tokens get a 404 page, never a lookup error', async () => {
@@ -758,7 +758,7 @@ test('customer emails are branded for Get Seen Signs and leak no personal names,
     assert.ok(m.body.htmlContent.includes('#14161A') && m.body.htmlContent.includes('#FFD100'), 'brand colors');
     assert.ok(m.body.htmlContent.includes('https://getseensignsco.com/assets/brand/getseen-horizontal-for-dark-bg.png'), 'logo');
     assert.ok(all.includes('Get Seen Signs'));
-    assert.ok(all.includes('Smiths Station, AL'));
+    assert.ok(!all.includes('Smiths Station'), 'no city in the email');
     assert.ok(all.includes('(334) 232-9003') && all.includes('sales@getseensignsco.com') && all.includes('getseensignsco.com'));
     assert.doesNotMatch(all, /Veracity|\bdba\b|d\/b\/a|\bLLC\b|Scott|Shadow Wood|36877|trade name/i);
     assert.deepEqual(m.body.sender, { name: 'Get Seen Signs', email: 'sales@getseensignsco.com' });

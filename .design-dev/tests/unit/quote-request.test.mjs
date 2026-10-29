@@ -61,7 +61,7 @@ test('a quote is saved in D1, emailed to the shop with Reply-To the customer, an
   assert.match(mail.textContent, /usually within 1 business day/);
   assert.match(mail.textContent, /Nothing is charged for a quote/);
   assert.ok(mail.htmlContent.includes('getseensignsco.com') && mail.htmlContent.includes('Get Seen Signs'), 'shared branded layout');
-  assert.ok(mail.textContent.includes('Smiths Station, AL'));
+  assert.ok(!mail.textContent.includes('Smiths Station'), 'no city in the quote email');
   assert.doesNotMatch(all, /Veracity|\bdba\b|d\/b\/a|\bLLC\b|Scott|Shadow Wood|36877|trade name|\u2014/i);
 });
 

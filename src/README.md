@@ -9,7 +9,7 @@ Cloudflare Pages publishes `main` automatically about a minute after every merge
 | File | What it holds |
 |---|---|
 | `src/seo_products.py` | Product page copy, FAQs and the "from" prices (`price=`). `price=None` shows no price and adds no Offer. Optional per product: `etsy='<listing id>'` (leave it out for a product with no Etsy listing, like `custom-patches`: the page then has no Etsy links and its Offers point at its own page), `videos=[(file, label)]` (files in `assets/video/NN-name.mp4` plus `NN-name-poster.jpg`, embedded muted with a poster and `preload="none"`), `gallery_extra=[(image base, alt)]`, and `turnaround='...'` with `handling=(lo,hi)`, `transit=(lo,hi)` for products that do not use Etsy's standard "Arrives 3-8 business days after proof approval; tents and backdrops 5-10 business days." |
-| `src/seo_pages.py` | Local landing pages, blog posts and the gameday page. |
+| `src/seo_pages.py` | Blog posts and the gameday page. (The Columbus and Auburn area pages and the Alabama and Georgia election guide were retired on Oct 29, 2026 for a national, online-only focus. `_redirects`, written by `site-src-pages.py`, sends their old URLs to the home page and the campaign signs page.) |
 | `src/site-src-index.tpl.html` | Home page body (between `<main>` and `</main>`). |
 | `src/site-src-pages.py` | Builds every HTML page (including `/quote` and `/contact`, which carry the same working quote form as the home page, from one `quote_form()`), sitemap.xml, robots.txt and 404.html. Shared head, nav, footer and the shipping schema (`shipping_details`, `TRANSIT`, `RETURNS`). |
 | `src/design_catalog.json` | Designer products, option groups, fonts, palettes and scenes. Prices are not stored here. |

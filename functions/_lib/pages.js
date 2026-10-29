@@ -1,5 +1,5 @@
 // HTML for /proof/<token> and /order/<token>. Uses the site's own stylesheet and nav/footer markup so the pages
-// match the rest of getseensignsco.com. Customer-facing text names only Get Seen Signs and "Smiths Station, AL".
+// match the rest of getseensignsco.com. Customer-facing text names only Get Seen Signs.
 
 import { esc, money, SHOP_EMAIL, SHOP_PHONE, SHOP_PHONE_TEL } from './util.js';
 import { CONSENT_TEXT, MAX_FREE_REVISIONS, STATUS_LABELS } from './orders.js';
@@ -62,13 +62,13 @@ const FOOT = `<footer class="foot">
   <div class="wrap foot-in">
     <div>
       <img src="/assets/brand/getseen-stacked-for-dark-bg.svg" alt="Get Seen Signs" width="150" height="118" loading="lazy">
-      <p class="foot-tag">Veteran-owned, family-run online sign shop. Smiths Station, AL.</p>
+      <p class="foot-tag">Veteran-owned, family-run online sign shop.</p>
     </div>
     <div class="foot-cols">
       <div><p class="fh">Reach us</p><a class="foot-phone" href="tel:${SHOP_PHONE_TEL}" aria-label="Call Get Seen Signs at ${SHOP_PHONE}">${SHOP_PHONE}</a><a href="sms:${SHOP_PHONE_TEL}?body=Hi%2C%20I%20have%20a%20question%20about%20my%20order" aria-label="Text Get Seen Signs at ${SHOP_PHONE}">Text us</a><a href="/contact">Send a message</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a></div>
     </div>
   </div>
-  <div class="wrap legal"><p>&copy; <span id="yr">2026</span> Get Seen Signs. Smiths Station, AL.</p></div>
+  <div class="wrap legal"><p>&copy; <span id="yr">2026</span> Get Seen Signs.</p></div>
 </footer>`;
 
 export function shell({ title, body, refresh }) {

@@ -32,7 +32,7 @@ dict(
   (579,'100 signs, two sides, 18×24, stakes included'),
  ],
  body=[
-  ('Campaign season checklist', 'Before you approve the proof, check three things: the "paid for by" line your race requires, the spelling of every name, and the color contrast from 30 feet away. We wrote up the placement and disclaimer rules for Alabama and Georgia in our <a href="/blog/election-yard-sign-rules-alabama-georgia/">election yard sign guide</a>.'),
+  ('Campaign season checklist', 'Before you approve the proof, check three things: the "paid for by" line your race requires, the spelling of every name, and the color contrast from 30 feet away. Placement and disclaimer rules differ by state and city, so check with your election office before you put signs up.'),
   ('Pricing by pack', 'One-sided packs, stakes included: 5 for $74, 10 for $79, 25 for $189, 50 for $319 and 100 for $489. Two-sided packs: 5 for $79, 10 for $109, 25 for $209, 50 for $419 and 100 for $579. The smallest order is 5 signs. Need 200 or more, or a mix of two designs? Send a quote request.'),
   ('Runoffs and short timelines', 'Orders arrive 3-8 business days after you approve the proof. If you are planning for a runoff, order as soon as you know you are in it, and tell us your date in the quote form.'),
  ],

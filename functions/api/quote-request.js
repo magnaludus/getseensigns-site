@@ -150,7 +150,7 @@ async function sendConfirmation(env, ref, q) {
     'Hi ' + first + ',', '', lead, '', 'Reference ' + ref, '',
     ...asked.map((r) => r[0] + ': ' + r[1]), '',
     'Have a logo or a photo? Reply to this email with the file attached (PNG, JPG, PDF, SVG or AI) and mention your reference.',
-    'Nothing is charged for a quote.', '', '--', 'Get Seen Signs', 'Smiths Station, AL', SHOP_PHONE + ' | ' + SHOP_EMAIL + ' | getseensignsco.com',
+    'Nothing is charged for a quote.', '', '--', 'Get Seen Signs', SHOP_PHONE + ' | ' + SHOP_EMAIL + ' | getseensignsco.com',
   ].join('\n');
   await brevoSend(env, { to: q.email, toName: q.name, subject: 'We got your quote request (reference ' + ref + ')', html: html, text: text, tags: ['quote-request', 'confirmation'] });
 }

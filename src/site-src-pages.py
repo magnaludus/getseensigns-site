@@ -1,10 +1,10 @@
-# Renders all SEO pages: product category pages, local landing pages, blog, sitemap.xml, robots.txt, 404.
-# Content lives in seo_products.py (products + prices) and seo_pages.py (local pages + blog posts).
+# Renders all SEO pages: product category pages, blog, sitemap.xml, robots.txt, 404.
+# Content lives in seo_products.py (products + prices) and seo_pages.py (blog posts + the gameday page).
 import json, html, os, sys, datetime, urllib.parse
 from PIL import Image
 sys.path.insert(0, os.path.dirname(__file__))
 from seo_products import P, BY, TURNAROUND, TURNAROUND_LONG
-from seo_pages import LOCAL, BLOG, GAMEDAY
+from seo_pages import BLOG, GAMEDAY
 from design_catalog import build_design_assets
 from order_catalog import build_order_catalog
 from design_pages import HUB as DESIGN_HUB, PRODUCTS as DESIGN_PRODUCTS, PROOF as DESIGN_PROOF, start_price as design_start_price
@@ -33,7 +33,6 @@ SMS_HREF='sms:'+PHONE_TEL+'?body='+urllib.parse.quote(MSG)
 WA_HREF='https://wa.me/13342329003?text='+urllib.parse.quote(MSG)
 TEL_HREF='tel:'+PHONE_TEL
 ORG_ID=BASE+'/#org'; SITE_ID=BASE+'/#website'
-AREAS=['Columbus, GA','Phenix City, AL','Auburn, AL','Opelika, AL','Smiths Station, AL','Fort Benning, GA']
 DESIGN_SLUGS={p['page']:p['slug'] for p in DESIGN_PRODUCTS}  # product page slug -> /design/<slug>/
 # First-party event counts are off. To turn them on: set DESIGN_EVENTS_ENABLED=true on Cloudflare Pages,
 # set this to True and rebuild (see src/README.md). While False the page makes no analytics requests.
@@ -52,9 +51,8 @@ def org():
     return {"@type":"Organization","@id":ORG_ID,"name":"Get Seen Signs",
       "url":BASE+"/","logo":BASE+"/assets/brand/getseen-horizontal-for-dark-bg.png","image":BASE+"/assets/og-image.jpg",
       "email":"sales@getseensignsco.com","telephone":PHONE_SCHEMA,
-      "description":"Veteran-owned, family-run online sign shop in Smiths Station, Alabama. Custom yard signs, banners, feather flags, retractable banners, car magnets, backdrops, table throws and canopy tents, made to order and shipped.",
-      "address":{"@type":"PostalAddress","addressLocality":"Smiths Station","addressRegion":"AL","addressCountry":"US"},
-      "areaServed":[{"@type":"Country","name":"United States"}]+[{"@type":"City","name":a} for a in AREAS],
+      "description":"Veteran-owned, family-run online sign shop. Custom yard signs, banners, feather flags, retractable banners, car magnets, backdrops, table throws and canopy tents, made to order and shipped.",
+      "areaServed":{"@type":"Country","name":"United States"},
       "sameAs":[ETSY]}
 def website():
     return {"@type":"WebSite","@id":SITE_ID,"url":BASE+"/","name":"Get Seen Signs","publisher":{"@id":ORG_ID},"inLanguage":"en-US"}
@@ -135,7 +133,7 @@ NAV='''<header class="nav">
   <div class="wrap nav-in">
     <a class="nav-logo" href="/" aria-label="Get Seen Signs home"><img src="/assets/brand/getseen-wordmark-only-for-dark-bg.svg" alt="Get Seen Signs" width="150" height="58"></a>
     <nav class="nav-links" aria-label="Main">
-      <a href="/shop/">Shop</a><a href="/#products">Products</a><a href="/design/">Design</a><a href="/signs-columbus-ga-phenix-city/">Columbus</a><a href="/signs-auburn-opelika-al/">Auburn</a><a href="/blog/">Guides</a><a href="/#faq">FAQ</a>
+      <a href="/shop/">Shop</a><a href="/#products">Products</a><a href="/design/">Design</a><a href="/blog/">Guides</a><a href="/#faq">FAQ</a>
     </nav>
     <a class="nav-shop" href="/shop/">Shop</a>
     <a class="nav-design" href="/design/">Design</a>
@@ -172,11 +170,11 @@ def foot(chat=True):
   <div class="wrap foot-in">
     <div>
       <img src="/assets/brand/getseen-stacked-for-dark-bg.svg" alt="Get Seen Signs" width="150" height="118" loading="lazy">
-      <p class="foot-tag">Veteran-owned, family-run online sign shop. Smiths Station, Alabama. Shipping free across the lower 48.</p>
+      <p class="foot-tag">Veteran-owned, family-run online sign shop. Shipping free across the lower 48.</p>
     </div>
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
-      <div><p class="fh">Local</p><a href="/signs-columbus-ga-phenix-city/">Columbus &amp; Phenix City</a><a href="/signs-auburn-opelika-al/">Auburn &amp; Opelika</a><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><p class="fh mt">Guides</p><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/election-yard-sign-rules-alabama-georgia/">Election sign rules</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
+      <div><p class="fh">Ideas &amp; guides</p><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
       <div><p class="fh">Shop</p><a href="/shop/">Shop all products</a><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
     </div>
   </div>
@@ -439,41 +437,6 @@ for p in P:
     page=page.replace('</head>','<link rel="stylesheet" href="/assets/order/order.css">\n</head>',1).replace('</body>','<script type="module" src="/assets/order/order.js"></script>\n</body>',1)
     write(path,page)
 
-# ---------- local pages ----------
-for L in LOCAL:
-    path=f'/{L["slug"]}/'; items=[('Home','/'),(f'Signs in {L["area"]}',path)]
-    svc={"@type":"Service","name":f"Custom signs and banners for {L['area']}","serviceType":"Custom sign and banner printing","provider":{"@id":ORG_ID},
-         "areaServed":[{"@type":"City","name":c} if ',' in c and 'County' not in c else {"@type":"AdministrativeArea","name":c} for c in L['places']],"url":BASE+path}
-    nodes=[svc, crumbs(items), faqpage(L['faqs']), {"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":L['title'],"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}]
-    grid=''.join(card(p) for p in P[:8])
-    page=head(L['title'],L['desc'],path,ld(*nodes))+NAV+f'''<main id="main">
-<section class="phero ink">
-  <div class="wrap">
-    {bc_html(items)}
-    <div class="phero-in phero-local">
-      <div>
-        <h1>{e(L["h1"][0])} <span class="block">{e(L["h1"][1])}</span></h1>
-        <p class="lede">{e(L["lede"])}</p>
-        <ul class="proof"><li><b>Free</b> design proof</li><li><b>Free</b> shipping to your door</li><li><b>Veteran</b>-owned</li></ul>
-        <div class="cta-row"><a class="btn btn-y" href="/#quote">Get a quote <span aria-hidden="true">→</span></a><a class="btn btn-ghost" href="{ETSY}" target="_blank" rel="noopener">Shop on Etsy</a></div>
-      </div>
-      <figure class="phero-img">{pic(L["img"][0],L["img"][1],900,675,eager=True)}</figure>
-    </div>
-  </div>
-</section>
-<section class="sec paper"><div class="wrap prose">{L["html"]}</div></section>
-<section class="sec paper2">
-  <div class="wrap"><h2 class="group">Popular for {e(L["area"])}</h2><div class="grid">{grid}</div></div>
-</section>
-<section class="sec paper">
-  <div class="wrap faq-in"><div class="sec-head"><p class="eyebrow">FAQ</p><h2>Local questions</h2></div>{faq_html(L["faqs"])}</div>
-</section>
-{quote_cta("Something else")}
-</main>
-'''+foot()
-    write(path,page)
-
-
 # ---------- gameday / tailgate page (NO TRADEMARKS) ----------
 G=GAMEDAY; path=f'/{G["slug"]}/'; items=[('Home','/'),('Tailgate & gameday signs',path)]
 def gimg(gd, fb):
@@ -490,7 +453,7 @@ hero_b,hero_real=gimg('gd-tailgate-tent-orange-navy','g-10-canopy-tent-2')
 coll={"@type":"CollectionPage","@id":BASE+path,"url":BASE+path,"name":G['title'],"description":G['desc'],"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID},
       "mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":i+1,"name":x[3],"url":BASE+x[6]} for i,x in enumerate(G['products'])]}}
 svc={"@type":"Service","name":"Tailgate tents and gameday signs","serviceType":"Custom sign, banner and tent printing","provider":{"@id":ORG_ID},
-     "areaServed":[{"@type":"City","name":c} for c in ['Columbus, GA','Phenix City, AL','Auburn, AL','Opelika, AL','Smiths Station, AL']],"url":BASE+path}
+     "areaServed":{"@type":"Country","name":"United States"},"url":BASE+path}
 page=head(G['title'],G['desc'],path,ld(coll,svc,crumbs(items),faqpage(G['faqs'])),og_img=hero_b+'.jpg',og_w=900,og_h=675,preload=hero_b+'.webp')+NAV+f'''<main id="main">
 <section class="phero ink">
   <div class="wrap">
@@ -512,8 +475,7 @@ page=head(G['title'],G['desc'],path,ld(coll,svc,crumbs(items),faqpage(G['faqs'])
   <ul class="swatches">{sw}<li><span class="sw sw-any"></span>Or any colors you want</li></ul>
   <div class="grid grid-3">{gcards}</div></div>
 </section>
-<section class="sec paper"><div class="wrap prose">{G["html"]}
-<h2>Local to you</h2><p>We\'re based in Smiths Station, between Phenix City and Auburn. See <a href="/signs-columbus-ga-phenix-city/">signs for Columbus and Phenix City</a> and <a href="/signs-auburn-opelika-al/">signs for Auburn and Opelika</a>.</p></div></section>
+<section class="sec paper"><div class="wrap prose">{G["html"]}</div></section>
 <section class="sec paper2">
   <div class="wrap faq-in"><div class="sec-head"><p class="eyebrow">FAQ</p><h2>Gameday questions</h2></div>{faq_html(G["faqs"])}</div>
 </section>
@@ -558,7 +520,7 @@ for b in BLOG:
     posts_cards+=f'<a class="post" href="{path}"><div class="card-img">{pic(og[:-4],"",900,675)}</div><div class="card-body"><p class="eyebrow">{e(b["kicker"])}</p><h3>{e(b["h1"])}</h3><p>{e(b["desc"])}</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></div></a>'
 path='/blog/'; items=[('Home','/'),('Guides','/blog/')]
 title='Sign Guides & How-Tos | Get Seen Signs'
-desc='Practical guides from Get Seen Signs: welcome home banners, Christmas family name banners, Alabama and Georgia election sign rules, senior night ideas.'
+desc='Practical guides from Get Seen Signs: welcome home banners, Christmas family name banners, senior night ideas.'
 page=head(title,desc,path,ld(crumbs(items),{"@type":"Blog","@id":BASE+path,"url":BASE+path,"name":"Get Seen Signs Guides","publisher":{"@id":ORG_ID}}))+NAV+f'''<main id="main">
 <section class="phero ink"><div class="wrap">{bc_html(items)}<h1>Sign <span class="block">guides.</span></h1><p class="lede">Straight answers for people buying signs: the rules, the sizes and the timing.</p></div></section>
 <section class="sec paper"><div class="wrap"><div class="posts">{posts_cards}</div></div></section>
@@ -762,7 +724,7 @@ LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
 LASTMOD['/terms']='2026-10-28'; LASTMOD['/contact']='2026-10-28'
 LASTMOD['/privacy']='2026-10-28'; LASTMOD['/quote']='2026-10-28'
-urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{L["slug"]}/' for L in LOCAL]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/terms','/privacy','/contact','/quote']
+urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/terms','/privacy','/contact','/quote']
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)
 open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
@@ -775,6 +737,17 @@ open(SITE+'/_redirects','w').write(
     '/vendor-booth-kit /trade-show-booth-kit/ 301\n'
     '/vendor-booth-kit/ /trade-show-booth-kit/ 301\n'
     '/vendor-booth-kit/index.html /trade-show-booth-kit/ 301\n'
+    # The Columbus and Auburn area pages were retired for a national, online-only focus (Oct 29, 2026).
+    '/signs-columbus-ga-phenix-city / 301\n'
+    '/signs-columbus-ga-phenix-city/ / 301\n'
+    '/signs-columbus-ga-phenix-city/index.html / 301\n'
+    '/signs-auburn-opelika-al / 301\n'
+    '/signs-auburn-opelika-al/ / 301\n'
+    '/signs-auburn-opelika-al/index.html / 301\n'
+    # So was the Alabama and Georgia election guide. The campaign sign page is the closest match.
+    '/blog/election-yard-sign-rules-alabama-georgia /bulk-campaign-signs/ 301\n'
+    '/blog/election-yard-sign-rules-alabama-georgia/ /bulk-campaign-signs/ 301\n'
+    '/blog/election-yard-sign-rules-alabama-georgia/index.html /bulk-campaign-signs/ 301\n'
 )
 json.dump(urls,open(SRC+'/urls.json','w'),indent=1)
 print('pages:',len(urls))
@@ -859,28 +832,25 @@ def quote_form(selected=''):
     </form>"""
 
 main=main.replace('{{QUOTE_FORM}}',quote_form()).replace('{{BIZ}}','\n'.join(hcard(k) for k in BIZK)).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options).replace('{{REACH}}',REACH_HOME)
-LOCALSEC='''
-<section class="sec paper2" id="local">
+GUIDESEC='''
+<section class="sec paper2" id="guides">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Close to home</p><h2>Based in Smiths Station. <span class="hl">Shipping everywhere.</span></h2>
-    <p class="sub">We're a veteran-owned, family-run online sign shop in Lee County, Alabama, between Phenix City and Auburn. No storefront: everything ships free to your door.</p></div>
+    <div class="sec-head"><p class="eyebrow">Ideas and guides</p><h2>Made to order. <span class="hl">Shipped across the lower 48.</span></h2>
+    <p class="sub">We're a veteran-owned, family-run online sign shop. No storefront: everything ships free to your door.</p></div>
     <div class="local-grid">
-      <a class="lcard" href="/signs-columbus-ga-phenix-city/"><h3>Columbus, GA &amp; Phenix City</h3><p>Campaign signs for the Dec 1 Georgia runoff, senior night banners, contractor magnets, and the local sign rules.</p><span class="go">Columbus &amp; Phenix City <span aria-hidden="true">→</span></span></a>
-      <a class="lcard" href="/signs-auburn-opelika-al/"><h3>Auburn &amp; Opelika</h3><p>Tailgate tents, realtor signs, grand opening banners and booth displays for Lee County.</p><span class="go">Auburn &amp; Opelika <span aria-hidden="true">→</span></span></a>
       <a class="lcard" href="/tailgate-and-gameday-signs/"><h3>Tailgate &amp; gameday</h3><p>Tailgate tents, table throws, House Divided and Game Day yard signs in your colors.</p><span class="go">Gameday signs <span aria-hidden="true">→</span></span></a>
       <a class="lcard" href="/blog/christmas-family-name-banner-ideas/"><h3>Guide: Christmas sign ideas</h3><p>Family name banners and yard signs: what to print, which size fits where, and the Dec 10 order date.</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></a>
-      <a class="lcard" href="/blog/election-yard-sign-rules-alabama-georgia/"><h3>Guide: election sign rules</h3><p>Polling place distances, right-of-way rules and "paid for by" lines in Alabama and Georgia, with sources.</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></a>
       <a class="lcard" href="/blog/senior-night-banner-ideas/"><h3>Guide: senior night ideas</h3><p>Layouts by sport, photo tips, sizes and when booster clubs should order.</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></a>
     </div>
   </div>
 </section>
 '''
-main=main.replace('<section class="final ink">',LOCALSEC+'<section class="final ink">')
+main=main.replace('<section class="final ink">',GUIDESEC+'<section class="final ink">')
 main=main.replace('<h1>Signs that make people <span class="block">look twice.</span></h1>','<h1>Custom signs that make people <span class="block">look twice.</span></h1>')
 import re as _re
 home_faqs=[(html.unescape(_re.sub('<[^>]+>','',q)),a) for q,a in _re.findall(r'<details[^>]*><summary>(.*?)</summary><p>(.*?)</p></details>',main)]
 title='Custom Yard Signs, Banners, Flags & Tents | Get Seen Signs'
-desc='Custom yard signs, banners, feather flags, car magnets, backdrops and canopy tents. Free design proof, free shipping. Veteran-owned, Smiths Station, AL.'
+desc='Custom yard signs, banners, feather flags, car magnets, backdrops and canopy tents. Free design proof, free shipping. Veteran-owned.'
 page=head(title,desc,'/',ld({"@type":"WebPage","@id":BASE+"/","url":BASE+"/","name":title,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}},faqpage(home_faqs)))+NAV.replace('href="/#products"','href="#products"')+main+'\n'+foot()
 write('/',page)
 
@@ -920,7 +890,6 @@ write('/quote.html',quote_page)
 
 CONTACT_BODY=f"""<h1>Contact</h1>
 <p>Get Seen Signs</p>
-<p>Smiths Station, AL</p>
 <p>sales@getseensignsco.com</p>
 <p><a href="{TEL_HREF}" >{PHONE_DISPLAY}</a></p>
 <div class="reach">
@@ -933,7 +902,7 @@ CONTACT_BODY=f"""<h1>Contact</h1>
 if 'Scott' in CONTACT_BODY or _r0.search(r'\b(Street|Avenue|Road|Lane|Drive|Blvd|Boulevard)\b', CONTACT_BODY):
     raise SystemExit('contact page has a personal name or a street address')
 write_doc('/contact', 'Contact | Get Seen Signs',
-          'Contact Get Seen Signs in Smiths Station, AL. Send a message through our form or call (334) 232-9003.',
+          'Contact Get Seen Signs. Send a message through our form or call (334) 232-9003.',
           CONTACT_BODY)
 
 # ---------- shop page: every product with its "from" price and a way to order ----------
