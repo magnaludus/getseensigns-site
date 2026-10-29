@@ -41,7 +41,7 @@ const VARIANTS = [
   ...['8x8', '10x8'].map((size) => ['backdrop', { size }]),
   ...['12x18', '18x24'].map((size) => ['magnet', { size }]),
   ...['2in100', '2in250', '2in500', '3in250', '3in500'].map((pack) => ['decal', { pack }]),
-  ...['12x18_5', '12x18_10', '18x24_5', '12x18_5hd'].flatMap((pack) => ['landscape', 'portrait'].map((orient) => ['safety', { pack, orient }])),
+  ...['12x18_5', '12x18_10', '18x24_5', '12x18_5hd', '12x18_5hd080'].flatMap((pack) => ['landscape', 'portrait'].map((orient) => ['safety', { pack, orient }])),
 ];
 
 function make(product, choices, extra = {}) {

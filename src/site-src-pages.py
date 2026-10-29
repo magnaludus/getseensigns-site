@@ -374,6 +374,21 @@ for p in P:
     vids=''.join(f'<figure class="vid"><video controls muted playsinline preload="none" poster="/assets/video/{n}-poster.webp" width="720" height="720"><source src="/assets/video/{n}.mp4" type="video/mp4"></video><figcaption>{e(cap)} in action</figcaption></figure>' for n,cap in p.get('videos',[]))
     gal_html='<div class="gal">'+vids+''.join(_gfig(b,a,'Banner materials' if b.endswith('-materials') else 'Pack pricing' if b.endswith('-pricing') or b.endswith('-patches-2') or b.endswith('-cards-2') else 'Size and specs' if b.endswith('-specs') else 'Example design') for b,a in gal)+'</div>'
     body=''.join(f'<h2>{e(h)}</h2><p>{t}</p>' for h,t in p['body'])
+    ql=p.get('quote_line')
+    quote_line_html=''
+    if ql:
+        _qs=urllib.parse.urlencode({'product':p['short'],'quantity':ql['minimum'],'details':ql['prefill']},quote_via=urllib.parse.quote_plus)
+        _rows=''.join(f'<div><dt>{e(n)}</dt><dd>{money(v)} each</dd></div>' for n,v in ql['tiers'])
+        quote_line_html=f'''<section class="sec paper" id="showdown">
+  <div class="wrap prose">
+    <h2>{e(ql["heading"])}</h2>
+    <p>{e(ql["intro"])}</p>
+    <dl class="spec">{_rows}<div><dt>Minimum</dt><dd>{ql["minimum"]} tents</dd></div></dl>
+    <p style="margin-top:18px">{e(ql["note"])}</p>
+    <div class="cta-row"><a class="btn btn-ink" href="/quote?{e(_qs)}#quote">{e(ql["cta"])} <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+'''
     if p.get('extra'):
         buy='<div class="buy-list">'+''.join(f'<a class="buy" href="https://www.etsy.com/listing/{x["etsy"]}" target="_blank" rel="noopener"><span><b>{e(x["name"])}</b><small>{e(x["base"])}</small></span><span class="price"><small>from</small> {money(x["price"])}</span><span class="go">Etsy <span aria-hidden="true">→</span></span></a>' for x in p['extra'])+'</div>'
         etsy_btn=f'<a class="btn btn-ghost" href="#buy">Shop the designs on Etsy <span aria-hidden="true">↓</span></a>'
@@ -409,7 +424,7 @@ for p in P:
 <section class="sec paper2">
   <div class="wrap prose">{body}</div>
 </section>
-<section class="sec paper">
+{quote_line_html}<section class="sec paper">
   <div class="wrap faq-in">
     <div class="sec-head"><p class="eyebrow">FAQ</p><h2>{e(p["short"])} questions</h2></div>
     {faq_html(p["faqs"])}

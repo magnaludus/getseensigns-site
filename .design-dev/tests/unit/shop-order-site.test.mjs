@@ -253,7 +253,7 @@ const NEW = {
   backdrop: { slug: 'step-and-repeat', sizes: { '8x8': [96, 96], '10x8': [120, 96] }, by: 'size' },
   magnet: { slug: 'car-magnet', sizes: { '12x18': [18, 12], '18x24': [24, 18] }, by: 'size' },
   decal: { slug: 'hard-hat-decal', sizes: { '2in100': [2, 2], '2in250': [2, 2], '2in500': [2, 2], '3in250': [3, 3], '3in500': [3, 3] }, by: 'pack' },
-  safety: { slug: 'safety-sign', sizes: { '12x18_5': [12, 18], '12x18_10': [12, 18], '18x24_5': [18, 24], '12x18_5hd': [12, 18] }, by: 'pack' },
+  safety: { slug: 'safety-sign', sizes: { '12x18_5': [12, 18], '12x18_10': [12, 18], '18x24_5': [18, 24], '12x18_5hd': [12, 18], '12x18_5hd080': [12, 18] }, by: 'pack' },
 };
 
 test('the designer covers ten products, with the same prices as the product pages', () => {
@@ -322,6 +322,7 @@ test('the retractable banner shows the stand zone guide and the sides follow the
   const safety = env.catalog.products.find((p) => p.id === 'safety');
   assert.equal(safety.sides.names['12x18_10'].length, 10);
   assert.equal(safety.sides.names['12x18_5hd'].length, 5);
+  assert.equal(safety.sides.names['12x18_5hd080'].length, 5);
   const doc = setChoices(createDocument(env, 'safety'), 0, { pack: '12x18_10' }, env);
   assert.equal(doc.project.pieces[0].sides.length, 10);
 });

@@ -73,6 +73,7 @@ export const CATALOG = {
   "safety-12x18-10": { name: "Aluminum Safety Sign Pack (12x18, 10 signs)", priceId: "price_1UV2Ab67epULNprTdym2Ru9H", amount: 19900 },
   "safety-18x24-5": { name: "Aluminum Safety Sign Pack (18x24, 5 signs)", priceId: "price_1UV2Ad67epULNprTKevwIi3y", amount: 19900 },
   "safety-12x18-5-063": { name: "Aluminum Safety Sign Pack (12x18, 5 heavy duty .063)", priceId: "price_1UVNpR67epULNprTAbPoa2eq", amount: 16900 },
+  "safety-12x18-5-080": { name: "Aluminum Safety Sign Pack (12x18, 5 heavy duty .080)", priceId: "price_1UVnPh67epULNprT2DI4VGCt", amount: 20900 },
   "patch-pvc-3in-50": { name: "Custom Patches (50 PVC, 3 in)", priceId: "price_1UVNcM67epULNprTeoeIIg0R", amount: 32900 },
   "patch-emb-50": { name: "Custom Patches (50 embroidered)", priceId: "price_1UVNcP67epULNprTFpBjmMvQ", amount: 23900 },
   "patch-emb-100": { name: "Custom Patches (100 embroidered)", priceId: "price_1UVNcR67epULNprTbdkhaw6s", amount: 30900 },

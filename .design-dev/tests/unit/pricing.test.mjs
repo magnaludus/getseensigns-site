@@ -39,8 +39,8 @@ test('every option combination of every product is priced exactly as seo_product
       count += 1;
     }
   }
-  // canopy 3, feather 6, yard 10, throw 6 (3-sided, 4-sided and fitted at 2 lengths), banner 12 (4 sizes x 3 materials), retractable 2, backdrop 2, magnet 2, decal 5, safety 8 (4 packs x 2 layouts)
-  assert.equal(count, 3 + 6 + 10 + 6 + 12 + 2 + 2 + 2 + 5 + 8, 'all combinations were checked');
+  // canopy 3, feather 6, yard 10, throw 6 (3-sided, 4-sided and fitted at 2 lengths), banner 12 (4 sizes x 3 materials), retractable 2, backdrop 2, magnet 2, decal 5, safety 10 (5 packs x 2 layouts)
+  assert.equal(count, 3 + 6 + 10 + 6 + 12 + 2 + 2 + 2 + 5 + 10, 'all combinations were checked');
 });
 
 test('totals are price times quantity, whole dollars, free shipping', () => {

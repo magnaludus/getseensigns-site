@@ -29,11 +29,17 @@
   function clearDraft(){store(function(ls){ls.removeItem(KEY);});}
 
   // ?product=Name preselects the product (links from the product pages)
-  var want=null;
-  try{want=new URLSearchParams(location.search).get('product');}catch(_){}
+  // ?quantity=, ?size= and ?details= prefill those fields the same way
+  var want=null, pre={};
+  try{
+    var qs=new URLSearchParams(location.search); want=qs.get('product');
+    ['quantity','size','details'].forEach(function(n){var v=qs.get(n); if(v) pre[n]=v.slice(0,1000);});
+  }catch(_){}
+  var prefilled=!!want;
   var draft=readDraft(), restored=false;
   if(draft){FIELDS.forEach(function(n){var el=f.elements[n]; if(el&&draft[n]&&!el.value){el.value=draft[n]; restored=true;}});}
   if(want){var sel=f.elements.product;for(var i=0;i<sel.options.length;i++){if(sel.options[i].text===want){sel.selectedIndex=i;break;}}}
+  Object.keys(pre).forEach(function(n){var el=f.elements[n]; if(el){el.value=pre[n]; prefilled=true;}});
 
   function el(tag,text,attrs){var n=document.createElement(tag); if(text) n.textContent=text; for(var k in (attrs||{})) n.setAttribute(k,attrs[k]); return n;}
   function say(msg,err,help){
@@ -59,7 +65,7 @@
     attempt=''; clearTimeout(timer); timer=setTimeout(saveDraft,400);
   }
   f.addEventListener('input',onEdit); f.addEventListener('change',onEdit);
-  if(restored&&!want){say('Welcome back. We kept what you typed.',false);}
+  if(restored&&!prefilled){say('Welcome back. We kept what you typed.',false);}
 
   // One try. Resolves {status, body}; status 0 means the network failed or timed out.
   function send(post){
