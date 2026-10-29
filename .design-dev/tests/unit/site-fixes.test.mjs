@@ -30,7 +30,7 @@ function pages() {
 test('the three new Etsy products have pages with the approved prices and links', () => {
   const cases = [
     ['hard-hat-decals', '4603860981', ['$54', '$79', '$119', '$99', '$169']],
-    ['aluminum-safety-signs', '4603884832', ['$119', '$199']],
+    ['aluminum-safety-signs', '4603884832', ['$119', '$199', '$209']],
     ['challenge-coins', '4603863951', ['$399', '$549']],
   ];
   for (const [slug, etsy, prices] of cases) {
@@ -45,8 +45,9 @@ test('the three new Etsy products have pages with the approved prices and links'
   const safetyHtml = read('aluminum-safety-signs/index.html');
   const safety = body(safetyHtml);
   assert.ok(safety.includes('12×18 in, 5 heavy duty (.063) ($169)'), 'heavy duty option listed');
+  assert.ok(safety.includes('12×18 in, 5 heavy duty (.080) ($209)'), '.080 heavy duty option listed');
   const offers = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(safetyHtml)[1])['@graph'].find((n) => n['@type'] === 'Product').offers;
-  assert.deepEqual(offers.map((o) => [o.price, o.description]), [['119.00', '12×18 in, 5 signs'], ['199.00', '12×18 in, 10 signs'], ['199.00', '18×24 in, 5 signs'], ['169.00', '12×18 in, 5 heavy duty (.063)']]);
+  assert.deepEqual(offers.map((o) => [o.price, o.description]), [['119.00', '12×18 in, 5 signs'], ['199.00', '12×18 in, 10 signs'], ['199.00', '18×24 in, 5 signs'], ['169.00', '12×18 in, 5 heavy duty (.063)'], ['209.00', '12×18 in, 5 heavy duty (.080)']]);
   assert.ok(safetyHtml.includes('g-17-aluminum-safety-signs-pricing') && safetyHtml.includes('g-17-aluminum-safety-signs-specs'));
   assert.match(body(read('challenge-coins/index.html')), /3 to 4 weeks/);
   assert.match(body(read('hard-hat-decals/index.html')), /4 to 8 business days/);

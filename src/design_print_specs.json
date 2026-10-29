@@ -487,6 +487,20 @@
           "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
           "dpi": {"target": 150, "status": "UX_DEFAULT"},
           "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "12x18_5hd080-landscape": {
+          "artboard": {"w": 18, "h": 12, "source": "product listing", "note": "Landscape: 18 wide by 12 tall."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
+        },
+        "12x18_5hd080-portrait": {
+          "artboard": {"w": 12, "h": 18, "source": "product listing", "note": "Portrait: 12 wide by 18 tall."},
+          "bleed": {"in": 0.125, "status": "UX_DEFAULT"},
+          "safe": {"inset": 0.75, "status": "UX_DEFAULT"},
+          "dpi": {"target": 150, "status": "UX_DEFAULT"},
+          "min_cap_in": {"value": 1, "status": "UX_DEFAULT", "source": "designer spec 5.3"}
         }
       }
     }

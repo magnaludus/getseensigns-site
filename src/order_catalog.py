@@ -126,9 +126,10 @@ ORDER = {
     ),
     'aluminum-safety-signs': dict(
         qtyLabel='packs', designer='safety', designerMap={'pack': 'pack'},
-        groups=[dict(id='pack', label='Size and pack', choices=[('12x18_5', '12×18 in, 5 signs'), ('12x18_10', '12×18 in, 10 signs'), ('18x24_5', '18×24 in, 5 signs'), ('12x18_5hd', '12×18 in, 5 heavy duty (.063)')])],
+        groups=[dict(id='pack', label='Size and pack', choices=[('12x18_5', '12×18 in, 5 signs'), ('12x18_10', '12×18 in, 10 signs'), ('18x24_5', '18×24 in, 5 signs'), ('12x18_5hd', '12×18 in, 5 heavy duty (.063)'), ('12x18_5hd080', '12×18 in, 5 heavy duty (.080)')])],
         rows=[({'pack': '12x18_5'}, '12×18 in, 5 signs', 'safety-12x18-5'), ({'pack': '12x18_10'}, '12×18 in, 10 signs', 'safety-12x18-10'),
-              ({'pack': '18x24_5'}, '18×24 in, 5 signs', 'safety-18x24-5'), ({'pack': '12x18_5hd'}, '12×18 in, 5 heavy duty (.063)', 'safety-12x18-5-063')],
+              ({'pack': '18x24_5'}, '18×24 in, 5 signs', 'safety-18x24-5'), ({'pack': '12x18_5hd'}, '12×18 in, 5 heavy duty (.063)', 'safety-12x18-5-063'),
+              ({'pack': '12x18_5hd080'}, '12×18 in, 5 heavy duty (.080)', 'safety-12x18-5-080')],
         options=[dict(id='orient', label='Sign layout', choices=[('landscape', 'Landscape'), ('portrait', 'Portrait')], hide={},
                       note='Every sign in a pack can say something different. Put the wording for each sign in the notes.')],
     ),

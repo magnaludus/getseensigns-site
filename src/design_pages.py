@@ -202,7 +202,7 @@ PRODUCTS = [
         'lede': 'Your logo and your wording on rust-proof aluminum signs. Every sign in a pack can say something different.',
         'alt': 'A pack of custom aluminum safety signs',
         'sections': [
-            ('What you can design', 'Choose a pack: 12×18 with 5 or 10 signs, 18×24 with 5 signs, or 12×18 with 5 heavy duty (.063) signs. Pick landscape or portrait. Choose Each sign different in the Sides tab and design every sign in the pack one at a time, or put the same design on all of them.'),
+            ('What you can design', 'Choose a pack: 12×18 with 5 or 10 signs, 18×24 with 5 signs, 12×18 with 5 heavy duty (.063) signs, or 12×18 with 5 heavy duty (.080) signs. Pick landscape or portrait. Choose Each sign different in the Sides tab and design every sign in the pack one at a time, or put the same design on all of them.'),
             ('How the designer works', 'Start from a Notice, Caution, Warning or Danger layout, type what each sign should say, and add your logo. The designer keeps your words inside a safe zone and warns you when letters are too small to read from across a room. The 3D view shows the first five signs of a pack.'),
             ('What it costs', 'Safety sign packs start at {price} with free shipping in the lower 48. The price you see in the designer matches our Etsy listing for the pack you pick.'),
             ('What happens next', 'Send your design and we email {proof}. Nothing prints until you approve it. The preview is not the print file: we build that on your proof. Most packs arrive 5 to 9 business days after you approve. These are OSHA style designs, and you are responsible for confirming the signs meet your site\'s safety requirements.'),

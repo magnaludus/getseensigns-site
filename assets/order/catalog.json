@@ -981,7 +981,8 @@
      "12x18_5",
      "12x18_10",
      "18x24_5",
-     "12x18_5hd"
+     "12x18_5hd",
+     "12x18_5hd080"
     ]
    },
    "groups": [
@@ -1004,6 +1005,10 @@
       {
        "id": "12x18_5hd",
        "label": "12×18 in, 5 heavy duty (.063)"
+      },
+      {
+       "id": "12x18_5hd080",
+       "label": "12×18 in, 5 heavy duty (.080)"
       }
      ]
     }
@@ -1036,6 +1041,13 @@
      },
      "sku": "safety-12x18-5-063",
      "price": 169
+    },
+    {
+     "when": {
+      "pack": "12x18_5hd080"
+     },
+     "sku": "safety-12x18-5-080",
+     "price": 209
     }
    ],
    "addons": [],
@@ -1489,6 +1501,7 @@
   "aluminum-safety-signs|12×18 in, 10 signs": "safety-12x18-10",
   "aluminum-safety-signs|18×24 in, 5 signs": "safety-18x24-5",
   "aluminum-safety-signs|12×18 in, 5 heavy duty (.063)": "safety-12x18-5-063",
+  "aluminum-safety-signs|12×18 in, 5 heavy duty (.080)": "safety-12x18-5-080",
   "challenge-coins|50 coins": "coins-50",
   "challenge-coins|100 coins": "coins-100",
   "custom-patches|50 PVC patches, 3 in": "patch-pvc-3in-50",
@@ -1660,6 +1673,9 @@
   },
   "safety-12x18-5-063": {
    "name": "Aluminum Safety Sign Pack (12x18, 5 heavy duty .063)"
+  },
+  "safety-12x18-5-080": {
+   "name": "Aluminum Safety Sign Pack (12x18, 5 heavy duty .080)"
   },
   "safety-18x24-5": {
    "name": "Aluminum Safety Sign Pack (18x24, 5 signs)"

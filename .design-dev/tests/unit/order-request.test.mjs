@@ -137,7 +137,7 @@ test('the browser cannot set a price: only the sku and quantity are read, and am
 
 test('every orderable sku is priced from the server catalog, and the browser catalog agrees with it', async () => {
   const skus = Object.keys(orderCatalog.skus);
-  assert.equal(skus.length, 75);
+  assert.equal(skus.length, 76);
   for (const sku of skus) {
     const env = mkEnv();
     const { body } = await place(env, uploadReq([{ sku, quantity: 3 }]));
@@ -312,7 +312,7 @@ test('every designer option maps to a sku whose price equals the designer price'
       checked += 1;
     }
   }
-  assert.equal(checked, 56);
+  assert.equal(checked, 58);
 });
 
 test('a two-piece design makes two lines and a quantity is capped', () => {
