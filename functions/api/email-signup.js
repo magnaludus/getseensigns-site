@@ -61,7 +61,7 @@ export async function syncContact(env, email) {
 async function sendWelcome(env, email, code) {
   const lead = 'Thanks for joining the Get Seen Signs list. Every order starts with a free digital proof within 12 hours, 7 days a week, and nothing prints or is charged until you approve it.';
   const offer = code
-    ? 'Your code for 10% off your first order is ' + code + '. Mention it when you order and we will take 10% off.'
+    ? 'Your code for 10% off your first order is ' + code + '. Enter ' + code + ' in the promotion code box at checkout, after you approve your proof, and 10% comes off.'
     : 'Your 10% off code for your first order is on its way. We will email it to this address soon.';
   const html = layout({
     heading: 'You are on the list',

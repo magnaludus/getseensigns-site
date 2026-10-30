@@ -55,6 +55,8 @@ test('with a list id and a promo code set, the contact goes to the Brevo list an
   const mail = net.brevo[0].body;
   assert.equal(mail.subject, 'Your 10% off code from Get Seen Signs');
   assert.ok(mail.textContent.includes('FIRST10'));
+  assert.match(mail.textContent, /Enter FIRST10 in the promotion code box at checkout/);
+  assert.doesNotMatch(mail.textContent, /Mention it/);
   const [row] = rows(env);
   assert.deepEqual([row.brevo_status, row.promo_code], ['synced', 'FIRST10']);
 });
