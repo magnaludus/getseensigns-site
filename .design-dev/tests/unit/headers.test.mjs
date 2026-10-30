@@ -50,7 +50,23 @@ test('the private pages are never cached', () => {
     assert.ok(rule, path);
     assert.equal(rule.headers['Cache-Control'], 'no-store', path);
   }
-  assert.deepEqual(rules.map((r) => r.path), ['/*', '/proof/*', '/order/*', '/admin*']);
+  assert.deepEqual(rules.map((r) => r.path), ['/*', '/proof/*', '/order/*', '/admin*', 'https://:project.pages.dev/*', 'https://:version.:project.pages.dev/*']);
+});
+
+test('the *.pages.dev copies are noindex, and the real domain is not', () => {
+  const rules = parseHeaders(read('_headers'));
+  for (const path of ['https://:project.pages.dev/*', 'https://:version.:project.pages.dev/*']) {
+    const rule = rules.find((r) => r.path === path);
+    assert.ok(rule, path);
+    assert.deepEqual(rule.headers, { 'X-Robots-Tag': 'noindex' }, path);
+  }
+  for (const rule of rules) {
+    if (!rule.path.includes('pages.dev')) assert.equal(rule.headers['X-Robots-Tag'], undefined, rule.path);
+  }
+});
+
+test('no root Functions middleware: static pages must not run a Function on every request', () => {
+  assert.throws(() => read('functions/_middleware.js'), /ENOENT/);
 });
 
 test('the Python build does not write _headers, and the deploy workflow ships it (only dotfiles are skipped)', () => {

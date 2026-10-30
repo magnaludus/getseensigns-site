@@ -22,3 +22,11 @@
 
 /admin*
   Cache-Control: no-store
+
+# Keep the *.pages.dev copies (production and per-deploy URLs) out of search results. This replaces the old
+# functions/_middleware.js, which ran a Function on every request just to add this header.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
