@@ -1,8 +1,8 @@
 # Privacy
 
-Last updated October 28, 2026
+Last updated October 30, 2026
 
-Get Seen Signs is based in Smiths Station, Alabama. This page explains, in plain terms, what we do with information you share with us.
+This page explains, in plain terms, what we do with information you share with us.
 
 ## What we collect
 
