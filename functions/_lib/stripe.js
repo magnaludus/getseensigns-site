@@ -69,6 +69,7 @@ export function checkoutParams({ order, approval, items, successUrl, cancelUrl, 
   p.push(['success_url', successUrl]);
   p.push(['cancel_url', cancelUrl]);
   p.push(['automatic_tax[enabled]', 'true']);
+  p.push(['allow_promotion_codes', 'true']);
   p.push(['shipping_address_collection[allowed_countries][0]', 'US']);
   p.push(['consent_collection[terms_of_service]', 'required']);
   p.push(['phone_number_collection[enabled]', 'true']);

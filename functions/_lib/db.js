@@ -34,6 +34,20 @@ export const QUOTE_SCHEMA = [
   `CREATE INDEX IF NOT EXISTS quote_requests_created ON quote_requests (created_at)`,
 ];
 
+// Email list signups from the site footer (POST /api/email-signup). One row per email address (stored lowercased).
+// brevo_status: 'synced', 'failed' or 'not_configured' (BREVO_SIGNUP_LIST_ID unset). welcome_status: the welcome email.
+// promo_code: the code that went out in the welcome email, '' when SIGNUP_PROMO_CODE was not set yet.
+export const SIGNUP_SCHEMA = [
+  `CREATE TABLE IF NOT EXISTS email_signups (email TEXT PRIMARY KEY, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'subscribed', source TEXT NOT NULL DEFAULT '', brevo_status TEXT NOT NULL DEFAULT 'pending', welcome_status TEXT NOT NULL DEFAULT 'pending', promo_code TEXT NOT NULL DEFAULT '', error TEXT NOT NULL DEFAULT '')`,
+  `CREATE INDEX IF NOT EXISTS email_signups_created ON email_signups (created_at)`,
+];
+
+// Reorder requests from /reorder/ (POST /api/reorder-request), reference RO-XXXXXXXX.
+export const REORDER_SCHEMA = [
+  `CREATE TABLE IF NOT EXISTS reorder_requests (ref TEXT PRIMARY KEY, created_at TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'new', org_name TEXT NOT NULL, customer_name TEXT NOT NULL DEFAULT '', customer_email TEXT NOT NULL, phone TEXT NOT NULL DEFAULT '', previous_order TEXT NOT NULL DEFAULT '', notes TEXT NOT NULL DEFAULT '', shop_email TEXT NOT NULL DEFAULT 'pending', customer_email_status TEXT NOT NULL DEFAULT 'pending', email_error TEXT NOT NULL DEFAULT '')`,
+  `CREATE INDEX IF NOT EXISTS reorder_requests_created ON reorder_requests (created_at)`,
+];
+
 let ready = new WeakSet();
 
 export function resetSchemaCache() {
@@ -44,7 +58,7 @@ export async function getDb(env) {
   const db = env && env.DB;
   if (!db) throw new Error('D1 binding DB is missing');
   if (!ready.has(db)) {
-    for (const sql of SCHEMA.concat(DESIGN_SCHEMA, QUOTE_SCHEMA)) {
+    for (const sql of SCHEMA.concat(DESIGN_SCHEMA, QUOTE_SCHEMA, SIGNUP_SCHEMA, REORDER_SCHEMA)) {
       try {
         await db.prepare(sql).run();
       } catch (err) {

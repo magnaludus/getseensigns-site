@@ -27,6 +27,7 @@ Cloudflare Pages publishes `main` automatically about a minute after every merge
 | `src/tools/make_responsive_images.py` | Makes the phone-size home hero images (`hero-*-480/768/320.webp`) and the WebP video posters (`assets/video/*-poster.webp`) from the full-size files. |
 | `src/tools/make_card_placeholders.py` | Draws the stand-in Metal Business Cards images (`p-20-metal-business-cards.*`, `g-20-metal-business-cards-2.*`). Replace those files with real photos when they exist. |
 | `src/tools/make_patch_placeholders.py` | Draws the stand-in Custom Patches images (`p-19-custom-patches.*`, `g-19-custom-patches-2.*`) in the brand colors. Replace those files with real photos when they exist. |
+| `src/tools/make_product_photos.py` | Makes the web product photos for the A-frame, tabletop retractable, table runner, deluxe retractable stand and stretch cover (`p-2x-*.jpg/-sm.webp`, `g-*`) from the original photos: square crops, progressive JPEG and WebP. Run once with the originals folder as the argument. |
 | `.design-dev/` | Tests, screenshots, Lighthouse runner and the Three.js vendor build. Not deployed (the deploy skips dot-directories). See `.design-dev/README.md`. |
 | `assets/style.css` | CSS source. It is inlined into every page at build time, so a style change needs a rebuild. |
 | `assets/` | Images, fonts (Barlow, OFL) and brand files, already built. |

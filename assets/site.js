@@ -179,3 +179,73 @@
   window.addEventListener('resize',schedule);
   place();
 })();
+
+// Small forms (footer email signup, /reorder/): any <form class="js-form" data-endpoint data-kind>.
+// Same rules as the quote form above, kept short: a honeypot, the time since the page loaded, one attempt id per
+// filled-in form (so a retry cannot save or email twice) and up to 2 automatic retries on a network or server error.
+(function(){
+  var forms=document.querySelectorAll('form.js-form[data-endpoint]'); if(!forms.length) return;
+  var PHONE='(334) 232-9003', PAUSES=[1500,4000], TIMEOUT_MS=20000, started=Date.now();
+  var NAMES={email:'a valid email',org:'your organization or business name',previous_order:'your previous order or what to reorder',phone:'a valid phone number'};
+  function newId(){
+    var a=new Uint8Array(12);
+    try{window.crypto.getRandomValues(a);}catch(_){for(var i=0;i<a.length;i++) a[i]=Math.floor(Math.random()*256);}
+    return Array.prototype.map.call(a,function(b){return ('0'+b.toString(16)).slice(-2);}).join('');
+  }
+  function send(url,post){
+    var ctl=window.AbortController?new AbortController():null;
+    var t=ctl?setTimeout(function(){ctl.abort();},TIMEOUT_MS):0;
+    return fetch(url,{method:'POST',body:post,headers:{Accept:'application/json'},signal:ctl?ctl.signal:undefined}).then(function(r){
+      return r.json().catch(function(){return {};}).then(function(j){clearTimeout(t);return {status:r.status,body:j};});
+    },function(){clearTimeout(t);return {status:0,body:{}};});
+  }
+  function run(url,post,n){
+    return send(url,post).then(function(res){
+      if(res.status===200&&res.body&&res.body.ok) return res;
+      var again=res.status===0||res.status===408||(res.status>=500&&res.status!==503);
+      if(n<PAUSES.length&&again) return new Promise(function(done){setTimeout(done,PAUSES[n]);}).then(function(){return run(url,post,n+1);});
+      return res;
+    });
+  }
+  Array.prototype.forEach.call(forms,function(f){
+    var status=f.querySelector('.form-status'), btn=f.querySelector('button[type="submit"]'), btnHtml=btn?btn.innerHTML:'';
+    var kind=f.getAttribute('data-kind'), busy=false, attempt='';
+    function say(msg,err){if(status){status.textContent=msg;status.className='form-status'+(err?' err':'');}}
+    function edit(){attempt='';}
+    f.addEventListener('input',edit); f.addEventListener('change',edit);
+    f.addEventListener('submit',function(e){
+      e.preventDefault(); if(busy) return;
+      var bad=null;
+      Array.prototype.forEach.call(f.querySelectorAll('[required]'),function(el){
+        var ok=el.value.trim()&&(el.type!=='email'||/.+@.+\..+/.test(el.value)); el.setAttribute('aria-invalid',ok?'false':'true'); if(!ok&&!bad) bad=el;
+      });
+      if(kind==='reorder'&&!bad&&!f.elements.previous_order.value.trim()&&!f.elements.notes.value.trim()){bad=f.elements.previous_order;}
+      if(bad){say(kind==='signup'?'Please enter a valid email.':'Please fill in your organization, a valid email, and your previous order or what to reorder.',true);bad.focus();return;}
+      if(f.elements._gotcha&&f.elements._gotcha.value) return;
+      if(!attempt) attempt=newId();
+      var post=new FormData(f); post.append('elapsedMs',String(Date.now()-started)); post.append('attempt',attempt);
+      if(kind==='signup') post.append('source',location.pathname.slice(0,120));
+      busy=true; if(btn){btn.disabled=true;btn.textContent='Sending…';}
+      say('Sending…',false);
+      run(f.getAttribute('data-endpoint'),post,0).then(function(res){
+        busy=false; if(btn){btn.disabled=false;btn.innerHTML=btnHtml;}
+        var j=res.body||{};
+        if(res.status===200&&j.ok){
+          attempt=''; f.reset(); started=Date.now();
+          if(kind==='signup') say(j.already?'You are already on the list. Thanks!':'Thanks! You are on the list. Check your inbox for a welcome email.',false);
+          else if(j.emailed) say('Thanks! We got your reorder request (reference '+j.ref+') and will reply within 1 business day.'+(j.confirmed?' We emailed you a confirmation.':''),false);
+          else say('Thanks! Your request is saved (reference '+j.ref+'). If you have not heard from us in 1 business day, call or text '+PHONE+' with that reference.',false);
+          return;
+        }
+        if(res.status===400){
+          var list=(j.fields||[]).map(function(n){return NAMES[n];}).filter(Boolean);
+          var first=(j.fields||[])[0]; if(first&&f.elements[first]){f.elements[first].setAttribute('aria-invalid','true');f.elements[first].focus();}
+          say(list.length?'Please check '+list.join(', ')+'.':'Please check the form and try again.',true); return;
+        }
+        if(res.status===429){say('You have sent this a few times already. Please try again later, or call or text '+PHONE+'.',true);return;}
+        if(res.status===503&&j.enabled===false){say('Online forms are paused right now. Call or text '+PHONE+'.',true);return;}
+        say('That did not go through. What you typed is still here, so please try again, or call or text '+PHONE+'.',true);
+      });
+    });
+  });
+})();

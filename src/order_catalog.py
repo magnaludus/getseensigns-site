@@ -41,6 +41,7 @@ def _throw_rows():
         rows.append(({'length': length, 'style': '3'}, f'{length} ft, 3-sided', f'throw-{length}ft-3sided'))
         rows.append(({'length': length, 'style': '4'}, f'{length} ft, 4-sided', f'throw-{length}ft-4sided'))
         rows.append(({'length': length, 'style': 'fitted'}, f'{length} ft fitted, closed back', f'fitted-{length}ft'))
+        rows.append(({'length': length, 'style': 'stretch'}, f'{length} ft stretch spandex cover', f'stretch-{length}ft'))
     return rows
 
 
@@ -82,8 +83,9 @@ ORDER = {
     ),
     'retractable-banners': dict(
         qtyLabel='stands', designer='retractable', designerMap={'size': 'size'},
-        groups=[dict(id='size', label='Size', choices=[('33x81', '33×81 in'), ('47x81', '47×81 in')])],
-        rows=[({'size': '33x81'}, '33×81 in stand', 'retractable-33x81'), ({'size': '47x81'}, '47×81 in stand', 'retractable-47x81')],
+        groups=[dict(id='size', label='Size', choices=[('33x81', '33×81 in'), ('33x81deluxe', '33×81 in deluxe, wide base'), ('47x81', '47×81 in')])],
+        rows=[({'size': '33x81'}, '33×81 in stand', 'retractable-33x81'), ({'size': '33x81deluxe'}, '33×81 in deluxe stand, wide base', 'retractable-33x81-deluxe'),
+              ({'size': '47x81'}, '47×81 in stand', 'retractable-47x81')],
     ),
     'car-magnets': dict(
         qtyLabel='pairs', designer='magnet', designerMap={'size': 'size'},
@@ -105,7 +107,7 @@ ORDER = {
         qtyLabel='covers', designer='throw', designerMap={'length': 'length', 'style': 'style'},
         groups=[
             dict(id='length', label='Table', choices=[('6', '6 ft'), ('8', '8 ft')]),
-            dict(id='style', label='Style', choices=[('3', '3-sided throw (open back)'), ('4', '4-sided throw'), ('fitted', 'Fitted cover (closed back)')]),
+            dict(id='style', label='Style', choices=[('3', '3-sided throw (open back)'), ('4', '4-sided throw'), ('fitted', 'Fitted cover (closed back)'), ('stretch', 'Stretch spandex cover')]),
         ],
         rows=_throw_rows(),
     ),
@@ -151,6 +153,13 @@ ORDER = {
               ({'pack': 'blk50'}, '50 black cards', 'card-blk-50'), ({'pack': 'blk100'}, '100 black cards', 'card-blk-100'),
               ({'pack': 'gold100'}, '100 gold cards', 'card-gold-100'), ({'pack': 'rosegold100'}, '100 rose gold cards', 'card-rosegold-100')],
     ),
+    'metal-a-frame-signs': dict(qtyLabel='signs', upload_only=True, groups=[], rows=[({}, '24×36 steel A-frame with 2 printed inserts', 'aframe-24x36')],
+                                options=[dict(id='sides', label='Inserts', choices=[('same', 'Same design front and back'), ('different', 'A different design on each side')], hide={},
+                                              note='Put the wording for the front and the back in the notes.')]),
+    'tabletop-retractable-banners': dict(qtyLabel='stands', upload_only=True, groups=[], rows=[({}, '11.5×17.5 in tabletop stand', 'tabletop-retractable')]),
+    'table-runners': dict(qtyLabel='bundles', upload_only=True, groups=[], rows=[({}, '30×72 printed runner + 8 ft solid throw', 'runner-throw-8ft')],
+                          options=[dict(id='color', label='Throw color', choices=[('black', 'Black'), ('red', 'Red'), ('yellow', 'Yellow'), ('blue', 'Blue'), ('green', 'Green')], hide={},
+                                        note='The throw is a solid color. The runner is printed with your design.')]),
     'senior-night-banners': dict(
         qtyLabel='banners',
         groups=[dict(id='size', label='Size', choices=[('2x3', '2×3 ft'), ('3x5', '3×5 ft'), ('4x6', '4×6 ft')])],
