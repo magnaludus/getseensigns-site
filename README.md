@@ -39,6 +39,9 @@ admin creates order + proof ──► proof email ──► /proof/<token> ─�
 | `POST /api/admin/orders/<id>/proof` | Add a new proof version (after a revision request) and email it. |
 | `POST /api/admin/orders/<id>/tracking` | Add carrier + tracking number (paid orders), mark shipped, email the customer. |
 | `POST /api/stripe-webhook` | Stripe webhook (signature verified). |
+| `/approve/<token>/` | "Approve your proof" page for custom orders invoiced by hand: the proof (image inline, or a PDF button), the order summary, a required ship-to form and the "I approve this proof as shown" box, with Approve proof and Request changes buttons. See "Proof approval links" below. |
+| `POST /api/admin/proof-approvals`, `GET /api/admin/proof-approvals` | Create an approval link (returns it, emails nobody); list the latest 100 (`?status=sent`, `changes_requested` or `approved`). |
+| `GET /api/admin/proof-approvals/<ref or token>` | One approval record: status, ship-to, notes, approval time, IP, user agent, shop email status and the link. |
 
 The token in `/proof/<token>` and `/order/<token>` is 256 random bits per order. The pages are `noindex`,
 never cached, and the admin endpoints answer 401 without the bearer token (and 503 if `ADMIN_TOKEN` is unset or shorter than 16 characters).
@@ -56,6 +59,39 @@ A customer can start an order from any product page (or from the Shop page): the
 7. **Metal Business Cards (`/metal-business-cards/`, Stripe product `prod_VWQgTGfyDiNrDy`).** Same setup as Custom Patches: no Etsy listing, upload or "rather have us design it" only, Offers point at the page. 0.5 mm, 1 color plus laser etch on both sides; production 2 to 3 weeks after proof approval (handling 10-15 plus 2-5 transit in the structured data), never the standard 3-8 days. Seven saved prices in `catalog.js`: `card-ss-50` $249, `card-ss-100` $299, `card-ss-250` $499 (stainless steel), `card-blk-50` $359, `card-blk-100` $449 (black), `card-gold-100` $329, `card-rosegold-100` $329. The images (`p-20-metal-business-cards.*`, `g-20-metal-business-cards-2.*`) are plain graphics made by `src/tools/make_card_placeholders.py`; replace them with real photos.
 
 **Env vars and D1.** No new variables: it uses `DB`, `BREVO_API_KEY` and `ADMIN_TOKEN`, and turns on with the same rule as the designer proof form (`DESIGN_PROOF_ENABLED=false` switches it off). No new SQL: the order tables from `migrations/0001_orders.sql` and the request tables from `migrations/0002_design_proof_requests.sql` are all it needs; `awaiting_proof` is just a new status value.
+
+### Proof approval links (custom orders invoiced by hand)
+
+So no custom order is invoiced without a complete ship-to, the customer approves the proof and gives the shipping
+address on one page, `/approve/<token>/`. This is separate from the Stripe order flow above (`/proof/<token>`),
+which collects the address in Stripe Checkout.
+
+1. Create the link (nothing is emailed; send it to the customer yourself):
+
+   ```bash
+   curl -X POST https://getseensignsco.com/api/admin/proof-approvals \
+     -H "Authorization: Bearer $ADMIN_TOKEN" -H "Content-Type: application/json" \
+     -d '{"customer_name":"Customer Name","customer_email":"customer@example.com",
+          "order_description":"1 x 10x10 canopy tent, full kit\n1 x 6 ft table throw",
+          "proof_url":"https://example.com/proof.pdf"}'
+   # -> {"ok":true,"ref":"PA-XXXXXXXX","status":"sent","approve_url":"https://getseensignsco.com/approve/<token>/"}
+   ```
+
+   `proof_url` is an https link to the proof image or a PDF (a `.pdf` link shows as an "Open your proof (PDF)" button).
+2. The customer fills in delivery name, company (optional), street 1, street 2 (optional), city, state, ZIP, phone and
+   email. The server checks every field: a US state (50 states and DC), a 5 or 9 digit ZIP, a 10 digit phone (area code
+   cannot start with 0 or 1) and a valid email. **Approve proof** also needs the "I approve this proof as shown" box.
+3. **Request changes** saves the notes box without approving (status `changes_requested`) and emails sales@. The
+   customer can still approve the same proof later. For an updated proof, create a new link.
+4. **Approve proof** saves the ship-to, the approval time (UTC), IP and user agent (status `approved`, final: later posts
+   change nothing), emails sales@getseensignsco.com through Brevo with the ship-to and approval time, and shows the
+   customer a thank-you page saying the invoice is coming.
+5. Check a record with `GET /api/admin/proof-approvals/PA-XXXXXXXX`. `shop_email` is `sent` or `failed`; on `failed` the
+   record is still saved.
+
+Table `proof_approvals` (`migrations/0006_proof_approvals.sql`, also created automatically on first use). Same
+`DB`, `BREVO_API_KEY` and `ADMIN_TOKEN` as the rest; no new variables. The token is 256 random bits and the page is
+`noindex`, never cached, and refuses posts from other sites.
 
 ### Response headers (`_headers`)
 

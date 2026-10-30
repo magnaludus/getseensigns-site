@@ -48,6 +48,14 @@ export const REORDER_SCHEMA = [
   `CREATE INDEX IF NOT EXISTS reorder_requests_created ON reorder_requests (created_at)`,
 ];
 
+// "Approve your proof" links (/approve/<token>/, functions/_lib/proof-approvals.js), reference PA-XXXXXXXX.
+// status: sent, changes_requested or approved. ip and user_agent are from the customer's last post (the approval,
+// once approved). shop_email: '' until an email to the shop is tried, then 'sent' or 'failed'.
+export const APPROVAL_SCHEMA = [
+  `CREATE TABLE IF NOT EXISTS proof_approvals (ref TEXT PRIMARY KEY, token TEXT NOT NULL UNIQUE, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'sent', customer_name TEXT NOT NULL, customer_email TEXT NOT NULL DEFAULT '', order_description TEXT NOT NULL, proof_url TEXT NOT NULL, ship_name TEXT NOT NULL DEFAULT '', ship_company TEXT NOT NULL DEFAULT '', ship_street1 TEXT NOT NULL DEFAULT '', ship_street2 TEXT NOT NULL DEFAULT '', ship_city TEXT NOT NULL DEFAULT '', ship_state TEXT NOT NULL DEFAULT '', ship_zip TEXT NOT NULL DEFAULT '', ship_phone TEXT NOT NULL DEFAULT '', ship_email TEXT NOT NULL DEFAULT '', notes TEXT NOT NULL DEFAULT '', approve_text TEXT NOT NULL DEFAULT '', approved_at TEXT, changes_requested_at TEXT, ip TEXT NOT NULL DEFAULT '', user_agent TEXT NOT NULL DEFAULT '', shop_email TEXT NOT NULL DEFAULT '', email_error TEXT NOT NULL DEFAULT '')`,
+  `CREATE INDEX IF NOT EXISTS proof_approvals_created ON proof_approvals (created_at)`,
+];
+
 let ready = new WeakSet();
 
 export function resetSchemaCache() {
@@ -58,7 +66,7 @@ export async function getDb(env) {
   const db = env && env.DB;
   if (!db) throw new Error('D1 binding DB is missing');
   if (!ready.has(db)) {
-    for (const sql of SCHEMA.concat(DESIGN_SCHEMA, QUOTE_SCHEMA, SIGNUP_SCHEMA, REORDER_SCHEMA)) {
+    for (const sql of SCHEMA.concat(DESIGN_SCHEMA, QUOTE_SCHEMA, SIGNUP_SCHEMA, REORDER_SCHEMA, APPROVAL_SCHEMA)) {
       try {
         await db.prepare(sql).run();
       } catch (err) {
