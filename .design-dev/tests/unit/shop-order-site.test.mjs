@@ -140,11 +140,11 @@ test('the Custom Patches page: exact prices, upload-only paths, 11 to 15 day tur
   assert.ok(read('index.html').includes('business days after you approve your proof'));
 });
 
-test('every SKU has a saved Stripe price except the six Oct 30 placeholders, which bill as price_data until Prices exist', () => {
+test('every SKU has a saved Stripe price, including the six Oct 30 additions', () => {
   const unsaved = Object.entries(CATALOG).filter(([, e]) => e.priceId === '').map(([sku]) => sku).sort();
   assert.deepEqual(unsaved, [...PLACEHOLDER_PRICE_IDS].sort());
-  assert.deepEqual(PLACEHOLDER_PRICE_IDS, ['retractable-33x81-deluxe', 'stretch-6ft', 'stretch-8ft', 'aframe-24x36', 'tabletop-retractable', 'runner-throw-8ft']);
-  assert.deepEqual(unsaved, [...['retractable-33x81-deluxe', 'stretch-6ft', 'stretch-8ft', 'aframe-24x36', 'tabletop-retractable', 'runner-throw-8ft']].sort());
+  assert.deepEqual(PLACEHOLDER_PRICE_IDS, []);
+  assert.deepEqual(unsaved, []);
   assert.deepEqual(['retractable-33x81-deluxe', 'stretch-6ft', 'stretch-8ft', 'aframe-24x36', 'tabletop-retractable', 'runner-throw-8ft'].map((s) => CATALOG[s].amount), [14900, 19900, 23900, 12900, 6900, 9900]);
   assert.deepEqual([CATALOG['patch-pvc-3in-50'].priceId, CATALOG['patch-emb-50'].priceId, CATALOG['patch-emb-100'].priceId, CATALOG['safety-12x18-5-063'].priceId], ['price_1UVNcM67epULNprTeoeIIg0R', 'price_1UVNcP67epULNprTFpBjmMvQ', 'price_1UVNcR67epULNprTbdkhaw6s', 'price_1UVNpR67epULNprTAbPoa2eq']);
   assert.ok(!('safety-12x18-5-hd' in CATALOG) && !('patch-pvc-50-3in' in CATALOG), 'old SKU names are gone');

@@ -8,14 +8,16 @@ const root = new URL('../../../', import.meta.url);
 const read = (p) => readFileSync(new URL(p, root), 'utf8');
 const body = (html) => html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ');
 const NEW_PAGES = ['metal-a-frame-signs', 'tabletop-retractable-banners', 'table-runners', 'event-booth-bundles', 'reorder'];
+const NEW_SKUS = ['retractable-33x81-deluxe', 'stretch-6ft', 'stretch-8ft', 'aframe-24x36', 'tabletop-retractable', 'runner-throw-8ft'];
+const PRICE_IDS = {"retractable-33x81-deluxe": "price_1UWHQz67epULNprTo7pzbECK", "stretch-6ft": "price_1UWHQz67epULNprTxYTRekZ2", "stretch-8ft": "price_1UWHQz67epULNprTty5Ol3Le", "aframe-24x36": "price_1UWHQz67epULNprTvLL3tFbE", "tabletop-retractable": "price_1UWHR067epULNprTzMXFvh13", "runner-throw-8ft": "price_1UWHR067epULNprTl0sOC1cQ"};
 const CITY = /Smiths Station|Phenix City|Columbus|Auburn|Opelika|Alabama|Georgia|\bAL\b|\bGA\b|Lee County|36877/;
 
 test('the new products bill at the approved prices', () => {
   const want = { 'retractable-33x81-deluxe': 14900, 'stretch-6ft': 19900, 'stretch-8ft': 23900, 'aframe-24x36': 12900, 'tabletop-retractable': 6900, 'runner-throw-8ft': 9900 };
   for (const [sku, cents] of Object.entries(want)) {
     assert.equal(CATALOG[sku].amount, cents, sku);
-    assert.equal(CATALOG[sku].priceId, '', sku + ' has no Stripe price yet');
-    assert.ok(PLACEHOLDER_PRICE_IDS.includes(sku), sku);
+    assert.equal(CATALOG[sku].priceId, PRICE_IDS[sku], sku + ' has its saved Stripe price');
+    assert.ok(!PLACEHOLDER_PRICE_IDS.includes(sku), sku);
   }
 });
 
@@ -43,7 +45,7 @@ test('the Merchant Center feed is RSS 2.0 with the g: namespace, one item per SK
   const items = xml.split('<item>').slice(1);
   const ids = items.map((i) => /<g:id>([^<]+)<\/g:id>/.exec(i)[1]);
   assert.equal(new Set(ids).size, ids.length, 'unique ids');
-  for (const sku of PLACEHOLDER_PRICE_IDS) assert.ok(ids.includes(sku), sku + ' in feed');
+  for (const sku of NEW_SKUS) assert.ok(ids.includes(sku), sku + ' in feed');
   for (const id of ids) assert.ok(id in CATALOG, id + ' is a real SKU');
   for (const item of items) {
     for (const tag of ['title', 'description', 'link', 'image_link', 'availability', 'price', 'brand', 'condition', 'identifier_exists']) assert.match(item, new RegExp(`<g:${tag}>[^<]+</g:${tag}>`), tag);
