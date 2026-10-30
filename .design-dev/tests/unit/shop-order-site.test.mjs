@@ -17,7 +17,7 @@ const body = (html) => html.replace(/<style>[\s\S]*?<\/style>/g, '').replace(/<s
 const order = JSON.parse(read('assets/order/catalog.json'));
 const env = loadEnv();
 
-const PAGES = ['bulk-campaign-signs', 'vinyl-banners', 'feather-flags', 'retractable-banners', 'car-magnets', 'real-estate-signs', 'step-and-repeat-backdrops', 'table-throws', 'custom-canopy-tents', 'trade-show-booth-kit', 'hard-hat-decals', 'aluminum-safety-signs', 'challenge-coins', 'custom-patches', 'metal-business-cards', 'senior-night-banners', 'holiday-yard-signs'];
+const PAGES = ['bulk-campaign-signs', 'vinyl-banners', 'feather-flags', 'retractable-banners', 'car-magnets', 'real-estate-signs', 'step-and-repeat-backdrops', 'table-throws', 'custom-canopy-tents', 'trade-show-booth-kit', 'hard-hat-decals', 'aluminum-safety-signs', 'challenge-coins', 'custom-patches', 'metal-business-cards', 'senior-night-banners', 'holiday-yard-signs', 'metal-a-frame-signs', 'tabletop-retractable-banners', 'table-runners'];
 
 function allPages() {
   const out = [];
@@ -47,7 +47,7 @@ test('the order catalog covers every product page and every approved price, and 
     for (const g of p.groups) for (const c of g.choices) assert.ok(p.rows.some((r) => r.when[g.id] === c.id), `${p.slug} ${g.id}=${c.id} is priced`);
     assert.ok(p.rows.every((r) => r.price > 0 && Number.isInteger(r.price)), p.slug);
   }
-  assert.deepEqual(Object.values(order.products).filter((p) => p.uploadOnly).map((p) => p.slug).sort(), ['challenge-coins', 'custom-patches', 'metal-business-cards', 'trade-show-booth-kit']);
+  assert.deepEqual(Object.values(order.products).filter((p) => p.uploadOnly).map((p) => p.slug).sort(), ['challenge-coins', 'custom-patches', 'metal-a-frame-signs', 'metal-business-cards', 'table-runners', 'tabletop-retractable-banners', 'trade-show-booth-kit']);
 });
 
 test('every product page has the order panel with its prices, the free shipping note and the proof-first promise', () => {
@@ -140,11 +140,12 @@ test('the Custom Patches page: exact prices, upload-only paths, 11 to 15 day tur
   assert.ok(read('index.html').includes('business days after you approve your proof'));
 });
 
-test('every SKU has a saved Stripe price, and the placeholder list is empty', () => {
+test('every SKU has a saved Stripe price except the six Oct 30 placeholders, which bill as price_data until Prices exist', () => {
   const unsaved = Object.entries(CATALOG).filter(([, e]) => e.priceId === '').map(([sku]) => sku).sort();
   assert.deepEqual(unsaved, [...PLACEHOLDER_PRICE_IDS].sort());
-  assert.deepEqual(PLACEHOLDER_PRICE_IDS, []);
-  assert.deepEqual(unsaved, []);
+  assert.deepEqual(PLACEHOLDER_PRICE_IDS, ['retractable-33x81-deluxe', 'stretch-6ft', 'stretch-8ft', 'aframe-24x36', 'tabletop-retractable', 'runner-throw-8ft']);
+  assert.deepEqual(unsaved, [...['retractable-33x81-deluxe', 'stretch-6ft', 'stretch-8ft', 'aframe-24x36', 'tabletop-retractable', 'runner-throw-8ft']].sort());
+  assert.deepEqual(['retractable-33x81-deluxe', 'stretch-6ft', 'stretch-8ft', 'aframe-24x36', 'tabletop-retractable', 'runner-throw-8ft'].map((s) => CATALOG[s].amount), [14900, 19900, 23900, 12900, 6900, 9900]);
   assert.deepEqual([CATALOG['patch-pvc-3in-50'].priceId, CATALOG['patch-emb-50'].priceId, CATALOG['patch-emb-100'].priceId, CATALOG['safety-12x18-5-063'].priceId], ['price_1UVNcM67epULNprTeoeIIg0R', 'price_1UVNcP67epULNprTFpBjmMvQ', 'price_1UVNcR67epULNprTbdkhaw6s', 'price_1UVNpR67epULNprTAbPoa2eq']);
   assert.ok(!('safety-12x18-5-hd' in CATALOG) && !('patch-pvc-50-3in' in CATALOG), 'old SKU names are gone');
   assert.deepEqual([CATALOG['patch-pvc-3in-50'].amount, CATALOG['patch-emb-50'].amount, CATALOG['patch-emb-100'].amount], [32900, 23900, 30900]);
@@ -224,7 +225,7 @@ test('the Shop page lists every product with its from price and an order link, a
     if (slug === 'holiday-yard-signs') continue;
     assert.ok(text.includes('$' + lowest.toLocaleString('en-US')), `${slug} from $${lowest}`);
   }
-  assert.equal((html.match(/class="card shop-card"/g) || []).length, 18);
+  assert.equal((html.match(/class="card shop-card"/g) || []).length, 21);
   assert.match(text, /Proof first, then pay/);
   assert.match(text, /Free shipping in the lower 48/);
   assert.ok(read('sitemap.xml').includes('<loc>https://getseensignsco.com/shop/</loc>'));
@@ -350,10 +351,12 @@ test('the designer opens with the choices in the address from the order panel', 
       const dg = dp.groups.find((g) => g.id === designerGroup);
       assert.ok(dg, `${p.slug} designer group ${designerGroup}`);
       const pg = p.groups.find((g) => g.id === panelGroup);
-      // a panel choice the designer lacks has no designer path (none today: the designer has fitted table covers too)
+      // a panel choice the designer lacks has no designer path: today the deluxe retractable stand and the stretch table covers
       assert.deepEqual(p.designerOk[panelGroup], pg.choices.map((c) => c.id).filter((id) => dg.choices.some((c) => c.id === id)), `${p.slug} ${panelGroup}`);
-      assert.deepEqual(p.designerOk[panelGroup], pg.choices.map((c) => c.id), `${p.slug} ${panelGroup} choices all exist in the designer`);
+      const noDesigner = { 'retractable-banners:size': ['33x81deluxe'], 'table-throws:style': ['stretch'] }[p.slug + ':' + panelGroup] || [];
+      assert.deepEqual(p.designerOk[panelGroup], pg.choices.map((c) => c.id).filter((id) => !noDesigner.includes(id)), `${p.slug} ${panelGroup} choices all exist in the designer`);
       if (p.slug === 'table-throws' && panelGroup === 'style') assert.deepEqual(p.designerOk.style, ['3', '4', 'fitted']);
+      if (p.slug === 'retractable-banners') assert.deepEqual(p.designerOk.size, ['33x81', '47x81']);
     }
   }
 });

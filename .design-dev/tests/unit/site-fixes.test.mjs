@@ -64,10 +64,10 @@ test('banner page lists 13 oz, 18 oz heavy duty and mesh at the approved prices'
   assert.deepEqual(offers.map((o) => o.price), ['44.00', '59.00', '89.00', '79.00', '54.00', '84.00', '149.00', '129.00', '59.00', '94.00', '149.00', '139.00']);
 });
 
-test('table page offers fitted closed-back covers at $159 and $179 and no stretch cover', () => {
+test('table page offers fitted closed-back covers at $159 and $179 and stretch spandex covers at $199 and $239', () => {
   const html = body(read('table-throws/index.html'));
   assert.match(html, /6 ft fitted is \$159 and 8 ft fitted is \$179/);
-  assert.doesNotMatch(html, /stretch/i);
+  assert.match(html, /6 ft stretch is \$199 and 8 ft stretch is \$239/);
 });
 
 test('every matching product page embeds its video with a poster', () => {

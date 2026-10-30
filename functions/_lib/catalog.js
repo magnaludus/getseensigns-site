@@ -2,7 +2,9 @@
 // Generated from the account's catalog map; every price is USD, tax behavior exclusive, tax code txcd_20090028.
 // Test-mode keys cannot see these live Price IDs, so stripe.js sends the same amount as price_data instead.
 // An entry with an empty priceId has no saved Stripe Price yet and is always sent as price_data (name and amount below).
-// Every such SKU must be listed in PLACEHOLDER_PRICE_IDS at the bottom; a unit test checks the two agree (the list is empty today).
+// Every such SKU must be listed in PLACEHOLDER_PRICE_IDS at the bottom; a unit test checks the two agree.
+// The six Oct 30, 2026 SKUs (deluxe retractable, stretch covers, A-frame, tabletop retractable, runner bundle) have no saved
+// Stripe Price yet: create them in the Get Seen Signs live account, paste the price ids here and empty the list.
 
 export const TAX_CODE = 'txcd_20090028';
 export const SHIPPING_TAX_CODE = 'txcd_92010001';
@@ -84,7 +86,13 @@ export const CATALOG = {
   "card-blk-100": { name: "Metal Business Cards (100 black)", priceId: "price_1UVNpJ67epULNprT1BdBEnAY", amount: 44900 },
   "card-gold-100": { name: "Metal Business Cards (100 gold)", priceId: "price_1UVNpM67epULNprTkz7k8r90", amount: 32900 },
   "card-rosegold-100": { name: "Metal Business Cards (100 rose gold)", priceId: "price_1UVNpO67epULNprTmLFIo0o2", amount: 32900 },
+  "retractable-33x81-deluxe": { name: "Retractable Banner Stand (33x81 deluxe wide base)", priceId: "", amount: 14900 },
+  "stretch-6ft": { name: "Stretch Table Cover (6 ft spandex)", priceId: "", amount: 19900 },
+  "stretch-8ft": { name: "Stretch Table Cover (8 ft spandex)", priceId: "", amount: 23900 },
+  "aframe-24x36": { name: "Metal A-Frame Sidewalk Sign (24x36, 2 inserts)", priceId: "", amount: 12900 },
+  "tabletop-retractable": { name: "Tabletop Retractable Banner (11.5x17.5)", priceId: "", amount: 6900 },
+  "runner-throw-8ft": { name: "Table Runner + Throw Bundle (30x72 runner, 8 ft throw)", priceId: "", amount: 9900 },
 };
 
 // SKUs that still have no saved Stripe Price (empty priceId above). Add a SKU here while its price is a placeholder, remove it once the real price id is saved.
-export const PLACEHOLDER_PRICE_IDS = [];
+export const PLACEHOLDER_PRICE_IDS = ['retractable-33x81-deluxe', 'stretch-6ft', 'stretch-8ft', 'aframe-24x36', 'tabletop-retractable', 'runner-throw-8ft'];

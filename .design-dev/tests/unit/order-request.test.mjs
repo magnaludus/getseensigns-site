@@ -137,7 +137,7 @@ test('the browser cannot set a price: only the sku and quantity are read, and am
 
 test('every orderable sku is priced from the server catalog, and the browser catalog agrees with it', async () => {
   const skus = Object.keys(orderCatalog.skus);
-  assert.equal(skus.length, 76);
+  assert.equal(skus.length, 82);
   for (const sku of skus) {
     const env = mkEnv();
     const { body } = await place(env, uploadReq([{ sku, quantity: 3 }]));

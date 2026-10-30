@@ -487,6 +487,10 @@
        "label": "33×81 in"
       },
       {
+       "id": "33x81deluxe",
+       "label": "33×81 in deluxe, wide base"
+      },
+      {
        "id": "47x81",
        "label": "47×81 in"
       }
@@ -500,6 +504,13 @@
      },
      "sku": "retractable-33x81",
      "price": 109
+    },
+    {
+     "when": {
+      "size": "33x81deluxe"
+     },
+     "sku": "retractable-33x81-deluxe",
+     "price": 149
     },
     {
      "when": {
@@ -731,6 +742,10 @@
       {
        "id": "fitted",
        "label": "Fitted cover (closed back)"
+      },
+      {
+       "id": "stretch",
+       "label": "Stretch spandex cover"
       }
      ]
     }
@@ -762,6 +777,14 @@
     },
     {
      "when": {
+      "length": "6",
+      "style": "stretch"
+     },
+     "sku": "stretch-6ft",
+     "price": 199
+    },
+    {
+     "when": {
       "length": "8",
       "style": "3"
      },
@@ -783,6 +806,14 @@
      },
      "sku": "fitted-8ft",
      "price": 179
+    },
+    {
+     "when": {
+      "length": "8",
+      "style": "stretch"
+     },
+     "sku": "stretch-8ft",
+     "price": 239
     }
    ],
    "addons": [],
@@ -1272,6 +1303,118 @@
    "addons": [],
    "options": []
   },
+  "metal-a-frame-signs": {
+   "slug": "metal-a-frame-signs",
+   "name": "Metal A-Frame Sidewalk Signs",
+   "short": "Metal A-Frame Sign",
+   "qtyLabel": "signs",
+   "maxQty": 20,
+   "etsy": "4606146936",
+   "uploadOnly": true,
+   "designer": null,
+   "designerMap": {},
+   "designerOk": {},
+   "groups": [],
+   "rows": [
+    {
+     "when": {},
+     "sku": "aframe-24x36",
+     "price": 129
+    }
+   ],
+   "addons": [],
+   "options": [
+    {
+     "id": "sides",
+     "label": "Inserts",
+     "note": "Put the wording for the front and the back in the notes.",
+     "hide": {},
+     "choices": [
+      {
+       "id": "same",
+       "label": "Same design front and back"
+      },
+      {
+       "id": "different",
+       "label": "A different design on each side"
+      }
+     ]
+    }
+   ]
+  },
+  "tabletop-retractable-banners": {
+   "slug": "tabletop-retractable-banners",
+   "name": "Tabletop Retractable Banners",
+   "short": "Tabletop Retractable Banner",
+   "qtyLabel": "stands",
+   "maxQty": 20,
+   "etsy": "4606128009",
+   "uploadOnly": true,
+   "designer": null,
+   "designerMap": {},
+   "designerOk": {},
+   "groups": [],
+   "rows": [
+    {
+     "when": {},
+     "sku": "tabletop-retractable",
+     "price": 69
+    }
+   ],
+   "addons": [],
+   "options": []
+  },
+  "table-runners": {
+   "slug": "table-runners",
+   "name": "Custom Table Runner + Throw Bundle",
+   "short": "Table Runner Bundle",
+   "qtyLabel": "bundles",
+   "maxQty": 20,
+   "etsy": "4606147042",
+   "uploadOnly": true,
+   "designer": null,
+   "designerMap": {},
+   "designerOk": {},
+   "groups": [],
+   "rows": [
+    {
+     "when": {},
+     "sku": "runner-throw-8ft",
+     "price": 99
+    }
+   ],
+   "addons": [],
+   "options": [
+    {
+     "id": "color",
+     "label": "Throw color",
+     "note": "The throw is a solid color. The runner is printed with your design.",
+     "hide": {},
+     "choices": [
+      {
+       "id": "black",
+       "label": "Black"
+      },
+      {
+       "id": "red",
+       "label": "Red"
+      },
+      {
+       "id": "yellow",
+       "label": "Yellow"
+      },
+      {
+       "id": "blue",
+       "label": "Blue"
+      },
+      {
+       "id": "green",
+       "label": "Green"
+      }
+     ]
+    }
+   ]
+  },
   "senior-night-banners": {
    "slug": "senior-night-banners",
    "name": "Senior Night Banners",
@@ -1474,6 +1617,7 @@
   "feather-flags|18 ft with ground spike": "flag-18-spike",
   "feather-flags|18 ft with cross base": "flag-18-cross",
   "retractable-banners|33×81 in stand": "retractable-33x81",
+  "retractable-banners|33×81 in deluxe stand, wide base": "retractable-33x81-deluxe",
   "retractable-banners|47×81 in stand": "retractable-47x81",
   "car-magnets|12×18 in pair": "magnet-12x18",
   "car-magnets|18×24 in pair": "magnet-18x24",
@@ -1486,9 +1630,11 @@
   "table-throws|6 ft, 3-sided": "throw-6ft-3sided",
   "table-throws|6 ft, 4-sided": "throw-6ft-4sided",
   "table-throws|6 ft fitted, closed back": "fitted-6ft",
+  "table-throws|6 ft stretch spandex cover": "stretch-6ft",
   "table-throws|8 ft, 3-sided": "throw-8ft-3sided",
   "table-throws|8 ft, 4-sided": "throw-8ft-4sided",
   "table-throws|8 ft fitted, closed back": "fitted-8ft",
+  "table-throws|8 ft stretch spandex cover": "stretch-8ft",
   "custom-canopy-tents|10×10 Standard": "tent-standard",
   "custom-canopy-tents|10×10 top, valance and back wall": "tent-top-wall",
   "custom-canopy-tents|Full kit: walls, feather flag and table throw": "tent-full-kit",
@@ -1514,6 +1660,9 @@
   "metal-business-cards|100 black cards": "card-blk-100",
   "metal-business-cards|100 gold cards": "card-gold-100",
   "metal-business-cards|100 rose gold cards": "card-rosegold-100",
+  "metal-a-frame-signs|24×36 steel A-frame with 2 printed inserts": "aframe-24x36",
+  "tabletop-retractable-banners|11.5×17.5 in tabletop stand": "tabletop-retractable",
+  "table-runners|30×72 printed runner + 8 ft solid throw": "runner-throw-8ft",
   "senior-night-banners|2×3 ft": "senior-2x3",
   "senior-night-banners|3×5 ft": "senior-3x5",
   "senior-night-banners|4×6 ft": "senior-4x6",
@@ -1521,6 +1670,9 @@
   "holiday-yard-signs|3×6 ft banner": "xmas-3x6"
  },
  "skus": {
+  "aframe-24x36": {
+   "name": "Metal A-Frame Sidewalk Sign (24x36, 2 inserts)"
+  },
   "backdrop-10x8": {
    "name": "Step and Repeat Backdrop (10x8)"
   },
@@ -1662,8 +1814,14 @@
   "retractable-33x81": {
    "name": "Retractable Banner Stand (33x81)"
   },
+  "retractable-33x81-deluxe": {
+   "name": "Retractable Banner Stand (33x81 deluxe wide base)"
+  },
   "retractable-47x81": {
    "name": "Retractable Banner Stand (47x81)"
+  },
+  "runner-throw-8ft": {
+   "name": "Table Runner + Throw Bundle (30x72 runner, 8 ft throw)"
   },
   "safety-12x18-10": {
    "name": "Aluminum Safety Sign Pack (12x18, 10 signs)"
@@ -1688,6 +1846,15 @@
   },
   "senior-4x6": {
    "name": "Senior Night Banner (4x6)"
+  },
+  "stretch-6ft": {
+   "name": "Stretch Table Cover (6 ft spandex)"
+  },
+  "stretch-8ft": {
+   "name": "Stretch Table Cover (8 ft spandex)"
+  },
+  "tabletop-retractable": {
+   "name": "Tabletop Retractable Banner (11.5x17.5)"
   },
   "tent-full-kit": {
    "name": "Canopy Tent 10x10 (Full Kit)"

@@ -97,6 +97,8 @@ export function installFetch(opts) {
   const state = {
     stripe: [],
     brevo: [],
+    contacts: [],
+    contactsFail: false,
     stripeFail: false,
     brevoFail: false,
     sessions: 0,
@@ -124,6 +126,11 @@ export function installFetch(opts) {
       state.brevo.push({ body, headers: init.headers });
       if (state.brevoFail) return Response.json({ message: 'unauthorized' }, { status: 401 });
       return Response.json({ messageId: '<m' + state.brevo.length + '@brevo>' }, { status: 201 });
+    }
+    if (u === 'https://api.brevo.com/v3/contacts' && method === 'POST') {
+      state.contacts.push({ body: JSON.parse(init.body), headers: init.headers });
+      if (state.contactsFail) return Response.json({ message: 'bad list' }, { status: 400 });
+      return Response.json({ id: state.contacts.length }, { status: 201 });
     }
     if (state.images[u]) {
       const img = state.images[u];

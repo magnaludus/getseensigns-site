@@ -175,9 +175,10 @@ def foot(chat=True):
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
       <div><p class="fh">Ideas &amp; guides</p><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
-      <div><p class="fh">Shop</p><a href="/shop/">Shop all products</a><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
+      <div><p class="fh">Shop</p><a href="/shop/">Shop all products</a><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/event-booth-bundles/">Booth bundles</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><a href="/reorder/">Reorder</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
     </div>
   </div>
+  <div class="wrap">{SIGNUP_FORM}</div>
   <div class="wrap legal">
     <p>© <span id="yr">2026</span> Get Seen Signs.</p>
   </div>
@@ -187,6 +188,17 @@ def foot(chat=True):
 </body>
 </html>
 '''
+# Footer email signup. Posts to /api/email-signup (D1, then Brevo when BREVO_SIGNUP_LIST_ID is set) through assets/site.js.
+SIGNUP_FORM='''<form class="signup js-form" data-endpoint="/api/email-signup" data-kind="signup" novalidate>
+      <div class="signup-copy"><p class="fh">Free proof + 10% off your first order</p><p>Join the list for new products and the occasional deal. Every order already starts with a free digital proof.</p></div>
+      <div class="signup-row">
+        <label class="sr-only" for="signup-email">Email</label>
+        <input id="signup-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn btn-y btn-sm" type="submit">Sign up</button>
+      </div>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>'''
 def bc_html(items):
     out=[]
     for i,(n,u) in enumerate(items):
@@ -313,6 +325,9 @@ ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per 
  '18-challenge-coins':('Custom challenge coin held in a hand to show its 1.75 inch size','Box of custom challenge coins lined up, with four more coins in clear cases in front'),
  '19-custom-patches':('Custom patches price card: 50 PVC patches 3 in $329, 50 embroidered patches $239, 100 embroidered patches $309',None),
  '20-metal-business-cards':('Metal business cards price card: stainless steel, black, gold and rose gold, from $249',None),
+ '21-metal-a-frame-sign':('Metal A-frame sidewalk sign reading Open, Your Message Here outside a coffee shop','Yellow Event This Way A-frame sign with an arrow at an outdoor market'),
+ '22-tabletop-retractable-banner':('Tabletop retractable banner reading Scan to Pay with a QR code on a shop counter',None),
+ '23-table-runner':('Blue table throw with a white printed logo runner at an indoor expo',None),
 }
 # Alt text for the current Etsy listing main photo (p-*.jpg). Gallery shots that Etsy did not expose stay on their own alts above.
 HERO_ALT={
@@ -334,6 +349,9 @@ HERO_ALT={
  '18-challenge-coins':'Front and back of a custom full color Acme Mfg challenge coin on dark slate',
  '19-custom-patches':'Custom patches, PVC and embroidered, from Get Seen Signs',
  '20-metal-business-cards':'Metal business cards in stainless steel, black, gold and rose gold from Get Seen Signs',
+ '21-metal-a-frame-sign':'Black metal A-frame sidewalk sign with a Get Seen Signs insert outside a storefront',
+ '22-tabletop-retractable-banner':'Get Seen Signs tabletop retractable banner on an expo table next to a laptop',
+ '23-table-runner':'Black table throw with a yellow Get Seen Signs printed runner at an outdoor vendor event',
 }
 for p in P:
     path=f'/{p["slug"]}/'; k=p['key']; items=[('Home','/'),(p['name'],path)]
@@ -345,7 +363,7 @@ for p in P:
         nodes=[product(p['name'], p['desc'], imgs, path, p['price'], p.get('etsy'), p['base'], p['days'], p.get('offer_rows'), ship)]
     nodes+= [crumbs(items), faqpage(p['faqs']), {"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":p['title'],"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}]
     if p['price']:
-        design=' Design included — no design fee.' if p.get('design_included') else ''
+        design=' Design included, no design fee.' if p.get('design_included') else ''
         price_html=f'<p class="pp"><span class="price"><small>from</small> {money(p["price"])}<small class="unit"> {p["unit"]}</small></span><span class="pp-note">{e(p["base"]) or "Starting price"} · free shipping, lower 48.{design}</span></p>'
     else:
         price_html='<p class="pp"><span class="pp-note">Pricing is being updated. See the current price on Etsy, or get a quote.</span></p>'
@@ -355,7 +373,7 @@ for p in P:
 <div><dt>Material</dt><dd>{e(p["material"])}</dd></div>
 <div><dt>Included</dt><dd>{e(p["included"])}</dd></div>
 <div><dt>Turnaround</dt><dd>{e(turn)} Rush on request.</dd></div>
-{('<div><dt>Design</dt><dd>Design included — no design fee.</dd></div>' if p.get('design_included') else '')}
+{('<div><dt>Design</dt><dd>Design included, no design fee.</dd></div>' if p.get('design_included') else '')}
 <div><dt>Proof</dt><dd>Free digital proof within 12 hours, 7 days a week, 3 revisions included. Nothing prints until you approve.</dd></div>
 <div><dt>Shipping</dt><dd>Free in the lower 48</dd></div>
 <div><dt>Your artwork</dt><dd>Logos, photos and text you send are your responsibility. You confirm you have the right to use them. We don't print team, school or league names, logos or slogans.</dd></div>
@@ -370,7 +388,7 @@ for p in P:
         w,h=Image.open(f'{SITE}{b}.webp').size
         return f'<figure{" class=sq" if w==h else ""}>{pic(b,a,w,h,sm=b+"-sm")}<figcaption>{cap}</figcaption></figure>'
     vids=''.join(f'<figure class="vid"><video controls muted playsinline preload="none" poster="/assets/video/{n}-poster.webp" width="720" height="720"><source src="/assets/video/{n}.mp4" type="video/mp4"></video><figcaption>{e(cap)} in action</figcaption></figure>' for n,cap in p.get('videos',[]))
-    gal_html='<div class="gal">'+vids+''.join(_gfig(b,a,'Banner materials' if b.endswith('-materials') else 'Pack pricing' if b.endswith('-pricing') or b.endswith('-patches-2') or b.endswith('-cards-2') else 'Size and specs' if b.endswith('-specs') else 'Example design') for b,a in gal)+'</div>'
+    gal_html='<div class="gal">'+vids+''.join(_gfig(b,a,'Banner materials' if b.endswith('-materials') else 'Pack pricing' if b.endswith('-pricing') or b.endswith('-patches-2') or b.endswith('-cards-2') else 'Size and specs' if b.endswith('-specs') else 'How it works' if b.endswith('-how') else 'Deluxe stand' if b.endswith('-deluxe') else 'Stretch cover' if '-stretch' in b else 'Example design') for b,a in gal)+'</div>'
     body=''.join(f'<h2>{e(h)}</h2><p>{t}</p>' for h,t in p['body'])
     ql=p.get('quote_line')
     quote_line_html=''
@@ -724,7 +742,7 @@ LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
 LASTMOD['/terms']='2026-10-30'; LASTMOD['/contact']='2026-10-28'
 LASTMOD['/privacy']='2026-10-30'; LASTMOD['/quote']='2026-10-28'
-urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/terms','/privacy','/contact','/quote']
+urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/event-booth-bundles/','/reorder/','/terms','/privacy','/contact','/quote']
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)
 open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
@@ -762,11 +780,11 @@ SHORT={
  '02-bulk-yard-signs':('bulk-campaign-signs','5 to 100 packs for campaigns, crews and realtors. 5 is the minimum.'),
  '03-vinyl-banner':('vinyl-banners','13 oz, 18 oz heavy duty or mesh. Hemmed with grommets. 2×4 up to 3×10 ft.'),
  '04-feather-flag':('feather-flags','10.5, 14 or 18 ft. Pole, ground spike or cross base, and bag included.'),
- '05-retractable-banner':('retractable-banners','Pull-up stand. Sets up in 60 seconds.'),
+ '05-retractable-banner':('retractable-banners','Pull-up stand, standard or deluxe. Sets up in 60 seconds.'),
  '06-car-magnet':('car-magnets','Vehicle-grade magnets for both doors.'),
  '07-real-estate-sign':('real-estate-signs','Coroplast or aluminum. Riders and post frames.'),
  '08-step-and-repeat':('step-and-repeat-backdrops','8×8 or 10×8 with stand and case.'),
- '09-table-throw':('table-throws','Throws or fitted covers for 6 or 8 ft tables.'),
+ '09-table-throw':('table-throws','Throws, fitted or stretch covers for 6 or 8 ft tables.'),
  '10-canopy-tent':('custom-canopy-tents','Printed top and valance on a heavy-duty frame.'),
  '15-trade-show-booth-kit':('trade-show-booth-kit','6 ft table throw, 33×81 banner and 10.5 ft flag. One price.'),
  '16-hard-hat-decals':('hard-hat-decals','Die-cut logo decals in 2 or 3 in. Packs of 100 to 500.'),
@@ -774,10 +792,13 @@ SHORT={
  '18-challenge-coins':('challenge-coins','1.75 in, full color on both sides. 50 or 100 coins.'),
  '19-custom-patches':('custom-patches','PVC or embroidered, with your logo. 50 or 100 patches.'),
  '20-metal-business-cards':('metal-business-cards','0.5 mm metal cards in steel, black, gold or rose gold. 50 to 250.'),
+ '21-metal-a-frame-sign':('metal-a-frame-signs','Steel sidewalk sign with two 24×36 printed inserts.'),
+ '22-tabletop-retractable-banner':('tabletop-retractable-banners','11.5×17.5 mini pull-up for counters and tables.'),
+ '23-table-runner':('table-runners','Printed runner plus a solid color 8 ft throw.'),
  '11-christmas-family-banner':('holiday-yard-signs','Your family name, three classic styles.'),
  '12-senior-night-banner':('senior-night-banners','Photo, name and number. Team pricing for 10+.'),
  '14-thanksgiving-yard-sign':('holiday-yard-signs','Harvest or rustic, with your name.')}
-NAMES={'02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-trade-show-booth-kit':'Trade Show Booth Kit','16-hard-hat-decals':'Hard Hat Decals','17-aluminum-safety-signs':'Aluminum Safety Signs','18-challenge-coins':'Challenge Coins','19-custom-patches':'Custom Patches','20-metal-business-cards':'Metal Business Cards','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
+NAMES={'02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-trade-show-booth-kit':'Trade Show Booth Kit','16-hard-hat-decals':'Hard Hat Decals','17-aluminum-safety-signs':'Aluminum Safety Signs','18-challenge-coins':'Challenge Coins','19-custom-patches':'Custom Patches','20-metal-business-cards':'Metal Business Cards','21-metal-a-frame-sign':'Metal A-Frame Sign','22-tabletop-retractable-banner':'Tabletop Retractable Banner','23-table-runner':'Table Runner Bundle','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
 def price_of(k):
     for p in P:
         if p.get('extra'):
@@ -795,7 +816,7 @@ def hcard(k):
   <div class="card-body"><h3>{n}</h3><p>{d}</p>
   <div class="card-foot">{price}<span class="go">Sizes &amp; details <span aria-hidden="true">→</span></span></div></div>
 </a>'''
-BIZ_EXTRA={'15-trade-show-booth-kit','16-hard-hat-decals','17-aluminum-safety-signs','18-challenge-coins','19-custom-patches','20-metal-business-cards'}
+BIZ_EXTRA={'15-trade-show-booth-kit','16-hard-hat-decals','17-aluminum-safety-signs','18-challenge-coins','19-custom-patches','20-metal-business-cards','21-metal-a-frame-sign','22-tabletop-retractable-banner','23-table-runner'}
 BIZK=[k for k in NAMES if int(k[:2])<=10 or k in BIZ_EXTRA]; SEAK=[k for k in NAMES if int(k[:2])>10 and k not in BIZ_EXTRA]
 options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<option>Election / campaign signs</option><option>Birthday or graduation sign</option><option>Something else</option>'
 REACH_HOME=f'''<div class="reach">
@@ -950,3 +971,174 @@ links=''.join(f'<a href="/{p["slug"]}/">{p["name"]}</a>' for p in P)
 nf+=NAV+f'<main id="main"><section class="phero ink"><div class="wrap"><h1>Page not <span class="block">found.</span></h1><p class="lede">That page isn\'t here. Try one of these:</p><div class="cta-row"><a class="btn btn-y" href="/">Home</a><a class="btn btn-ghost" href="/design/">Design online</a><a class="btn btn-ghost" href="/#quote">Get a quote</a></div></div></section><section class="sec paper"><div class="wrap"><div class="link-cloud">{links}</div></div></section></main>'+foot()
 open(SITE+'/404.html','w').write(nf)
 print('home ok')
+
+# ---------- /event-booth-bundles/: vendor and event booth setups built from the real product prices ----------
+# Each piece names a product page and one of its offer rows, so a price change in seo_products.py flows through and
+# a missing row stops the build. Totals are the pieces bought separately: no invented bundle discount.
+BUNDLES=[
+    dict(id='outdoor', name='Outdoor vendor booth', img='10-canopy-tent',
+         blurb='For farmers markets, festivals, fairs and outdoor vendor events: a branded tent, a covered table, a flag at the curb and a banner on the front.',
+         pieces=[('custom-canopy-tents','10×10 Standard','10×10 canopy tent, printed top and valance'),
+                 ('table-throws','6 ft fitted, closed back','6 ft fitted table cover'),
+                 ('feather-flags','10.5 ft with ground spike','10.5 ft feather flag with ground spike'),
+                 ('vinyl-banners','2×4 ft with grommets','2×4 ft vinyl banner with grommets')]),
+    dict(id='indoor', name='Indoor expo booth', img='09-table-throw',
+         blurb='For trade shows, career fairs, conferences and indoor expos: a sleek stretch table cover, a deluxe pull-up banner, a tabletop sign and a flag on a cross base.',
+         pieces=[('table-throws','8 ft stretch spandex cover','8 ft stretch spandex table cover'),
+                 ('retractable-banners','33×81 in deluxe stand, wide base','33×81 deluxe retractable banner, wide base'),
+                 ('tabletop-retractable-banners','11.5×17.5 in tabletop stand','11.5×17.5 tabletop retractable banner'),
+                 ('feather-flags','10.5 ft with cross base','10.5 ft feather flag with cross base')]),
+    dict(id='market', name='Market table starter', img='23-table-runner',
+         blurb='For craft fairs, pop-up shops, church and school events and check-in tables: a printed runner on a solid throw, a QR or price sign for the table and a sidewalk sign out front.',
+         pieces=[('table-runners','30×72 printed runner + 8 ft solid throw','30×72 printed runner with a solid 8 ft throw'),
+                 ('tabletop-retractable-banners','11.5×17.5 in tabletop stand','11.5×17.5 tabletop retractable banner'),
+                 ('metal-a-frame-signs','24×36 steel A-frame with 2 printed inserts','24×36 metal A-frame sidewalk sign')]),
+]
+def _bundle_price(slug, offer_text):
+    hit=[pr for pr, t in (BY[slug].get('offer_rows') or []) if t==offer_text]
+    if len(hit)!=1: raise SystemExit(f'event-booth-bundles: {slug} has no single offer {offer_text!r}')
+    return hit[0]
+for _b in BUNDLES:
+    _b['rows']=[(slug, label, _bundle_price(slug, offer_text)) for slug, offer_text, label in _b['pieces']]
+    _b['total']=sum(pr for _s, _l, pr in _b['rows'])
+def bundle_card(b):
+    k=b['img']; alt=HERO_ALT.get(k, html.unescape(NAMES.get(k,''))+' by Get Seen Signs')
+    lis=''.join(f'<li><a href="/{slug}/#order">{e(label)}</a><b>{money(pr)}</b></li>' for slug,label,pr in b['rows'])
+    details=b['name']+' bundle: '+'; '.join(label for _s,label,_p in b['rows'])
+    q=f'/?product={urllib.parse.quote_plus("Something else")}&details={urllib.parse.quote_plus(details)}#quote'
+    return f'''<article class="bundle" id="{b["id"]}">
+  <div class="card-img sq">{pic("/assets/img/p-"+k, alt, 1024, 1024, sm="/assets/img/p-"+k+"-sm", sizes="(max-width: 640px) 92vw, (max-width: 1000px) 46vw, 360px")}</div>
+  <div class="bundle-body"><h2>{e(b["name"])}</h2><p>{e(b["blurb"])}</p>
+  <ul>{lis}</ul>
+  <p class="total"><span>Bought separately</span><span>{money(b["total"])}</span></p>
+  <div class="cta-row"><a class="btn btn-ink btn-sm" href="{e(q)}">Quote this bundle</a></div></div>
+</article>'''
+path='/event-booth-bundles/'; items=[('Home','/'),('Shop','/shop/'),('Event booth bundles',path)]
+bun_title='Vendor & Event Booth Bundles: Tent, Table Cover, Flag | Get Seen Signs'
+bun_desc='Vendor and event booth bundles: canopy tent, table cover, feather flag and banners, matched to your brand. Free proof on every piece, free shipping.'
+_bun_items=[]
+for _b in BUNDLES:
+    for slug,_l,_p in _b['rows']:
+        if slug not in _bun_items: _bun_items.append(slug)
+bun_ld=[crumbs(items),{"@type":"CollectionPage","@id":BASE+path,"url":BASE+path,"name":bun_title,"description":bun_desc,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID},
+    "mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":i+1,"name":BY[slug]['name'],"url":BASE+"/"+slug+"/"} for i,slug in enumerate(_bun_items+['trade-show-booth-kit'])]}}]
+BUN_FAQS=[
+    ('Is there a bundle discount?', 'The prices shown are each piece bought separately. The <a href="/trade-show-booth-kit/">trade show booth kit</a> is the one set with its own price: $339 for a 6 ft throw, a 33×81 banner and a 10.5 ft flag. For a bigger setup, send a bundle quote and we will price it together.'),
+    ('Will everything match?', 'Yes. Tell us your logo, colors and text once, and we design every piece to match. You get a free digital proof for each one, and nothing prints until you approve.'),
+    ('Do the pieces ship together?', 'They may ship separately. Most pieces arrive 3 to 8 business days after you approve the proof. Tents take 5 to 10 business days.'),
+    ('Can I swap a piece?', 'Yes. Order the pieces you want from each product page, or send a bundle quote with the changes, like an 8 ft table, a taller flag or a bigger banner.'),
+]
+bun_page=head(bun_title,bun_desc,path,ld(*bun_ld,faqpage([(q,_re.sub('<[^>]+>','',a)) for q,a in BUN_FAQS])))+NAV+f'''<main id="main">
+<section class="phero ink">
+  <div class="wrap">
+    {bc_html(items)}
+    <h1>Vendor &amp; event <span class="block">booth bundles.</span></h1>
+    <p class="lede">Everything a booth needs, matched to your brand: a tent, a table cover, a feather flag and a banner. Pick a setup, order each piece from its page, or send one quote for the whole bundle. Every piece gets a free digital proof, and shipping is free in the lower 48.</p>
+    <div class="cta-row"><a class="btn btn-y" href="#outdoor">Outdoor booth</a><a class="btn btn-ghost" href="#indoor">Indoor expo</a><a class="btn btn-ghost" href="#market">Market table</a></div>
+  </div>
+</section>
+<section class="sec paper">
+  <div class="wrap">
+    <div class="bundle-grid">{''.join(bundle_card(b) for b in BUNDLES)}</div>
+    <h2 style="margin-top:56px">Want one price for a trade show?</h2>
+    <p>The <a href="/trade-show-booth-kit/">trade show booth kit</a> is $339 for a 6 ft 3-sided table throw, a 33×81 retractable banner and a 10.5 ft feather flag, matched and shipped together as one order.</p>
+    <h2 style="margin-top:40px">Questions</h2>
+    {faq_html(BUN_FAQS)}
+  </div>
+</section>
+{quote_cta("Something else", " Tell us the event, your table size and which pieces you want.")}
+</main>
+'''+foot()
+write(path,bun_page)
+
+# ---------- /reorder/: repeat an earlier order. Posts to /api/reorder-request (D1 + an email to the shop). ----------
+path='/reorder/'; items=[('Home','/'),('Reorder',path)]
+ro_title='Reorder Your Signs | Get Seen Signs'
+ro_desc='Reorder signs, banners or apparel you bought from Get Seen Signs before. Tell us your organization and your last order, and we send a fresh proof.'
+ro_page=head(ro_title,ro_desc,path,ld(crumbs(items),{"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":ro_title,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}))+NAV+f'''<main id="main">
+<section class="phero ink">
+  <div class="wrap">
+    {bc_html(items)}
+    <h1>Reorder <span class="block">in a minute.</span></h1>
+    <p class="lede">Ordered from us before? Tell us who you are and what you want again. We look up your last order, send a fresh proof with any changes, and nothing prints or is charged until you approve it.</p>
+  </div>
+</section>
+<section class="sec yellow" id="reorder">
+  <div class="wrap quote-in">
+    <div class="quote-copy">
+      <ul class="checks">
+        <li>Same design, or tell us what to change</li>
+        <li>Free digital proof before anything prints</li>
+        <li>Free shipping in the lower 48</li>
+      </ul>
+      {REACH_HOME}
+    </div>
+    <!-- Posts to /api/reorder-request (saved in D1, emailed to the shop through Brevo). -->
+    <form class="quote-form reorder-form js-form" data-endpoint="/api/reorder-request" data-kind="reorder" novalidate>
+      <label>Organization or business name<input name="org" autocomplete="organization" required></label>
+      <div class="f2">
+        <label>Your name<input name="name" autocomplete="name"></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+      </div>
+      <div class="f2">
+        <label>Phone (optional)<input name="phone" type="tel" autocomplete="tel"></label>
+        <label>Previous order<input name="previous_order" placeholder="Order or quote number, date, or product"></label>
+      </div>
+      <label>What to reorder, and any changes<textarea name="notes" rows="4" placeholder="Quantities, sizes, new dates or names, anything that changes."></textarea></label>
+      <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-ink" type="submit">Send reorder request <span aria-hidden="true">→</span></button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+</main>
+'''+foot()
+write(path,ro_page)
+
+# ---------- /feeds/google-products.xml: Google Merchant Center product feed ----------
+# RSS 2.0 with the g: namespace, one item per priced option (the same SKUs as the order panel, so ids stay stable).
+# Shipping and returns are set once in Merchant Center (free shipping, lower 48), not per item here.
+from xml.sax.saxutils import escape as _xe
+# options with their own photo use it as the main feed image
+FEED_IMG={'retractable-33x81-deluxe':'/assets/img/g-05-retractable-banner-deluxe.jpg','stretch-6ft':'/assets/img/g-09-table-throw-stretch.jpg','stretch-8ft':'/assets/img/g-09-table-throw-stretch-2.jpg'}
+_sku_offer={sku: off.split('|',1)[1] for off, sku in ORDER_CATALOG['offers'].items()}
+def _feed_items():
+    out=[]
+    for p in P:
+        slug=p['slug']; panel=ORDER_CATALOG['products'].get(slug)
+        if not panel: continue
+        k=p['key']
+        for row in panel['rows']:
+            sku=row['sku']; offer_text=_sku_offer.get(sku)
+            name=html.unescape(p['name']); img_k=k
+            if p.get('extra'):
+                # holiday-yard-signs carries two Etsy listings; each SKU takes the name and photo of its own listing
+                x=next((x for x in p['extra'] if ('thanks' in sku)==('thanksgiving' in x['key'])), p['extra'][0])
+                name=x['name']; img_k=x['key']
+            title=(f'{name}, {offer_text}' if offer_text else name).replace('×','x')
+            title=_re.sub(r'\s+',' ',title.replace('—',',').replace('–','-')).strip()[:150]
+            add=f'/assets/img/g-{img_k}-2.jpg'
+            main_img=FEED_IMG.get(sku, f'/assets/img/p-{img_k}.jpg')
+            desc=_re.sub(r'\s+',' ',html.unescape(_re.sub('<[^>]+>','',p['desc']+' '+p['lede']))).replace('—',',').strip()[:5000]
+            out.append(f'''  <item>
+    <g:id>{_xe(sku)}</g:id>
+    <g:title>{_xe(title)}</g:title>
+    <g:description>{_xe(desc)}</g:description>
+    <g:link>{BASE}/{slug}/</g:link>
+    <g:image_link>{BASE}{main_img}</g:image_link>
+{f"    <g:additional_image_link>{BASE}{add}</g:additional_image_link>{chr(10)}" if os.path.exists(SITE+add) else ""}    <g:availability>in_stock</g:availability>
+    <g:price>{row["price"]:.2f} USD</g:price>
+    <g:brand>Get Seen Signs</g:brand>
+    <g:condition>new</g:condition>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:product_type>{_xe(name)}</g:product_type>
+  </item>
+''')
+    return out
+_fi=_feed_items()
+os.makedirs(SITE+'/feeds',exist_ok=True)
+with open(SITE+'/feeds/google-products.xml','w',encoding='utf-8') as _f:
+    _f.write('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n<channel>\n'
+             f'  <title>Get Seen Signs</title>\n  <link>{BASE}/</link>\n  <description>Custom signs, banners, flags, tents and booth displays from Get Seen Signs.</description>\n'
+             +''.join(_fi)+'</channel>\n</rss>\n')
+print('feed items:',len(_fi))
