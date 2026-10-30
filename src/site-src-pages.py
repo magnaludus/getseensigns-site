@@ -722,8 +722,8 @@ write_doc('/privacy', 'Privacy Policy | Get Seen Signs',
 # ---------- sitemap, robots ----------
 LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
-LASTMOD['/terms']='2026-10-28'; LASTMOD['/contact']='2026-10-28'
-LASTMOD['/privacy']='2026-10-28'; LASTMOD['/quote']='2026-10-28'
+LASTMOD['/terms']='2026-10-30'; LASTMOD['/contact']='2026-10-28'
+LASTMOD['/privacy']='2026-10-30'; LASTMOD['/quote']='2026-10-28'
 urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/terms','/privacy','/contact','/quote']
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)

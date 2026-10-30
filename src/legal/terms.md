@@ -1,6 +1,6 @@
 # Terms of Service
 
-**Last updated:** October 28, 2026
+**Last updated:** October 30, 2026
 
 These terms cover every order you place on getseensignsco.com. You agree to them when you check the terms box to approve your proof and pay. Get Seen Signs is a trade name of Veracity Solutions LLC, an Alabama limited liability company. "We" and "us" mean Veracity Solutions LLC doing business as Get Seen Signs.
 
@@ -71,6 +71,5 @@ We may update these terms. The version you agree to when you approve and pay for
 
 ## 13. Contact
 Get Seen Signs (Veracity Solutions LLC)
-Smiths Station, AL
 sales@getseensignsco.com
 (334) 232-9003

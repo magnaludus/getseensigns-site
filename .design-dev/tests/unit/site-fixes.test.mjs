@@ -115,9 +115,10 @@ test('Veracity is named only on the Terms page (visible text, structured data, m
   assert.doesNotMatch(read('terms.html').match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1], /Veracity/);
 });
 
-test('the Privacy page refers to the business only as Get Seen Signs', () => {
+test('the Privacy page refers to the business only as Get Seen Signs and names no place', () => {
   const text = body(read('privacy.html'));
-  assert.match(text, /Get Seen Signs is based in Smiths Station, Alabama\./);
+  assert.ok(text.includes('This page explains, in plain terms, what we do with information you share with us.'));
+  assert.doesNotMatch(text, /Smiths Station|Lee County|Alabama/);
   assert.doesNotMatch(text, /\bLLC\b|trade name|\bdba\b|d\/b\/a|Scott/i);
   assert.ok(text.includes('sales@getseensignsco.com'));
 });
@@ -182,13 +183,13 @@ test('the area pages and the Alabama and Georgia election guide are retired: not
   }
 });
 
-test('public pages and the store emails do not name the shop\'s city or area (the Terms and Privacy pages are legal copy and keep theirs)', () => {
+test('public pages and the store emails do not name the shop\'s city or area (Terms section 11 still names Lee County until an Alabama attorney signs off on that sentence)', () => {
   const place = /Smiths Station|Lee County|Phenix City|Opelika|Fort Benning|Columbus, GA|Auburn, AL/;
-  const legal = new Set(['terms.html', 'privacy.html']);
   const root_ = fileURLToPath(root).replace(/\/$/, '');
   for (const f of pages()) {
-    if (legal.has(f.slice(root_.length + 1))) continue;
-    assert.doesNotMatch(readFileSync(f, 'utf8'), place, f);
+    let html = readFileSync(f, 'utf8');
+    if (f.slice(root_.length + 1) === 'terms.html') html = html.replace('courts serving Lee County, Alabama', 'courts serving Alabama');
+    assert.doesNotMatch(html, place, f);
   }
   for (const rel of ['functions/_lib/emails.js', 'functions/_lib/pages.js', 'functions/api/design-proof.js', 'functions/api/quote-request.js']) {
     assert.doesNotMatch(read(rel), place, rel);
@@ -203,8 +204,8 @@ test('sitemap dates come from the build date (America/New_York, or BUILD_DATE) a
   const dates = [...sm.matchAll(/<loc>([^<]+)<\/loc><lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g)];
   assert.ok(dates.length >= 37);
   const lastmod = (path) => dates.find((m) => m[1] === 'https://getseensignsco.com' + path)[2];
-  assert.equal(lastmod('/terms'), '2026-10-28');
-  assert.equal(lastmod('/privacy'), '2026-10-28');
+  assert.equal(lastmod('/terms'), '2026-10-30');
+  assert.equal(lastmod('/privacy'), '2026-10-30');
   assert.equal(lastmod('/contact'), '2026-10-28');
   assert.equal(lastmod('/quote'), '2026-10-28');
   const src = read('src/site-src-pages.py');
@@ -228,7 +229,7 @@ test('sitemap dates come from the build date (America/New_York, or BUILD_DATE) a
     build('2031-02-03');
     const first = snapshot();
     assert.match(first.get('/sitemap.xml'), /<loc>https:\/\/getseensignsco.com\/shop\/<\/loc><lastmod>2031-02-03<\/lastmod>/);
-    assert.match(first.get('/sitemap.xml'), /<loc>https:\/\/getseensignsco.com\/privacy<\/loc><lastmod>2026-10-28<\/lastmod>/, 'an explicit override stays');
+    assert.match(first.get('/sitemap.xml'), /<loc>https:\/\/getseensignsco.com\/privacy<\/loc><lastmod>2026-10-30<\/lastmod>/, 'an explicit override stays');
     build('2031-02-03');
     const again = snapshot();
     assert.deepEqual([...again].filter(([k, v]) => first.get(k) !== v).map(([k]) => k), [], 'the same date rebuilds to identical files');
