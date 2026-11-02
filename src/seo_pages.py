@@ -54,6 +54,40 @@ dict(
 ''',
 ),
 dict(
+ slug='thanksgiving-banner-yard-sign-ideas',
+ title='Thanksgiving Banner and Yard Sign Ideas | Get Seen Signs',
+ desc='Thanksgiving banner and yard sign ideas: welcome-home signs, family name signs, thank-you signs for customers, and the Nov 13 order date.',
+ h1='Thanksgiving banner and yard sign ideas',
+ date='2026-11-03', kicker='Holidays',
+ img='/assets/img/g-14-thanksgiving-yard-sign-2.jpg', img_alt='Example Thanksgiving family name yard sign with a stake',
+ quote='Thanksgiving Family Name Yard Sign',
+ lede="Thanksgiving is about getting people through the door. A banner or yard sign sets the tone before anyone knocks. Here are easy ideas, and the date that matters: order by November 13.",
+ html='''
+<h2>Ideas that work</h2>
+<h3>Welcome home for traveling family</h3>
+<p>Hang a "Welcome Home" banner on the porch or garage. Add names if you like: "Welcome Home, Grandma and Grandpa." Kids enjoy helping hang it. For more layouts, see our <a href="/blog/welcome-home-military-retirement-banners/">welcome home banner ideas</a>.</p>
+<h3>The family name sign</h3>
+<p>"The Garcia Family, Est. 2015" or "Gather Here" looks good by the front door. Our <a href="/holiday-yard-signs/">Thanksgiving family name yard sign</a> is an 18×24 in sign with an H-stake, $44, in Harvest or Rustic. It stays useful after the holiday if you pick a simple design.</p>
+<h3>A thank-you sign for customers</h3>
+<p>Small shops and home businesses can post "Thank You for Shopping Local" on a <a href="/vinyl-banners/">vinyl banner</a> or yard sign. Keep it short and friendly.</p>
+<h3>A sign for a church, school or club event</h3>
+<p>Fall dinners, food drives and fundraisers need clear signs. Use big letters, the date and the place, and little else. A <a href="/bulk-campaign-signs/">yard sign pack</a> (5 for $74, stakes included) covers the corners around the building.</p>
+<h3>Tailgate and game day weekends</h3>
+<p>Thanksgiving weekend has football. A table throw, feather flag or tent with your own design makes a tailgate easy to find. See <a href="/tailgate-and-gameday-signs/">tailgate and gameday signs</a>.</p>
+<h2>Tips for choosing a design</h2>
+<ul class="ticks">
+<li><b>Keep the text short.</b> Fewer words means bigger letters.</li>
+<li><b>Use high contrast</b> so it reads from the road.</li>
+<li><b>Measure the space</b> before you order.</li>
+<li><b>Use ties or grommets at every corner</b> for wind.</li>
+<li><b>Check the proof.</b> Every order gets a free digital proof before anything prints.</li>
+</ul>
+<h2>When to order</h2>
+<p>For Thanksgiving, <b>order by November 13</b>. Order earlier if you want it up before guests arrive. Every price includes free shipping in the lower 48 and a free digital proof. Planning ahead for Christmas? See our <a href="/blog/christmas-family-name-banner-ideas/">Christmas family name banner ideas</a> (order and approve your proof by December 10).</p>
+<p><a href="https://www.etsy.com/listing/4597122645" target="_blank" rel="noopener">Order the Thanksgiving family name yard sign on Etsy</a>, or send a quote request below for a custom size or design.</p>
+''',
+),
+dict(
  slug='christmas-family-name-banner-ideas',
  title='Christmas Family Name Banner and Yard Sign Ideas | Get Seen Signs',
  desc='Christmas family name banner and yard sign ideas: what to put on it, which size fits a porch or fence, design tips, and the Dec 10 order date.',
