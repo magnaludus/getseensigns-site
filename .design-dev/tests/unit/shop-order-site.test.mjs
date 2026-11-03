@@ -217,7 +217,7 @@ test('the Shop page lists every product with its from price and an order link, a
   const html = read('shop/index.html');
   const text = body(html);
   assert.match(html, /<link rel="canonical" href="https:\/\/getseensignsco.com\/shop\/">/);
-  assert.ok(html.includes('<title>Shop Custom Signs, Banners, Flags, Tents &amp; More | Get Seen Signs</title>'));
+  assert.ok(html.includes('<title>Shop Custom Signs, Banners, Flags &amp; Tents | Get Seen Signs</title>'));
   for (const slug of PAGES) assert.ok(html.includes(`href="/${slug}/#order"`), slug + ' order link');
   for (const slug of PAGES) {
     const p = order.products[slug];
