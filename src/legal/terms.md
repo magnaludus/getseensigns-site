@@ -64,7 +64,7 @@ To the fullest extent the law allows:
 If you order through our Etsy shop, Etsy's terms and policies apply to that order, including Etsy's case and refund process. These terms still apply to our proof process where Etsy's policies don't cover it.
 
 ## 11. Governing law and disputes
-These terms are governed by Alabama law. Any lawsuit about an order must be filed in the state or federal courts serving Lee County, Alabama, except that either side may use small claims court.
+These terms are governed by Alabama law. Any lawsuit about an order must be filed in the state or federal courts of Alabama, except that either side may use small claims court.
 
 ## 12. Changes
 We may update these terms. The version you agree to when you approve and pay for your proof applies to that order.

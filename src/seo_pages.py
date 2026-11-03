@@ -2,7 +2,7 @@
 BLOG = [
 dict(
  slug='welcome-home-military-retirement-banners',
- title='Welcome Home and Military Retirement Banner Ideas | Get Seen Signs',
+ title='Welcome Home & Military Retirement Banners | Get Seen Signs',
  desc='Welcome home and military retirement banner ideas: what to print, which size fits a porch or fence, how to plan around a moving return date, and when to order.',
  h1='Welcome home and military retirement banner ideas',
  date='2026-10-21', kicker='Family',
@@ -60,7 +60,7 @@ dict(
  h1='Thanksgiving banner and yard sign ideas',
  date='2026-11-03', kicker='Holidays',
  img='/assets/img/g-14-thanksgiving-yard-sign-2.jpg', img_alt='Example Thanksgiving family name yard sign with a stake',
- quote='Thanksgiving Family Name Yard Sign',
+ quote='Thanksgiving Yard Sign',
  lede="Thanksgiving is about getting people through the door. A banner or yard sign sets the tone before anyone knocks. Here are easy ideas, and the date that matters: order by November 13.",
  html='''
 <h2>Ideas that work</h2>
@@ -89,7 +89,7 @@ dict(
 ),
 dict(
  slug='christmas-family-name-banner-ideas',
- title='Christmas Family Name Banner and Yard Sign Ideas | Get Seen Signs',
+ title='Christmas Family Name Banner Ideas | Get Seen Signs',
  desc='Christmas family name banner and yard sign ideas: what to put on it, which size fits a porch or fence, design tips, and the Dec 10 order date.',
  h1='Christmas family name banner and yard sign ideas',
  date='2026-10-20', kicker='Holidays',
@@ -182,6 +182,195 @@ dict(
 <p>Collect every senior's photo, name, number and position in one shared folder, pick one design for the whole class, and send it all in a single <a href="/#quote">quote request</a>. Team pricing applies at 10 or more banners, and matching designs look better lined up on the fence.</p>
 <h2>When to order</h2>
 <p>Orders arrive 3-8 business days after you approve the proof. Order <b>two to three weeks before senior night</b> so there's time to gather photos and go through proofs. Basketball programs should start in early January, and spring sports in March.</p>
+''',
+),
+dict(
+ slug='vendor-booth-setup-checklist',
+ title='Vendor Booth Setup Checklist: What You Need | Get Seen Signs',
+ desc='Vendor booth setup checklist for markets, fairs and expos: the tent, table cover, banner and flag you need, what each does, and what it costs.',
+ h1='Vendor booth setup checklist: what you actually need',
+ date='2026-11-03', kicker='Events',
+ img='/assets/img/g-15-trade-show-booth-kit-2.jpg', img_alt='Branded vendor booth with a logo table throw, retractable banner and feather flag',
+ quote='Trade Show Booth Kit',
+ lede="Whether it's a farmers market, a craft fair, a gun show or an industry expo, a booth that looks put together gets more people to stop. Here's the short list of what to bring, what each piece does, and what a branded setup costs.",
+ html='''
+<h2>The four things that make a booth look professional</h2>
+<ul class="ticks">
+<li><b>Something overhead or behind you:</b> a <a href="/custom-canopy-tents/">10×10 canopy tent</a> if you're outdoors, or a <a href="/retractable-banners/">retractable banner</a> if you're inside and the venue supplies the table.</li>
+<li><b>A covered table:</b> a <a href="/table-throws/">logo table throw</a> hides storage under the table and puts your name at customer height.</li>
+<li><b>One tall sign people can see across the room:</b> a <a href="/retractable-banners/">33×81 retractable banner</a> or a <a href="/feather-flags/">feather flag</a>.</li>
+<li><b>One clear message:</b> your business name, what you sell, and one way to reach you (a web address or QR code).</li>
+</ul>
+<h2>Step 1: Read the vendor packet first</h2>
+<p>Before you buy anything, read what the event organizer sent. Check the allowed booth size, whether tents are allowed, whether flags or stakes are allowed, setup and teardown times, and what's provided (tables, chairs, power). The rules decide whether you need a tent, a flag, or just a table and a banner.</p>
+<h2>Step 2: Pick your setup</h2>
+<h3>Indoor expo or trade show</h3>
+<p>The venue usually gives you a table. Bring a <a href="/table-throws/">logo table throw</a> (from $139 for a 6 ft table, 3-sided) and a <a href="/retractable-banners/">33×81 retractable banner</a> ($109). Or take the <a href="/trade-show-booth-kit/">trade show booth kit</a>: throw, banner and 10.5 ft feather flag for $339. A <a href="/tabletop-retractable-banners/">tabletop banner</a> ($69) is a good add-on for a price list or QR code at the register.</p>
+<h3>Outdoor market, fair or tailgate</h3>
+<p>You need shade and a branded backdrop. A <a href="/custom-canopy-tents/">custom 10×10 canopy tent</a> starts at $599 with your logo on the top and valance, and a back wall version is $849. Add a <a href="/table-throws/">table throw</a> and a <a href="/feather-flags/">feather flag</a> so people see you from the aisle or the parking lot.</p>
+<h3>Selling on a budget</h3>
+<p>Start with the table. A <a href="/table-runners/">printed table runner with a matching solid throw</a> is $99, and a <a href="/tabletop-retractable-banners/">tabletop banner</a> is $69. You can add a tent or a flag later.</p>
+<h2>What each piece costs</h2>
+<ul class="ticks">
+<li><b>Table throw, 6 ft, 3-sided:</b> from $139. 8 ft, 3-sided: $159. 4-sided styles and fitted covers are on the <a href="/table-throws/">table throw page</a>.</li>
+<li><b>Retractable banner, 33×81:</b> $109. Deluxe wide-base version: $149.</li>
+<li><b>Feather flag, 10.5 ft:</b> $129 with a ground spike, $139 with a cross base and water bag.</li>
+<li><b>10×10 canopy tent:</b> from $599.</li>
+<li><b>Trade show booth kit:</b> throw, banner and flag for $339.</li>
+</ul>
+<p>Prices include a free digital proof and free shipping in the lower 48. Several of these pieces are bundled on the <a href="/event-booth-bundles/">event booth bundles page</a>.</p>
+<h2>Packing list to go with it</h2>
+<ul class="ticks">
+<li>Tent weights or stakes, and zip ties or clips for banners</li>
+<li>Extension cord and power strip if power is provided</li>
+<li>Card reader, cash box and a printed price list or sign</li>
+<li>Risers or crates so product sits at different heights</li>
+<li>Bags, receipts, business cards and a pen</li>
+<li>Tape, scissors, trash bags and a small first aid kit</li>
+</ul>
+<h2>Design tips that sell</h2>
+<ul class="ticks">
+<li>Put the business name on every piece, in the same colors and font.</li>
+<li>Use big, short text. People read a booth from ten feet away, not ten inches.</li>
+<li>Put the most important sign at eye level or higher, not behind the table.</li>
+<li>Want to see your logo on the piece first? <a href="/design/">Design it online</a>, then get a free proof before anything prints.</li>
+</ul>
+<h2>When to order</h2>
+<p>Every order starts with a free digital proof, with 3 revisions included. Production and shipping time is listed on each product page. Order well ahead of your event so there's room for proof changes and shipping, and don't wait for the week of.</p>
+''',
+),
+dict(
+ slug='custom-10x10-canopy-tent-buying-guide',
+ title='Custom 10x10 Canopy Tent Buying Guide | Get Seen Signs',
+ desc='How to choose a custom 10x10 canopy tent with your logo: frame, fabric, print areas, walls, what to ask any seller, and what our tent packages include.',
+ h1='How to choose a custom 10x10 canopy tent with your logo',
+ date='2026-11-03', kicker='Events',
+ img='/assets/img/g-10-canopy-tent-2.jpg', img_alt='Custom printed 10x10 canopy tent with a logo on the top and valance',
+ quote='10×10 Canopy Tent',
+ lede="A custom canopy tent is the biggest piece of branding most vendors, teams and churches will buy. Here's what to look at before you order: the frame, the fabric, what gets printed, and the questions to ask any seller.",
+ html='''
+<h2>Why 10×10</h2>
+<p>A 10×10 ft tent is a common size for markets, fairs, tailgates and sideline setups, and many event organizers assign vendor spaces to fit it. It covers a 6 ft or 8 ft folding table with room to stand. Always check your event's booth size and tent rules before ordering.</p>
+<h2>What to look at</h2>
+<h3>The frame</h3>
+<p>The frame is what you'll set up and take down every event. Our <a href="/custom-canopy-tents/">custom canopy tents</a> use a heavy-duty aluminum hex frame and ship with a wheeled carry bag. Aluminum keeps the weight down, and a wheeled bag makes loading easier.</p>
+<h3>The fabric</h3>
+<p>Our tent top and valance are 600D polyester with a fire-retardant finish (CPAI-84). Some events and venues ask for fire-retardant canopies, so check your organizer's rules.</p>
+<h3>What gets printed</h3>
+<ul class="ticks">
+<li><b>Top and valance:</b> the roof and the front edge. This is the <a href="/custom-canopy-tents/">10×10 Standard at $599</a>.</li>
+<li><b>Top, valance and back wall:</b> adds a printed wall behind you so your brand shows from the aisle: $849.</li>
+<li><b>Full kit:</b> walls, a feather flag and a table throw, for $1,459.</li>
+</ul>
+<h2>Questions to ask any tent seller</h2>
+<ul class="ticks">
+<li>Is the printed canopy sold with the frame, or separately?</li>
+<li>What is the frame made of, and does it come with a carry bag?</li>
+<li>Is the fabric fire-retardant, and is that certified?</li>
+<li>Do I get a proof before it prints, and how many revisions?</li>
+<li>Is shipping included in the price?</li>
+</ul>
+<p>With us, every order includes a free digital proof, 3 revisions and free shipping in the lower 48. Nothing prints until you approve the proof.</p>
+<h2>Keeping it up</h2>
+<p>Use tent weights or stakes at every leg, and follow your event's rules on anchoring. Take the tent down if the wind picks up, and follow your event's safety rules.</p>
+<h2>Add-ons that fill out the booth</h2>
+<ul class="ticks">
+<li>A <a href="/table-throws/">logo table throw</a> to match the tent</li>
+<li>A <a href="/feather-flags/">feather flag</a> to draw people in from the parking lot or the road</li>
+<li>A <a href="/retractable-banners/">retractable banner</a> inside the booth for your price list or offer</li>
+</ul>
+<p>Need help choosing? Read the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> or compare options in <a href="/blog/tent-vs-feather-flag-for-events/">tent vs feather flag</a>.</p>
+<h2>Start your design</h2>
+<p>You can <a href="/design/canopy-tent/">design your tent online</a> with a 3D preview, then get a free proof before it prints. Production and shipping time is on the product page, so order well ahead of your event.</p>
+''',
+),
+dict(
+ slug='tent-vs-feather-flag-for-events',
+ title='Tent vs Feather Flag for Events | Get Seen Signs',
+ desc='Tent or feather flag for your event? How each works, what they cost, where they fit best, and why most vendors end up using both. Prices and sizes inside.',
+ h1='Tent vs feather flag: which one do you need for events?',
+ date='2026-11-03', kicker='Events',
+ img='/assets/img/g-04-feather-flag-2.jpg', img_alt='Custom feather flags standing outdoors at an event',
+ quote='Feather Flag Kit',
+ lede="A branded tent and a feather flag do different jobs. One gives you a home base. The other gets people to walk over to it. Here's how to decide which to buy first, and when you want both.",
+ html='''
+<h2>The short answer</h2>
+<ul class="ticks">
+<li><b>Buy a tent</b> if you're outdoors all day and need shade, a branded backdrop and a space people recognize as yours.</li>
+<li><b>Buy a feather flag</b> if you need to be seen from a distance, such as a roadside, a parking lot, a storefront or a crowded aisle, at a lower price.</li>
+<li><b>Buy both</b> if you do outdoor events regularly: the flag brings people in, and the tent is where they stop.</li>
+</ul>
+<h2>Side by side</h2>
+<h3>Custom canopy tent</h3>
+<ul class="ticks">
+<li><b>What it does:</b> shelter plus a large branded surface on the top, valance and optional back wall.</li>
+<li><b>Price:</b> from $599 for a <a href="/custom-canopy-tents/">10×10 with printed top and valance</a>. $849 with a back wall.</li>
+<li><b>Best for:</b> markets, fairs, tailgates, sidelines, church and school events, vendor booths.</li>
+<li><b>Trade-off:</b> more to carry and set up, and it needs the space. Check your event's tent rules.</li>
+</ul>
+<h3>Custom feather flag</h3>
+<ul class="ticks">
+<li><b>What it does:</b> a tall, narrow sign that moves in the wind and gets noticed from far away.</li>
+<li><b>Price:</b> from $129 for a <a href="/feather-flags/">10.5 ft flag</a>. 14 ft from $139, 18 ft from $149.</li>
+<li><b>Best for:</b> roadside, car lots, open houses, storefronts, tailgates and vendor booths.</li>
+<li><b>Trade-off:</b> it has less room for detail, so it works best with a short message, a logo and one or two colors.</li>
+</ul>
+<h2>Choosing a flag base</h2>
+<p>Choose a ground spike for grass or soil. Choose a cross base with a water bag for hard surfaces like parking lots and sidewalks. Our flags come in both options.</p>
+<h2>What goes where</h2>
+<ul class="ticks">
+<li><b>Flag:</b> a short message people can read in two seconds, like your business name and one word about what you do.</li>
+<li><b>Tent:</b> your logo, name and web address, large.</li>
+<li><b>Table throw:</b> your name at customer height. See <a href="/table-throws/">table throws</a>.</li>
+</ul>
+<h2>The combined setup</h2>
+<p>If you're building a full outdoor booth, the <a href="/custom-canopy-tents/">full tent kit</a> ($1,459) includes walls, a feather flag and a table throw. For indoor events, the <a href="/trade-show-booth-kit/">trade show booth kit</a> ($339) gives you a throw, a 33×81 banner and a flag.</p>
+<p>Read the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> for a full packing list, or the <a href="/blog/custom-10x10-canopy-tent-buying-guide/">tent buying guide</a> for details on frame and fabric.</p>
+<h2>Next step</h2>
+<p>All prices include a free digital proof and free shipping in the lower 48. You can <a href="/design/feather-flag/">design a flag online</a> or <a href="/design/canopy-tent/">design a tent online</a> and see it in 3D before ordering.</p>
+''',
+),
+dict(
+ slug='vinyl-banner-size-guide',
+ title='Vinyl Banner Size Guide: What Fits Where | Get Seen Signs',
+ desc='Vinyl banner sizes explained: 2x4, 3x6, 4x8 and 3x10 ft, which fits a fence, storefront or event, 13 oz vs 18 oz vs mesh, and prices for each size.',
+ h1='Vinyl banner size guide: which size fits where',
+ date='2026-11-03', kicker='Banners',
+ img='/assets/img/g-03-vinyl-banner-fence.jpg', img_alt='Vinyl banner with grommets hung on a fence',
+ quote='Vinyl Banner',
+ lede="The most common question about banners is also the simplest: what size should I get? Here's how each size is used, how to choose a material, and what each one costs.",
+ html='''
+<h2>Sizes at a glance</h2>
+<ul class="ticks">
+<li><b>2×4 ft, from $44:</b> doors, porch rails, table fronts, small storefronts. Easy to hang and easy to read up close.</li>
+<li><b>3×6 ft, from $59:</b> fences, garage doors, and the front of a building or booth.</li>
+<li><b>4×8 ft, from $89:</b> large fences, building fronts and event entrances where you want people to see it from the street.</li>
+<li><b>3×10 ft, from $79:</b> long, narrow spaces such as a table front, a stage or a pavilion.</li>
+</ul>
+<p>See every size and material on the <a href="/vinyl-banners/">vinyl banners page</a>.</p>
+<h2>How to choose a size</h2>
+<ul class="ticks">
+<li><b>Measure the space</b> first, then pick a banner a little smaller than the width available so it hangs flat.</li>
+<li><b>Think about viewing distance.</b> The farther away people will be, the bigger the banner and the bigger the letters need to be.</li>
+<li><b>Keep the message short.</b> Seven words or fewer reads from a car or across a parking lot.</li>
+</ul>
+<h2>Material: 13 oz, 18 oz or mesh</h2>
+<ul class="ticks">
+<li><b>13 oz standard:</b> a good all-around outdoor banner for events, sales and short-term use.</li>
+<li><b>18 oz heavy duty:</b> thicker vinyl for banners that stay up longer or get handled more. From $54 for 2×4 ft.</li>
+<li><b>Mesh wind-through:</b> small holes let wind pass through, so it suits fences and open areas where wind is a concern. From $59 for 2×4 ft.</li>
+</ul>
+<h2>Grommets and hanging</h2>
+<p>Banners have hemmed edges and metal grommets. Use a zip tie or bungee at every grommet, not just the corners. Pole pockets are available when a banner hangs from a pole or rod. Use outdoor removable hooks on brick or siding, not nails.</p>
+<h2>Which banner for which job</h2>
+<ul class="ticks">
+<li><b>Grand opening or sale:</b> 3×6 or 4×8 across the storefront.</li>
+<li><b>Fence at a team field or job site:</b> 3×6 or mesh.</li>
+<li><b>Event or booth:</b> 2×4 on the table front, or a taller <a href="/retractable-banners/">retractable banner</a> inside.</li>
+<li><b>Welcome home or party:</b> see our <a href="/blog/welcome-home-military-retirement-banners/">welcome home banner ideas</a>.</li>
+</ul>
+<h2>Next step</h2>
+<p>Every price includes a free digital proof, 3 revisions and free shipping in the lower 48. You can <a href="/design/vinyl-banner/">design a banner online</a> and see it before it prints. Production and shipping time is on the product page.</p>
 ''',
 ),
 ]

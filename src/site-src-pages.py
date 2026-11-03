@@ -24,6 +24,21 @@ def _build_date():
         raise SystemExit('could not read the America/New_York time zone (%s); set BUILD_DATE=YYYY-MM-DD'%err)
 TODAY=_build_date()
 ETSY='https://www.etsy.com/shop/GetSeenSigns'
+# Guides linked from product pages (slug of the product page -> [(blog slug, link text)]).
+_BOOTH=('vendor-booth-setup-checklist','Vendor booth setup checklist')
+_TENT=('custom-10x10-canopy-tent-buying-guide','Custom canopy tent buying guide')
+_TVF=('tent-vs-feather-flag-for-events','Tent vs feather flag for events')
+_VSZ=('vinyl-banner-size-guide','Vinyl banner size guide')
+GUIDE_LINKS={
+ 'custom-canopy-tents':[_TENT,_TVF,_BOOTH],
+ 'feather-flags':[_TVF,_BOOTH],
+ 'table-throws':[_BOOTH],
+ 'table-runners':[_BOOTH],
+ 'trade-show-booth-kit':[_BOOTH,_TVF],
+ 'retractable-banners':[_BOOTH,_VSZ],
+ 'tabletop-retractable-banners':[_BOOTH],
+ 'vinyl-banners':[_VSZ],
+}
 # Public shop line. Links are plain sms:, tel: and wa.me URLs. No chat widget, script or tracker.
 PHONE_DISPLAY='(334) 232-9003'
 PHONE_TEL='+13342329003'
@@ -174,7 +189,7 @@ def foot(chat=True):
     </div>
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
-      <div><p class="fh">Ideas &amp; guides</p><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/">All guides</a></div>
+      <div><p class="fh">Ideas &amp; guides</p><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/vendor-booth-setup-checklist/">Vendor booth checklist</a><a href="/blog/custom-10x10-canopy-tent-buying-guide/">Canopy tent buying guide</a><a href="/blog/tent-vs-feather-flag-for-events/">Tent vs feather flag</a><a href="/blog/vinyl-banner-size-guide/">Vinyl banner sizes</a><a href="/blog/">All guides</a></div>
       <div><p class="fh">Shop</p><a href="/shop/">Shop all products</a><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/event-booth-bundles/">Booth bundles</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><a href="/reorder/">Reorder</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
     </div>
   </div>
@@ -189,7 +204,7 @@ def foot(chat=True):
 </html>
 '''
 # Footer email signup. Posts to /api/email-signup (D1, then Brevo when BREVO_SIGNUP_LIST_ID is set) through assets/site.js.
-SIGNUP_FORM='''<form class="signup js-form" data-endpoint="/api/email-signup" data-kind="signup" novalidate>
+SIGNUP_FORM='''<form class="signup js-form" id="join" data-endpoint="/api/email-signup" data-kind="signup" novalidate>
       <div class="signup-copy"><p class="fh">Free proof + 10% off your first order</p><p>Join the list for new products and the occasional deal. Every order already starts with a free digital proof.</p></div>
       <div class="signup-row">
         <label class="sr-only" for="signup-email">Email</label>
@@ -412,6 +427,8 @@ for p in P:
         buy=''
         etsy_btn=f'<a class="btn btn-ghost" href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy <span aria-hidden="true">→</span></a>' if p.get('etsy') else ''
     rel=''.join(card(BY[s]) for s in p['related'])
+    _g=GUIDE_LINKS.get(p['slug'],[])
+    guides_html=('<p class="guide-links"><b>Related guides:</b> '+' · '.join(f'<a href="/blog/{gs}/">{e(gt)}</a>' for gs,gt in _g)+'</p>') if _g else ''
     design_btn=(f'<a class="btn btn-ghost" href="/design/{DESIGN_SLUGS[p["slug"]]}/">Design yours online</a>' if p['slug'] in DESIGN_SLUGS else '')
     hero_img=pic(f'/assets/img/p-{k}', HERO_ALT.get(k, f'{p["name"]} by Get Seen Signs'), 1024, 1024, eager=True)
     og_w,og_h=Image.open(f'{SITE}/assets/img/g-{k}-2.jpg').size
@@ -425,6 +442,7 @@ for p in P:
         <p class="lede">{e(p["lede"])}</p>
         {price_html}
         <div class="cta-row"><a class="btn btn-y" href="#order">Start my order <span aria-hidden="true">↓</span></a>{etsy_btn}{design_btn}<a class="btn btn-ghost" href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a></div>
+        <ul class="proof" style="margin-top:20px"><li><b>Free proof</b>, 3 revisions</li><li><b>No payment</b> until you approve</li><li><b>Secure</b> Stripe checkout</li><li><b>10% off</b> your first order: <a href="#join">join the list</a></li></ul>
       </div>
       <figure class="phero-img sq">{hero_img}</figure>
     </div>
@@ -448,7 +466,7 @@ for p in P:
 </section>
 {quote_cta(p["short"])}
 <section class="sec paper">
-  <div class="wrap"><h2 class="group">Related products</h2><div class="grid grid-3">{rel}</div></div>
+  <div class="wrap"><h2 class="group">Related products</h2><div class="grid grid-3">{rel}</div>{guides_html}</div>
 </section>
 </main>
 '''+foot()
@@ -538,7 +556,7 @@ for b in BLOG:
     posts_cards+=f'<a class="post" href="{path}"><div class="card-img">{pic(og[:-4],"",900,675)}</div><div class="card-body"><p class="eyebrow">{e(b["kicker"])}</p><h3>{e(b["h1"])}</h3><p>{e(b["desc"])}</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></div></a>'
 path='/blog/'; items=[('Home','/'),('Guides','/blog/')]
 title='Sign Guides & How-Tos | Get Seen Signs'
-desc='Practical guides from Get Seen Signs: welcome home banners, Christmas family name banners, senior night ideas.'
+desc='Practical sign guides: vendor booth setup, canopy tent buying, tent vs feather flag, vinyl banner sizes, plus welcome home, Christmas and senior night ideas.'
 page=head(title,desc,path,ld(crumbs(items),{"@type":"Blog","@id":BASE+path,"url":BASE+path,"name":"Get Seen Signs Guides","publisher":{"@id":ORG_ID}}))+NAV+f'''<main id="main">
 <section class="phero ink"><div class="wrap">{bc_html(items)}<h1>Sign <span class="block">guides.</span></h1><p class="lede">Straight answers for people buying signs: the rules, the sizes and the timing.</p></div></section>
 <section class="sec paper"><div class="wrap"><div class="posts">{posts_cards}</div></div></section>
@@ -937,7 +955,7 @@ def shop_card(k):
   <div class="shop-btns"><a class="btn btn-y btn-sm" href="/{slug}/#order" aria-label="Start my order: {e(html.unescape(n))}">Start my order</a><a class="more" href="/{slug}/">Details</a></div></div>
 </article>'''
 path='/shop/'; items=[('Home','/'),('Shop','/shop/')]
-shop_title='Shop Custom Signs, Banners, Flags, Tents & More | Get Seen Signs'
+shop_title='Shop Custom Signs, Banners, Flags & Tents | Get Seen Signs'
 shop_desc='Every Get Seen Signs product with its price: signs, banners, flags, tents, magnets, backdrops, decals, coins and patches. Free proof first, free shipping.'
 shop_ld=[crumbs(items),{"@type":"CollectionPage","@id":BASE+path,"url":BASE+path,"name":shop_title,"description":shop_desc,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID},
     "mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":i+1,"name":html.unescape(NAMES[k]),"url":BASE+"/"+SHORT[k][0]+"/"} for i,k in enumerate(BIZK+SEAK)]}}]
@@ -946,7 +964,7 @@ shop_page=head(shop_title,shop_desc,path,ld(*shop_ld))+NAV+f'''<main id="main">
   <div class="wrap">
     {bc_html(items)}
     <h1>Shop <span class="block">custom signs.</span></h1>
-    <p class="lede">Pick a product, pick your size and quantity, and start your order. Proof first, then pay: we email your free proof within 12 hours, 7 days a week, and nothing is charged or printed until you approve it. Free shipping in the lower 48.</p>
+    <p class="lede">Pick a product, pick your size and quantity, and start your order. Proof first, then pay: we email your free proof within 12 hours, 7 days a week, and nothing is charged or printed until you approve it. Free shipping in the lower 48. <a href="#join">Join the email list for 10% off your first order.</a></p>
     <div class="cta-row"><a class="btn btn-y" href="#business">Business, events &amp; teams</a><a class="btn btn-ghost" href="#seasonal">Seasonal &amp; personal</a><a class="btn btn-ghost" href="/#quote">Get a quote</a></div>
   </div>
 </section>
@@ -1014,7 +1032,7 @@ def bundle_card(b):
   <div class="cta-row"><a class="btn btn-ink btn-sm" href="{e(q)}">Quote this bundle</a></div></div>
 </article>'''
 path='/event-booth-bundles/'; items=[('Home','/'),('Shop','/shop/'),('Event booth bundles',path)]
-bun_title='Vendor & Event Booth Bundles: Tent, Table Cover, Flag | Get Seen Signs'
+bun_title='Event Booth Bundles: Tent, Throw, Flag | Get Seen Signs'
 bun_desc='Vendor and event booth bundles: canopy tent, table cover, feather flag and banners, matched to your brand. Free proof on every piece, free shipping.'
 _bun_items=[]
 for _b in BUNDLES:
