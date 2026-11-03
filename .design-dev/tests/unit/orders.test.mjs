@@ -371,6 +371,7 @@ test('the Checkout Session carries tax, shipping, terms, metadata and automatic 
   assert.equal(p.get('automatic_tax[enabled]'), 'true');
   assert.equal(p.get('shipping_address_collection[allowed_countries][0]'), 'US');
   assert.equal(p.get('shipping_address_collection[allowed_countries][1]'), null);
+  assert.equal(p.get('phone_number_collection[enabled]'), 'true');
   assert.equal(p.get('consent_collection[terms_of_service]'), 'required');
   assert.equal(p.get('payment_intent_data[capture_method]'), 'automatic');
   assert.equal(p.get('customer_email'), 'pat@example.com');

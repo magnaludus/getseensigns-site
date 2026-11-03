@@ -1,8 +1,9 @@
-// HTML for /proof/<token> and /order/<token>. Uses the site's own stylesheet and nav/footer markup so the pages
+// HTML for /proof/<token>, /order/<token> and /approve/<token>/. Uses the site's own stylesheet and nav/footer markup so the pages
 // match the rest of getseensignsco.com. Customer-facing text names only Get Seen Signs.
 
 import { esc, money, SHOP_EMAIL, SHOP_PHONE, SHOP_PHONE_TEL } from './util.js';
 import { CONSENT_TEXT, MAX_FREE_REVISIONS, STATUS_LABELS } from './orders.js';
+import { APPROVE_TEXT, US_STATES, isPdf, shipToLines } from './proof-approvals.js';
 
 const EXTRA_CSS = `
 .ord{max-width:940px;margin:0 auto;padding:54px 20px 84px}
@@ -44,6 +45,16 @@ const EXTRA_CSS = `
 .ord .btn{font-size:20px}
 .ord button.btn{font-family:var(--hd)}
 .ord button[disabled]{opacity:.5;cursor:not-allowed}
+.ord input[type=email],.ord input[type=tel],.ord select{font:500 16px/1.4 var(--bd);color:var(--ink);background:var(--paper);border:2px solid #CFC8B8;border-radius:10px;padding:12px 13px;width:100%;min-width:0;text-transform:none;letter-spacing:0}
+.ord input[type=email]:focus,.ord input[type=tel]:focus,.ord select:focus{outline:none;border-color:var(--ink);background:#fff;box-shadow:0 0 0 3px var(--y)}
+.ord [aria-invalid=true]{border-color:#B3261E!important}
+.ord .opt{font-family:var(--bd);font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted)}
+.ord .ferr{font-family:var(--bd);font-weight:600;text-transform:none;letter-spacing:0;font-size:14.5px;color:#B3261E}
+.ord .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ord .grid3{display:grid;grid-template-columns:2fr 1.2fr 1fr;gap:16px}
+@media (max-width:640px){.ord .grid2,.ord .grid3{grid-template-columns:1fr}}
+.checks{margin:0;padding-left:22px;font-size:17px;line-height:1.6}
+.addr{font-size:17px;line-height:1.5;margin:0}
 `;
 
 const NAV = `<a class="skip" href="#main">Skip to content</a>
@@ -227,4 +238,103 @@ ${pay}${ship}
 
 export function messagePage(title, text) {
   return shell({ title, body: `<h1>${esc(title)}</h1><p class="lead">${esc(text)}</p><div class="row-btns"><a class="btn btn-y" href="/">Back to Get Seen Signs</a></div>` });
+}
+
+// ---------- /approve/<token>/ ----------
+
+const brLines = (text) => esc(text).replace(/\n/g, '<br>');
+
+// One labelled input. f: {name, label, required}; extra: type, autocomplete, inputmode, pattern, maxlength.
+function shipInput(f, value, error, extra) {
+  const id = 'f-' + f.name;
+  const attrs = [
+    `type="${extra.type || 'text'}"`,
+    `id="${id}"`,
+    `name="${f.name}"`,
+    `value="${esc(value || '')}"`,
+    `autocomplete="${extra.autocomplete}"`,
+    `maxlength="${extra.maxlength || 200}"`,
+  ];
+  if (extra.inputmode) attrs.push(`inputmode="${extra.inputmode}"`);
+  if (extra.pattern) attrs.push(`pattern="${extra.pattern}"`);
+  if (f.required) attrs.push('required');
+  if (error) attrs.push(`aria-invalid="true" aria-describedby="${id}-err"`);
+  return `<label for="${id}">${esc(f.label)}${f.required ? '' : ' <span class="opt">(optional)</span>'}<input ${attrs.join(' ')}>${error ? `<span class="ferr" id="${id}-err">${esc(error)}</span>` : ''}</label>`;
+}
+
+function stateSelect(value, error) {
+  const options = Object.entries(US_STATES)
+    .map(([code, name]) => `<option value="${code}"${code === value ? ' selected' : ''}>${esc(name)}</option>`)
+    .join('');
+  return `<label for="f-ship_state">State<select id="f-ship_state" name="ship_state" autocomplete="shipping address-level1" required${error ? ' aria-invalid="true" aria-describedby="f-ship_state-err"' : ''}><option value="">Select a state</option>${options}</select>${error ? `<span class="ferr" id="f-ship_state-err">${esc(error)}</span>` : ''}</label>`;
+}
+
+function proofBlock(record) {
+  const url = esc(record.proof_url);
+  if (isPdf(record.proof_url)) {
+    return `<p class="lead" style="margin-bottom:16px">Your proof is a PDF. Open it, zoom in and check every detail.</p><div class="row-btns"><a class="btn btn-y" href="${url}" target="_blank" rel="noopener noreferrer">Open your proof (PDF)</a></div>`;
+  }
+  return `<div class="proofs"><a href="${url}" target="_blank" rel="noopener noreferrer"><img src="${url}" alt="Your proof" loading="eager"></a></div><p class="fine">Tap the proof to open it full size.</p>`;
+}
+
+export function approvePage(record, opts) {
+  const o = opts || {};
+  const ref = `<span class="ref">Proof ${esc(record.ref)}</span>`;
+  const first = String(record.customer_name || '').trim().split(/\s+/)[0];
+
+  if (record.status === 'approved') {
+    const body = `${ref}
+<h1>Thanks, your proof is approved</h1>
+<p class="lead">We got your approval and your shipping details. Your invoice is coming by email. Once it is paid, your order goes into production.</p>
+<section class="ocard" aria-labelledby="ship-h"><h2 id="ship-h">Shipping to</h2>
+<p class="addr">${shipToLines(record).map(esc).join('<br>')}</p>
+<p class="fine">${esc(record.ship_phone)} &middot; ${esc(record.ship_email)}</p>
+<p class="fine">Approved ${esc(fmtDate(record.approved_at))}.</p></section>
+<section class="ocard" aria-label="Approved proof">${proofBlock(record)}</section>
+<p class="fine">Need to fix the address or anything else? Call <a href="tel:${SHOP_PHONE_TEL}">${SHOP_PHONE}</a> or email ${SHOP_EMAIL} and mention ${esc(record.ref)}.</p>`;
+    return shell({ title: 'Proof approved', body });
+  }
+
+  const v = Object.assign({ ship_email: record.customer_email, ship_name: record.customer_name }, o.values);
+  const err = o.fields || {};
+  const pending = record.status === 'changes_requested';
+  const field = (name, label, required, extra) => shipInput({ name, label, required }, v[name], err[name], extra);
+
+  const body = `${ref}
+<h1>Approve your proof</h1>
+<p class="lead">${first ? 'Hi ' + esc(first) + '. ' : ''}Look over your proof, tell us where it ships, and approve it. Your invoice comes next.</p>
+${alertBox('bad', o.error)}${pending ? alertBox('info', 'We got your change request' + (record.changes_requested_at ? ' from ' + fmtDate(record.changes_requested_at) : '') + ' and will send you an updated proof. If you would rather go with this proof as shown, you can still approve it below.') : ''}
+<section class="ocard" aria-labelledby="proof-h"><h2 id="proof-h">Your proof</h2>${proofBlock(record)}</section>
+<section class="ocard" aria-labelledby="order-h"><h2 id="order-h">Your order</h2><p class="addr">${brLines(record.order_description)}</p></section>
+<section class="ocard" aria-labelledby="check-h"><h2 id="check-h">Check before you approve</h2>
+<ul class="checks"><li>Spelling, names and wording</li><li>Phone numbers, emails and web addresses</li><li>Colors and logo placement</li><li>Layout, size and orientation</li><li>Quantity and options in your order</li></ul>
+<p class="fine">We print exactly what you approve, so a typo on the proof will be a typo on the sign.</p></section>
+<form method="post" action="/approve/${esc(record.token)}/">
+<section class="ocard" aria-labelledby="ship-h"><h2 id="ship-h">Where should we ship it?</h2>
+<div style="display:grid;gap:16px">
+${field('ship_name', 'Delivery name', true, { autocomplete: 'shipping name', maxlength: 120 })}
+${field('ship_company', 'Company', false, { autocomplete: 'shipping organization', maxlength: 120 })}
+${field('ship_street1', 'Street address', true, { autocomplete: 'shipping address-line1' })}
+${field('ship_street2', 'Apt, suite or unit', false, { autocomplete: 'shipping address-line2' })}
+<div class="grid3">
+${field('ship_city', 'City', true, { autocomplete: 'shipping address-level2', maxlength: 100 })}
+${stateSelect(v.ship_state, err.ship_state)}
+${field('ship_zip', 'ZIP code', true, { autocomplete: 'shipping postal-code', inputmode: 'numeric', pattern: '[0-9]{5}(-?[0-9]{4})?', maxlength: 10 })}
+</div>
+<div class="grid2">
+${field('ship_phone', 'Phone', true, { type: 'tel', autocomplete: 'shipping tel', inputmode: 'tel', maxlength: 20 })}
+${field('ship_email', 'Email', true, { type: 'email', autocomplete: 'email', maxlength: 200 })}
+</div>
+<p class="fine" style="margin:0">The carrier may call or email this contact about the delivery. We ship within the US only.</p>
+</div></section>
+<section class="ocard" aria-labelledby="approve-h"><h2 id="approve-h">Approve or request changes</h2>
+<div style="display:grid;gap:16px">
+<label for="f-notes">Notes or changes <span class="opt">(optional when approving)</span><textarea id="f-notes" name="notes" maxlength="4000"${err.notes ? ' aria-invalid="true" aria-describedby="f-notes-err"' : ''}>${esc(v.notes || '')}</textarea>${err.notes ? `<span class="ferr" id="f-notes-err">${esc(err.notes)}</span>` : ''}</label>
+<label class="agree"><input type="checkbox" name="approve" value="yes" required${v.approve === 'yes' ? ' checked' : ''}${err.approve ? ' aria-invalid="true" aria-describedby="f-approve-err"' : ''}><span>${esc(APPROVE_TEXT)}${err.approve ? `<br><span class="ferr" id="f-approve-err">${esc(err.approve)}</span>` : ''}</span></label>
+<div class="row-btns"><button class="btn btn-y" type="submit" name="action" value="approve">Approve proof</button><button class="btn btn-line" type="submit" name="action" value="changes" formnovalidate>Request changes</button></div>
+<p class="fine" style="margin:0">Approving tells us to print this proof exactly as shown and send your invoice. Changes may not be possible once production starts. If something needs fixing, type it in the notes box and press Request changes, and we will send you an updated proof.</p>
+</div></section>
+</form>
+<p class="fine">Questions? Call <a href="tel:${SHOP_PHONE_TEL}">${SHOP_PHONE}</a> or <a href="/contact">send us a message</a>.</p>`;
+  return shell({ title: 'Approve your proof', body });
 }
