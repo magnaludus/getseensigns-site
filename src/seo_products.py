@@ -230,7 +230,7 @@ dict(
  slug='table-throws', key='09-table-throw', etsy='4597120773', price=139, unit='each', base='6 ft, 3-sided',
  videos=[('09-table-throw', 'Custom table throw')],
  name='Custom Table Throws', short='Table Throw',
- title='Custom Logo Table Throws, Fitted & Stretch Covers | Get Seen Signs',
+ title='Custom Logo Table Throws, Fitted & Stretch | Get Seen Signs',
  desc='Custom logo table throws for 6 or 8 ft tables: 3-sided, 4-sided, fitted closed-back or stretch spandex covers. Free design proof. From $139, free shipping.',
  h1=('Logo table throws', 'that make a folding table look like a booth.'),
  lede='Dye-sublimated polyester tablecloths with your logo on the front panel. Machine washable, wrinkle resistant, and cut for 6 ft or 8 ft folding tables in a 3-sided (open back) or 4-sided style. Prefer a tailored look? Choose a fitted cover, closed on the back, or a stretch spandex cover that pulls tight over the table.',
@@ -326,7 +326,7 @@ dict(
 dict(
  slug='metal-a-frame-signs', key='21-metal-a-frame-sign', etsy='4606146936', price=129, unit='each', base='24×36 steel frame with 2 printed inserts',
  name='Metal A-Frame Sidewalk Signs', short='Metal A-Frame Sign',
- title='Metal A-Frame Sidewalk Sign 24x36 with Inserts | Get Seen Signs',
+ title='Metal A-Frame Sidewalk Sign, 24x36 | Get Seen Signs',
  desc='Custom metal A-frame sidewalk sign: black powder-coated steel frame with two 24x36 UV printed coroplast inserts, front and back. $129, free shipping.',
  h1=('Metal A-frame sidewalk signs', 'that catch foot traffic.'),
  lede='A black powder-coated steel A-frame with two 24×36 printed inserts, one for each side. Set it outside a shop door, at an event entrance or by the parking lot, and change the message when you need to.',
@@ -387,7 +387,7 @@ dict(
 dict(
  slug='table-runners', key='23-table-runner', etsy='4606147042', price=99, unit='bundle', base='30×72 printed runner + 8 ft solid throw',
  name='Custom Table Runner + Throw Bundle', short='Table Runner Bundle',
- title='Custom Table Runner + 8 ft Table Throw Bundle | Get Seen Signs',
+ title='Custom Table Runner + 8 ft Throw Bundle | Get Seen Signs',
  desc='Custom printed 30x72 table runner with a solid color 8 ft table throw in black, red, yellow, blue or green. Machine washable polyester. $99, free shipping.',
  h1=('Custom table runners', 'with a matching solid throw.'),
  lede='A full-color printed runner, about 30 in wide, laid over a solid color 8 ft table throw. Pick black, red, yellow, blue or green for the throw. A clean, branded table for vendor fairs, markets, career fairs and check-in tables.',

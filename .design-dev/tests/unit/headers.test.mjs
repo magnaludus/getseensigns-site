@@ -50,7 +50,7 @@ test('the private pages are never cached', () => {
     assert.ok(rule, path);
     assert.equal(rule.headers['Cache-Control'], 'no-store', path);
   }
-  assert.deepEqual(rules.map((r) => r.path), ['/*', '/proof/*', '/order/*', '/admin*', 'https://:project.pages.dev/*', 'https://:version.:project.pages.dev/*']);
+  assert.deepEqual(rules.map((r) => r.path), ['/*', '/assets/img/*', '/assets/fonts/*', '/assets/brand/*', '/proof/*', '/order/*', '/admin*', 'https://:project.pages.dev/*', 'https://:version.:project.pages.dev/*']);
 });
 
 test('the *.pages.dev copies are noindex, and the real domain is not', () => {
