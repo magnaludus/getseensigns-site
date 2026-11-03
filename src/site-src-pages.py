@@ -31,16 +31,20 @@ _TVF=('tent-vs-feather-flag-for-events','Tent vs feather flag for events')
 _VSZ=('vinyl-banner-size-guide','Vinyl banner size guide')
 _BULK=('bulk-yard-signs-pack-size-guide','Bulk yard sign pack guide')
 _TTS=('table-throw-size-guide','Table throw size guide')
+_SAR=('step-and-repeat-backdrop-size-guide','Step and repeat size guide')
+_RVV=('retractable-vs-vinyl-banner','Retractable vs vinyl banner')
+_IND=('trade-show-booth-ideas-industrial-expos','Trade show booth ideas for industrial expos')
 GUIDE_LINKS={
  'custom-canopy-tents':[_TENT,_TVF,_BOOTH],
  'feather-flags':[_TVF,_BOOTH],
  'table-throws':[_TTS,_BOOTH],
  'bulk-campaign-signs':[_BULK],
  'table-runners':[_TTS,_BOOTH],
- 'trade-show-booth-kit':[_BOOTH,_TVF],
- 'retractable-banners':[_BOOTH,_VSZ],
+ 'trade-show-booth-kit':[_IND,_BOOTH,_TVF],
+ 'step-and-repeat-backdrops':[_SAR],
+ 'retractable-banners':[_RVV,_BOOTH,_VSZ],
  'tabletop-retractable-banners':[_BOOTH],
- 'vinyl-banners':[_VSZ],
+ 'vinyl-banners':[_VSZ,_RVV],
 }
 # Public shop line. Links are plain sms:, tel: and wa.me URLs. No chat widget, script or tracker.
 PHONE_DISPLAY='(334) 232-9003'
