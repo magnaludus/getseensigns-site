@@ -43,7 +43,7 @@ PRODUCTS = [
     },
     {
         'id': 'feather', 'slug': 'feather-flag', 'page': 'feather-flags', 'name': 'feather flag', 'short': 'feather flag',
-        'title': 'Design a Feather Flag Online with 3D Preview | Get Seen Signs',
+        'title': 'Design a Feather Flag Online in 3D | Get Seen Signs',
         'desc': 'Design a 10.5, 14 or 18 ft feather flag online. Add your words, colors and logo, see it in 3D, then get a free proof within 12 hours.',
         'h1': ('Design your feather flag.', "We'll proof it."),
         'lede': 'Big letters, one clear message. Design a 10.5, 14 or 18 ft feather flag and see it in 3D before you send it.',
@@ -62,7 +62,7 @@ PRODUCTS = [
     },
     {
         'id': 'yard', 'slug': 'yard-signs', 'page': 'bulk-campaign-signs', 'name': 'yard sign pack', 'short': 'yard signs',
-        'title': 'Design Yard Sign Packs Online with 3D Preview | Get Seen Signs',
+        'title': 'Design Yard Signs Online in 3D | Get Seen Signs',
         'desc': 'Design a pack of 18×24 yard signs online. Choose 5 to 100 signs, one or two sides, see them in 3D, then get a free proof within 12 hours.',
         'h1': ('Design your yard signs.', "We'll proof it."),
         'lede': 'Design one sign and we print the whole pack. Choose 5 to 100 signs, one side or two, and see it standing in a yard in 3D.',
@@ -101,7 +101,7 @@ PRODUCTS = [
     },
     {
         'id': 'banner', 'slug': 'vinyl-banner', 'page': 'vinyl-banners', 'name': 'vinyl banner', 'short': 'vinyl banner',
-        'title': 'Design a Vinyl Banner Online with 3D Preview | Get Seen Signs',
+        'title': 'Design a Vinyl Banner Online in 3D | Get Seen Signs',
         'desc': 'Design a 2×4, 3×6, 4×8 or 3×10 ft vinyl banner in 13 oz, 18 oz or mesh. See it on a fence or wall in 3D, then get a free proof within 12 hours.',
         'h1': ('Design your vinyl banner.', "We'll proof it."),
         'lede': 'Grand opening, sale, ball season. Design a vinyl banner with your words and logo and see it hung up in 3D.',

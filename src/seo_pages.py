@@ -2,7 +2,7 @@
 BLOG = [
 dict(
  slug='welcome-home-military-retirement-banners',
- title='Welcome Home and Military Retirement Banner Ideas | Get Seen Signs',
+ title='Welcome Home & Military Retirement Banners | Get Seen Signs',
  desc='Welcome home and military retirement banner ideas: what to print, which size fits a porch or fence, how to plan around a moving return date, and when to order.',
  h1='Welcome home and military retirement banner ideas',
  date='2026-10-21', kicker='Family',
@@ -55,7 +55,7 @@ dict(
 ),
 dict(
  slug='christmas-family-name-banner-ideas',
- title='Christmas Family Name Banner and Yard Sign Ideas | Get Seen Signs',
+ title='Christmas Family Name Banner Ideas | Get Seen Signs',
  desc='Christmas family name banner and yard sign ideas: what to put on it, which size fits a porch or fence, design tips, and the Dec 10 order date.',
  h1='Christmas family name banner and yard sign ideas',
  date='2026-10-20', kicker='Holidays',

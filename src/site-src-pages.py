@@ -204,7 +204,7 @@ def foot(chat=True):
 </html>
 '''
 # Footer email signup. Posts to /api/email-signup (D1, then Brevo when BREVO_SIGNUP_LIST_ID is set) through assets/site.js.
-SIGNUP_FORM='''<form class="signup js-form" data-endpoint="/api/email-signup" data-kind="signup" novalidate>
+SIGNUP_FORM='''<form class="signup js-form" id="join" data-endpoint="/api/email-signup" data-kind="signup" novalidate>
       <div class="signup-copy"><p class="fh">Free proof + 10% off your first order</p><p>Join the list for new products and the occasional deal. Every order already starts with a free digital proof.</p></div>
       <div class="signup-row">
         <label class="sr-only" for="signup-email">Email</label>
@@ -955,7 +955,7 @@ def shop_card(k):
   <div class="shop-btns"><a class="btn btn-y btn-sm" href="/{slug}/#order" aria-label="Start my order: {e(html.unescape(n))}">Start my order</a><a class="more" href="/{slug}/">Details</a></div></div>
 </article>'''
 path='/shop/'; items=[('Home','/'),('Shop','/shop/')]
-shop_title='Shop Custom Signs, Banners, Flags, Tents & More | Get Seen Signs'
+shop_title='Shop Custom Signs, Banners, Flags & Tents | Get Seen Signs'
 shop_desc='Every Get Seen Signs product with its price: signs, banners, flags, tents, magnets, backdrops, decals, coins and patches. Free proof first, free shipping.'
 shop_ld=[crumbs(items),{"@type":"CollectionPage","@id":BASE+path,"url":BASE+path,"name":shop_title,"description":shop_desc,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID},
     "mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":i+1,"name":html.unescape(NAMES[k]),"url":BASE+"/"+SHORT[k][0]+"/"} for i,k in enumerate(BIZK+SEAK)]}}]
@@ -964,7 +964,7 @@ shop_page=head(shop_title,shop_desc,path,ld(*shop_ld))+NAV+f'''<main id="main">
   <div class="wrap">
     {bc_html(items)}
     <h1>Shop <span class="block">custom signs.</span></h1>
-    <p class="lede">Pick a product, pick your size and quantity, and start your order. Proof first, then pay: we email your free proof within 12 hours, 7 days a week, and nothing is charged or printed until you approve it. Free shipping in the lower 48.</p>
+    <p class="lede">Pick a product, pick your size and quantity, and start your order. Proof first, then pay: we email your free proof within 12 hours, 7 days a week, and nothing is charged or printed until you approve it. Free shipping in the lower 48. <a href="#join">Join the email list for 10% off your first order.</a></p>
     <div class="cta-row"><a class="btn btn-y" href="#business">Business, events &amp; teams</a><a class="btn btn-ghost" href="#seasonal">Seasonal &amp; personal</a><a class="btn btn-ghost" href="/#quote">Get a quote</a></div>
   </div>
 </section>
@@ -1032,7 +1032,7 @@ def bundle_card(b):
   <div class="cta-row"><a class="btn btn-ink btn-sm" href="{e(q)}">Quote this bundle</a></div></div>
 </article>'''
 path='/event-booth-bundles/'; items=[('Home','/'),('Shop','/shop/'),('Event booth bundles',path)]
-bun_title='Vendor & Event Booth Bundles: Tent, Table Cover, Flag | Get Seen Signs'
+bun_title='Event Booth Bundles: Tent, Throw, Flag | Get Seen Signs'
 bun_desc='Vendor and event booth bundles: canopy tent, table cover, feather flag and banners, matched to your brand. Free proof on every piece, free shipping.'
 _bun_items=[]
 for _b in BUNDLES:
