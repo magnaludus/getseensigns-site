@@ -316,7 +316,7 @@ def order_panel(p, d):
             </div>
             <button class="btn btn-y" type="submit" id="ord-submit">Start my order <span aria-hidden="true">→</span></button>
             <p class="ord-status" id="ord-status" role="status" aria-live="polite"></p>
-            <p class="ord-fine">No payment now. When your proof is ready we email you a private link to approve it and pay securely with Stripe. {etsy_fine}</p>
+            <p class="ord-fine">No payment now. When your proof is ready we email you a private link to approve it and pay securely with Stripe. First order? Enter code <b>FIRST10</b> in the promotion code box for 10% off. {etsy_fine}</p>
           </fieldset>
         </div>
       </div>
@@ -451,7 +451,7 @@ for p in P:
         <p class="lede">{e(p["lede"])}</p>
         {price_html}
         <div class="cta-row"><a class="btn btn-y" href="#order">Start my order <span aria-hidden="true">↓</span></a>{etsy_btn}{design_btn}<a class="btn btn-ghost" href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a></div>
-        <ul class="proof" style="margin-top:20px"><li><b>Free proof</b>, 3 revisions</li><li><b>No payment</b> until you approve</li><li><b>Secure</b> Stripe checkout</li><li><b>10% off</b> your first order: <a href="#join">join the list</a></li></ul>
+        <ul class="proof" style="margin-top:20px"><li><b>Free proof</b>, 3 revisions</li><li><b>No payment</b> until you approve</li><li><b>Secure</b> Stripe checkout</li><li><b>10% off</b> your first order: code <b>FIRST10</b></li></ul>
         {etsy_alt}
       </div>
       <figure class="phero-img sq">{hero_img}</figure>
@@ -977,7 +977,7 @@ shop_page=head(shop_title,shop_desc,path,ld(*shop_ld))+NAV+f'''<main id="main">
   <div class="wrap">
     {bc_html(items)}
     <h1>Shop <span class="block">custom signs.</span></h1>
-    <p class="lede">Pick a product, pick your size and quantity, and start your order. Proof first, then pay: we email your free proof within 12 hours, 7 days a week, and nothing is charged or printed until you approve it. Free shipping in the lower 48. <a href="#join">Join the email list for 10% off your first order.</a></p>
+    <p class="lede">Pick a product, pick your size and quantity, and start your order. Proof first, then pay: we email your free proof within 12 hours, 7 days a week, and nothing is charged or printed until you approve it. Free shipping in the lower 48. First order? Use code <b>FIRST10</b> for 10% off at checkout.</p>
     <div class="cta-row"><a class="btn btn-y" href="#business">Business, events &amp; teams</a><a class="btn btn-ghost" href="#seasonal">Seasonal &amp; personal</a><a class="btn btn-ghost" href="/#quote">Get a quote</a></div>
   </div>
 </section>
