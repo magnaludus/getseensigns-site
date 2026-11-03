@@ -137,6 +137,7 @@ dict(
 <h2>When to order</h2>
 <p>You get a free digital proof within 12 hours, 7 days a week, 3 revisions included. After you approve it, it arrives in 3 to 8 business days. <b>Order and approve your proof by December 10</b> for delivery by Christmas in the lower 48. If you want it up for Thanksgiving weekend, order in early November.</p>
 <p><a href="https://www.etsy.com/listing/4597121675" target="_blank" rel="noopener">Order the Christmas family name banner on Etsy</a>, or send a quote request below for a custom size or a different design.</p>
+<p>Earlier in the season? See our <a href="/blog/thanksgiving-banner-yard-sign-ideas/">Thanksgiving banner and yard sign ideas</a>.</p>
 ''',
 ),
 dict(
@@ -182,6 +183,7 @@ dict(
 <p>Collect every senior's photo, name, number and position in one shared folder, pick one design for the whole class, and send it all in a single <a href="/#quote">quote request</a>. Team pricing applies at 10 or more banners, and matching designs look better lined up on the fence.</p>
 <h2>When to order</h2>
 <p>Orders arrive 3-8 business days after you approve the proof. Order <b>two to three weeks before senior night</b> so there's time to gather photos and go through proofs. Basketball programs should start in early January, and spring sports in March.</p>
+<p>Need signs for the whole school or team? See the <a href="/blog/bulk-yard-signs-pack-size-guide/">bulk yard sign pack guide</a> and the <a href="/blog/vinyl-banner-size-guide/">vinyl banner size guide</a>.</p>
 ''',
 ),
 dict(
@@ -237,6 +239,7 @@ dict(
 </ul>
 <h2>When to order</h2>
 <p>Every order starts with a free digital proof, with 3 revisions included. Production and shipping time is listed on each product page. Order well ahead of your event so there's room for proof changes and shipping, and don't wait for the week of.</p>
+<p>Keep reading: <a href="/blog/trade-show-booth-ideas-industrial-expos/">trade show booth ideas for industrial expos</a>, the <a href="/blog/table-throw-size-guide/">table throw size guide</a>, the <a href="/blog/step-and-repeat-backdrop-size-guide/">step and repeat size guide</a> and <a href="/blog/retractable-vs-vinyl-banner/">retractable vs vinyl banner</a>.</p>
 ''',
 ),
 dict(
@@ -282,6 +285,7 @@ dict(
 <p>Need help choosing? Read the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> or compare options in <a href="/blog/tent-vs-feather-flag-for-events/">tent vs feather flag</a>.</p>
 <h2>Start your design</h2>
 <p>You can <a href="/design/canopy-tent/">design your tent online</a> with a 3D preview, then get a free proof before it prints. Production and shipping time is on the product page, so order well ahead of your event.</p>
+<p>Pairing a tent with a banner? Read <a href="/blog/retractable-vs-vinyl-banner/">retractable vs vinyl banner</a>, and see the <a href="/blog/table-throw-size-guide/">table throw size guide</a> for the table.</p>
 ''',
 ),
 dict(
@@ -328,6 +332,7 @@ dict(
 <p>Read the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> for a full packing list, or the <a href="/blog/custom-10x10-canopy-tent-buying-guide/">tent buying guide</a> for details on frame and fabric.</p>
 <h2>Next step</h2>
 <p>All prices include a free digital proof and free shipping in the lower 48. You can <a href="/design/feather-flag/">design a flag online</a> or <a href="/design/canopy-tent/">design a tent online</a> and see it in 3D before ordering.</p>
+<p>Exhibiting indoors? See <a href="/blog/trade-show-booth-ideas-industrial-expos/">trade show booth ideas for industrial expos</a>.</p>
 ''',
 ),
 dict(
@@ -371,6 +376,7 @@ dict(
 </ul>
 <h2>Next step</h2>
 <p>Every price includes a free digital proof, 3 revisions and free shipping in the lower 48. You can <a href="/design/vinyl-banner/">design a banner online</a> and see it before it prints. Production and shipping time is on the product page.</p>
+<p>Choosing between a hanging banner and a stand? Read <a href="/blog/retractable-vs-vinyl-banner/">retractable vs vinyl banner</a>. For signs on stakes, see the <a href="/blog/bulk-yard-signs-pack-size-guide/">bulk yard sign pack guide</a>.</p>
 ''',
 ),
 dict(
@@ -540,6 +546,7 @@ dict(
 <h2>Using both</h2>
 <p>Many vendors use both: a vinyl banner outside the tent or on the fence to pull people in, and a retractable banner at the booth. For a full setup, see the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> or the <a href="/blog/tent-vs-feather-flag-for-events/">tent vs feather flag</a> guide.</p>
 <p>Every order includes a free digital proof, 3 revisions and free shipping in the lower 48. You can <a href="/design/retractable-banner/">design a retractable banner</a> or <a href="/design/vinyl-banner/">design a vinyl banner</a> online first.</p>
+<p>Planning a photo wall for an event? See the <a href="/blog/step-and-repeat-backdrop-size-guide/">step and repeat size guide</a>.</p>
 ''',
 ),
 dict(
