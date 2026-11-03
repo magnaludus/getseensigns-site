@@ -430,9 +430,11 @@ for p in P:
     if p.get('extra'):
         buy='<div class="buy-list">'+''.join(f'<a class="buy" href="https://www.etsy.com/listing/{x["etsy"]}" target="_blank" rel="noopener"><span><b>{e(x["name"])}</b><small>{e(x["base"])}</small></span><span class="price"><small>from</small> {money(x["price"])}</span><span class="go">Etsy <span aria-hidden="true">→</span></span></a>' for x in p['extra'])+'</div>'
         etsy_btn=f'<a class="btn btn-ghost" href="#buy">Shop the designs on Etsy <span aria-hidden="true">↓</span></a>'
+        etsy_alt=''
     else:
         buy=''
-        etsy_btn=f'<a class="btn btn-ghost" href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy <span aria-hidden="true">→</span></a>' if p.get('etsy') else ''
+        etsy_btn=''
+        etsy_alt=f'<p class="etsy-alt" style="margin-top:14px;font-size:15px;color:#BDBAB2">Prefer Etsy? <a href="https://www.etsy.com/listing/{p["etsy"]}" target="_blank" rel="noopener">Order on Etsy</a></p>' if p.get('etsy') else ''
     rel=''.join(card(BY[s]) for s in p['related'])
     _g=GUIDE_LINKS.get(p['slug'],[])
     guides_html=('<p class="guide-links"><b>Related guides:</b> '+' · '.join(f'<a href="/blog/{gs}/">{e(gt)}</a>' for gs,gt in _g)+'</p>') if _g else ''
@@ -450,6 +452,7 @@ for p in P:
         {price_html}
         <div class="cta-row"><a class="btn btn-y" href="#order">Start my order <span aria-hidden="true">↓</span></a>{etsy_btn}{design_btn}<a class="btn btn-ghost" href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a></div>
         <ul class="proof" style="margin-top:20px"><li><b>Free proof</b>, 3 revisions</li><li><b>No payment</b> until you approve</li><li><b>Secure</b> Stripe checkout</li><li><b>10% off</b> your first order: <a href="#join">join the list</a></li></ul>
+        {etsy_alt}
       </div>
       <figure class="phero-img sq">{hero_img}</figure>
     </div>
