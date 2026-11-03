@@ -373,6 +373,93 @@ dict(
 <p>Every price includes a free digital proof, 3 revisions and free shipping in the lower 48. You can <a href="/design/vinyl-banner/">design a banner online</a> and see it before it prints. Production and shipping time is on the product page.</p>
 ''',
 ),
+dict(
+ slug='bulk-yard-signs-pack-size-guide',
+ title='Bulk Yard Signs: How Many Do You Need? | Get Seen Signs',
+ desc='How many bulk yard signs to order: pack sizes from 5 to 100, one-sided vs two-sided, stakes, design tips, and what each pack costs. 18x24 in, stakes included.',
+ h1='Bulk yard signs: how many do you need?',
+ date='2026-11-03', kicker='Signs',
+ img='/assets/img/g-02-bulk-yard-signs-2.jpg', img_alt='Pack of 18x24 yard signs with metal H-stakes',
+ quote='Bulk Yard Signs',
+ lede="Yard signs sell in packs, and the pack size changes your price per sign a lot. Here's how to decide how many to order, whether to print one side or two, and what to put on them so people can read them from the road.",
+ html='''
+<h2>How our packs work</h2>
+<p>Our <a href="/bulk-campaign-signs/">bulk yard signs</a> are 18×24 in, and every sign comes with a metal H-stake. Packs are 5, 10, 25, 50 or 100 signs of one design. The smallest order is a pack of 5, and single yard signs aren't sold.</p>
+<h2>How many should you order?</h2>
+<p>Count the places you'll actually put signs, then add a few spares. Signs get bent, knocked over and walked off, so a small cushion saves a second order.</p>
+<ul class="ticks">
+<li><b>5 signs:</b> a household event, a birthday, a graduation, a garage sale, a small business entrance.</li>
+<li><b>10 signs:</b> a block party, a fundraiser, a contractor job site, a small open house weekend.</li>
+<li><b>25 signs:</b> a school or club event, a neighborhood or church event, a real estate team's listings.</li>
+<li><b>50 to 100 signs:</b> a campaign, a large event with many roads to cover, or a business that puts signs out all season.</li>
+</ul>
+<p>Need 200 or more, or two different designs? Send a <a href="/?product=Bulk+Yard+Signs#quote">quote request</a>.</p>
+<h2>What each pack costs</h2>
+<p>One-sided packs, stakes included:</p>
+<ul class="ticks">
+<li><b>5 signs:</b> $74 (about $14.80 each)</li>
+<li><b>10 signs:</b> $79 (about $7.90 each)</li>
+<li><b>25 signs:</b> $189 (about $7.56 each)</li>
+<li><b>50 signs:</b> $319 (about $6.38 each)</li>
+<li><b>100 signs:</b> $489 (about $4.89 each)</li>
+</ul>
+<p>The jump from 5 to 10 is small: a pack of 10 costs only $5 more than a pack of 5. If you need even 6 or 7 signs, order 10.</p>
+<h2>One side or two?</h2>
+<p>Two-sided packs print the design on both faces: 5 for $79, 10 for $109, 25 for $209, 50 for $419 and 100 for $579. Choose two sides where signs sit along a road and are seen from both directions, such as a corner, a fence line or a median. For a sign placed in a yard facing the street, one side is usually enough.</p>
+<h2>Design tips that read from the road</h2>
+<ul class="ticks">
+<li><b>Keep it to a few words.</b> A name, one short line and a web address or phone number is plenty.</li>
+<li><b>Use strong contrast.</b> Dark letters on a light background, or the reverse. Avoid thin or script fonts.</li>
+<li><b>Make the main word big.</b> People read a yard sign from a moving car for a second or two.</li>
+<li><b>Check the proof.</b> Spell-check every name and number. You get a free digital proof with 3 revisions, and nothing prints until you approve it.</li>
+</ul>
+<h2>Setting them up</h2>
+<p>Push the H-stake into the ground with the sign slid onto the wires. Check your local rules and any property or event requirements before placing signs on public or shared property.</p>
+<h2>Related</h2>
+<p>Planning a wider setup? See the <a href="/blog/vinyl-banner-size-guide/">vinyl banner size guide</a> for fences and storefronts, or the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> for events. You can also <a href="/design/yard-signs/">design a yard sign online</a> and see it in 3D before you order. Every price includes free shipping in the lower 48.</p>
+''',
+),
+dict(
+ slug='table-throw-size-guide',
+ title='Table Throw Size Guide: 6 ft vs 8 ft | Get Seen Signs',
+ desc='Table throw sizes explained: 6 ft vs 8 ft tables, 3-sided vs 4-sided, fitted and stretch covers, and what each style costs. Pick the right custom table cover.',
+ h1='Table throw size guide: 6 ft, 8 ft, and which style',
+ date='2026-11-03', kicker='Events',
+ img='/assets/img/g-09-table-throw-2.jpg', img_alt='Custom logo table throw on a folding table at a vendor booth',
+ quote='Table Throw',
+ lede="A custom table cover is the cheapest way to make a folding table look like a booth. The two decisions that matter are the table length and the style: throw, fitted or stretch. Here's how to choose and what each costs.",
+ html='''
+<h2>Step 1: Match your table length</h2>
+<p>Our <a href="/table-throws/">table throws</a> are cut for standard rectangular folding tables in two lengths: 6 ft and 8 ft. Measure the length of your table and pick the matching size. If you use a different table, ask in a <a href="/?product=Table+Throw#quote">quote request</a> before you order.</p>
+<h2>Step 2: Pick a style</h2>
+<h3>Throw, 3-sided (open back)</h3>
+<p>Covers the front and both sides, and leaves the back open so whoever sits behind the table can reach boxes and bags underneath. 6 ft: $139. 8 ft: $159. This is the usual choice for vendor booths.</p>
+<h3>Throw, 4-sided</h3>
+<p>Covers all the way around, which looks best when people can walk around the table, such as a sign-in table in the middle of a room. 6 ft: $169. 8 ft: $189.</p>
+<h3>Fitted, closed back</h3>
+<p>Tailored to the table for a cleaner look than a loose throw. The back is closed, so you can't reach under from behind. 6 ft: $159. 8 ft: $179.</p>
+<h3>Stretch spandex</h3>
+<p>Pulls tight over the table and legs for a sleek, modern look with no loose fabric. 6 ft: $199. 8 ft: $239.</p>
+<h2>Which one should you buy?</h2>
+<ul class="ticks">
+<li><b>Markets, craft fairs and vendor booths:</b> a 3-sided throw. You need access to your stock under the table.</li>
+<li><b>Sign-in and check-in tables:</b> a 4-sided throw, or a fitted cover.</li>
+<li><b>Expos and trade shows with a polished look:</b> a fitted or stretch cover.</li>
+<li><b>Tight budget:</b> a <a href="/table-runners/">printed table runner with a matching solid throw</a> is $99.</li>
+</ul>
+<h2>Care and print</h2>
+<p>The throw fabric is dye-sublimated polyester that is machine washable and wrinkle resistant. The full-color print is on the front panel. Need print on more sides? Ask in a quote.</p>
+<h2>Design tips</h2>
+<ul class="ticks">
+<li>Put the business name large on the front panel, where it sits at customer height.</li>
+<li>Use your logo and one short line, not a paragraph.</li>
+<li>Keep the main message in the middle of the panel so product and bags don't cover it.</li>
+<li>Check the free digital proof. You get 3 revisions, and nothing prints until you approve.</li>
+</ul>
+<h2>Complete the booth</h2>
+<p>Pair a throw with a <a href="/custom-canopy-tents/">canopy tent</a> outside or a <a href="/retractable-banners/">retractable banner</a> inside. The <a href="/trade-show-booth-kit/">trade show booth kit</a> bundles a throw, a banner and a flag for $339. The <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> covers the rest. You can also <a href="/design/table-throw/">design a table throw online</a> and see it in 3D. Every price includes free shipping in the lower 48.</p>
+''',
+),
 ]
 
 # Gameday / tailgate category page. NO TRADEMARKS: no team, school or league names, logos, mascots or slogans.

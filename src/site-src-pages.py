@@ -29,11 +29,14 @@ _BOOTH=('vendor-booth-setup-checklist','Vendor booth setup checklist')
 _TENT=('custom-10x10-canopy-tent-buying-guide','Custom canopy tent buying guide')
 _TVF=('tent-vs-feather-flag-for-events','Tent vs feather flag for events')
 _VSZ=('vinyl-banner-size-guide','Vinyl banner size guide')
+_BULK=('bulk-yard-signs-pack-size-guide','Bulk yard sign pack guide')
+_TTS=('table-throw-size-guide','Table throw size guide')
 GUIDE_LINKS={
  'custom-canopy-tents':[_TENT,_TVF,_BOOTH],
  'feather-flags':[_TVF,_BOOTH],
- 'table-throws':[_BOOTH],
- 'table-runners':[_BOOTH],
+ 'table-throws':[_TTS,_BOOTH],
+ 'bulk-campaign-signs':[_BULK],
+ 'table-runners':[_TTS,_BOOTH],
  'trade-show-booth-kit':[_BOOTH,_TVF],
  'retractable-banners':[_BOOTH,_VSZ],
  'tabletop-retractable-banners':[_BOOTH],
