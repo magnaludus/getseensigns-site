@@ -3,7 +3,7 @@
 // a legal name or a street address.
 
 import { SITE, SHOP_EMAIL, SHOP_PHONE, SHOP_PHONE_TEL, esc, money, nowIso, log } from './util.js';
-import { run } from './db.js';
+import { run, one } from './db.js';
 
 const BREVO_URL = 'https://api.brevo.com/v3/smtp/email';
 const SENDER = { name: 'Get Seen Signs', email: SHOP_EMAIL };
@@ -72,6 +72,9 @@ function itemsText(items) {
 
 const first = (name) => (name ? String(name).trim().split(/\s+/)[0] : '');
 const hello = (order) => (first(order.customer_name) ? 'Hi ' + first(order.customer_name) + ',' : 'Hello,');
+
+// A public review link (REVIEW_URL, for example a Google review page) is used only if it is a plain https URL.
+const safeHttps = (u) => (typeof u === 'string' && /^https:\/\/[^\s"'<>]+$/.test(u.trim()) ? u.trim() : '');
 
 export function renderEmail(kind, ctx) {
   const { order, items, links } = ctx;
@@ -148,6 +151,30 @@ export function renderEmail(kind, ctx) {
     };
   }
 
+  // Sent once, after the package has been delivered, by the admin "review request" action. Thanks the customer and asks
+  // for a review. Nothing is invented or auto-published: the customer chooses whether to post or reply.
+  if (kind === 'review_request') {
+    const url = safeHttps(ctx.reviewUrl);
+    const claim = 'If something is not right with your order, reply to this email within 7 days of delivery with your order number and photos. Details: ' + SITE + '/shipping-returns';
+    return {
+      subject: 'Thank you for your Get Seen Signs order ' + ref,
+      preheader: 'Thank you for your order. We would love to hear how it turned out.',
+      html: layout({
+        heading: 'Thank you for your order',
+        preheader: 'Thank you for your order. We would love to hear how it turned out.',
+        bodyHtml:
+          p(esc(hello(order))) + p('Thank you for your order. It shows as delivered, and we hope it arrived in good shape and looks great.') +
+          p('If you have a minute, we would love to hear how it turned out. A sentence or two helps other businesses, teams and families decide.') +
+          (url ? button(url, 'Leave a review') : '') +
+          p('You can also reply to this email with a few words, and tell us if we may quote you on our website.') +
+          small(esc(claim)) + small('Order ' + esc(ref) + '.'),
+      }),
+      text: [hello(order), '', 'Thank you for your order. It shows as delivered, and we hope it arrived in good shape and looks great.', '',
+        'If you have a minute, we would love to hear how it turned out. A sentence or two helps other businesses, teams and families decide.',
+        url ? 'Leave a review: ' + url : '', 'You can also reply to this email with a few words, and tell us if we may quote you on our website.', '', claim, '', 'Order ' + ref + '.', textFooter()].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n'),
+    };
+  }
+
   throw new Error('unknown email kind ' + kind);
 }
 
@@ -190,7 +217,7 @@ async function record(db, orderId, kind, to, status, error, messageId, now) {
 
 // Sends one customer email and records the attempt. Never throws: a mail problem must not undo an order step.
 export async function sendOrderEmail(env, db, kind, ctx, now) {
-  const mail = renderEmail(kind, ctx);
+  const mail = renderEmail(kind, Object.assign({ reviewUrl: env && env.REVIEW_URL }, ctx));
   try {
     const id = await brevoSend(env, { to: ctx.order.customer_email, toName: ctx.order.customer_name, subject: mail.subject, html: mail.html, text: mail.text, tags: ['order', kind] });
     await record(db, ctx.order.id, kind, ctx.order.customer_email, 'sent', '', id, now);
@@ -200,6 +227,12 @@ export async function sendOrderEmail(env, db, kind, ctx, now) {
     await record(db, ctx.order.id, kind, ctx.order.customer_email, 'failed', err.message, '', now);
     return { ok: false, error: err.message };
   }
+}
+
+// True once a review request has gone out for this order, so it is never sent twice by accident.
+export async function reviewRequestSent(db, orderId) {
+  const row = await one(db, "SELECT COUNT(*) AS n FROM emails WHERE order_id = ? AND kind = 'review_request' AND status = 'sent'", [orderId]);
+  return !!(row && row.n > 0);
 }
 
 export async function sendShopAlert(env, db, orderId, kind, subject, lines, now) {
