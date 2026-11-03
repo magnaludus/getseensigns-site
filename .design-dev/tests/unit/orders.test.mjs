@@ -10,6 +10,7 @@ import * as adminOrders from '../../../functions/api/admin/orders.js';
 import * as adminOne from '../../../functions/api/admin/orders/[id].js';
 import * as adminProof from '../../../functions/api/admin/orders/[id]/proof.js';
 import * as adminTracking from '../../../functions/api/admin/orders/[id]/tracking.js';
+import * as adminReview from '../../../functions/api/admin/orders/[id]/review-request.js';
 import * as proofRoute from '../../../functions/proof/[token].js';
 import * as orderRoute from '../../../functions/order/[token].js';
 import * as webhook from '../../../functions/api/stripe-webhook.js';
@@ -788,6 +789,43 @@ test('every email kind renders, with plain-text alternatives', () => {
     assert.ok(m.text.startsWith('Hello,'), 'no name falls back to a plain greeting');
   }
   assert.throws(() => renderEmail('nope', { order, items, links }));
+});
+
+test('the review request goes out once, only for a shipped order, and links a review page only when REVIEW_URL is a safe https link', async () => {
+  const { id } = await paidOrder();
+  const post = (body) => adminReview.onRequestPost({ request: adminReq('POST', '/x', body === undefined ? null : body), env, params: { id }, now: NOW });
+  const early = await post();
+  assert.equal(early.status, 409, 'a paid order that has not shipped is refused');
+  await adminTracking.onRequestPost({ request: adminReq('POST', '/x', { carrier: 'UPS', tracking_number: '1Z999AA10123456784' }), env, params: { id }, now: NOW });
+  const before = net.brevo.length;
+  const first = await post();
+  assert.equal(first.status, 200);
+  assert.deepEqual((await first.json()).email, { sent: true });
+  const mail = net.brevo.at(-1).body;
+  assert.equal(net.brevo.length, before + 1);
+  assert.match(mail.subject, /Thank you for your Get Seen Signs order/);
+  assert.ok(mail.textContent.includes('tell us if we may quote you'));
+  assert.ok(!mail.textContent.includes('Leave a review:'), 'no link without REVIEW_URL');
+  const again = await post();
+  assert.equal(again.status, 409);
+  assert.equal((await again.json()).already_sent, true);
+  assert.equal(net.brevo.length, before + 1, 'a second send is blocked');
+  const bad = await adminReview.onRequestPost({ request: new Request(BASE + '/x', { method: 'POST', headers: { Authorization: 'Bearer ' + env.ADMIN_TOKEN, 'Content-Type': 'application/json' }, body: '{nope' }), env, params: { id }, now: NOW });
+  assert.equal(bad.status, 400);
+  const saved = env.REVIEW_URL;
+  try {
+    env.REVIEW_URL = 'https://g.page/r/example/review';
+    const forced = await post({ force: true });
+    assert.equal(forced.status, 200);
+    const linked = net.brevo.at(-1).body;
+    assert.ok(linked.textContent.includes('Leave a review: https://g.page/r/example/review'));
+    assert.ok(linked.htmlContent.includes('href="https://g.page/r/example/review"'));
+    for (const unsafe of ['javascript:alert(1)', 'http://example.com/r', '"><script>']) {
+      env.REVIEW_URL = unsafe;
+      await post({ force: true });
+      assert.ok(!net.brevo.at(-1).body.textContent.includes('Leave a review:'), unsafe);
+    }
+  } finally { env.REVIEW_URL = saved; }
 });
 
 // ---------- schema, terms, secrets ----------
