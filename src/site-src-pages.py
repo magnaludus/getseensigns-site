@@ -442,6 +442,7 @@ for p in P:
         <p class="lede">{e(p["lede"])}</p>
         {price_html}
         <div class="cta-row"><a class="btn btn-y" href="#order">Start my order <span aria-hidden="true">↓</span></a>{etsy_btn}{design_btn}<a class="btn btn-ghost" href="/?product={urllib.parse.quote_plus(p["short"])}#quote">Get a quote</a></div>
+        <ul class="proof" style="margin-top:20px"><li><b>Free proof</b>, 3 revisions</li><li><b>No payment</b> until you approve</li><li><b>Secure</b> Stripe checkout</li><li><b>10% off</b> your first order: <a href="#join">join the list</a></li></ul>
       </div>
       <figure class="phero-img sq">{hero_img}</figure>
     </div>
