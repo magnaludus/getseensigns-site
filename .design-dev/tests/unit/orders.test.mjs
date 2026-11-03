@@ -11,6 +11,8 @@ import * as adminOne from '../../../functions/api/admin/orders/[id].js';
 import * as adminProof from '../../../functions/api/admin/orders/[id]/proof.js';
 import * as adminTracking from '../../../functions/api/admin/orders/[id]/tracking.js';
 import * as adminReview from '../../../functions/api/admin/orders/[id]/review-request.js';
+import * as adminDelivered from '../../../functions/api/admin/orders/[id]/delivered.js';
+import * as adminDue from '../../../functions/api/admin/review-requests.js';
 import * as proofRoute from '../../../functions/proof/[token].js';
 import * as orderRoute from '../../../functions/order/[token].js';
 import * as webhook from '../../../functions/api/stripe-webhook.js';
@@ -826,6 +828,54 @@ test('the review request goes out once, only for a shipped order, and links a re
       assert.ok(!net.brevo.at(-1).body.textContent.includes('Leave a review:'), unsafe);
     }
   } finally { env.REVIEW_URL = saved; }
+});
+
+test('delivered orders get the review email about 24 hours later, once, and failures are retried', async () => {
+  const ship = async () => {
+    const { id } = await paidOrder();
+    await adminTracking.onRequestPost({ request: adminReq('POST', '/x', { carrier: 'UPS', tracking_number: '1Z999AA10123456784' }), env, params: { id }, now: NOW });
+    return id;
+  };
+  const delivered = (id, body) => adminDelivered.onRequestPost({ request: adminReq('POST', '/x', body === undefined ? null : body), env, params: { id }, now: NOW });
+  const hoursAgo = (h) => new Date(new Date(NOW).getTime() - h * 3600 * 1000).toISOString();
+  const list = async () => (await (await adminDue.onRequestGet({ request: adminReq('GET', '/x'), env, params: {}, now: NOW })).json());
+  const send = async () => (await (await adminDue.onRequestPost({ request: adminReq('POST', '/x', null), env, params: {}, now: NOW })).json());
+
+  const unshipped = (await paidOrder()).id;
+  assert.equal((await delivered(unshipped)).status, 409, 'only a shipped order can be marked delivered');
+
+  const fresh = await ship();
+  const stale = await ship();
+  assert.equal((await delivered(fresh, { delivered_at: 'not a date' })).status, 400);
+  assert.equal((await delivered(fresh, { delivered_at: new Date(new Date(NOW).getTime() + 3 * 3600 * 1000).toISOString() })).status, 400, 'a future delivery time is refused');
+  const a = await (await delivered(fresh)).json();
+  assert.equal(a.ok, true);
+  assert.equal(a.already_recorded, false);
+  assert.equal((await (await delivered(fresh)).json()).already_recorded, true, 'the first delivery time is kept');
+  const b = await (await delivered(stale, { delivered_at: hoursAgo(25) })).json();
+  assert.equal(b.delivered_at, hoursAgo(25));
+
+  const due = await list();
+  assert.deepEqual(due.due.map((r) => r.order_id), [stale], 'only the order delivered more than 24 hours ago is due');
+  const before = net.brevo.length;
+  const first = await send();
+  assert.equal(first.sent, 1);
+  assert.equal(net.brevo.length, before + 1);
+  assert.match(net.brevo.at(-1).body.subject, /Thank you for your Get Seen Signs order/);
+  const second = await send();
+  assert.equal(second.checked, 0, 'an order that got its email is never due again');
+  assert.equal(net.brevo.length, before + 1);
+
+  // a failed send stays due and is retried
+  const flaky = await ship();
+  await delivered(flaky, { delivered_at: hoursAgo(30) });
+  const realBrevo = net.brevoFail;
+  net.brevoFail = true;
+  const failed = await send();
+  assert.equal(failed.sent, 0);
+  net.brevoFail = realBrevo;
+  const retried = await send();
+  assert.equal(retried.sent, 1, 'the failed order is retried on the next call');
 });
 
 // ---------- schema, terms, secrets ----------

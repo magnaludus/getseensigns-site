@@ -3,7 +3,7 @@
 // a legal name or a street address.
 
 import { SITE, SHOP_EMAIL, SHOP_PHONE, SHOP_PHONE_TEL, esc, money, nowIso, log } from './util.js';
-import { run, one } from './db.js';
+import { run, one, all } from './db.js';
 
 const BREVO_URL = 'https://api.brevo.com/v3/smtp/email';
 const SENDER = { name: 'Get Seen Signs', email: SHOP_EMAIL };
@@ -145,9 +145,10 @@ export function renderEmail(kind, ctx) {
           p(esc(hello(order))) + p('Your order is on the way.') +
           '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0;background:#F3EFE6;border-radius:10px;width:100%"><tr><td style="padding:14px 16px;font-size:15px">Carrier: <strong>' + esc(s.carrier) + '</strong><br>Tracking number: ' + trackLine + '</td></tr></table>' +
           (s.tracking_url ? button(s.tracking_url, 'Track your package') : button(links.order, 'Check order status')) + itemRows(items) +
+          p('<strong>When it arrives,</strong> we would love to hear how it turned out. Reply to this email with a sentence or two, and tell us if we may quote you on our website. We will also send a short thank-you note with a review link.') +
           small('Order ' + esc(ref) + '. Order status: ' + esc(links.order)),
       }),
-      text: [hello(order), '', 'Your order is on the way.', 'Carrier: ' + s.carrier, 'Tracking number: ' + s.tracking_number, s.tracking_url ? 'Track it: ' + s.tracking_url : '', 'Order status: ' + links.order, '', itemsText(items), '', 'Order ' + ref + '.', textFooter()].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n'),
+      text: [hello(order), '', 'Your order is on the way.', 'Carrier: ' + s.carrier, 'Tracking number: ' + s.tracking_number, s.tracking_url ? 'Track it: ' + s.tracking_url : '', 'Order status: ' + links.order, '', itemsText(items), '', 'When it arrives, we would love to hear how it turned out. Reply to this email with a sentence or two, and tell us if we may quote you on our website. We will also send a short thank-you note with a review link.', '', 'Order ' + ref + '.', textFooter()].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n'),
     };
   }
 
@@ -227,6 +228,31 @@ export async function sendOrderEmail(env, db, kind, ctx, now) {
     await record(db, ctx.order.id, kind, ctx.order.customer_email, 'failed', err.message, '', now);
     return { ok: false, error: err.message };
   }
+}
+
+// Hours after delivery before the review request goes out (REVIEW_DELAY_HOURS overrides; default 24).
+export function reviewDelayHours(env) {
+  const n = Number(env && env.REVIEW_DELAY_HOURS);
+  return n > 0 && n <= 24 * 30 ? n : 24;
+}
+
+// Records when a package was delivered, in the existing email log (kind 'delivered', created_at = delivery time).
+// No schema change. Idempotent: the first delivery time wins.
+export async function markDelivered(db, order, deliveredAtIso) {
+  const existing = await one(db, "SELECT created_at FROM emails WHERE order_id = ? AND kind = 'delivered' ORDER BY id LIMIT 1", [order.id]);
+  if (existing) return { already: true, delivered_at: existing.created_at };
+  await run(db, 'INSERT INTO emails (order_id, kind, to_email, status, error, message_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)', [order.id, 'delivered', order.customer_email, 'logged', '', '', deliveredAtIso]);
+  return { already: false, delivered_at: deliveredAtIso };
+}
+
+// Orders delivered at least `hours` ago that have not had a review request sent. Failed sends stay due and are retried.
+export async function dueReviewRequests(db, now, hours) {
+  const cutoff = new Date(now.getTime() - hours * 3600 * 1000).toISOString();
+  return all(
+    db,
+    "SELECT e.order_id AS order_id, e.created_at AS delivered_at FROM emails e WHERE e.kind = 'delivered' AND e.created_at <= ? AND NOT EXISTS (SELECT 1 FROM emails r WHERE r.order_id = e.order_id AND r.kind = 'review_request' AND r.status = 'sent') ORDER BY e.created_at LIMIT 50",
+    [cutoff]
+  );
 }
 
 // True once a review request has gone out for this order, so it is never sent twice by accident.
