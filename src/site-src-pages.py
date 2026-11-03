@@ -197,7 +197,7 @@ def foot(chat=True):
     <div class="foot-cols">
       <div class="foot-prods"><p class="fh">Products</p>{prods}</div>
       <div><p class="fh">Ideas &amp; guides</p><a href="/tailgate-and-gameday-signs/">Tailgate &amp; gameday</a><a href="/blog/welcome-home-military-retirement-banners/">Welcome home banners</a><a href="/blog/christmas-family-name-banner-ideas/">Christmas sign ideas</a><a href="/blog/senior-night-banner-ideas/">Senior night ideas</a><a href="/blog/vendor-booth-setup-checklist/">Vendor booth checklist</a><a href="/blog/custom-10x10-canopy-tent-buying-guide/">Canopy tent buying guide</a><a href="/blog/tent-vs-feather-flag-for-events/">Tent vs feather flag</a><a href="/blog/vinyl-banner-size-guide/">Vinyl banner sizes</a><a href="/blog/">All guides</a></div>
-      <div><p class="fh">Shop</p><a href="/shop/">Shop all products</a><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/event-booth-bundles/">Booth bundles</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><a href="/reorder/">Reorder</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="/#faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
+      <div><p class="fh">Shop</p><a href="/shop/">Shop all products</a><a href="{ETSY}" target="_blank" rel="noopener">Etsy shop</a><a href="/event-booth-bundles/">Booth bundles</a><a href="/design/">Design online</a><a href="/#quote">Get a quote</a><a href="/reorder/">Reorder</a><p class="fh mt">Reach us</p>{tel}{sms}{wa}<a href="/#faq">FAQ</a><a href="/about">About</a><a href="/shipping-returns">Shipping &amp; returns</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></div>
     </div>
   </div>
   <div class="wrap">{SIGNUP_FORM}</div>
@@ -765,12 +765,19 @@ write_doc('/terms', 'Terms of Service | Get Seen Signs',
 write_doc('/privacy', 'Privacy Policy | Get Seen Signs',
           'How Get Seen Signs handles the information you share with us.',
           render_legal(PRIVACY_MD))
+write_doc('/shipping-returns', 'Shipping and Returns | Get Seen Signs',
+          'Shipping times, free shipping in the lower 48, proofs, cancellations and how reprints work for custom orders from Get Seen Signs.',
+          render_legal(open(SRC+'/pages/shipping-returns.md', encoding='utf-8').read()))
+write_doc('/about', 'About Get Seen Signs | Veteran-Owned Sign Shop',
+          'Get Seen Signs is a veteran-owned, family-run online sign shop. Proof first, then pay, free design and free shipping in the lower 48.',
+          render_legal(open(SRC+'/pages/about.md', encoding='utf-8').read()))
 # ---------- sitemap, robots ----------
 LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
 LASTMOD['/terms']='2026-10-30'; LASTMOD['/contact']='2026-10-28'
 LASTMOD['/privacy']='2026-10-30'; LASTMOD['/quote']='2026-10-28'
-urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/event-booth-bundles/','/reorder/','/terms','/privacy','/contact','/quote']
+LASTMOD['/about']=TODAY; LASTMOD['/shipping-returns']=TODAY
+urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/event-booth-bundles/','/reorder/','/about','/shipping-returns','/terms','/privacy','/contact','/quote']
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
 open(SITE+'/sitemap.xml','w').write(sm)
 open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
