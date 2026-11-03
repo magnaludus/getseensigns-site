@@ -86,6 +86,8 @@ if (dataEl && form) {
     const p = path();
     for (const el of form.querySelectorAll('.ord-panel')) el.hidden = el.dataset.for !== p;
     $('.ord-details').hidden = p === 'designer';
+    // In designer mode step 3 already has the one primary "Open the designer" button, so hide the duplicate in step 2.
+    if (designLink) designLink.style.display = p === 'designer' ? 'none' : '';
     submit.innerHTML = p === 'designer' ? 'Open the designer <span aria-hidden="true">→</span>' : 'Start my order <span aria-hidden="true">→</span>';
   }
 
