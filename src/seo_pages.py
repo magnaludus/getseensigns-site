@@ -460,6 +460,129 @@ dict(
 <p>Pair a throw with a <a href="/custom-canopy-tents/">canopy tent</a> outside or a <a href="/retractable-banners/">retractable banner</a> inside. The <a href="/trade-show-booth-kit/">trade show booth kit</a> bundles a throw, a banner and a flag for $339. The <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> covers the rest. You can also <a href="/design/table-throw/">design a table throw online</a> and see it in 3D. Every price includes free shipping in the lower 48.</p>
 ''',
 ),
+dict(
+ slug='step-and-repeat-backdrop-size-guide',
+ title='Step and Repeat Backdrop Size Guide | Get Seen Signs',
+ desc='Step and repeat backdrop sizes: 8x8 vs 10x8 ft, fabric vs matte vinyl, how the logo grid and sponsor logos work, and what each size costs with stand and case.',
+ h1='Step and repeat backdrop size guide: 8×8 or 10×8?',
+ date='2026-11-03', kicker='Events',
+ img='/assets/img/g-08-step-and-repeat-2.jpg', img_alt='People posing in front of a step and repeat backdrop with a repeating gala logo',
+ quote='Step & Repeat Backdrop',
+ lede="A step and repeat is the backdrop behind every photo at a gala, prom, grand opening or media day. The size decides how many people fit in a shot and how much of your logo shows. Here's how to choose, and what you get at each price.",
+ html='''
+<h2>What a step and repeat is</h2>
+<p>It's a printed backdrop with your logo repeated in a grid, often alternating with a sponsor's logo, sized so a logo lands beside every face in the photo. Whoever stands in front of it carries your name into every picture that gets posted. See the <a href="/step-and-repeat-backdrops/">step and repeat backdrops</a> we make.</p>
+<h2>Our two sizes</h2>
+<ul class="ticks">
+<li><b>8×8 ft, $419:</b> a good fit for photos of one person, a couple or a small group, and for smaller rooms and entrances.</li>
+<li><b>10×8 ft (width by height), $549:</b> two feet wider, which gives larger groups more room and shows more of the logo pattern behind them.</li>
+</ul>
+<p>Both prices include the adjustable telescoping stand and a carry case. Measure the space before you decide: you need the backdrop's width plus room for the stand and for the photographer to stand back.</p>
+<h2>Fabric or vinyl?</h2>
+<ul class="ticks">
+<li><b>Fabric:</b> wrinkle resistant and packs into the case. A good choice if you'll move and reuse the backdrop.</li>
+<li><b>13 oz matte vinyl:</b> made so it won't glare under a camera flash.</li>
+</ul>
+<p>If most photos will be taken with flash, such as at a gala or a prom, the matte finish is worth a look.</p>
+<h2>Planning the logo layout</h2>
+<ul class="ticks">
+<li><b>Send every logo you need</b> and tell us which one leads. We alternate sponsor logos on the proof.</li>
+<li><b>Keep the logos simple and well spaced.</b> Crowded logos blur together in a photo.</li>
+<li><b>Use a clear, high-contrast logo file.</b> The proof shows exactly how the grid will print.</li>
+<li><b>Check the proof.</b> It's free, with 3 revisions, and nothing prints until you approve it.</li>
+</ul>
+<h2>Where it works</h2>
+<p>Galas and banquets, proms and school dances, grand openings, press and media days, trade show booths and fundraisers. Pair it with a <a href="/retractable-banners/">retractable banner</a> at the entrance and a <a href="/table-throws/">logo table throw</a> on the check-in table.</p>
+<h2>Plan ahead</h2>
+<p>Backdrops are made to order. Production and shipping time is on the <a href="/step-and-repeat-backdrops/">product page</a>, so order well before the event and leave room for proof changes. You can also <a href="/design/step-and-repeat/">design a step and repeat online</a> and see it before you order. Every price includes a free digital proof and free shipping in the lower 48.</p>
+''',
+),
+dict(
+ slug='retractable-vs-vinyl-banner',
+ title='Retractable vs Vinyl Banner: Which to Buy | Get Seen Signs',
+ desc='Retractable banner or vinyl banner? How each works, indoor vs outdoor use, what they cost, and which one to buy for a booth, storefront, fence or event.',
+ h1='Retractable banner vs vinyl banner: which should you buy?',
+ date='2026-11-03', kicker='Banners',
+ img='/assets/img/g-03-vinyl-banner-2.jpg', img_alt='Yellow vinyl banner with grommets hung on a railing',
+ quote='Retractable Banner',
+ lede="Both are banners, but they do different jobs. A retractable stand is a self-supporting display for indoors. A vinyl banner hangs and holds up outdoors. Here's how to pick, with prices for each.",
+ html='''
+<h2>The short answer</h2>
+<ul class="ticks">
+<li><b>Choose a retractable banner</b> for indoor events: trade shows, lobbies, school and church entrances, vendor fairs. It stands on its own and sets up in about a minute.</li>
+<li><b>Choose a vinyl banner</b> for outdoor use or when you have something to hang from: fences, storefronts, buildings, event entrances.</li>
+</ul>
+<h2>Retractable banners</h2>
+<ul class="ticks">
+<li><b>What it is:</b> a printed banner that pulls up out of an aluminum base and hooks to a telescoping pole. It comes with a padded carry bag.</li>
+<li><b>Prices:</b> 33×81 in for $109, 33×81 in deluxe with a wide base for $149, 47×81 in for $249. A <a href="/tabletop-retractable-banners/">tabletop version</a> (11.5×17.5 in) is $69.</li>
+<li><b>Best for:</b> indoor shows and lobbies where you have a floor but nothing to hang from.</li>
+<li><b>Limits:</b> retractable stands are made for indoor use, because wind catches them outdoors.</li>
+</ul>
+<p>See the <a href="/retractable-banners/">retractable banners</a> page for details.</p>
+<h2>Vinyl banners</h2>
+<ul class="ticks">
+<li><b>What it is:</b> a printed banner with hemmed edges and metal grommets, or pole pockets, that you hang or tie up.</li>
+<li><b>Materials:</b> 13 oz standard, 18 oz heavy duty, or mesh wind-through for fences and windy spots.</li>
+<li><b>Prices:</b> from $44 for 2×4 ft. 3×6 ft is $59, 3×10 ft is $79 and 4×8 ft is $89 in the standard material.</li>
+<li><b>Best for:</b> outdoor events, storefronts, fences, job sites and anywhere you can hang it.</li>
+<li><b>Limits:</b> it needs something to attach to, such as a fence, rail or wall.</li>
+</ul>
+<p>See the <a href="/vinyl-banners/">vinyl banners</a> page for sizes, or read the <a href="/blog/vinyl-banner-size-guide/">vinyl banner size guide</a>.</p>
+<h2>Side by side</h2>
+<ul class="ticks">
+<li><b>Indoors, no wall or rail:</b> retractable.</li>
+<li><b>Outdoors:</b> vinyl.</li>
+<li><b>Reuse at many events:</b> retractable. It packs into its bag and sets up again in about a minute.</li>
+<li><b>Lowest cost for a large print:</b> vinyl.</li>
+<li><b>Windy fence:</b> mesh vinyl.</li>
+</ul>
+<h2>Using both</h2>
+<p>Many vendors use both: a vinyl banner outside the tent or on the fence to pull people in, and a retractable banner at the booth. For a full setup, see the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> or the <a href="/blog/tent-vs-feather-flag-for-events/">tent vs feather flag</a> guide.</p>
+<p>Every order includes a free digital proof, 3 revisions and free shipping in the lower 48. You can <a href="/design/retractable-banner/">design a retractable banner</a> or <a href="/design/vinyl-banner/">design a vinyl banner</a> online first.</p>
+''',
+),
+dict(
+ slug='trade-show-booth-ideas-industrial-expos',
+ title='Trade Show Booth Ideas for Industrial Expos | Get Seen Signs',
+ desc='Trade show booth ideas for industrial, manufacturing and gun show exhibitors: what to put on the throw, banner and flag, plus a checklist and kit pricing.',
+ h1='Trade show booth ideas for industrial and manufacturing expos',
+ date='2026-11-03', kicker='Events',
+ img='/assets/img/g-15-trade-show-booth-kit-2.jpg', img_alt='Trade show booth with a logo table throw, retractable banner and feather flag',
+ quote='Trade Show Booth Kit',
+ lede="On a show floor full of similar booths, a clear message and matching pieces win the stop. Here are practical ideas for industrial, manufacturing and gun show exhibitors, what to print on each piece, and what a matched kit costs.",
+ html='''
+<h2>Start with one message</h2>
+<p>Decide the one thing a passerby should learn in three seconds: what you make or sell, and who it's for. Put that on every piece, in the same colors and fonts, so the booth reads as one display.</p>
+<h2>What goes on each piece</h2>
+<h3>The retractable banner (33×81 in)</h3>
+<p>People read it at eye level from a few steps away. Put your logo and main message in the top half. The bottom 10 inches or so sit behind tables and feet, so keep anything important out of that zone. A <a href="/retractable-banners/">retractable banner</a> is $109.</p>
+<h3>The table throw</h3>
+<p>Your name at table height, with the front panel in full color. It also hides cases and boxes under the table. A 3-sided throw leaves the back open so you can reach stock. See <a href="/table-throws/">table throws</a>, from $139 for a 6 ft table.</p>
+<h3>The feather flag</h3>
+<p>A tall, narrow sign people can spot from across the hall. Keep it to your name and one word about what you do. See <a href="/feather-flags/">feather flags</a>, from $129.</p>
+<h3>A tabletop banner or QR code</h3>
+<p>Put a QR code or a short web address where people are already looking: at the front of the table, on a <a href="/tabletop-retractable-banners/">tabletop retractable banner</a> ($69), pointing to your spec sheet, catalog or quote form.</p>
+<h2>The matched kit</h2>
+<p>The <a href="/trade-show-booth-kit/">trade show booth kit</a> bundles a 6 ft 3-sided table throw, a 33×81 retractable banner and a 10.5 ft feather flag for $339. Bought separately, the three pieces run $377, so the kit saves $38. Free shipping in the lower 48.</p>
+<p>The kit's flag comes with a ground spike, which suits outdoor and tailgate-style shows. For a hard indoor floor, choose a cross-base flag (from $139) instead. For an 8 ft or 4-sided throw, a bigger banner or a taller flag, message us for a kit quote.</p>
+<h2>Booth checklist</h2>
+<ul class="ticks">
+<li>Read the exhibitor manual: booth size, height limits, flag and tent rules, power and setup times.</li>
+<li>Bring product samples or spec sheets people can pick up and handle.</li>
+<li>A sign-up sheet or QR code so you can follow up after the show.</li>
+<li>Tape, zip ties, clips, extension cord and a power strip.</li>
+<li>Business cards and a card reader if you sell on the floor.</li>
+</ul>
+<h2>Design tips</h2>
+<ul class="ticks">
+<li><b>Big, short text.</b> Fewer words means bigger letters you can read from the aisle.</li>
+<li><b>Strong contrast.</b> Dark on light or light on dark. Avoid thin fonts.</li>
+<li><b>Use your real logo file.</b> Send a clear, high-resolution file and check the free proof.</li>
+</ul>
+<p>For a full packing list, see the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a>. Plan well ahead: production and shipping time is on each product page, and every order includes a free digital proof with 3 revisions.</p>
+''',
+),
 ]
 
 # Gameday / tailgate category page. NO TRADEMARKS: no team, school or league names, logos, mascots or slogans.
