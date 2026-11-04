@@ -239,7 +239,7 @@ dict(
 </ul>
 <h2>When to order</h2>
 <p>Every order starts with a free digital proof, with 3 revisions included. Production and shipping time is listed on each product page. Order well ahead of your event so there's room for proof changes and shipping, and don't wait for the week of.</p>
-<p>Keep reading: <a href="/blog/trade-show-booth-ideas-industrial-expos/">trade show booth ideas for industrial expos</a>, the <a href="/blog/table-throw-size-guide/">table throw size guide</a>, the <a href="/blog/step-and-repeat-backdrop-size-guide/">step and repeat size guide</a> and <a href="/blog/retractable-vs-vinyl-banner/">retractable vs vinyl banner</a>.</p>
+<p>Keep reading: <a href="/blog/trade-show-booth-ideas-industrial-expos/">trade show booth ideas for industrial expos</a>, the <a href="/blog/table-throw-size-guide/">table throw size guide</a>, the <a href="/blog/step-and-repeat-backdrop-size-guide/">step and repeat size guide</a> and <a href="/blog/retractable-vs-vinyl-banner/">retractable vs vinyl banner</a>. Picking a flag? See the <a href="/blog/feather-flag-size-guide/">feather flag size guide</a>.</p>
 ''',
 ),
 dict(
@@ -332,7 +332,7 @@ dict(
 <p>Read the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> for a full packing list, or the <a href="/blog/custom-10x10-canopy-tent-buying-guide/">tent buying guide</a> for details on frame and fabric.</p>
 <h2>Next step</h2>
 <p>All prices include a free digital proof and free shipping in the lower 48. You can <a href="/design/feather-flag/">design a flag online</a> or <a href="/design/canopy-tent/">design a tent online</a> and see it in 3D before ordering.</p>
-<p>Exhibiting indoors? See <a href="/blog/trade-show-booth-ideas-industrial-expos/">trade show booth ideas for industrial expos</a>.</p>
+<p>Exhibiting indoors? See <a href="/blog/trade-show-booth-ideas-industrial-expos/">trade show booth ideas for industrial expos</a>. Not sure which height of flag? See the <a href="/blog/feather-flag-size-guide/">feather flag size guide</a>.</p>
 ''',
 ),
 dict(
@@ -422,7 +422,7 @@ dict(
 <h2>Setting them up</h2>
 <p>Push the H-stake into the ground with the sign slid onto the wires. Check your local rules and any property or event requirements before placing signs on public or shared property.</p>
 <h2>Related</h2>
-<p>Planning a wider setup? See the <a href="/blog/vinyl-banner-size-guide/">vinyl banner size guide</a> for fences and storefronts, or the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> for events. You can also <a href="/design/yard-signs/">design a yard sign online</a> and see it in 3D before you order. Every price includes free shipping in the lower 48.</p>
+<p>Planning a wider setup? See the <a href="/blog/vinyl-banner-size-guide/">vinyl banner size guide</a> for fences and storefronts, or the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> for events. You can also <a href="/design/yard-signs/">design a yard sign online</a> and see it in 3D before you order. Every price includes free shipping in the lower 48. Run a work truck too? The <a href="/blog/car-magnet-size-guide/">car magnet size guide</a> covers door sizes.</p>
 ''',
 ),
 dict(
@@ -588,6 +588,91 @@ dict(
 <li><b>Use your real logo file.</b> Send a clear, high-resolution file and check the free proof.</li>
 </ul>
 <p>For a full packing list, see the <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a>. Plan well ahead: production and shipping time is on each product page, and every order includes a free digital proof with 3 revisions.</p>
+''',
+),
+dict(
+ slug='feather-flag-size-guide',
+ title='Feather Flag Size Guide: 10.5, 14 or 18 ft | Get Seen Signs',
+ desc='Feather flag sizes explained: 10.5, 14 and 18 ft, ground spike vs cross base, where each height works, and what each kit costs. Pick the right flag.',
+ h1='Feather flag size guide: 10.5, 14 or 18 ft, spike or cross base',
+ date='2026-11-04', kicker='Events',
+ img='/assets/img/g-04-feather-flag-2.jpg', img_alt='Two red custom feather flags in front of a car lot',
+ quote='Feather Flag Kit',
+ lede="A feather flag is the cheapest sign that moves, and movement is what catches the eye from the road. The two decisions are the height and the base. Here's how to choose, with what each kit costs.",
+ html='''
+<h2>Step 1: Pick a height</h2>
+<p>Our <a href="/feather-flags/">feather flag kits</a> come in three heights: 10.5 ft, 14 ft and 18 ft. The height is the whole kit standing up, pole and flag together. Taller flags are seen from farther away, so match the height to how far your customers are when they first look.</p>
+<h3>10.5 ft</h3>
+<p>The storefront and booth size. It stands beside a door, a 10x10 tent or a market table without towering over them, and it is the flag included in the <a href="/trade-show-booth-kit/">trade show booth kit</a>. Pick this when people are already on foot nearby.</p>
+<h3>14 ft</h3>
+<p>The roadside size. Use it at the edge of a parking lot, along a storefront that sits back from the street, or at an open house where drivers need to spot you from a block away.</p>
+<h3>18 ft</h3>
+<p>The biggest kit, for car lots, large parking lots and frontage on fast roads, where the flag has to clear parked vehicles and be seen from farther back. Check for overhead lines and low branches before you put one up.</p>
+<h2>Step 2: Spike or cross base</h2>
+<p>The <b>ground spike</b> goes into grass or dirt. The <b>cross base with a water bag</b> stands on pavement, sidewalks, decks and indoor floors, anywhere you can't push a spike into the ground. If you will use the flag in both kinds of spots, the cross base is the safer buy. Every kit includes the flag, the pole, the base you choose and a carry bag.</p>
+<h2>What each kit costs</h2>
+<ul class="ticks">
+<li><b>10.5 ft:</b> $129 with a ground spike, $139 with a cross base.</li>
+<li><b>14 ft:</b> $139 with a ground spike, $149 with a cross base.</li>
+<li><b>18 ft:</b> $149 with a ground spike, $169 with a cross base.</li>
+</ul>
+<p>Every kit includes a free custom design, a free digital proof with 3 revisions and free shipping in the lower 48.</p>
+<h2>Which height should you buy?</h2>
+<ul class="ticks">
+<li><b>Storefront, sidewalk or restaurant patio:</b> 10.5 ft on a cross base.</li>
+<li><b>Vendor booth, market or festival:</b> 10.5 ft. On grass use the spike; on pavement use the cross base.</li>
+<li><b>Open house or yard sale:</b> 10.5 ft or 14 ft on a spike in the lawn.</li>
+<li><b>Car lot, parking lot or roadside:</b> 14 ft or 18 ft. Go taller when parked vehicles sit between the flag and the road.</li>
+<li><b>A row of flags:</b> keep them all the same height so the line reads as one sign.</li>
+</ul>
+<h2>Wind, weather and indoor use</h2>
+<p>Feather flags are built to flex and move in a breeze, which is what makes them catch the eye. Take them down in storms and high wind, as you would any flag. Indoors, use the cross base; the ground spike is for outdoor use only. The flag is dye-sublimated polyester on a fiberglass and aluminum pole.</p>
+<h2>Design tips</h2>
+<ul class="ticks">
+<li>Say one thing. Your name and one word about what you do is what a driver can read in two seconds.</li>
+<li>Use big letters and strong contrast, light on dark or dark on light.</li>
+<li>Keep the main words toward the middle of the flag, away from the pole edge and the tip, which move the most.</li>
+<li>Use the <a href="/design/feather-flag/">online designer</a> to see your flag on the kit before you order, then check the free proof. Nothing prints until you approve it.</li>
+</ul>
+<h2>Keep reading</h2>
+<p>Deciding between a flag and a tent? See <a href="/blog/tent-vs-feather-flag-for-events/">tent vs feather flag for events</a>. Building a booth? The <a href="/blog/vendor-booth-setup-checklist/">vendor booth setup checklist</a> covers the rest, and the <a href="/trade-show-booth-kit/">trade show booth kit</a> bundles a 10.5 ft flag with a table throw and a retractable banner for $339.</p>
+''',
+),
+dict(
+ slug='car-magnet-size-guide',
+ title='Car Magnet Size Guide: 12x18 vs 18x24 | Get Seen Signs',
+ desc='Car door magnet sizes explained: 12x18 vs 18x24, how to measure your door, which vehicles hold a magnet, and what a pair costs. Sold in pairs from $74.',
+ h1='Car magnet size guide: 12×18 or 18×24, and will it stick to your door',
+ date='2026-11-04', kicker='Signs',
+ img='/assets/img/g-06-car-magnet-2.jpg', img_alt='Custom car magnet on the side door of a white work van',
+ quote='Car Magnet Pair',
+ lede="A pair of door magnets is the cheapest way to put your business on the road, and the easiest to take off when the truck is off duty. The size decision comes down to how much flat steel each door has. Here's how to measure, which size fits which vehicle, and what a pair costs.",
+ html='''
+<h2>Step 1: Measure the flat part of your door</h2>
+<p>A magnet only holds on flat steel. It will not grip across a body line, a crease, trim or a plastic panel, and if part of it hangs over an edge or a curve, wind at highway speed will work it loose. Measure the flat rectangle on the door between the body lines and the door edges, and leave at least an inch of flat steel around where the magnet will sit.</p>
+<h2>Step 2: Pick a size</h2>
+<p>Our <a href="/car-magnets/">car magnets</a> come in two sizes, both sold as a pair for the driver and passenger doors.</p>
+<h3>12×18 in</h3>
+<p>Fits most cars, small SUVs and compact pickups, and any door with body lines that break up the flat area. The usual pick for a personal vehicle that doubles as the work truck.</p>
+<h3>18×24 in</h3>
+<p>For full-size pickups, cargo vans and SUVs with a large flat door panel. The bigger face lets you run larger letters, which is what makes a magnet readable from the next lane.</p>
+<p>Both sizes are $74 a pair, so choose by the door, not the price. When in doubt, go with the size that leaves a clean margin of flat steel all the way round.</p>
+<h2>Will it stick to your vehicle?</h2>
+<p>Only to flat steel. Test the spot with a fridge magnet before you order. Many newer trucks use aluminum body panels, and fiberglass panels will not hold a magnet either. If your doors fail the fridge magnet test, a magnet is not the right product for that vehicle; a <a href="/vinyl-banners/">vinyl banner</a> at the job site or a pack of <a href="/bulk-campaign-signs/">yard signs</a> may do the job instead.</p>
+<h2>Design tips</h2>
+<ul class="ticks">
+<li>Three things, big: your name, what you do, and one way to reach you. A phone number or a short web address, not both small.</li>
+<li>Letters you can read from 30 feet away in traffic. On a 12×18 that means one or two lines of large type, not a paragraph.</li>
+<li>Strong contrast and a plain background. A white or solid-color magnet reads better than a busy photo.</li>
+<li>Keep everything inside a margin. The magnet has rounded corners and sits on a curved door, so the edges are the hardest part to read.</li>
+<li>Use the <a href="/design/car-magnet/">online designer</a> to see the pair on a door, then check the free digital proof. You get 3 revisions, and nothing prints until you approve.</li>
+</ul>
+<h2>Care</h2>
+<p>Apply to a clean, dry door. Take the magnets off and wipe both the magnet and the door every week or so, and remove them before an automatic car wash. The magnets are 30 mil vehicle-grade material with a UV laminate and rounded corners.</p>
+<h2>What you get</h2>
+<p>Two magnets, one for each front door, with a free custom design, a free digital proof and free shipping in the lower 48. Production and shipping time is listed on the <a href="/car-magnets/">product page</a>.</p>
+<h2>Keep reading</h2>
+<p>Contractors and crews usually pair magnets with <a href="/blog/bulk-yard-signs-pack-size-guide/">yard signs at the job site</a> and a <a href="/blog/vinyl-banner-size-guide/">vinyl banner</a> on the fence. Both guides cover sizes and prices.</p>
 ''',
 ),
 ]
