@@ -417,7 +417,7 @@ for p in P:
     if ql:
         _qs=urllib.parse.urlencode({'product':p['short'],'quantity':ql['minimum'],'details':ql['prefill']},quote_via=urllib.parse.quote_plus)
         _rows=''.join(f'<div><dt>{e(n)}</dt><dd>{money(v)} each</dd></div>' for n,v in ql['tiers'])
-        quote_line_html=f'''<section class="sec paper" id="showdown">
+        quote_line_html=f'''<section class="sec paper" id="premium-tents">
   <div class="wrap prose">
     <h2>{e(ql["heading"])}</h2>
     <p>{e(ql["intro"])}</p>

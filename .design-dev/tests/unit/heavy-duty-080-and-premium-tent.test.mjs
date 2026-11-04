@@ -33,11 +33,11 @@ test('the safety page lists the .080 pack everywhere it lists pack prices', () =
 });
 
 test('the premium tent line is quote only: priced on the page, no SKU, no checkout, no offer, no mailto', () => {
-  assert.deepEqual(Object.keys(CATALOG).filter((k) => /showdown|premium|elite/i.test(k + CATALOG[k].name)), []);
-  assert.doesNotMatch(JSON.stringify(order), /showdown/i);
+  assert.deepEqual(Object.keys(CATALOG).filter((k) => /premium|elite/i.test(k + CATALOG[k].name)), []);
+  assert.doesNotMatch(JSON.stringify(order), /premium|elite/i);
   const html = read('custom-canopy-tents/index.html');
-  const section = /<section class="sec paper" id="showdown">([\s\S]*?)<\/section>/.exec(html);
-  assert.ok(section, 'showdown section exists');
+  const section = /<section class="sec paper" id="premium-tents">([\s\S]*?)<\/section>/.exec(html);
+  assert.ok(section, 'premium tent section exists');
   assert.match(section[1], /Premium<\/dt><dd>\$1,099 each/);
   assert.match(section[1], /Elite<\/dt><dd>\$1,849 each/);
   assert.match(section[1], /Minimum<\/dt><dd>6 tents/);
