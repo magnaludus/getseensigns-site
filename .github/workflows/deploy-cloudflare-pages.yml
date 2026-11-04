@@ -3,6 +3,11 @@ name: Deploy to Cloudflare Pages
 on:
   push:
     branches: [main]
+    # These paths are never deployed (dot-directories are excluded from the rsync), so a change to
+    # tests or workflows alone does not spend a deploy run.
+    paths-ignore:
+      - '.design-dev/**'
+      - '.github/**'
   workflow_dispatch:
 
 concurrency:
