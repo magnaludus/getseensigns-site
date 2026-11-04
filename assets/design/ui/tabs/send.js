@@ -1,4 +1,4 @@
-import { h, icon } from '../dom.js';
+import { h, iconEl } from '../dom.js';
 import { createSummary } from '../summary.js';
 import { collectWarnings } from '../../model/review.js';
 import { debounce } from '../dom.js';
@@ -20,7 +20,7 @@ export function createSendTab(ctx) {
     const list = collectWarnings(S.doc, env, S.assets);
     if (!list.length) return;
     warnBox.append(h('h2', { class: 'dz-h3' }, 'Worth a look'));
-    for (const w of list.slice(0, 6)) warnBox.append(h('p', { class: 'dz-warn' }, icon('warning', 18), ' ', w.message));
+    for (const w of list.slice(0, 6)) warnBox.append(h('p', { class: 'dz-warn' }, iconEl('warning', 18), ' ', w.message));
     warnBox.append(h('p', { class: 'dz-help' }, "You can still send. We'll fix these on your proof."));
   }
   const later = debounce(render, 250);

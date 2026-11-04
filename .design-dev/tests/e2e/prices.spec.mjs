@@ -35,7 +35,7 @@ test('prices in the page match the catalog for every option', async () => {
       assert.deepEqual(problems, [], product.id + ' console problems');
       await page.context().close();
     }
-    assert.equal(checked, 56);
+    assert.equal(checked, 58); // every combination in catalog.json; bump this when a product gains an option
   } finally {
     await browser.close();
     server.stop();

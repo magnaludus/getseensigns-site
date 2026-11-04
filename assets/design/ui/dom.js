@@ -68,6 +68,14 @@ export function icon(name, size = 22) {
   return `<svg class="ic" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="${d}"/></svg>`;
 }
 
+// The same icon as a real element, for use as a child of h(): h() turns strings into text nodes, so passing icon()
+// directly would print the markup as text. The markup comes only from the fixed PATHS table, never from user input.
+export function iconEl(name, size = 22) {
+  const t = document.createElement('template');
+  t.innerHTML = icon(name, size);
+  return t.content.firstElementChild;
+}
+
 // A button with an icon and an accessible name. Pass text to show a visible label as well.
 export function iconButton(name, label, onClick, opts = {}) {
   const btn = h('button', { type: 'button', class: 'dz-btn-icon' + (opts.class ? ' ' + opts.class : ''), 'aria-label': label, title: label, onclick: onClick });

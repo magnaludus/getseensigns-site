@@ -31,8 +31,8 @@ test('order panel: price, paths, designer link and submit on a banner page', asy
       assert.equal(await page.locator('.ord-details').isHidden(), true);
       // upload path needs a file
       await page.locator('input[name="path"][value="upload"]').check();
-      await page.locator('input[name="name"]').fill('Pat Smith');
-      await page.locator('input[name="email"]').fill('pat@example.com');
+      await page.locator('#order-form input[name="name"]').fill('Pat Smith');
+      await page.locator('#order-form input[name="email"]').fill('pat@example.com');
       await page.locator('#ord-submit').click();
       assert.match(await page.locator('#ord-status').innerText(), /Choose your artwork/);
       assert.equal(posted, null, 'nothing is sent without a file');
@@ -59,8 +59,8 @@ test('shop page and nav: Shop is in the desktop nav and the phone header, and ev
     const desktop = await newPage(browser, 'desktop');
     await desktop.page.goto(server.base + '/shop/');
     assert.equal(await desktop.page.locator('.nav-links a', { hasText: 'Shop' }).first().isVisible(), true);
-    assert.equal(await desktop.page.locator('.shop-card').count(), 18, '17 product pages, the holiday page shows its Christmas and Thanksgiving items separately');
-    assert.equal(await desktop.page.locator('.shop-card a.btn', { hasText: 'Start my order' }).count(), 18);
+    assert.equal(await desktop.page.locator('.shop-card').count(), 21, '20 product pages, the holiday page shows its Christmas and Thanksgiving items separately');
+    assert.equal(await desktop.page.locator('.shop-card a.btn', { hasText: 'Start my order' }).count(), 21);
     await desktop.page.locator('.shop-card a.btn').first().click();
     assert.match(desktop.page.url(), /\/bulk-campaign-signs\/#order$/);
     await desktop.context.close();
@@ -154,8 +154,8 @@ test('custom patches: three priced choices, upload or "we design it" only, no Et
       assert.equal(await page.locator('a[href*="etsy.com/listing"]').count(), 0, 'no Etsy listing link');
       assert.equal(await page.locator('a.btn', { hasText: 'Order on Etsy' }).count(), 0);
       await sel.selectOption('emb50');
-      await page.locator('input[name="name"]').fill('Pat Smith');
-      await page.locator('input[name="email"]').fill('pat@example.com');
+      await page.locator('#order-form input[name="name"]').fill('Pat Smith');
+      await page.locator('#order-form input[name="email"]').fill('pat@example.com');
       await page.locator('#ord-files').setInputFiles({ name: 'logo.png', mimeType: 'image/png', buffer: Buffer.from('89504e470d0a1a0a', 'hex') });
       await page.locator('#ord-submit').click();
       await page.locator('.ord-done').waitFor();
@@ -190,8 +190,8 @@ test('metal business cards: seven priced choices, upload or "we design it" only,
     assert.equal(await page.locator('#ord-path-designer').count(), 0);
     assert.equal(await page.locator('a[href*="etsy.com/listing"]').count(), 0);
     await sel.selectOption('blk100');
-    await page.locator('input[name="name"]').fill('Pat Smith');
-    await page.locator('input[name="email"]').fill('pat@example.com');
+    await page.locator('#order-form input[name="name"]').fill('Pat Smith');
+    await page.locator('#order-form input[name="email"]').fill('pat@example.com');
     await page.locator('#ord-files').setInputFiles({ name: 'logo.png', mimeType: 'image/png', buffer: Buffer.from('89504e470d0a1a0a', 'hex') });
     await page.locator('#ord-submit').click();
     await page.locator('.ord-done').waitFor();
@@ -222,8 +222,8 @@ test('real estate add-ons are priced and sent as their own lines', async () => {
     assert.match(await page.locator('#ord-total').innerText(), /\$103/);
     await page.locator('input[name="path"][value="dfm"]').check();
     await page.locator('textarea[name="wording"]').fill('Lionheart Realty, open house Sunday');
-    await page.locator('input[name="name"]').fill('Pat Smith');
-    await page.locator('input[name="email"]').fill('pat@example.com');
+    await page.locator('#order-form input[name="name"]').fill('Pat Smith');
+    await page.locator('#order-form input[name="email"]').fill('pat@example.com');
     await page.locator('#ord-submit').click();
     await page.locator('.ord-done').waitFor();
     for (const sku of ['re-coroplast', 're-rider', 're-post']) assert.ok(posted.includes(`"sku":"${sku}","quantity":1`), sku);
