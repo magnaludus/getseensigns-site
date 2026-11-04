@@ -1,4 +1,4 @@
-// Heavy-duty .080 safety sign pack (a normal checkout SKU) and the premium tent premium canopy line (quote only).
+// Heavy-duty .080 safety sign pack (a normal checkout SKU) and the premium canopy tent line (quote only).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
