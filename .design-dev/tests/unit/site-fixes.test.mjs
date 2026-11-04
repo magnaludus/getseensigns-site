@@ -204,7 +204,7 @@ test('sitemap dates come from the build date (America/New_York, or BUILD_DATE) a
   const dates = [...sm.matchAll(/<loc>([^<]+)<\/loc><lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g)];
   assert.ok(dates.length >= 37);
   const lastmod = (path) => dates.find((m) => m[1] === 'https://getseensignsco.com' + path)[2];
-  assert.equal(lastmod('/terms'), '2026-10-30');
+  assert.equal(lastmod('/terms'), '2026-11-03');
   assert.equal(lastmod('/privacy'), '2026-10-30');
   assert.equal(lastmod('/contact'), '2026-10-28');
   assert.equal(lastmod('/quote'), '2026-10-28');

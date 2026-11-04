@@ -777,7 +777,7 @@ write_doc('/about', 'About Get Seen Signs | Veteran-Owned Sign Shop',
 # ---------- sitemap, robots ----------
 LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
 LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
-LASTMOD['/terms']='2026-10-30'; LASTMOD['/contact']='2026-10-28'
+LASTMOD['/terms']='2026-11-03'; LASTMOD['/contact']='2026-10-28'
 LASTMOD['/privacy']='2026-10-30'; LASTMOD['/quote']='2026-10-28'
 LASTMOD['/about']=TODAY; LASTMOD['/shipping-returns']=TODAY
 urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/event-booth-bundles/','/reorder/','/about','/shipping-returns','/terms','/privacy','/contact','/quote']
