@@ -1,7 +1,7 @@
 // "Get my free proof" and "Rather we design it?": review, contact form and send. Nothing here talks to a
 // server except POST /api/design-proof. It never opens the visitor's email app: if sending fails the form
 // stays open with everything typed, says so plainly, and offers Try again, call or text (334) 232-9003.
-import { h, icon } from './dom.js';
+import { h, icon, iconEl } from './dom.js';
 import { createSummary } from './summary.js';
 import { sideThumb } from '../render/thumbs.js';
 import { sideDisplay } from '../render/displaylist.js';
@@ -147,7 +147,7 @@ export function createProof(ctx) {
     const warnBox = h('div', { class: 'dz-warnings' });
     if (warnings.length) {
       warnBox.append(h('h2', { class: 'dz-h3' }, 'Worth a look'));
-      for (const w of warnings.slice(0, 8)) warnBox.append(h('p', { class: 'dz-warn' }, icon('warning', 18), ' ', w.message));
+      for (const w of warnings.slice(0, 8)) warnBox.append(h('p', { class: 'dz-warn' }, iconEl('warning', 18), ' ', w.message));
       warnBox.append(h('p', { class: 'dz-help' }, "You can still send it. We'll fix these on your proof."));
     }
     body.append(

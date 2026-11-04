@@ -158,8 +158,8 @@ test('touch flow on a phone, from template to proof request', async () => {
     await page.getByRole('heading', { name: 'Check your design' }).waitFor();
     await noHorizontalScroll(page, 'review dialog');
     await page.getByRole('button', { name: 'Continue' }).tap();
-    await page.locator('input[autocomplete="name"]').fill('Phone Customer');
-    await page.locator('input[type="email"]').fill('phone@example.com');
+    await page.locator('dialog input[autocomplete="name"]').fill('Phone Customer');
+    await page.locator('dialog input[type="email"]').fill('phone@example.com');
     await page.getByRole('button', { name: 'Send my design' }).tap();
     await page.locator('dialog .dz-warn', { hasText: 'Online requests are paused' }).waitFor();
     assert.equal(await page.locator('dialog .dz-warn a[href="tel:+13342329003"]').count(), 1);

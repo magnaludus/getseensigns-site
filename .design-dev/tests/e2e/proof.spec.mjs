@@ -10,10 +10,10 @@ async function fillAndSend(page, { skipHoney = true } = {}) {
   await page.getByRole('button', { name: 'Get my free proof' }).first().click();
   await page.getByRole('heading', { name: 'Check your design' }).waitFor();
   await page.getByRole('button', { name: 'Continue' }).click();
-  await page.locator('input[autocomplete="name"]').fill('Test Customer');
-  await page.locator('input[type="email"]').fill('customer@example.com');
-  await page.locator('input[type="tel"]').fill('334-555-0100');
-  await page.locator('textarea').fill('Please make the name bigger.');
+  await page.locator('dialog input[autocomplete="name"]').fill('Test Customer');
+  await page.locator('dialog input[type="email"]').fill('customer@example.com');
+  await page.locator('dialog input[type="tel"]').fill('334-555-0100');
+  await page.locator('dialog textarea').fill('Please make the name bigger.');
   await page.getByRole('button', { name: 'Send my design' }).click();
 }
 

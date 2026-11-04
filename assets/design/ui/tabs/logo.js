@@ -1,4 +1,4 @@
-import { h, icon } from '../dom.js';
+import { h, icon, iconEl } from '../dom.js';
 import { addLogoFile, removeLogoById, MAX_LOGOS } from '../logos.js';
 import { placeLogo, findElement, updateElement } from '../../model/document.js';
 import { dpiLevel, effectiveDpi } from '../../model/specs.js';
@@ -76,7 +76,7 @@ export function createLogoTab(ctx) {
     if (asset) {
       const spec = actions.spec();
       if (asset.vector) {
-        detail.append(h('p', { class: 'dz-badge is-green' }, icon('check', 18), ' Vector artwork: sharp at any size'));
+        detail.append(h('p', { class: 'dz-badge is-green' }, iconEl('check', 18), ' Vector artwork: sharp at any size'));
       } else {
         const dpi = effectiveDpi(asset.w, e.w);
         const level = dpiLevel(dpi, spec.dpi);

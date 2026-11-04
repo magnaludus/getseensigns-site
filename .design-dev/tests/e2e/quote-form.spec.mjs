@@ -51,8 +51,8 @@ test('success shows the reference and clears the form; validation errors and rat
     const seen = watchNavigation(page);
     await fill(page);
     await page.locator('#quote-form button[type="submit"]').click();
-    await page.locator('.form-status', { hasText: 'QR-TESTTEST' }).waitFor();
-    assert.match(await page.locator('.form-status').innerText(), /Thanks! We got your request \(reference QR-TESTTEST\)/);
+    await page.locator('#quote-form .form-status', { hasText: 'QR-TESTTEST' }).waitFor();
+    assert.match(await page.locator('#quote-form .form-status').innerText(), /Thanks! We got your request \(reference QR-TESTTEST\)/);
     assert.match(posted, /name="elapsedMs"/);
     assert.match(posted, /name="attempt"\r\n\r\n[0-9a-f]{24}\r\n/, 'an attempt id travels with the request');
     assert.match(posted, /Vinyl Banner/);
@@ -63,12 +63,12 @@ test('success shows the reference and clears the form; validation errors and rat
     answer = { status: 400, body: { ok: false, error: 'fields', fields: ['email'] } };
     await fill(page);
     await page.locator('#quote-form button[type="submit"]').click();
-    await page.locator('.form-status', { hasText: 'a valid email' }).waitFor();
+    await page.locator('#quote-form .form-status', { hasText: 'a valid email' }).waitFor();
     assert.equal(await page.locator('#quote-form input[name="name"]').inputValue(), 'Pat Smith', 'what was typed is kept');
 
     answer = { status: 429, body: { ok: false, error: 'rate' } };
     await page.locator('#quote-form button[type="submit"]').click();
-    await page.locator('.form-status', { hasText: 'try again later' }).waitFor();
+    await page.locator('#quote-form .form-status', { hasText: 'try again later' }).waitFor();
     assert.equal(await page.locator('#quote-form input[name="name"]').inputValue(), 'Pat Smith');
     nothingOpened(seen, server.base);
   });
@@ -85,9 +85,9 @@ test('503 (online requests off): no email app, no retries, answers kept, Try aga
     const seen = watchNavigation(page);
     await fill(page);
     await page.locator('#quote-form button[type="submit"]').click();
-    await page.locator('.form-status.err', { hasText: 'Online requests are paused' }).waitFor();
+    await page.locator('#quote-form .form-status.err', { hasText: 'Online requests are paused' }).waitFor();
     assert.equal(posts, 1, 'a switched-off endpoint is not hammered');
-    const status = page.locator('.form-status');
+    const status = page.locator('#quote-form .form-status');
     assert.equal(await status.locator('a[href="tel:+13342329003"]').count(), 1);
     assert.equal(await status.locator('a[href^="sms:+13342329003"]').count(), 1);
     assert.equal(await status.locator('a[href^="mailto:"]').count(), 0);
@@ -111,8 +111,8 @@ test('a server error is retried by itself with the same attempt id, then succeed
     const seen = watchNavigation(page);
     await fill(page);
     await page.locator('#quote-form button[type="submit"]').click();
-    await page.locator('.form-status', { hasText: 'still trying' }).waitFor();
-    await page.locator('.form-status', { hasText: 'QR-TESTTEST' }).waitFor({ timeout: 15000 });
+    await page.locator('#quote-form .form-status', { hasText: 'still trying' }).waitFor();
+    await page.locator('#quote-form .form-status', { hasText: 'QR-TESTTEST' }).waitFor({ timeout: 15000 });
     assert.equal(attempts.length, 3);
     assert.equal(new Set(attempts).size, 1, 'every try of the same answers carries the same attempt id');
     assert.equal(await page.locator('#quote-form input[name="name"]').inputValue(), '');
@@ -133,10 +133,10 @@ test('network failure: three tries, a friendly message, answers kept, saved on t
     const seen = watchNavigation(page);
     await fill(page);
     await page.locator('#quote-form button[type="submit"]').click();
-    await page.locator('.form-status.err', { hasText: 'That did not go through' }).waitFor({ timeout: 15000 });
+    await page.locator('#quote-form .form-status.err', { hasText: 'That did not go through' }).waitFor({ timeout: 15000 });
     assert.equal(attempts.length, 3, 'one try and two automatic retries');
-    assert.match(await page.locator('.form-status').innerText(), /What you typed is still here/);
-    assert.equal(await page.locator('.form-status a[href="tel:+13342329003"]').count(), 1);
+    assert.match(await page.locator('#quote-form .form-status').innerText(), /What you typed is still here/);
+    assert.equal(await page.locator('#quote-form .form-status a[href="tel:+13342329003"]').count(), 1);
     assert.equal(await page.locator('#quote-form input[name="email"]').inputValue(), 'pat@example.com');
 
     const draft = JSON.parse(await page.evaluate(() => localStorage.getItem('gss-quote-draft')));
@@ -146,13 +146,13 @@ test('network failure: three tries, a friendly message, answers kept, saved on t
     await page.reload();
     assert.equal(await page.locator('#quote-form input[name="name"]').inputValue(), 'Pat Smith', 'the draft comes back after a reload');
     assert.equal(await page.locator('#quote-form select[name="product"]').inputValue(), 'Vinyl Banner');
-    await page.locator('.form-status', { hasText: 'We kept what you typed' }).waitFor();
+    await page.locator('#quote-form .form-status', { hasText: 'We kept what you typed' }).waitFor();
 
     mode = 'ok';
     attempts.length = 0;
     await page.locator('#quote-form input[name="quantity"]').fill('9');
     await page.locator('#quote-form button[type="submit"]').click();
-    await page.locator('.form-status', { hasText: 'QR-TESTTEST' }).waitFor({ timeout: 15000 });
+    await page.locator('#quote-form .form-status', { hasText: 'QR-TESTTEST' }).waitFor({ timeout: 15000 });
     assert.equal(attempts.length, 1);
     assert.equal(await page.evaluate(() => localStorage.getItem('gss-quote-draft')), null);
     nothingOpened(seen, server.base);
@@ -166,11 +166,11 @@ test('saved but the shop email failed: the page shows the reference and says to 
     const seen = watchNavigation(page);
     await fill(page);
     await page.locator('#quote-form button[type="submit"]').click();
-    await page.locator('.form-status', { hasText: 'QR-SAVED999' }).waitFor();
-    const text = await page.locator('.form-status').innerText();
+    await page.locator('#quote-form .form-status', { hasText: 'QR-SAVED999' }).waitFor();
+    const text = await page.locator('#quote-form .form-status').innerText();
     assert.match(text, /Your request is saved/);
     assert.match(text, /call or text \(334\) 232-9003/);
-    assert.equal(await page.locator('.form-status.err').count(), 0);
+    assert.equal(await page.locator('#quote-form .form-status.err').count(), 0);
     nothingOpened(seen, server.base);
   });
 });
@@ -192,7 +192,7 @@ test('/quote and /contact carry the same working form and the "Email us" buttons
       else assert.equal(await page.locator('#quote-form select[name="product"]').inputValue(), 'Something else');
       await page.waitForTimeout(3100);
       await page.locator('#quote-form button[type="submit"]').click();
-      await page.locator('.form-status', { hasText: 'QR-TESTTEST' }).waitFor();
+      await page.locator('#quote-form .form-status', { hasText: 'QR-TESTTEST' }).waitFor();
     }
     assert.equal(posted, 2);
   });
