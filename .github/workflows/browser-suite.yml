@@ -21,7 +21,9 @@ permissions:
 
 jobs:
   e2e:
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest moved to Ubuntu 26.04, which Playwright 1.56 cannot install Chromium on.
+    # Bump this with the Playwright version in .design-dev/package.json.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     defaults:
       run:
