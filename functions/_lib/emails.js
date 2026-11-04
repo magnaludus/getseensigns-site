@@ -1,6 +1,6 @@
 // Order emails through the Brevo transactional API (BREVO_API_KEY). From sales@getseensignsco.com, sender
-// name Get Seen Signs. Customer-facing text names only Get Seen Signs and a city and state, never a person,
-// a legal name or a street address.
+// name Get Seen Signs. Customer-facing text names only Get Seen Signs: never a person, a legal name, a street
+// address, a city or a county.
 
 import { SITE, SHOP_EMAIL, SHOP_PHONE, SHOP_PHONE_TEL, esc, money, nowIso, log } from './util.js';
 import { run, one, all } from './db.js';
@@ -72,6 +72,20 @@ function itemsText(items) {
 
 const first = (name) => (name ? String(name).trim().split(/\s+/)[0] : '');
 const hello = (order) => (first(order.customer_name) ? 'Hi ' + first(order.customer_name) + ',' : 'Hello,');
+
+// What the customer bought, in plain words, for the thank-you email: "your Vinyl Banner", "your Bulk Yard Signs".
+// One product (any quantity, any options) names it; a mixed order or an odd custom line falls back to "your order".
+export function productPhrase(items) {
+  const bases = new Set();
+  for (const it of Array.isArray(items) ? items : []) {
+    if (!it || it.sku === 'shipping' || typeof it.name !== 'string') continue;
+    const base = it.name.replace(/\s*\(.*$/, '').trim();
+    if (base) bases.add(base);
+  }
+  if (bases.size !== 1) return 'your order';
+  const base = [...bases][0];
+  return base.length >= 3 && base.length <= 40 && /^[A-Za-z0-9][A-Za-z0-9 '&.x-]*$/.test(base) ? 'your ' + base : 'your order';
+}
 
 // A public review link (REVIEW_URL, for example a Google review page) is used only if it is a plain https URL.
 const safeHttps = (u) => (typeof u === 'string' && /^https:\/\/[^\s"'<>]+$/.test(u.trim()) ? u.trim() : '');
@@ -145,10 +159,10 @@ export function renderEmail(kind, ctx) {
           p(esc(hello(order))) + p('Your order is on the way.') +
           '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0;background:#F3EFE6;border-radius:10px;width:100%"><tr><td style="padding:14px 16px;font-size:15px">Carrier: <strong>' + esc(s.carrier) + '</strong><br>Tracking number: ' + trackLine + '</td></tr></table>' +
           (s.tracking_url ? button(s.tracking_url, 'Track your package') : button(links.order, 'Check order status')) + itemRows(items) +
-          p('<strong>When it arrives,</strong> we would love to hear how it turned out. Reply to this email with a sentence or two, and tell us if we may quote you on our website. We will also send a short thank-you note with a review link.') +
+          p('Once it arrives, take a look and let us know how it turned out. We will check in with a short note a day or two after delivery.') +
           small('Order ' + esc(ref) + '. Order status: ' + esc(links.order)),
       }),
-      text: [hello(order), '', 'Your order is on the way.', 'Carrier: ' + s.carrier, 'Tracking number: ' + s.tracking_number, s.tracking_url ? 'Track it: ' + s.tracking_url : '', 'Order status: ' + links.order, '', itemsText(items), '', 'When it arrives, we would love to hear how it turned out. Reply to this email with a sentence or two, and tell us if we may quote you on our website. We will also send a short thank-you note with a review link.', '', 'Order ' + ref + '.', textFooter()].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n'),
+      text: [hello(order), '', 'Your order is on the way.', 'Carrier: ' + s.carrier, 'Tracking number: ' + s.tracking_number, s.tracking_url ? 'Track it: ' + s.tracking_url : '', 'Order status: ' + links.order, '', itemsText(items), '', 'Once it arrives, take a look and let us know how it turned out. We will check in with a short note a day or two after delivery.', '', 'Order ' + ref + '.', textFooter()].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n'),
     };
   }
 
@@ -156,23 +170,27 @@ export function renderEmail(kind, ctx) {
   // for a review. Nothing is invented or auto-published: the customer chooses whether to post or reply.
   if (kind === 'review_request') {
     const url = safeHttps(ctx.reviewUrl);
-    const claim = 'If something is not right with your order, reply to this email within 7 days of delivery with your order number and photos. Details: ' + SITE + '/shipping-returns';
+    const what = productPhrase(items);
+    const named = what !== 'your order';
+    const thanks = named ? 'Thank you for ordering ' + what + ' from us. Every order means a lot to a small, veteran-owned shop like ours.' : 'Thank you for your order. Every order means a lot to a small, veteran-owned shop like ours.';
+    const arrived = 'Tracking shows it arrived. We hope everything came through in good shape and looks even better in person than it did on your proof.';
+    const ask = 'Would you tell us how it turned out? A sentence or two about what you ordered, what it was for and how it looks is exactly what helps the next business, team or family decide. For a small online shop, honest reviews are how trust is earned.';
+    const reply = (url ? 'Prefer to reply instead? Just answer this email, ' : 'Just reply to this email, ') + 'and tell us if we may quote you (first name and business) on our website.';
+    const claim = 'If anything is not right, reply within 7 days of delivery with your order number and photos, and we will reprint a valid claim at no cost. Details: ' + SITE + '/shipping-returns';
+    const pre = 'How did ' + what + ' turn out? We would love to hear.';
     return {
       subject: 'Thank you for your Get Seen Signs order ' + ref,
-      preheader: 'Thank you for your order. We would love to hear how it turned out.',
+      preheader: pre,
       html: layout({
         heading: 'Thank you for your order',
-        preheader: 'Thank you for your order. We would love to hear how it turned out.',
+        preheader: pre,
         bodyHtml:
-          p(esc(hello(order))) + p('Thank you for your order. It shows as delivered, and we hope it arrived in good shape and looks great.') +
-          p('If you have a minute, we would love to hear how it turned out. A sentence or two helps other businesses, teams and families decide.') +
+          p(esc(hello(order))) + p(esc(thanks)) + p(esc(arrived)) + p(esc(ask)) +
           (url ? button(url, 'Leave a review') : '') +
-          p('You can also reply to this email with a few words, and tell us if we may quote you on our website.') +
+          p(esc(reply)) +
           small(esc(claim)) + small('Order ' + esc(ref) + '.'),
       }),
-      text: [hello(order), '', 'Thank you for your order. It shows as delivered, and we hope it arrived in good shape and looks great.', '',
-        'If you have a minute, we would love to hear how it turned out. A sentence or two helps other businesses, teams and families decide.',
-        url ? 'Leave a review: ' + url : '', 'You can also reply to this email with a few words, and tell us if we may quote you on our website.', '', claim, '', 'Order ' + ref + '.', textFooter()].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n'),
+      text: [hello(order), '', thanks, '', arrived, '', ask, '', url ? 'Leave a review: ' + url : '', reply, '', claim, '', 'Order ' + ref + '.', textFooter()].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n'),
     };
   }
 

@@ -21,7 +21,7 @@ import { CATALOG, PLACEHOLDER_PRICE_IDS } from '../../../functions/_lib/catalog.
 import { textOfMain, readTerms, versionLabel } from '../../../functions/_lib/terms.js';
 import { verifyWebhook, signWebhook, resolveLineItem, checkoutParams } from '../../../functions/_lib/stripe.js';
 import { recordHashOf, evidenceCore, CONSENT_TEXT } from '../../../functions/_lib/orders.js';
-import { renderEmail } from '../../../functions/_lib/emails.js';
+import { renderEmail, productPhrase } from '../../../functions/_lib/emails.js';
 import { sha256Hex } from '../../../functions/_lib/util.js';
 import { NOW, IP, UA, BASE, PNG, PROOF_URL, PROOF_URL_2, WEBHOOK_SECRET, makeEnv, installFetch, adminReq, formReq, webhookReq } from './orders-helpers.mjs';
 
@@ -697,6 +697,7 @@ test('adding tracking marks the order shipped, emails the customer, and shows on
   assert.match(mail.subject, /has shipped/);
   assert.ok(mail.htmlContent.includes('1Z999AA10123456784'));
   assert.ok(mail.textContent.includes('Carrier: UPS'));
+  assert.ok(mail.textContent.includes('We will check in with a short note a day or two after delivery.'), 'the shipped email sets up the thank-you note');
 
   const page = await (await orderRoute.onRequestGet({ request: new Request(BASE + '/order/' + token), env, params: { token } })).text();
   assert.ok(page.includes('Shipped'));
@@ -876,6 +877,22 @@ test('delivered orders get the review email about 24 hours later, once, and fail
   net.brevoFail = realBrevo;
   const retried = await send();
   assert.equal(retried.sent, 1, 'the failed order is retried on the next call');
+});
+
+test('the thank-you email names what the customer bought, and falls back to "your order" for mixed or odd orders', () => {
+  const order = { id: 'GS-ABCDEFGH', customer_email: 'a@example.com', customer_name: 'Pat' };
+  const links = { proof: BASE + '/proof/t', order: BASE + '/order/t' };
+  const render = (items) => renderEmail('review_request', { order, items, links }).text;
+  const banner = { sku: 'banner-13oz-3x6', name: 'Vinyl Banner (13 oz 3x6)', quantity: 2, unit_amount_cents: 5900, description: '' };
+  const signs = { sku: 'yard-1s-5', name: 'Bulk Yard Signs (1-sided 5-pack)', quantity: 1, unit_amount_cents: 7400, description: '' };
+  const ship = { sku: 'shipping', name: 'Shipping', quantity: 1, unit_amount_cents: 1500, description: '' };
+  assert.ok(render([banner]).includes('Thank you for ordering your Vinyl Banner from us.'));
+  assert.ok(render([banner, ship]).includes('your Vinyl Banner'), 'a shipping line does not count as a product');
+  assert.ok(render([banner, signs]).includes('Thank you for your order.'), 'two products fall back');
+  assert.ok(render([{ sku: '', name: '<b>weird</b> custom line with symbols!!', quantity: 1, unit_amount_cents: 100, description: '' }]).includes('Thank you for your order.'), 'odd custom names fall back');
+  assert.ok(!render([{ sku: '', name: '<b>x</b>', quantity: 1, unit_amount_cents: 100, description: '' }]).includes('<b>'), 'no markup leaks into the text');
+  assert.equal(productPhrase([signs]), 'your Bulk Yard Signs');
+  assert.equal(productPhrase([]), 'your order');
 });
 
 // ---------- schema, terms, secrets ----------
