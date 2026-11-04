@@ -1,0 +1,66 @@
+# Manual-only browser suite. Playwright drives Chromium against a local copy of the site
+# (.design-dev/tests/e2e: designer, proof dialog, order panel, quote form, phone touch flow,
+# accessibility, XSS, 3D sides). It does not run on push, so GitHub Actions minutes go to deploys.
+# Start it from the Actions tab ("Run workflow"), or from a terminal: gh workflow run browser-suite.yml
+name: Browser suite (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      spec:
+        description: "Spec file(s) in .design-dev/tests/e2e to run, for example proof.spec.mjs. Default: the whole suite."
+        required: false
+        default: "*.spec.mjs"
+
+concurrency:
+  group: browser-suite
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: .design-dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: .design-dev/package-lock.json
+
+      - name: Install test tooling
+        run: npm ci
+
+      - name: Cache the Playwright browser
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('.design-dev/package-lock.json') }}
+
+      - name: Download Chromium
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install chromium
+
+      - name: Install Chromium system libraries
+        run: npx playwright install-deps chromium
+
+      - name: Run the browser suite
+        env:
+          SPEC: ${{ inputs.spec }}
+        run: node --test --test-concurrency=1 --test-timeout=120000 tests/e2e/$SPEC
+
+      - name: Keep screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-suite-output
+          path: .design-dev/out/
+          if-no-files-found: ignore
