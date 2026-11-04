@@ -13,6 +13,7 @@ import * as adminTracking from '../../../functions/api/admin/orders/[id]/trackin
 import * as adminReview from '../../../functions/api/admin/orders/[id]/review-request.js';
 import * as adminDelivered from '../../../functions/api/admin/orders/[id]/delivered.js';
 import * as adminDue from '../../../functions/api/admin/review-requests.js';
+import * as adminProofReminders from '../../../functions/api/admin/proof-reminders.js';
 import * as proofRoute from '../../../functions/proof/[token].js';
 import * as orderRoute from '../../../functions/order/[token].js';
 import * as webhook from '../../../functions/api/stripe-webhook.js';
@@ -893,6 +894,38 @@ test('the thank-you email names what the customer bought, and falls back to "you
   assert.ok(!render([{ sku: '', name: '<b>x</b>', quantity: 1, unit_amount_cents: 100, description: '' }]).includes('<b>'), 'no markup leaks into the text');
   assert.equal(productPhrase([signs]), 'your Bulk Yard Signs');
   assert.equal(productPhrase([]), 'your order');
+});
+
+test('a proof that sits unapproved for 72 hours gets one gentle reminder; revisions restart the clock; approved orders are left alone', async () => {
+  const hoursAgo = (h) => new Date(new Date(NOW).getTime() - h * 3600 * 1000).toISOString();
+  const list = async () => (await (await adminProofReminders.onRequestGet({ request: adminReq('GET', '/x'), env, params: {}, now: NOW })).json());
+  const send = async () => (await (await adminProofReminders.onRequestPost({ request: adminReq('POST', '/x', null), env, params: {}, now: NOW })).json());
+  const backdateProof = (id, h) => env.DB.sqlite.prepare("UPDATE emails SET created_at = ? WHERE order_id = ? AND kind = 'proof_ready'").run(hoursAgo(h), id);
+
+  const fresh = (await createOrder()).body.order_id;      // proof sent just now
+  const stale = (await createOrder()).body.order_id;      // proof sent 80 hours ago
+  backdateProof(stale, 80);
+  const done = await approvedOrder();                      // approved: never reminded
+  backdateProof(done.id, 80);
+
+  const before = net.brevo.length;
+  const due = await list();
+  assert.deepEqual(due.due.map((r) => r.order_id), [stale], 'only the stale, still-waiting proof is due');
+  const first = await send();
+  assert.equal(first.sent, 1);
+  assert.equal(net.brevo.length, before + 1);
+  const mail = net.brevo.at(-1).body;
+  assert.match(mail.subject, /Your proof is waiting/);
+  assert.ok(mail.textContent.includes('Nothing is charged and nothing prints until you approve it.'));
+  assert.ok(mail.textContent.includes('/proof/'), 'links to the proof page');
+  assert.equal((await send()).checked, 0, 'never a second reminder');
+
+  // a revised proof restarts the clock: the stale-then-revised order is not due again even though the first email is old
+  const revised = (await createOrder()).body.order_id;
+  backdateProof(revised, 80);
+  await adminProof.onRequestPost({ request: adminReq('POST', '/x', { proof_image_url: PROOF_URL_2 }), env, params: { id: revised }, now: NOW });
+  assert.ok(!(await list()).due.some((r) => r.order_id === revised), 'latest proof email is recent, so not due');
+  assert.ok(!(await list()).due.some((r) => r.order_id === fresh));
 });
 
 // ---------- schema, terms, secrets ----------

@@ -166,6 +166,27 @@ export function renderEmail(kind, ctx) {
     };
   }
 
+  // One gentle reminder when a proof has sat unapproved for a few days. Sent by the admin "proof reminders" action.
+  if (kind === 'proof_reminder') {
+    const what = productPhrase(items);
+    const nudge = 'A quick nudge: the free proof for ' + what + ' is ready and waiting for a look. Nothing is charged and nothing prints until you approve it.';
+    const change = 'Want something changed? Reply to this email with the change and we will send a revised proof. Three revisions are included.';
+    const noRush = 'If your plans changed, no action is needed. The proof will keep until you are ready, and you can always reply with a question.';
+    const pre = 'Nothing prints until you approve it. Take a look when you have a minute.';
+    return {
+      subject: 'Your proof is waiting (Get Seen Signs order ' + ref + ')',
+      preheader: pre,
+      html: layout({
+        heading: 'Your proof is waiting',
+        preheader: pre,
+        bodyHtml:
+          p(esc(hello(order))) + p(esc(nudge)) + button(links.proof, 'Review your proof') + p(esc(change)) + p(esc(noRush)) +
+          small('Order ' + esc(ref) + '. If the button does not work, copy this link: ' + esc(links.proof)),
+      }),
+      text: [hello(order), '', nudge, '', 'Review your proof: ' + links.proof, '', change, '', noRush, '', 'Order ' + ref + '.', textFooter()].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n'),
+    };
+  }
+
   // Sent once, after the package has been delivered, by the admin "review request" action. Thanks the customer and asks
   // for a review. Nothing is invented or auto-published: the customer chooses whether to post or reply.
   if (kind === 'review_request') {
@@ -269,6 +290,23 @@ export async function dueReviewRequests(db, now, hours) {
   return all(
     db,
     "SELECT e.order_id AS order_id, e.created_at AS delivered_at FROM emails e WHERE e.kind = 'delivered' AND e.created_at <= ? AND NOT EXISTS (SELECT 1 FROM emails r WHERE r.order_id = e.order_id AND r.kind = 'review_request' AND r.status = 'sent') ORDER BY e.created_at LIMIT 50",
+    [cutoff]
+  );
+}
+
+// Hours a proof can sit unapproved before the one reminder goes out (REMINDER_DELAY_HOURS overrides; default 72).
+export function proofReminderDelayHours(env) {
+  const n = Number(env && env.REMINDER_DELAY_HOURS);
+  return n > 0 && n <= 24 * 30 ? n : 72;
+}
+
+// Orders still waiting on proof approval whose latest proof email went out at least `hours` ago and that have not had
+// the reminder yet. A revised proof restarts the clock. Failed sends stay due and are retried.
+export async function dueProofReminders(db, now, hours) {
+  const cutoff = new Date(now.getTime() - hours * 3600 * 1000).toISOString();
+  return all(
+    db,
+    "SELECT o.id AS order_id, MAX(e.created_at) AS proof_sent_at FROM orders o JOIN emails e ON e.order_id = o.id AND e.kind = 'proof_ready' AND e.status = 'sent' WHERE o.status = 'proof_sent' AND NOT EXISTS (SELECT 1 FROM emails r WHERE r.order_id = o.id AND r.kind = 'proof_reminder' AND r.status = 'sent') GROUP BY o.id HAVING MAX(e.created_at) <= ? ORDER BY proof_sent_at LIMIT 50",
     [cutoff]
   );
 }
