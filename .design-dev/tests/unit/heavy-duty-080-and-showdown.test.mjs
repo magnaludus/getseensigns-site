@@ -1,4 +1,4 @@
-// Heavy-duty .080 safety sign pack (a normal checkout SKU) and the Showdown premium canopy line (quote only).
+// Heavy-duty .080 safety sign pack (a normal checkout SKU) and the premium tent premium canopy line (quote only).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -32,7 +32,7 @@ test('the safety page lists the .080 pack everywhere it lists pack prices', () =
   assert.ok(read('design/safety-sign/index.html').includes('(.080)'));
 });
 
-test('the Showdown line is quote only: priced on the page, no SKU, no checkout, no offer, no mailto', () => {
+test('the premium tent line is quote only: priced on the page, no SKU, no checkout, no offer, no mailto', () => {
   assert.deepEqual(Object.keys(CATALOG).filter((k) => /showdown|premium|elite/i.test(k + CATALOG[k].name)), []);
   assert.doesNotMatch(JSON.stringify(order), /showdown/i);
   const html = read('custom-canopy-tents/index.html');
@@ -47,14 +47,14 @@ test('the Showdown line is quote only: priced on the page, no SKU, no checkout, 
   assert.deepEqual(offers.map((o) => o.price), ['599.00', '849.00', '1459.00']);
 });
 
-test('the Showdown button opens the site quote form (posts to /api/quote-request) with product, quantity and notes prefilled', () => {
+test('the premium tent quote button opens the site quote form (posts to /api/quote-request) with product, quantity and notes prefilled', () => {
   const html = read('custom-canopy-tents/index.html');
-  const href = /<a class="btn btn-ink" href="(\/quote\?[^"#]*)#quote">Request a Showdown quote/.exec(html);
+  const href = /<a class="btn btn-ink" href="(\/quote\?[^"#]*)#quote">Request a premium tent quote/.exec(html);
   assert.ok(href, 'CTA found');
   const q = new URL(href[1].replace(/&amp;/g, '&'), 'https://getseensignsco.com').searchParams;
   assert.equal(q.get('product'), '10×10 Canopy Tent');
   assert.equal(q.get('quantity'), '6');
-  assert.match(q.get('details'), /Showdown premium canopy tent/);
+  assert.match(q.get('details'), /Premium canopy tent/);
   const quote = read('quote.html');
   assert.ok(quote.includes('data-endpoint="/api/quote-request"') && quote.includes('<option>10×10 Canopy Tent</option>'));
   const js = read('assets/site.js');
