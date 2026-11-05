@@ -11,7 +11,7 @@ from design_pages import HUB as DESIGN_HUB, PRODUCTS as DESIGN_PRODUCTS, PROOF a
 SRC=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(SRC); SITE=ROOT  # repo root: built pages are written here
 BASE='https://getseensignsco.com'
 def _build_date():
-    """The date used for sitemap lastmod and blog dateModified when a page has no explicit override.
+    """The build date: the sitemap lastmod and blog dateModified of any page this build changes (see file_lastmod).
     BUILD_DATE=YYYY-MM-DD fixes it (tests and reproducible rebuilds); otherwise it is today's date in America/New_York."""
     fixed=os.environ.get('BUILD_DATE')
     if fixed:
@@ -258,6 +258,34 @@ def quote_cta(product_label, extra=''):
 def write(path, s):
     full=SITE+path+('index.html' if path.endswith('/') else '')
     os.makedirs(os.path.dirname(full), exist_ok=True); open(full,'w').write(s)
+
+import subprocess
+def _git(*args):
+    try:
+        r=subprocess.run(['git',*args],cwd=SITE,capture_output=True,text=True)
+        return r.returncode, r.stdout.strip()
+    except Exception:
+        return 1, ''
+def _page_rel(path):
+    return path.lstrip('/')+('index.html' if path.endswith('/') else ('' if path.endswith('.html') else '.html'))
+def file_lastmod(path):
+    """When a page's HTML last changed: the date of the last commit that touched the file. A file that differs
+    from that commit (changed by this build, or never committed) counts as the build date, and so does every
+    page in a checkout without git history."""
+    rel=_page_rel(path)
+    if not os.path.exists(SITE+'/'+rel): return TODAY
+    code,_=_git('diff','--quiet','HEAD','--',rel)
+    if code!=0: return TODAY
+    _,d=_git('log','-1','--format=%cs','--',rel)
+    return d if _r0.fullmatch(r'\d{4}-\d{2}-\d{2}', d) else TODAY
+def write_dated(path, render):
+    """A page that prints its own modified date (render(date) -> html): render it with the committed date first;
+    if that is byte-identical to the file on disk the page did not change and keeps its date, otherwise it is
+    written with the build date."""
+    old=file_lastmod(path)
+    if old!=TODAY and open(SITE+'/'+_page_rel(path),encoding='utf-8').read()==render(old):
+        return old
+    write(path, render(TODAY)); return TODAY
 
 # ---------- product pages ----------
 
@@ -540,7 +568,7 @@ posts_cards=''
 for b in BLOG:
     path=f'/blog/{b["slug"]}/'; items=[('Home','/'),('Guides','/blog/'),(b['h1'],path)]
     og=b['img']
-    art={"@type":"BlogPosting","headline":b['h1'],"description":b['desc'],"datePublished":b['date'],"dateModified":max(b['date'],TODAY),"inLanguage":"en-US",
+    art={"@type":"BlogPosting","headline":b['h1'],"description":b['desc'],"datePublished":b['date'],"dateModified":"__DATEMOD__","inLanguage":"en-US",
          "author":{"@id":ORG_ID},"publisher":{"@id":ORG_ID},"mainEntityOfPage":BASE+path,"image":BASE+og}
     nodes=[art, crumbs(items)]
     img=pic(og[:-4],b['img_alt'],900,675,eager=True)
@@ -565,7 +593,7 @@ for b in BLOG:
 {quote_cta(b["quote"])}
 </main>
 '''+foot()
-    write(path,page)
+    write_dated(path, lambda mod: page.replace('__DATEMOD__', mod))
     posts_cards+=f'<a class="post" href="{path}"><div class="card-img">{pic(og[:-4],"",900,675)}</div><div class="card-body"><p class="eyebrow">{e(b["kicker"])}</p><h3>{e(b["h1"])}</h3><p>{e(b["desc"])}</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></div></a>'
 path='/blog/'; items=[('Home','/'),('Guides','/blog/')]
 title='Sign Guides & How-Tos | Get Seen Signs'
@@ -775,15 +803,7 @@ write_doc('/about', 'About Get Seen Signs | Veteran-Owned Sign Shop',
           'Get Seen Signs is a veteran-owned, family-run online sign shop. Proof first, then pay, free design and free shipping in the lower 48.',
           render_legal(open(SRC+'/pages/about.md', encoding='utf-8').read()))
 # ---------- sitemap, robots ----------
-LASTMOD={f'/blog/{b["slug"]}/':max(b['date'],TODAY) for b in BLOG}
-LASTMOD['/blog/']=max([TODAY]+list(LASTMOD.values()))
-LASTMOD['/terms']='2026-10-30'; LASTMOD['/contact']='2026-10-28'
-LASTMOD['/privacy']='2026-10-30'; LASTMOD['/quote']='2026-10-28'
-LASTMOD['/about']=TODAY; LASTMOD['/shipping-returns']=TODAY
 urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/event-booth-bundles/','/reorder/','/about','/shipping-returns','/terms','/privacy','/contact','/quote']
-sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{LASTMOD.get(u,TODAY)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
-open(SITE+'/sitemap.xml','w').write(sm)
-open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
 # Single custom yard signs (Etsy 4597132396) were deactivated Oct 26, 2026. Packs of 5 are the minimum.
 open(SITE+'/_redirects','w').write(
     '/custom-yard-signs /bulk-campaign-signs/ 301\n'
@@ -1184,3 +1204,8 @@ with open(SITE+'/feeds/google-products.xml','w',encoding='utf-8') as _f:
              f'  <title>Get Seen Signs</title>\n  <link>{BASE}/</link>\n  <description>Custom signs, banners, flags, tents and booth displays from Get Seen Signs.</description>\n'
              +''.join(_fi)+'</channel>\n</rss>\n')
 print('feed items:',len(_fi))
+
+# ---------- sitemap and robots: last, so every page is on disk and lastmod says when each one really changed ----------
+sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{file_lastmod(u)}</lastmod></url>\n' for u in urls)+'</urlset>\n'
+open(SITE+'/sitemap.xml','w').write(sm)
+open(SITE+'/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')

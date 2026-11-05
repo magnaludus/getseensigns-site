@@ -199,15 +199,27 @@ test('public pages and the store emails do not name the shop\'s city or area (Te
   assert.match(org, /"areaServed":\{"@type":"Country","name":"United States"\}/);
 });
 
-test('sitemap dates come from the build date (America/New_York, or BUILD_DATE) and a rebuild only touches the sitemap and blog dateModified', () => {
+test('sitemap lastmod and blog dateModified come from git (the last commit that changed the page) and a rebuild only re-dates pages that changed', () => {
   const sm = read('sitemap.xml');
   const dates = [...sm.matchAll(/<loc>([^<]+)<\/loc><lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g)];
   assert.ok(dates.length >= 37);
   const lastmod = (path) => dates.find((m) => m[1] === 'https://getseensignsco.com' + path)[2];
-  assert.equal(lastmod('/terms'), '2026-10-30');
-  assert.equal(lastmod('/privacy'), '2026-10-30');
-  assert.equal(lastmod('/contact'), '2026-10-28');
-  assert.equal(lastmod('/quote'), '2026-10-28');
+  // Each date is the last commit that changed that page's HTML. A page with uncommitted changes gets the build
+  // date instead, so those are skipped here rather than pinned to a day.
+  const top0 = fileURLToPath(root).replace(/\/$/, '');
+  const git = (...args) => execFileSync('git', args, { cwd: top0, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  const committedDate = (file) => { try { execFileSync('git', ['diff', '--quiet', 'HEAD', '--', file], { cwd: top0, stdio: 'ignore' }); return git('log', '-1', '--format=%cs', '--', file); } catch { return null; } };
+  for (const [path, file] of [['/terms', 'terms.html'], ['/privacy', 'privacy.html'], ['/contact', 'contact.html'], ['/quote', 'quote.html'], ['/shop/', 'shop/index.html']]) {
+    const want = committedDate(file);
+    if (want) assert.equal(lastmod(path), want, path + ' is dated by its last commit');
+  }
+  assert.ok(new Set(dates.map((m) => m[2])).size > 1, 'pages carry different dates, not one build date');
+  for (const b of ['vinyl-banner-size-guide', 'feather-flag-size-guide']) {
+    const want = committedDate(`blog/${b}/index.html`);
+    const mod = read(`blog/${b}/index.html`).match(/"dateModified":"(\d{4}-\d{2}-\d{2})"/)[1];
+    if (want) assert.equal(mod, want, b + ' dateModified is its last commit');
+    assert.equal(mod, lastmod(`/blog/${b}/`), b + ' sitemap and JSON-LD agree');
+  }
   const src = read('src/site-src-pages.py');
   assert.match(src, /ZoneInfo\('America\/New_York'\)/);
   assert.match(src, /os\.environ\.get\('BUILD_DATE'\)/);
@@ -229,7 +241,7 @@ test('sitemap dates come from the build date (America/New_York, or BUILD_DATE) a
     build('2031-02-03');
     const first = snapshot();
     assert.match(first.get('/sitemap.xml'), /<loc>https:\/\/getseensignsco.com\/shop\/<\/loc><lastmod>2031-02-03<\/lastmod>/);
-    assert.match(first.get('/sitemap.xml'), /<loc>https:\/\/getseensignsco.com\/privacy<\/loc><lastmod>2026-10-30<\/lastmod>/, 'an explicit override stays');
+    assert.match(first.get('/sitemap.xml'), /<loc>https:\/\/getseensignsco.com\/privacy<\/loc><lastmod>2031-02-03<\/lastmod>/, 'without git history every page gets the build date');
     build('2031-02-03');
     const again = snapshot();
     assert.deepEqual([...again].filter(([k, v]) => first.get(k) !== v).map(([k]) => k), [], 'the same date rebuilds to identical files');
