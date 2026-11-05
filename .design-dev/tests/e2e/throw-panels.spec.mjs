@@ -58,7 +58,7 @@ test('edit the back and both ends, and every panel reaches the proof request wit
       await page.getByRole('button', { name: panel, exact: true }).click();
     };
     // type new words onto the back and the left end, on the canvas, the way a customer does
-    for (const [panel, words] of [['Back panel', 'SOLGW BACK TEXT'], ['Left end panel', 'SOLGW LEFT END']]) {
+    for (const [panel, words] of [['Back panel', 'SAMPLE BACK TEXT'], ['Left end panel', 'SAMPLE LEFT END']]) {
       await goTo(panel);
       const id = await page.evaluate(() => window.GSSDesigner.store.side().elements.find((e) => e.type === 'text').id);
       await page.evaluate((id) => window.GSSDesigner.stage.startEdit(id), id);
@@ -111,8 +111,8 @@ test('edit the back and both ends, and every panel reaches the proof request wit
     assert.deepEqual(piece.sides.map((s) => s.name), ['Front', 'Top', 'Left end', 'Right end', 'Back']);
     assert.equal(piece.sidesMode, 'each');
     const words = (si) => piece.sides[si].elements.filter((e) => e.type === 'text').map((e) => e.text);
-    assert.deepEqual(words(4), ['SOLGW BACK TEXT'], 'the back');
-    assert.deepEqual(words(2), ['SOLGW LEFT END'], 'the left end');
+    assert.deepEqual(words(4), ['SAMPLE BACK TEXT'], 'the back');
+    assert.deepEqual(words(2), ['SAMPLE LEFT END'], 'the left end');
     assert.deepEqual(words(3), [design.project.fields.name], 'the right end follows the business name');
     assert.equal(piece.sides[1].elements.filter((e) => e.type === 'image').length, 1, 'the top logo frame');
 
