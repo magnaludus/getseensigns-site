@@ -239,7 +239,7 @@ test('the proof page shows the proof, the order summary, the price and a require
   assert.match(page, /<input type="checkbox" name="agree" value="yes" required>/);
   assert.ok(page.includes('<a href="/terms" target="_blank" rel="noopener">Terms of Service</a>'));
   assert.equal(CONSENT_TEXT, 'I approve this proof and agree to the Terms of Service');
-  assert.match(page, /<span>I approve this proof and agree to the <a href="\/terms" target="_blank" rel="noopener">Terms of Service<\/a><br><small>Terms last updated October 30, 2026\.<\/small><\/span>/);
+  assert.match(page, /<span>I approve this proof and agree to the <a href="\/terms" target="_blank" rel="noopener">Terms of Service<\/a><br><small>Terms last updated November 3, 2026\.<\/small><\/span>/);
   assert.ok(page.indexOf('name="agree"') < page.indexOf('Approve and continue to payment'), 'the consent box comes before the button that continues to payment');
   assert.match(page, /name="terms_hash" value="[0-9a-f]{64}"/);
   assert.ok(page.includes('3 of 3 free revisions left'));
@@ -319,7 +319,7 @@ test('approving stores the full evidence record and sends the customer to Stripe
   assert.equal(ev.proof_version, 1);
   assert.equal(ev.terms_hash, terms.hash);
   assert.equal(ev.terms_hash, await sha256Hex(terms.text));
-  assert.equal(ev.terms_version, 'October 30, 2026');
+  assert.equal(ev.terms_version, 'November 3, 2026');
   assert.equal(ev.terms_url, 'https://getseensignsco.com/terms');
   assert.equal(ev.consent_text, CONSENT_TEXT);
   assert.equal(ev.subtotal_cents, SUBTOTAL);
@@ -740,7 +740,7 @@ test('admin order detail returns the evidence record, its hash check, emails and
   assert.equal(body.order.status, 'paid');
   assert.equal(body.evidence.record_hash_valid, true);
   assert.equal(body.evidence.ip, IP);
-  assert.equal(body.evidence.terms_version, 'October 30, 2026');
+  assert.equal(body.evidence.terms_version, 'November 3, 2026');
   assert.equal(body.disputes.length, 1);
   assert.ok(body.emails.some((e) => e.kind === 'payment_received' && e.status === 'sent'));
   assert.ok(body.evidence_packet.includes('IP address: ' + IP));
@@ -947,7 +947,7 @@ test('the real /terms page yields a version label and a repeatable hash', async 
   const a = await readTerms(req, env);
   const b = await readTerms(req, env);
   assert.equal(a.hash, b.hash);
-  assert.equal(a.version, 'October 30, 2026');
+  assert.equal(a.version, 'November 3, 2026');
   assert.ok(a.text.includes('Everything is made to order'));
   await assert.rejects(readTerms(req, Object.assign({}, env, { ASSETS: { fetch: async () => new Response('x', { status: 500 }) } })));
 });
