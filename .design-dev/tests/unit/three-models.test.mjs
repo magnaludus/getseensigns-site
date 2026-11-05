@@ -97,11 +97,13 @@ test('every model variant builds finite geometry that stands on the ground insid
 
 test('textured parts expose one slot per printed side', () => {
   const slots = { canopy: 4, feather: 1, throw: 1, banner: 1, yard: 2, retractable: 1, backdrop: 1, magnet: 1, decal: 1, safety: 5 };
+  // a table throw prints one slot per panel: front, top, left end, right end and, on a 4-sided throw, the back
+  const slotsOf = (product, choices) => (product === 'throw' ? { 3: 4, 4: 5, fitted: 1 }[choices.style] : slots[product]);
   for (const [product, choices] of VARIANTS) {
     const { model } = make(product, choices);
-    assert.equal(model.art.length, slots[product], label(product, choices));
+    assert.equal(model.art.length, slotsOf(product, choices), label(product, choices));
     const used = new Set(model.pickables.map((p) => p.userData.side));
-    for (const s of used) assert.ok(s >= 0 && s < slots[product]);
+    for (const s of used) assert.ok(s >= 0 && s < slotsOf(product, choices));
     if (product === 'canopy') assert.deepEqual([...used].sort(), [0, 1, 2, 3]);
     if (product === 'yard') assert.deepEqual([...used].sort(), [0, 1]);
     if (product === 'safety') assert.deepEqual([...used].sort(), [0, 1, 2, 3, 4]);
@@ -228,46 +230,75 @@ test('feather: the sway moves the free edge more than the pole edge and stays ge
   assert.ok(spec);
 });
 
-test('throw: front panel carries the art, the rest is base color, style 3 is open at the back', () => {
+test('throw: every panel has its own art, the corners stay the base color, style 3 is open at the back', () => {
   for (const length of ['6', '8']) {
     const open = make('throw', { length, style: '3' });
     const closed = make('throw', { length, style: '4' });
-    const cloth = closed.model.pickables[0];
-    const g = cloth.geometry;
-    assert.equal(g.groups.length, 2);
-    assert.equal(g.groups[0].count + g.groups[1].count, g.index.count);
+    const fitted = make('throw', { length, style: 'fitted' });
+    assert.deepEqual([open, closed, fitted].map((m) => m.model.art.length), [4, 5, 1]);
     assert.ok(triangles(open.model.group) < triangles(closed.model.group));
+    const g = closed.model.pickables[0].geometry;
     const p = g.attributes.position;
     const uv = g.attributes.uv;
+    assert.equal(g.index, null, 'one vertex set per panel, so each panel has its own texture coordinates');
+    // front, top, left end, right end, back, then the base color; together they cover every vertex once
+    assert.deepEqual(g.groups.map((x) => x.materialIndex), [0, 1, 2, 3, 4, 5]);
+    assert.equal(g.groups.reduce((n, x) => n + x.count, 0), p.count);
     const L = closed.spec.artboard.w;
-    // art group: every triangle faces the viewer on the front or turns the corner, u runs left to right
-    const { start, count } = g.groups[0];
-    let minU = 1;
-    let maxU = 0;
-    for (let t = start; t < start + count; t++) {
-      const k = g.index.getX(t);
-      minU = Math.min(minU, uv.getX(k));
-      maxU = Math.max(maxU, uv.getX(k));
-      assert.ok(p.getZ(k) > 0, 'art group is on the front half');
-      assert.ok(Math.abs(uv.getX(k) - (p.getX(k) + L / 2) / L) < 1.5 / L, 'u follows x, folds only move vertices a little');
-      assert.ok(uv.getY(k) > -1e-6 && uv.getY(k) <= 1 + 1e-6);
+    const D = 30;
+    const H = 30;
+    const hem = H - closed.spec.artboard.h;
+    const RC = 2.4;
+    const eps = 1e-5;
+    const of = (mat) => {
+      const grp = g.groups.find((x) => x.materialIndex === mat);
+      const out = [];
+      for (let k = grp.start; k < grp.start + grp.count; k++) out.push({ x: p.getX(k), y: p.getY(k), z: p.getZ(k), u: uv.getX(k), v: uv.getY(k) });
+      return out;
+    };
+    const range = (list, key) => [Math.min(...list.map((q) => q[key])), Math.max(...list.map((q) => q[key]))];
+    // Each panel is mapped the way it reads from outside: u runs to the viewer's right, v runs up from the hem.
+    const front = of(0);
+    const left = of(2);
+    const right = of(3);
+    const back = of(4);
+    for (const q of front) {
+      assert.ok(q.z > 0 && Math.abs(q.u - (q.x + L / 2) / L) < eps, 'front: u runs left to right, +x is the viewer\'s right');
+      assert.ok(Math.abs(q.v - (q.y - hem) / (H - hem)) < eps);
     }
-    assert.ok(minU < 0.01 && maxU > 0.99, 'the art spans the full front');
-    // top plate faces up
-    const { start: s2, count: c2 } = g.groups[1];
+    for (const q of left) assert.ok(q.x < 0 && Math.abs(q.u - (q.z + D / 2) / D) < eps, 'left end: seen from the left, the front of the table is on the right');
+    for (const q of right) assert.ok(q.x > 0 && Math.abs(q.u - (D / 2 - q.z) / D) < eps, 'right end: seen from the right, the front of the table is on the left');
+    for (const q of back) assert.ok(q.z < 0 && Math.abs(q.u - (L / 2 - q.x) / L) < eps, 'back: seen from behind, +x is on the viewer\'s left');
+    // no art on the rounded corners: every art run stops where its corner arc starts
+    const near = (a, b) => Math.abs(a - b) < 1e-3;
+    assert.ok(near(range(front, 'u')[0], RC / L) && near(range(front, 'u')[1], 1 - RC / L), 'front art stops at the corners');
+    assert.ok(near(range(back, 'u')[0], RC / L) && near(range(back, 'u')[1], 1 - RC / L), 'back art stops at the corners');
+    for (const list of [left, right]) assert.ok(near(range(list, 'u')[0], RC / D) && near(range(list, 'u')[1], 1 - RC / D), 'end art stops at the corners');
+    // the top: the plate, face up, art upright from the front (v = 1 at the back edge, u grows to the right)
+    const top = of(1);
+    assert.ok(top.every((q) => q.y > H - 0.01), 'the top art is on the plate');
+    const near1 = (a, b) => Math.abs(a - b) < 0.02;
+    const frontEdge = top.filter((q) => q.z > Math.max(...top.map((r) => r.z)) - 0.01);
+    const backEdge = top.filter((q) => q.z < Math.min(...top.map((r) => r.z)) + 0.01);
+    assert.ok(frontEdge.every((q) => near1(q.v, 0)) && backEdge.every((q) => near1(q.v, 1)), 'the top of the art is toward the back');
+    const leftEdge = top.filter((q) => q.x < Math.min(...top.map((r) => r.x)) + 0.01);
+    assert.ok(leftEdge.every((q) => near1(q.u, 0)), 'the top art reads left to right');
     let upward = 0;
     let downward = 0;
-    for (let t = s2; t < s2 + c2; t += 3) {
-      const a = new THREE.Vector3().fromBufferAttribute(p, g.index.getX(t));
-      const b = new THREE.Vector3().fromBufferAttribute(p, g.index.getX(t + 1));
-      const c = new THREE.Vector3().fromBufferAttribute(p, g.index.getX(t + 2));
-      if (a.y > 29.9 && b.y > 29.9 && c.y > 29.9) {
-        const n = b.sub(a).cross(c.sub(a));
-        if (n.y > 0) upward++;
-        else if (n.y < 0) downward++;
-      }
+    for (let k = g.groups[1].start; k < g.groups[1].start + g.groups[1].count; k += 3) {
+      const a = new THREE.Vector3().fromBufferAttribute(p, k);
+      const b = new THREE.Vector3().fromBufferAttribute(p, k + 1);
+      const c = new THREE.Vector3().fromBufferAttribute(p, k + 2);
+      const n = b.sub(a).cross(c.sub(a));
+      if (n.y > 0) upward++;
+      else if (n.y < 0) downward++;
     }
     assert.ok(upward > 20 && downward === 0, `top plate ${upward} up, ${downward} down`);
+    // the base color group is the corner drape, plus the back strip when there is no back
+    const baseOnly = of(5);
+    assert.ok(baseOnly.length > 0 && baseOnly.every((q) => Math.abs(q.u) <= 1.0001));
+    const openGroups = open.model.pickables[0].geometry.groups.map((x) => x.materialIndex);
+    assert.deepEqual(openGroups, [0, 1, 2, 3, 4], 'a 3-sided throw has art on four panels; the back strip is the base color');
     // size: table length from the spec, 30 in deep, 30 in high, front panel hanging from the top (hem = 30 minus its height)
     let minY = Infinity;
     let maxY = -Infinity;
@@ -281,6 +312,15 @@ test('throw: front panel carries the art, the rest is base color, style 3 is ope
     }
     assert.ok(Math.abs(minY - (30 - closed.spec.artboard.h)) < 0.01 && Math.abs(maxY - 30) < 0.01, `${minY}..${maxY}`);
     assert.ok(maxX > L / 2 - 0.1 && maxX < L / 2 + 1.5 && maxZ > 14.9 && maxZ < 16.5);
+    // a tap on a panel picks that panel; the drape and the base color pick nothing
+    const model = closed.model;
+    assert.equal(model.pickFilter({ face: { materialIndex: 4 } }), true);
+    assert.equal(model.pickFilter({ face: { materialIndex: 5 } }), false);
+    assert.equal(model.pickSide({ face: { materialIndex: 3 } }), 3);
+    assert.equal(open.model.pickFilter({ face: { materialIndex: 4 } }), false, 'the 3-sided back strip is not a panel');
+    // a fitted cover keeps its single front panel
+    assert.equal(fitted.model.pickables[0].geometry.groups.find((x) => x.materialIndex === 0) != null, true);
+    assert.equal(fitted.model.pickFilter({ face: { materialIndex: 1 } }), false);
   }
 });
 
