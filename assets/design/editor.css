@@ -230,6 +230,9 @@ select.dz-input{padding-right:32px;background-image:url("data:image/svg+xml,%3Cs
 .dz-wide{grid-column:1/-1}
 .dz-review-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
 .dz-review-fig{margin:0;display:grid;gap:4px}
+.dz-review-flat{grid-column:1/-1}
+.dz-review-flat .dz-help{margin:0}
+.dz-review-flat svg{display:block;width:100%;height:auto;max-height:280px;background:#fff}
 .dz-review-img{border:2px solid var(--ink);border-radius:8px;overflow:hidden;line-height:0;background:#fff}
 .dz-review-fig figcaption{font:800 14px var(--hd);text-transform:uppercase}
 .dz-ref{font:800 22px var(--hd);text-transform:uppercase;margin:0}
@@ -249,8 +252,29 @@ select.dz-input{padding-right:32px;background-image:url("data:image/svg+xml,%3Cs
 .dz-svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .dz-textedit{position:absolute;margin:0;padding:0;border:0;background:rgba(255,255,255,.08);resize:none;overflow:hidden;white-space:pre-wrap;overflow-wrap:break-word;outline:2px dashed #FFD100;outline-offset:2px;caret-color:currentColor;z-index:3;-webkit-appearance:none;appearance:none;border-radius:0}
 
+/* ---------- table throw: the flat as it prints, under the editor (a swap on phones) ---------- */
+.dz-flat[data-layout="1"]:not([hidden]){display:flex;flex-direction:column;gap:10px}
+.dz-flat[data-layout="1"] .dz-stage{flex:1 1 0;height:auto;min-height:140px}
+.dz-layout{flex:0 0 46%;min-height:150px;min-width:0;display:flex;flex-direction:column;gap:4px;padding:8px 10px 6px;background:#CFCABB;border-radius:10px}
+.dz-layout[hidden]{display:none}
+.dz-layout-title{margin:0;font:800 13px var(--hd);text-transform:uppercase;letter-spacing:.05em;color:var(--ink)}
+.dz-layout-art{flex:1 1 0;min-height:0}
+.dz-layout-svg{display:block;width:100%;height:100%}
+.dz-layout-svg [data-panel]{cursor:pointer}
+.dz-layout-svg [data-panel]{outline:none}
+.dz-layout-svg [data-panel]:focus-visible .flat-ring{opacity:1}
+.dz-layout-note{margin:0;font:500 12.5px/1.3 var(--bd);color:#34322d}
+.dz-map-toggle{align-self:stretch;margin:0 0 0 2px;padding:0 10px;border:0;border-left:2px solid var(--ink);background:#fff;color:var(--ink);font:800 14px var(--hd);text-transform:uppercase;letter-spacing:.03em;cursor:pointer}
+.dz-map-toggle[hidden]{display:none}
+.dz-map-toggle[aria-pressed="true"]{background:var(--y)}
+.dz-fill{text-align:left}
+
 /* ---------- phones: compact page heading so the editor gets the screen ---------- */
 @media (max-width:767px){
+  .dz-flat[data-layout="1"][data-map="map"] .dz-stage{display:none}
+  .dz-flat[data-layout="1"][data-map="edit"] .dz-layout{display:none}
+  .dz-flat[data-layout="1"][data-map="map"] .dz-layout{flex:1 1 auto}
+  .dz-sidelabel{font-size:13px;min-width:0;padding:0 4px;white-space:nowrap}
   .nav{position:static}
   .dz-hide-phone{display:none}
   .dz-tpl-grid{display:flex;overflow-x:auto;gap:10px;padding:2px 2px 8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
@@ -266,6 +290,7 @@ select.dz-input{padding-right:32px;background-image:url("data:image/svg+xml,%3Cs
 
 /* ---------- larger screens ---------- */
 @media (min-width:768px){
+  .dz-map-toggle{display:none}
   .designer:not(.designer-hub){min-height:max(640px,min(880px,calc(100dvh - 90px)))}
   .dz-app{--dz-top:56px;height:max(640px,min(880px,calc(100dvh - 90px)));border:3px solid var(--ink);border-radius:18px;grid-template-columns:380px minmax(0,1fr);grid-template-rows:var(--dz-top) minmax(0,1fr) auto;grid-template-areas:"top top" "sheet stage" "cta cta"}
   .dz-sheet{border-top:0;border-right:3px solid var(--ink)}

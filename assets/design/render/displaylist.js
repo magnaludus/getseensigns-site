@@ -1,7 +1,7 @@
 // Display list: the one description of a drawn side that both backends (SVG for the editor, canvas
 // for 3D textures and PNG previews) follow. Everything is already resolved: colors are hex, text is
 // already broken into lines with baselines, shapes are path strings. Coordinates are inches.
-import { specFor } from '../model/specs.js';
+import { specForSide } from '../model/specs.js';
 import { effectiveSide } from '../model/document.js';
 import { layoutOf } from '../model/layout.js';
 import { shapePath } from '../model/shapes.js';
@@ -50,7 +50,7 @@ export function elementItem(el, doc, env, assets) {
 export function sideDisplay(doc, pi, si, env, opts = {}) {
   const piece = doc.project.pieces[pi];
   const side = effectiveSide(piece, si);
-  const spec = specFor(env.specs, piece.productId, piece.choices);
+  const spec = specForSide(env.specs, piece.productId, piece.choices, si);
   const area = opts.region === 'trim' ? spec.trim : spec.art;
   const items = [];
   for (const el of side.elements) {

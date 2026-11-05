@@ -30,7 +30,9 @@
 //   design       JSON string, the v2 design document (200 KB max). Optional when request.mode is design_for_me.
 //   request      JSON string {name, email, phone, eventDate, notes, mode, source, viewport, clientTotal,
 //                elapsedMs, hear, designForMe: {products, wording, siteUrl}}
-//   preview-<n>  PNG, 6 MB max each, 12 max
+//   preview-<n>  PNG, 6 MB max each, 12 max. The page sends them in the order model/proof-plan.js lists, which is how each is
+//                labeled: a table throw sends the whole flat first (every panel in the cut shape, the ends and back turned the
+//                way they print), then each panel as it reads on the table. Anything that does not line up keeps its file name.
 //   logo-<n>     png, jpeg, webp or svg, 25 MB max each (svg 8 MB), 4 max
 //   _gotcha      honeypot: any value gets a fake success and nothing is stored
 // The whole body is capped at 40 MB because formData() keeps it in memory (128 MB Worker).
@@ -54,7 +56,8 @@
 
 import catalog from '../../assets/design/catalog.json' with { type: 'json' };
 import { projectTotal, productById, money } from '../../assets/design/model/pricing.js';
-import { validateDocument } from '../../assets/design/model/document.js';
+import { validateDocument, migrateDocument } from '../../assets/design/model/document.js';
+import { previewPlan, describePieces, sideSummaryText } from '../../assets/design/model/proof-plan.js';
 import orderCatalog from '../../assets/order/catalog.json' with { type: 'json' };
 import { getDb } from '../_lib/db.js';
 import { resolveLineItem } from '../_lib/stripe.js';
@@ -480,6 +483,7 @@ function summaryText(d) {
   }
   if (d.design) {
     const proj = d.design.project;
+    const pieces = describePieces(d.design, ENV);
     proj.pieces.forEach((piece, n) => {
       const product = productById(catalog, piece.productId);
       const names = piece.sides.map((s) => oneLine(s && s.name, 40)).filter(Boolean);
@@ -487,7 +491,15 @@ function summaryText(d) {
       lines.push('  Options: ' + optionLabels(piece));
       if (product.qty) lines.push('  Quantity: ' + piece.qty);
       lines.push('  Template: ' + (oneLine(piece.templateId, 60) || '-'));
-      lines.push('  Sides: ' + (piece.sidesMode === 'each' ? 'each side different' : 'same on all sides') + (names.length ? ' (' + names.join(', ') + ')' : ''));
+      const about = pieces[n];
+      if (about && about.panels) {
+        // a table throw: every panel is a different piece, edited upright as it reads on the table
+        lines.push('  Panels (each drawn upright, as it reads when the cover hangs on the table):');
+        for (const s of about.sides) lines.push('    ' + oneLine(s.name, 40) + ': ' + oneLine(sideSummaryText(s), 400) + ' (' + (s.reads || 'upright on the flat') + ')');
+        lines.push('  The first preview is the whole flat as it prints. The ends and the back are turned on it so they read right side up when the cover hangs.');
+      } else {
+        lines.push('  Sides: ' + (piece.sidesMode === 'each' ? 'each side different' : 'same on all sides') + (names.length ? ' (' + names.join(', ') + ')' : ''));
+      }
     });
     lines.push('', 'Design text');
     for (const key of ['name', 'line2', 'phone', 'web']) lines.push('  ' + key + ': ' + (oneLine(proj.fields[key], 200) || '-'));
@@ -500,6 +512,14 @@ function summaryText(d) {
   } else {
     lines.push('Server total: ' + money(d.serverTotal) + ' (Free shipping)');
     if (d.priceMismatch) lines.push('WARNING: the page showed ' + money(d.clientTotal) + ' but the server price is ' + money(d.serverTotal) + '. Check before quoting.');
+  }
+  if (d.design) {
+    const plan = previewPlan(d.design, ENV);
+    const previews = d.fileNames.filter((f) => f.startsWith('preview-'));
+    if (plan.length && plan.length === previews.length) {
+      lines.push('', 'Preview pictures:');
+      for (const item of plan) lines.push('  preview-' + item.n + '.png: ' + item.label);
+    }
   }
   const attached = d.attach.map((a) => a.filename);
   lines.push('', 'Attached: ' + (attached.join(', ') || 'none'));
@@ -702,6 +722,8 @@ function readDesign(form, mode) {
   if (raw.length > MAX_DESIGN) throw new Reject(413, 'too-large');
   try {
     const design = JSON.parse(raw);
+    // a design from a page opened before a product got its current sides (a table throw with only its front) still counts
+    migrateDocument(design, ENV);
     if (validateDocument(design, ENV).ok) return design;
   } catch (_) {
     // falls through to the same answer as an invalid document
@@ -763,10 +785,15 @@ async function readFiles(form) {
 // ---------- storage ----------
 
 // Reads every accepted file in full and sanitizes SVG logos, before anything is stored or sent.
-async function prepareFiles(files) {
+async function prepareFiles(files, design) {
   const out = [];
+  // The page sends the pictures in the order model/proof-plan.js lists them, so each one can say what it shows: the
+  // whole flat of a table throw, or one panel as it reads on the table. Anything that does not line up keeps its file name.
+  const plan = design ? previewPlan(design, ENV) : [];
+  const named = plan.length === files.previews.length;
   for (const pv of files.previews) {
-    out.push({ file: 'preview-' + pv.n + '.png', label: 'preview-' + pv.n + '.png', type: 'image/png', bytes: new Uint8Array(await pv.file.arrayBuffer()) });
+    const item = named ? plan[pv.n] : null;
+    out.push({ file: 'preview-' + pv.n + '.png', label: item ? item.label : 'preview-' + pv.n + '.png', type: 'image/png', bytes: new Uint8Array(await pv.file.arrayBuffer()) });
   }
   for (const l of files.logos) {
     let bytes = new Uint8Array(await l.file.arrayBuffer());
@@ -946,7 +973,7 @@ async function run(request, env, when, deps, options) {
   };
   if (items) record.order = { items: items.map((it) => ({ sku: it.sku, quantity: it.quantity, note: it.description || '' })) };
 
-  const prepared = await prepareFiles(files);
+  const prepared = await prepareFiles(files, design);
   const primaryLimit = env.BREVO_API_KEY ? BREVO_ATTACH_LIMIT : ATTACH_LIMIT;
   const primaryNames = pickAttachments(prepared, primaryLimit).map((a) => a.filename);
   const parts = { design: design, record: record };

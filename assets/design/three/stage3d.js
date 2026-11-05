@@ -7,7 +7,7 @@ import {
 import { specFor } from '../model/specs.js';
 import { webglAvailable } from './support.js';
 import {
-  FOV, clamp, rad, capSize, coverTransform, distanceLimits, fitDistance, frameShift, insetView, cameraPosition, presetFor, sideAzimuth,
+  FOV, clamp, rad, capSize, coverTransform, distanceLimits, fitDistance, frameShift, insetView, cameraPosition, presetFor, sideView,
 } from './geom.js';
 import { createOrbit } from './orbit.js';
 import { createMaterials, buildEnvironment } from './materials.js';
@@ -537,7 +537,7 @@ function build(container, opts) {
     const hits = ray.intersectObjects(model.pickables, false);
     for (const h of hits) {
       if (model.pickFilter && !model.pickFilter(h)) continue;
-      return { sideIndex: h.object.userData.side, u: h.uv ? h.uv.x : null, v: h.uv ? h.uv.y : null };
+      return { sideIndex: model.pickSide ? model.pickSide(h) : h.object.userData.side, u: h.uv ? h.uv.x : null, v: h.uv ? h.uv.y : null };
     }
     return null;
   }
@@ -688,9 +688,9 @@ function build(container, opts) {
       if (!disposed) applyPreset(name, !(opt && opt.animate === false));
     },
     focusSide(index, opt) {
-      const az = sideAzimuth(product, index);
-      if (az == null || disposed) return;
-      orbit.tweenTo({ azimuth: az }, opt && opt.animate === false ? 0 : 520);
+      const v = sideView(product, index);
+      if (!v || disposed) return;
+      orbit.tweenTo(v.elevation != null ? { azimuth: v.azimuth, elevation: v.elevation } : { azimuth: v.azimuth }, opt && opt.animate === false ? 0 : 520);
       requestRender();
     },
     getCameraState() {
