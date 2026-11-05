@@ -112,11 +112,25 @@ export function presetFor(productId, name) {
   }
 }
 
-// Azimuth that makes printed side `index` face the camera, or null when the product has one face.
-export function sideAzimuth(productId, index) {
-  if (productId === 'canopy') return wrap360((index | 0) * 90);
-  if (productId === 'yard') return (index | 0) === 1 ? 180 : 0;
+// Where the camera goes to look straight at printed side `index`: azimuth, and an elevation when the side is
+// not seen from the horizon (the top of a table throw), or null when the product has one face.
+// A table throw's sides are its panels: front, top, left end, right end, back. The camera is at azimuth 0 in front
+// of the table; 270 is the left end and 90 the right end, as the front of the table sees them.
+// The sides are seen from the usual table height (the same as the Front preset) and the top from above, so going
+// from the top to another panel brings the camera back down.
+const THROW_VIEWS = [{ azimuth: 0, elevation: 16 }, { azimuth: 0, elevation: 64 }, { azimuth: 270, elevation: 16 }, { azimuth: 90, elevation: 16 }, { azimuth: 180, elevation: 16 }];
+
+export function sideView(productId, index) {
+  const i = index | 0;
+  if (productId === 'canopy') return { azimuth: wrap360(i * 90) };
+  if (productId === 'yard') return { azimuth: i === 1 ? 180 : 0 };
+  if (productId === 'throw') return THROW_VIEWS[i] ? { ...THROW_VIEWS[i] } : null;
   return null;
+}
+
+export function sideAzimuth(productId, index) {
+  const v = sideView(productId, index);
+  return v ? v.azimuth : null;
 }
 
 // ---- products
