@@ -803,7 +803,7 @@ write_doc('/about', 'About Get Seen Signs | Veteran-Owned Sign Shop',
           'Get Seen Signs is a veteran-owned, family-run online sign shop. Proof first, then pay, free design and free shipping in the lower 48.',
           render_legal(open(SRC+'/pages/about.md', encoding='utf-8').read()))
 # ---------- sitemap, robots ----------
-urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/event-booth-bundles/','/reorder/','/about','/shipping-returns','/terms','/privacy','/contact','/quote']
+urls=['/','/shop/','/design/']+[f'/design/{d["slug"]}/' for d in DESIGN_PRODUCTS]+[f'/{p["slug"]}/' for p in P]+[f'/{GAMEDAY["slug"]}/']+['/blog/']+[f'/blog/{b["slug"]}/' for b in BLOG]+['/event-booth-bundles/','/reorder/','/portfolio/','/about','/shipping-returns','/terms','/privacy','/contact','/quote']
 # Single custom yard signs (Etsy 4597132396) were deactivated Oct 26, 2026. Packs of 5 are the minimum.
 open(SITE+'/_redirects','w').write(
     '/custom-yard-signs /bulk-campaign-signs/ 301\n'
@@ -1156,6 +1156,41 @@ ro_page=head(ro_title,ro_desc,path,ld(crumbs(items),{"@type":"WebPage","@id":BAS
 </main>
 '''+foot()
 write(path,ro_page)
+
+# ---------- /portfolio/: finished customer work. Original photographs only, neutral captions, no quotes or endorsements. ----------
+path='/portfolio/'; items=[('Home','/'),('Portfolio',path)]
+pf_title='Portfolio | Get Seen Signs'
+pf_desc='Photos of custom printed signs, tents and banners made by Get Seen Signs for customers.'
+PORTFOLIO=[
+    dict(base='/assets/portfolio/rhytec-industries-event-tent', w=1200, h=1600, widths=(480,768,1200),
+         caption='Rhytec Industries — Custom Printed Event Tent',
+         alt='Black custom printed event tent with the Rhytec Industries logo on its valance, set up outdoors on a gravel lot'),
+]
+def portfolio_fig(it):
+    ws=it['widths']
+    srcset=', '.join(f'{it["base"]}-{w}.webp {w}w' for w in ws)
+    return f'''<figure style="aspect-ratio:auto;max-width:480px;margin:0 auto;background:#fff">
+  <picture><source srcset="{srcset}" sizes="(max-width: 600px) 92vw, 480px" type="image/webp"><img src="{it["base"]}.jpg" alt="{e(it["alt"])}" width="{it["w"]}" height="{it["h"]}" loading="lazy" decoding="async"></picture>
+  <figcaption style="padding:14px 16px;font-weight:600;border-top:2px solid var(--ink)">{e(it["caption"])}</figcaption>
+</figure>'''
+pf_ld=[crumbs(items),{"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":pf_title,"description":pf_desc,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}]
+pf_page=head(pf_title,pf_desc,path,ld(*pf_ld))+NAV+f'''<main id="main">
+<section class="phero ink">
+  <div class="wrap">
+    {bc_html(items)}
+    <h1>Our <span class="block">portfolio.</span></h1>
+    <p class="lede">Photos of custom printed work we have made for customers.</p>
+  </div>
+</section>
+<section class="sec paper">
+  <div class="wrap">
+    {''.join(portfolio_fig(it) for it in PORTFOLIO)}
+  </div>
+</section>
+{quote_cta("Something else")}
+</main>
+'''+foot()
+write(path,pf_page)
 
 # ---------- /feeds/google-products.xml: Google Merchant Center product feed ----------
 # RSS 2.0 with the g: namespace, one item per priced option (the same SKUs as the order panel, so ids stay stable).
