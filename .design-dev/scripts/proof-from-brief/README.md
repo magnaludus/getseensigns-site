@@ -1,8 +1,9 @@
 # Brief to proof pictures
 
 A dev-only command that turns a proof brief (the plan a person or a bot writes for one customer's order) and the
-customer's real logo files into the pictures a proof request carries, and checks the design the way the Designer does.
-The brief says what goes on every panel. The Designer does the drawing and the measuring.
+customer's real logo files into the pictures a proof request carries, checks the design the way the Designer does, and
+draws the 17 x 11 in proof sheet for each piece. The brief says what goes on every panel. The Designer does the drawing
+and the measuring.
 
 It builds the design in the Designer itself (headless Chromium, the real fonts, the real model code), so text fits,
 safe areas and the turned panels of a table throw are exactly what a customer would get. It never sends anything: every
@@ -21,7 +22,9 @@ npm run proof -- --brief scripts/proof-from-brief/examples/honeydrop-throw.json 
 |---|---|
 | `--brief` | The brief, or the bot's whole reply (`{"status":"ready","brief":{...}}`). |
 | `--logos` | A folder with the customer's logo files, named as in `brief.logos`. Needed when the brief lists logos. |
+| `--mockups` | A folder with the mockup photos, named as in each piece's `mockup_file`. Needed when a piece names one. |
 | `--out` | Where to write the files. Created if needed. |
+| `--no-sheet` | Skip the proof sheets. |
 | `--strict` | Exit 4 when a check fails or anything needs a look. |
 
 Exit codes: `0` done, `1` bad brief or bad usage, `2` the reply was not `ready`, `3` the render failed, `4` `--strict` and something needs a look.
@@ -35,6 +38,7 @@ Exit codes: `0` done, `1` bad brief or bad usage, `2` the reply was not `ready`,
 | `report.json` | The checks, the numbers behind them, and what needs a look (below). |
 | `summary.txt` | What is on each panel, in the words of the proof email, and the checks. |
 | `brief.json` | The brief as the tool read it (defaults filled, hex codes in capitals, side names as the catalog spells them). |
+| `proof-sheet-<n>-<product>.png` and `.pdf` | The proof sheet for each piece: 17 x 11 in, the PNG at 200 dpi (3400 x 2200), the PDF with real, searchable text and vector art. See below. |
 
 ## The checks
 
@@ -49,11 +53,13 @@ Exit codes: `0` done, `1` bad brief or bad usage, `2` the reply was not `ready`,
 
 `report.attention` is the list of plain sentences for a person: every failed check with its panel, a soft (amber) logo, a
 word that no panel prints (a phone number with no phone line on the template), an empty logo frame, a logo in the brief
-that is on no panel, a panel left for a manual layout, and a logo the brief calls vector that is not. `verdict` is
+that is on no panel, a panel left for a manual layout, a logo the brief calls vector that is not, and for each proof
+sheet: no mockup photo yet, a note that still has a question in it ("Scott to confirm"), or text that did not fit. `verdict` is
 `clean` when that list is empty. The rest of `report.json` has the numbers: `text_sizes` (letter height against the
 minimum, per line), `logos` (pixels, placed width, dpi, level), `unplaced_fields`, `empty_logo_frames`, `manual`,
-`pieces` (what is on each panel), `previews` (file, label, width, height), `blocked_requests` and `page_problems`
-(both should be empty).
+`pieces` (what is on each panel), `previews` (file, label, width, height), `sheets` (files, size, whether a mockup is
+on it, anything that did not fit, the notes it carries and every word on the page as text), `blocked_requests` and
+`page_problems` (both should be empty).
 
 ## The brief
 
@@ -84,6 +90,7 @@ minimum, per line), `logos` (pixels, placed width, dpi, level), `unplaced_fields
 its path (`pieces[0].panels[4].side`) and a plain message. Every mistake is reported at once. A brief that is not
 `ready` is not rendered. A reply may carry other fields (`summary`, `flags`, `mockup_prompt`, ...); they are ignored.
 
+- `mockup_file` (optional): the finished mockup photo for this piece's sheet, a plain file name of a PNG, JPG or WebP in the `--mockups` folder. The photo comes from a separate step (a blank product photo with the real logo placed on it), so whoever runs that step adds this field.
 - `product`, `options`, `template`: ids from `assets/design/catalog.json`. Every option of the product is needed. A product with no quantity (yard signs, decals, safety signs: the pack sets the count) has `qty` 1.
 - `sides_mode`: `each` for a table throw (its panels are different pieces). `same` or `each` for products with several sides. A product with one side is just that side.
 - `panels`: one per side, named as the catalog names them (`Front`, `Top`, `Left end`, `Right end`, `Back`, `Right`, `Left`, `Sign 3`, ...). In `same` mode, the first side only. A 3-sided throw has no `Back`, a fitted cover has `Front` only.
@@ -102,6 +109,30 @@ On a canopy the logo and words go in the gable's own block (the widest box that 
 the body band, the same regions the templates use. A panel's `bg` (`primary`, `accent`, `ink` or a hex) sets its
 background, and its words use the ink color unless that does not read, then the palette color that does.
 
+## The proof sheet
+
+One layout for every product, from the reference proofs: landscape 17 x 11 in, drawn from the brief and the design.
+
+| Where | What |
+|---|---|
+| Header bar | `Get Seen Signs - Proof for <customer>`, then `<title> \| Proof N \| <date>` (the date as `Nov 10, 2026`), and GET SEEN SIGNS at the right. |
+| Left, about 60% | The product title and `(Qty N)`, the piece's one-line description, then the flat print art, the biggest thing on the page, to scale, with its labels and dimension lines, and a line of sizes under it (`About 24 x 18 in \| Logo about 6 in wide \| ... \| To scale`). |
+| Top right | `How it looks set up`: the mockup photo, small, in a thin grey box, and `Mockup for feel only. The flat art is what prints.` With no photo the box says `Mockup photo not added yet`, and the report says so. |
+| Right | COLORS: a swatch, a name and the hex code for every printed color, with where it is used (`Honey gold (background) #F6C445`). The names come from the brief's palette and `extra_colors`, the colors and where from the design itself. NOTES: the brief's notes, the tool's own notes for what it drew, and `Not included: ...`. |
+| Footer | Beige, the line about screen colors, and the red line `Proof N of up to 3 free revisions. Reply "Approved" or send any changes.` |
+
+The art is the Designer's own drawing, so it is the file that prints. By product:
+
+- **Table throw**: the whole flat, every panel turned the way it prints, a name tag on each panel, the drape hatched, and a line of every panel's size as it reads on the table. Notes say the side and back art is turned on the flat, and that the hatched corners (4-sided) or the short back strip (3-sided) carry no art.
+- **Canopy**: the gable and valance cut shape with ROOF PANEL and VALANCE brackets, the dashed seam (proof only), width and height lines, and a close-up of the valance. Four different sides are drawn in a grid.
+- **Feather flag**: the flag to scale with its pole side, TOP, BOTTOM and size lines, and close-ups cut where nothing is, so no letter or logo is split, until all the art is shown.
+- **Everything else**: the art with its width and height lines. Packs and two-sided signs with different art on each side are drawn in a grid.
+
+The look is in `sheet.mjs`: the header is the site's ink color, the footer its paper color, the red line `#C8102E`, and
+the type is Barlow and Barlow Condensed, the site's own fonts. Text that is too long for its place is shrunk to fit, and
+if it still does not fit the report says which part was cut off. Everything a brief says goes onto the page as plain
+text, never as markup, and the page can reach nothing outside the site.
+
 ## Using it in a loop
 
 1. Save the bot's reply to a file and run the tool on it.
@@ -119,5 +150,5 @@ and `stage`.
 
 ## What it does not do
 
-The photo mockup (a blank product photo with the real logo placed on it) and the 17 x 11 proof sheet are separate steps.
-The pictures here are the flat art that prints.
+It does not make the photo mockup (a blank product photo with the real logo placed on it): that is a separate step, and
+the sheet only places the finished photo. The mockup is for feel, and the flat art is what prints.

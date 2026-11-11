@@ -11,6 +11,7 @@ export const LOGO_TYPES = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jp
 export const MAX_LOGOS = 4; // the Designer's own limit (assets/design/ui/logos.js)
 export const MAX_PIECES = 6; // the document's own limit (model/document.js)
 export const MAX_LINES = 3;
+export const MOCKUP_TYPES = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp' };
 export const CHECK_KEYS = ['safe_area', 'min_text_size', 'logo_sharpness', 'contrast'];
 
 const FIELD_KEYS = ['name', 'line2', 'phone', 'web'];
@@ -31,6 +32,11 @@ const str = (v) => (typeof v === 'string' ? v : null);
 export function logoTypeOf(file) {
   const ext = String(file).split('.').pop().toLowerCase();
   return LOGO_TYPES[ext] || null;
+}
+
+export function mockupTypeOf(file) {
+  const ext = String(file).split('.').pop().toLowerCase();
+  return MOCKUP_TYPES[ext] || null;
 }
 
 // input: the bot's whole reply ({status:'ready', brief:{...}}) or just the brief.
@@ -139,7 +145,7 @@ export function checkBrief(input, data) {
 
 function checkPiece(p, i, out, catalog, err, warn) {
   const at = `pieces[${i}]`;
-  const piece = { product: null, options: {}, qty: 1, template: null, sides_mode: 'same', panels: [], title: '', description: '', mockup_prompt: '' };
+  const piece = { product: null, options: {}, qty: 1, template: null, sides_mode: 'same', panels: [], title: '', description: '', mockup_prompt: '', mockup_file: null };
   if (!isObj(p)) {
     err(at, 'Each piece must be an object.');
     return piece;
@@ -173,6 +179,11 @@ function checkPiece(p, i, out, catalog, err, warn) {
   piece.title = str(p.title) || '';
   piece.description = str(p.description) || '';
   piece.mockup_prompt = str(p.mockup_prompt) || '';
+  // the finished mockup photo for this piece's sheet, a plain file name (the folder is --mockups)
+  if (p.mockup_file != null) {
+    if (typeof p.mockup_file !== 'string' || !FILE_NAME.test(p.mockup_file) || p.mockup_file.includes('..') || !mockupTypeOf(p.mockup_file)) err(`${at}.mockup_file`, 'mockup_file must be a plain file name of a PNG, JPG or WebP picture, with no folders.');
+    else piece.mockup_file = p.mockup_file;
+  }
 
   // sides
   const complete = Object.keys(piece.options).length === product.groups.length;

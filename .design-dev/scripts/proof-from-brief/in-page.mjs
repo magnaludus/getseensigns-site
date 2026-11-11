@@ -14,6 +14,7 @@ import { capHeight } from '/assets/design/model/layout.js';
 import { contrast, resolveColor } from '/assets/design/model/color.js';
 import { previewPlan, describePieces, sideSummaryText } from '/assets/design/model/proof-plan.js';
 import { addLogoFile } from '/assets/design/ui/logos.js';
+import { buildSheets, dataUrls } from '/.design-dev/scripts/proof-from-brief/sheet-art.mjs';
 
 // The largest letter size (inches) a panel's words may grow to. The quick-fill buttons use the same for the ends.
 const TEXT_MAX = 20;
@@ -237,5 +238,8 @@ export async function run(brief, logoFiles) {
   // the same validator the proof request goes through on the server: a design it would refuse is a bug in this tool
   const valid = validateDocument(doc, env);
 
-  return { doc, previews, report: { doc_valid: valid, checks, warnings, text_sizes: textSizes, logos, logo_files: logoFacts, empty_logo_frames: emptyFrames, unplaced_fields: unplacedFields, unused_logos: unusedLogos, manual, summary } };
+  // the art for the proof sheets: figures as SVG with their logos inlined, and what the sheets say about them
+  const sheets = valid.ok ? buildSheets(doc, env, assets, await dataUrls(assets)) : [];
+
+  return { doc, previews, sheets, report: { doc_valid: valid, checks, warnings, text_sizes: textSizes, logos, logo_files: logoFacts, empty_logo_frames: emptyFrames, unplaced_fields: unplacedFields, unused_logos: unusedLogos, manual, summary } };
 }

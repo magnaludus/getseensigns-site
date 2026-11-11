@@ -11,19 +11,24 @@
 import { parseArgs } from 'node:util';
 import { readFileSync, writeFileSync, mkdirSync, statSync, readdirSync, rmSync } from 'node:fs';
 import { join, resolve, sep } from 'node:path';
-import { checkBrief, loadData, CHECK_KEYS, logoTypeOf } from './brief.mjs';
+import { checkBrief, loadData, CHECK_KEYS, logoTypeOf, mockupTypeOf } from './brief.mjs';
+import { buildSheetHtml, captionLines, colorRows, FLAT_NOTE, DRAPE_NOTE, STRIP_NOTE, SEAM_NOTE } from './sheet.mjs';
 import { startServer, launch, newPage, openDesigner } from '../../tests/e2e/helpers.mjs';
 
-const HELP = `Usage: node scripts/proof-from-brief/cli.mjs --brief <file.json> --out <dir> [--logos <dir>] [--strict]
+const HELP = `Usage: node scripts/proof-from-brief/cli.mjs --brief <file.json> --out <dir> [--logos <dir>] [--mockups <dir>] [--no-sheet] [--strict]
 
-  --brief   the bot's reply (the whole {status:"ready", brief:{...}} object) or just the brief
-  --logos   a folder with the customer's logo files, named as in brief.logos (needed when the brief lists logos)
-  --out     where to write design.json, report.json, summary.txt and previews/ (created if needed)
-  --strict  exit 4 when any check fails or something needs a look
+  --brief    the bot's reply (the whole {status:"ready", brief:{...}} object) or just the brief
+  --logos    a folder with the customer's logo files, named as in brief.logos (needed when the brief lists logos)
+  --mockups  a folder with the mockup photos, named as in each piece's mockup_file (the sheet has an empty box without one)
+  --out      where to write design.json, report.json, summary.txt, previews/ and the proof sheets (created if needed)
+  --no-sheet skip the proof sheets (the 17 x 11 in PNG and PDF for each piece)
+  --strict   exit 4 when any check fails or something needs a look
 
 Nothing is sent anywhere. Needs Node, Python 3 (a local file server) and Chromium (Playwright).`;
 
 const MAX_LOGO_BYTES = 25 * 1024 * 1024; // the Designer's own limit
+const MAX_MOCKUP_BYTES = 15 * 1024 * 1024;
+const slug = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 const log = (...a) => process.stderr.write(a.join(' ') + '\n');
 // The result goes out whole before the process ends, even when stdout is a pipe.
@@ -50,10 +55,75 @@ function readLogos(brief, dir) {
   return files;
 }
 
+// piece index -> data URL of its mockup photo
+function readMockups(brief, dir) {
+  const out = new Map();
+  const need = brief.pieces.filter((p) => p.mockup_file);
+  if (!need.length) return out;
+  if (!dir) throw new Error('A piece names a mockup file, so --mockups <folder> is needed.');
+  const base = resolve(dir) + sep;
+  brief.pieces.forEach((p, i) => {
+    if (!p.mockup_file) return;
+    const path = resolve(dir, p.mockup_file);
+    if (!path.startsWith(base)) throw new Error(`${p.mockup_file} is outside the mockups folder.`);
+    let size;
+    try { size = statSync(path).size; } catch (_) { throw new Error(`Mockup file ${p.mockup_file} is not in ${dir}.`); }
+    if (size > MAX_MOCKUP_BYTES) throw new Error(`${p.mockup_file} is over 15 MB.`);
+    out.set(i, `data:${mockupTypeOf(p.mockup_file)};base64,${readFileSync(path).toString('base64')}`);
+  });
+  return out;
+}
+
+// Each piece's sheet: the HTML from the art and the brief, rendered to a PNG at 200 dpi and a PDF, both 17 x 11 in.
+// Nothing leaves this machine here either: only the local copy of the site (its fonts) is reachable.
+async function renderSheets({ browser, server, blocked, brief, data, result, mockups, out }) {
+  const done = [];
+  const context = await browser.newContext({ viewport: { width: 1632, height: 1056 }, deviceScaleFactor: 3400 / 1632 });
+  const url = `${server.base}/__proof-sheet.html`;
+  let html = '';
+  await context.route('**/*', (route) => {
+    const u = new URL(route.request().url());
+    if (u.origin === server.base && !u.pathname.startsWith('/api/')) return route.continue();
+    blocked.push(`${route.request().method()} ${u.origin}${u.pathname}`);
+    return route.abort();
+  });
+  await context.route(url, (route) => route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: html }));
+  const page = await context.newPage();
+  for (const sheet of result.sheets) {
+    const piece = brief.pieces[sheet.piece];
+    const product = data.catalog.products.find((p) => p.id === piece.product);
+    const notes = brief.notes.slice();
+    const has = (t) => notes.some((x) => x.trim().toLowerCase() === t.toLowerCase());
+    if (sheet.facts.panels && !has(FLAT_NOTE)) notes.push(FLAT_NOTE);
+    if (sheet.facts.drape && !has(DRAPE_NOTE)) notes.push(DRAPE_NOTE);
+    if (sheet.facts.strip && !has(STRIP_NOTE)) notes.push(STRIP_NOTE);
+    if (sheet.facts.valance_in && !has(SEAM_NOTE)) notes.push(SEAM_NOTE);
+    if (brief.not_included.length) notes.push(`Not included: ${brief.not_included.join('; ')}.`);
+    const figures = sheet.hero.figures;
+    const facts = { ...sheet.facts, closeups: figures.some((f) => /close-up/i.test(f.label || '')) };
+    html = buildSheetHtml({
+      customer: brief.customer, proofNo: brief.proof_no, date: brief.date,
+      title: piece.title || product.name, qty: piece.qty, description: piece.description,
+      figures, caption: captionLines(facts), colors: colorRows(sheet.used_colors, brief.palette, brief.extra_colors), notes,
+      mockup: mockups.has(sheet.piece) ? { dataUrl: mockups.get(sheet.piece) } : null,
+    });
+    await page.goto(url, { waitUntil: 'load' });
+    await page.waitForFunction(() => window.__sheet, null, { timeout: 30000 });
+    const info = await page.evaluate(() => window.__sheet);
+    const base = `proof-sheet-${sheet.piece + 1}-${slug(product.short)}`;
+    await page.screenshot({ path: join(out, base + '.png') });
+    await page.pdf({ path: join(out, base + '.pdf'), width: '17in', height: '11in', printBackground: true, margin: { top: '0', right: '0', bottom: '0', left: '0' }, pageRanges: '1' });
+    const size = pngSize(readFileSync(join(out, base + '.png')));
+    done.push({ piece: sheet.piece, png: base + '.png', pdf: base + '.pdf', width: size.w, height: size.h, overflow: info.overflow, mockup: mockups.has(sheet.piece), notes, text: info.text });
+  }
+  await context.close();
+  return done;
+}
+
 async function main() {
   let args;
   try {
-    args = parseArgs({ options: { brief: { type: 'string' }, logos: { type: 'string' }, out: { type: 'string' }, strict: { type: 'boolean' }, help: { type: 'boolean', short: 'h' } } }).values;
+    args = parseArgs({ options: { brief: { type: 'string' }, logos: { type: 'string' }, mockups: { type: 'string' }, out: { type: 'string' }, 'no-sheet': { type: 'boolean' }, strict: { type: 'boolean' }, help: { type: 'boolean', short: 'h' } } }).values;
   } catch (e) {
     log(e.message + '\n\n' + HELP);
     return done(1, { ok: false, stage: 'usage', errors: [{ path: 'args', message: e.message }] });
@@ -82,8 +152,10 @@ async function main() {
   }
   const { brief } = checked;
   let logoFiles;
+  let mockups = new Map();
   try {
     logoFiles = readLogos(brief, args.logos);
+    if (!args['no-sheet']) mockups = readMockups(brief, args.mockups);
   } catch (e) {
     return done(1, { ok: false, stage: 'logos', errors: [{ path: 'logos', message: e.message }] });
   }
@@ -100,6 +172,7 @@ async function main() {
   let result;
   let problems = [];
   let timer;
+  let sheetsOut = [];
   try {
     const made = await newPage(browser, 'desktop');
     problems = made.problems;
@@ -116,6 +189,11 @@ async function main() {
       made.page.evaluate(async ({ b, l }) => (await import('/.design-dev/scripts/proof-from-brief/in-page.mjs')).run(b, l), { b: brief, l: logoFiles }),
       new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('The render took over 2 minutes.')), 120000); }),
     ]);
+    clearTimeout(timer);
+    if (result.report.doc_valid.ok && !args['no-sheet']) {
+      log('drawing the proof sheets');
+      sheetsOut = await renderSheets({ browser, server, blocked, brief, data, result, mockups, out });
+    }
   } catch (e) {
     log('render failed: ' + e.message);
     return done(3, { ok: false, stage: 'render', error: e.message, blocked_requests: blocked, page_problems: problems });
@@ -154,6 +232,12 @@ async function main() {
   for (const f of r.unused_logos) attention.push(`${f} is in the brief but is not on any panel.`);
   for (const m of r.manual) attention.push(`${m.panel}: needs a manual layout${m.note ? ` (${m.note})` : ''}. It is plain in these pictures.`);
   for (const l of r.logo_files) if (l.claimed_vector != null && l.vector != null && l.claimed_vector !== l.vector) attention.push(`${l.file}: the brief says ${l.claimed_vector ? 'vector' : 'raster'} but the file is ${l.vector ? 'vector' : 'raster'}.`);
+  for (const sh of sheetsOut) {
+    if (!sh.mockup) attention.push(`Proof sheet ${sh.piece + 1}: no mockup photo, so its mockup box is empty. Add the photo (mockup_file) before the sheet goes to a customer.`);
+    for (const name of sh.overflow) attention.push(`Proof sheet ${sh.piece + 1}: the ${name} did not fit and is cut off. Shorten it.`);
+    // a note that still hands a question to Scott is not ready for a customer
+    for (const note of sh.notes.filter((t) => /to confirm|tbd|\?\s*$/i.test(t))) attention.push(`Proof sheet ${sh.piece + 1}: a note still has a question in it ("${note}"). Settle it before the sheet goes out.`);
+  }
 
   const report = {
     ok: true,
@@ -174,6 +258,7 @@ async function main() {
     manual: r.manual,
     pieces: r.summary,
     previews,
+    sheets: sheetsOut,
     brief_warnings: checked.warnings,
     blocked_requests: blocked,
     page_problems: problems.filter((p) => !/swiftshader|GPU stall|GL Driver/i.test(p)),
@@ -190,7 +275,7 @@ async function main() {
   log(`${previews.length} pictures, design.json and report.json are in ${out}`);
   log(`checks: ${CHECK_KEYS.map((k) => `${k} ${r.checks[k]}`).join(', ')}${attention.length ? `. ${attention.length} thing${attention.length > 1 ? 's' : ''} to look at.` : '.'}`);
   const failed = CHECK_KEYS.some((k) => r.checks[k] === 'fail') || attention.length > 0;
-  return done(args.strict && failed ? 4 : 0, { ok: true, out, verdict: report.verdict, checks: report.checks, attention, files: ['design.json', 'brief.json', 'report.json', 'summary.txt', ...previews.map((p) => p.file)] });
+  return done(args.strict && failed ? 4 : 0, { ok: true, out, verdict: report.verdict, checks: report.checks, attention, files: ['design.json', 'brief.json', 'report.json', 'summary.txt', ...previews.map((p) => p.file), ...sheetsOut.flatMap((x) => [x.png, x.pdf])] });
 }
 
 main().catch((e) => {
