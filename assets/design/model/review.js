@@ -1,10 +1,10 @@
 // Things to fix before sending: small type, low-resolution logos, hard-to-read colors and content
 // outside the safe zone. The customer can still send; we fix these on the proof.
-import { specFor, dpiLevel, effectiveDpi } from './specs.js';
+import { specForSide, dpiLevel, effectiveDpi } from './specs.js';
 import { elementBox, isTooSmall, capHeight } from './layout.js';
 import { aabb, corners } from './geometry.js';
 import { boxInside } from './outline.js';
-import { effectiveSide } from './document.js';
+import { effectiveSide, productOf, sideLabel } from './document.js';
 import { sideDisplay } from '../render/displaylist.js';
 import { lowContrastText } from './contrast.js';
 
@@ -14,11 +14,12 @@ const clip = (s, n = 24) => (String(s).length > n ? String(s).slice(0, n - 1) + 
 export function collectWarnings(doc, env, assets) {
   const out = [];
   doc.project.pieces.forEach((piece, pi) => {
-    const spec = specFor(env.specs, piece.productId, piece.choices);
+    const product = productOf(env, piece.productId);
     const sideIds = piece.sidesMode === 'same' ? [0] : piece.sides.map((_, i) => i);
     for (const si of sideIds) {
       const side = effectiveSide(piece, si);
-      const where = piece.sides.length > 1 && piece.sidesMode !== 'same' ? ` (${side.name} side)` : '';
+      const spec = specForSide(env.specs, piece.productId, piece.choices, si);
+      const where = piece.sides.length > 1 && piece.sidesMode !== 'same' ? ` (${sideLabel(product, piece.sides.map((x) => x.name), si)})` : '';
       const display = sideDisplay(doc, pi, si, env, { region: 'trim', assets });
       for (const el of side.elements) {
         if (el.hidden) continue;

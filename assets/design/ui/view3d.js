@@ -6,7 +6,7 @@ import { h } from './dom.js';
 import { webglAvailable, lowMemoryDevice } from '../three/support.js';
 import { sideDisplay } from '../render/displaylist.js';
 import { renderToCanvas } from '../render/canvas.js';
-import { sideNamesFor, productOf } from '../model/document.js';
+import { sideNamesFor, productOf, sideLabel, hasPanels } from '../model/document.js';
 import { specFor } from '../model/specs.js';
 import { resolveColor } from '../model/color.js';
 import { renderSimple } from './simple-view.js';
@@ -22,7 +22,9 @@ export function createView3d(ctx) {
   const host = h('div', { class: 'dz-3d-host' });
   const simple = h('div', { class: 'dz-simple', hidden: true });
   const simpleCanvas = h('canvas', { class: 'dz-simple-canvas', role: 'img' });
-  simple.append(simpleCanvas, h('p', { class: 'dz-simple-note' }, 'Simple view. Your 3D preview is not available on this device, but your design is saved and you can still send it.'));
+  const SIMPLE_NOTE = 'Simple view. Your 3D preview is not available on this device, but your design is saved and you can still send it.';
+  const simpleNote = h('p', { class: 'dz-simple-note' }, SIMPLE_NOTE);
+  simple.append(simpleCanvas, simpleNote);
   const bar = h('div', { class: 'dz-3dbar' });
   const presetBtns = PRESETS.map(([id, label]) => h('button', { type: 'button', class: 'dz-chip dz-chip-dark', onclick: () => stage && stage.setCameraPreset(id, { animate: !reduced }) }, label));
   const sceneSel = h('select', { class: 'dz-input dz-select-dark', 'aria-label': 'Scene', onchange: () => setScene(sceneSel.value) });
@@ -156,14 +158,16 @@ export function createView3d(ctx) {
     const piece = S.doc.project.pieces[S.view.pi];
     const product = productOf(env, piece.productId);
     simpleCanvas.setAttribute('aria-label', `Simple picture of your ${product.name}`);
+    // a table throw's picture is its front panel; the Flat view has the rest
+    simpleNote.textContent = hasPanels(product) && sideNamesFor(product, piece.choices).length > 1 ? `${SIMPLE_NOTE} The picture shows the front panel. The Flat view shows every panel.` : SIMPLE_NOTE;
     renderSimple(simpleCanvas.getContext('2d'), { doc: S.doc, pi: S.view.pi, si: S.view.si, env, assets: S.assets, width: simpleCanvas.width, height: simpleCanvas.height });
   }
 
   function pickSide(i) {
     const piece = S.doc.project.pieces[S.view.pi];
     const si = piece.sidesMode === 'same' ? 0 : i;
-    store.set({ view: { mode: 'flat', si } });
-    ctx.announce(`Editing the ${piece.sides[si].name} side`);
+    store.set({ view: { mode: 'flat', si, flatMap: 'edit' } });
+    ctx.announce(`Editing the ${sideLabel(productOf(env, piece.productId), piece.sides.map((s) => s.name), si)}`);
   }
 
   function setScene(id) {

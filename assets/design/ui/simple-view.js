@@ -208,7 +208,8 @@ function drawPanel(ctx, art, spec, box) {
 export function renderSimple(ctx, { doc, pi, si, env, assets, width, height }) {
   const piece = doc.project.pieces[pi];
   const spec = specFor(env.specs, piece.productId, piece.choices);
-  const display = sideDisplay(doc, pi, piece.sidesMode === 'same' ? 0 : si, env, { region: 'trim', assets });
+  // the flat picture of a table throw is the front panel, the part customers see from the aisle
+  const display = sideDisplay(doc, pi, piece.sidesMode === 'same' || piece.productId === 'throw' ? 0 : si, env, { region: 'trim', assets });
   const art = renderToCanvas(display, 1400, assets);
   const side0 = piece.sides[0];
   const baseColor = resolveColor(side0.bg.type === 'gradient' ? side0.bg.from : side0.bg.color, doc.project.palette);

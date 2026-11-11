@@ -3,8 +3,8 @@
 import { sideDisplay } from '../render/displaylist.js';
 import { innerArt } from '../render/svg.js';
 import { elementBox, layoutOf } from '../model/layout.js';
-import { findElement, updateElements } from '../model/document.js';
-import { specFor } from '../model/specs.js';
+import { findElement, updateElements, productOf, sideLabel } from '../model/document.js';
+import { specForSide } from '../model/specs.js';
 import { resolveColor } from '../model/color.js';
 import {
   corners, handlePoints, hitTest, resizeBox, rotateAngle, pinchBox, snapTargets, computeSnap, aabb, center,
@@ -46,7 +46,7 @@ export function createStage(container, { store, actions, announce }) {
 
   const piece = () => S.doc.project.pieces[S.view.pi];
   const side = () => piece().sides[S.view.si];
-  const spec = () => specFor(env.specs, piece().productId, piece().choices);
+  const spec = () => specForSide(env.specs, piece().productId, piece().choices, S.view.si);
   const boxOf = (el) => elementBox(el, env.measure, env.fonts);
   const pxPerIn = () => {
     const m = svg.getScreenCTM();
@@ -481,7 +481,7 @@ export function createStage(container, { store, actions, announce }) {
         if (el) {
           const b = boxOf(el);
           const what = el.type === 'text' ? `Text, "${String(el.text).slice(0, 40)}"` : el.type === 'image' ? 'Logo' : el.name || 'Shape';
-          msg = `${what}, ${n(b.w)} by ${n(b.h)} inches, ${side().name} side`;
+          msg = `${what}, ${n(b.w)} by ${n(b.h)} inches, ${sideLabel(productOf(env, piece().productId), piece().sides.map((x) => x.name), S.view.si)}`;
         }
       } else if (state.selection.length > 1) msg = `${state.selection.length} items selected`;
       else msg = 'Nothing selected';

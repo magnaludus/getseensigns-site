@@ -2,6 +2,7 @@
 // numbers the editor and the 3D preview need. All lengths are inches. The origin (0, 0) is the top
 // left corner of the trim. Pure functions, no DOM, so node tests can load this file.
 import { bounds, bandRect, insetConvex, insetPolygon, rowSpan } from './outline.js';
+import { buildThrowLayout } from './throw-panels.js';
 
 export function variantKey(spec, choices) {
   if (!spec.variant_by.length) return '*';
@@ -32,7 +33,7 @@ export function specFor(specs, productId, choices) {
   const bleed = v.bleed.in || 0;
   const art = { w: v.artboard.w, h: v.artboard.h };
   const trim = rect(0, 0, art.w, art.h);
-  const full = rect(-bleed, -bleed, art.w + 2 * bleed, art.h + 2 * bleed);
+  const full = rect(0 - bleed, 0 - bleed, art.w + 2 * bleed, art.h + 2 * bleed); // 0 - bleed, so no bleed gives 0 and not -0
   let safe;
   if (v.safe.inset != null) {
     safe = rect(v.safe.inset, v.safe.inset, art.w - 2 * v.safe.inset, art.h - 2 * v.safe.inset);
@@ -107,6 +108,31 @@ export function specFor(specs, productId, choices) {
   if (v.base_zone) out.baseZoneIn = v.base_zone.h;
   if (v.grommets) out.grommetEveryIn = v.grommets.every_in;
   if (spec.table) out.table = spec.table;
+  // A table throw printed as one flat: every panel's place on the printer's page, how it is turned for print
+  // and its safe area. The artboard above is the front panel; specForSide gives the others.
+  if (v.panels_in_template && spec.template_sizes && spec.template_sizes[key] && spec.panel_safe) {
+    out.flat = buildThrowLayout({ style: key.split('-')[1], template: spec.template_sizes[key], boxes: v.panels_in_template, frontSafe: out.safe, margins: spec.panel_safe });
+    out.panel = out.flat.panels[0];
+  }
+  out.regions = regionsFor(out);
+  return out;
+}
+
+// The spec of one side of a product whose sides are different pieces with their own size (the panels of a
+// table throw). Every other product, and the first side of a throw, answer with specFor.
+export function specForSide(specs, productId, choices, si = 0) {
+  const base = specFor(specs, productId, choices);
+  const panel = base.flat && base.flat.panels[si | 0];
+  if (!panel || panel.index === 0) return base;
+  const trim = rect(0, 0, panel.size.w, panel.size.h);
+  const out = {
+    ...base,
+    panel,
+    artboard: { w: panel.size.w, h: panel.size.h },
+    trim,
+    art: rect(0 - base.bleed, 0 - base.bleed, trim.w + 2 * base.bleed, trim.h + 2 * base.bleed),
+    safe: { ...panel.safe },
+  };
   out.regions = regionsFor(out);
   return out;
 }

@@ -9,7 +9,7 @@ import {
 } from '../../../assets/design/model/document.js';
 import { createHistory } from '../../../assets/design/model/history.js';
 import { sideDisplay } from '../../../assets/design/render/displaylist.js';
-import { specFor } from '../../../assets/design/model/specs.js';
+import { specForSide } from '../../../assets/design/model/specs.js';
 import { encodeDoc, decodeDoc } from '../../../assets/design/model/share.js';
 
 // FUZZ_STEPS and FUZZ_SEED let you run longer or different walks by hand.
@@ -70,7 +70,7 @@ function oneStep(doc, hist, r) {
   const piece = doc.project.pieces[pi];
   const si = piece.sidesMode === 'same' ? 0 : Math.floor(r() * piece.sides.length);
   const side = piece.sides[si];
-  const spec = specFor(env.specs, piece.productId, piece.choices);
+  const spec = specForSide(env.specs, piece.productId, piece.choices, si);
   const el = side.elements.length ? pick(side.elements) : null;
   const product = productOf(env, piece.productId);
   const span = (v, k) => v * k;
@@ -95,7 +95,7 @@ function oneStep(doc, hist, r) {
     case 8:
       return product.qty ? setQty(doc, pi, Math.floor(r() * 30) - 3) : doc;
     case 9:
-      return piece.sides.length > 1 ? setSidesMode(doc, pi, pick(['same', 'each'])) : doc;
+      return piece.sides.length > 1 ? setSidesMode(doc, pi, pick(['same', 'each']), env) : doc;
     case 10:
       return applyTemplate(doc, pi, si, pick(product.templates), env);
     case 11:
@@ -109,7 +109,7 @@ function oneStep(doc, hist, r) {
     case 15:
       return el ? reorderElement(doc, pi, si, el.id, pick(['front', 'back', 'forward', 'backward'])) : doc;
     default:
-      return piece.sides.length > 1 ? copySide(doc, pi, si, piece.sides.map((_, i) => i).filter((i) => i !== si)) : setBackground(doc, pi, si, { type: 'gradient', from: '@primary', to: pick(HEX), angle: Math.round(r() * 360) });
+      return piece.sides.length > 1 && !product.sides.panels ? copySide(doc, pi, si, piece.sides.map((_, i) => i).filter((i) => i !== si)) : setBackground(doc, pi, si, { type: 'gradient', from: '@primary', to: pick(HEX), angle: Math.round(r() * 360) });
   }
 }
 
