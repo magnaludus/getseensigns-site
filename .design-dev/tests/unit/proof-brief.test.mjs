@@ -4,7 +4,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { checkBrief, loadData, USES, CHECK_KEYS } from '../../scripts/proof-from-brief/brief.mjs';
+import { checkBrief, loadData, USES, CHECK_KEYS, mockupTypeOf } from '../../scripts/proof-from-brief/brief.mjs';
 
 const data = loadData();
 const example = JSON.parse(readFileSync(new URL('../../scripts/proof-from-brief/examples/honeydrop-throw.json', import.meta.url), 'utf8'));
@@ -245,4 +245,19 @@ test('the checker reads only the Designer\'s own data, so a new product or optio
     const res = checkBrief(brief(piece), data);
     assert.equal(res.ok, true, `${product.id}: ${JSON.stringify(res.errors)}`);
   }
+});
+
+test('a mockup photo is a plain file name of a PNG, JPG or WebP picture, and is optional', () => {
+  const withMockup = (file) => brief(throwPiece({ mockup_file: file }));
+  assert.equal(checkBrief(brief(throwPiece()), data).brief.pieces[0].mockup_file, null);
+  assert.equal(checkBrief(withMockup('photo.JPG'), data).brief.pieces[0].mockup_file, 'photo.JPG');
+  assert.equal(checkBrief(withMockup('Tent mockup (2).webp'), data).ok, true);
+  for (const bad of ['../photo.png', 'a/b.png', 'photo.svg', 'photo.pdf', 'photo', '', 5]) {
+    const res = checkBrief(withMockup(bad), data);
+    assert.equal(res.ok, false, String(bad));
+    assert.ok(res.errors.some((e) => e.path === 'pieces[0].mockup_file'), `${bad}: ${JSON.stringify(res.errors)}`);
+  }
+  assert.equal(mockupTypeOf('a.png'), 'image/png');
+  assert.equal(mockupTypeOf('a.jpeg'), 'image/jpeg');
+  assert.equal(mockupTypeOf('a.svg'), null, 'an SVG is a logo, not a photo');
 });
