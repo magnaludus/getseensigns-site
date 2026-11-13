@@ -15,6 +15,7 @@ import { contrast, resolveColor } from '/assets/design/model/color.js';
 import { previewPlan, describePieces, sideSummaryText } from '/assets/design/model/proof-plan.js';
 import { addLogoFile } from '/assets/design/ui/logos.js';
 import { buildSheets, dataUrls } from '/.design-dev/scripts/proof-from-brief/sheet-art.mjs';
+import { fieldIsPrinted } from '/.design-dev/scripts/proof-from-brief/printed.mjs';
 
 // The largest letter size (inches) a panel's words may grow to. The quick-fill buttons use the same for the ends.
 const TEXT_MAX = 20;
@@ -176,7 +177,7 @@ export async function run(brief, logoFiles) {
   const textSizes = [];
   const logos = [];
   const emptyFrames = [];
-  const words = [];
+  const printedLines = [];
   doc.project.pieces.forEach((piece, pi) => {
     const ids = piece.sidesMode === 'same' ? [0] : piece.sides.map((_, i) => i);
     for (const si of ids) {
@@ -185,7 +186,7 @@ export async function run(brief, logoFiles) {
       for (const el of piece.sides[si].elements) {
         if (el.hidden) continue;
         if (el.type === 'text' && String(el.text).trim()) {
-          words.push(String(el.text).trim());
+          printedLines.push(String(el.text).trim());
           const cap = capHeight(el, env.fonts);
           textSizes.push({ piece: pi, panel, text: clip(el.text), cap_in: r2(cap), min_cap_in: spec.minCapIn, read_ft: Math.round(spec.readFt), ok: cap + 1e-9 >= spec.minCapIn });
         } else if (el.type === 'image') {
@@ -213,7 +214,7 @@ export async function run(brief, logoFiles) {
     contrast: kinds.has('contrast') ? 'fail' : 'pass',
   };
   const unplacedFields = Object.entries(doc.project.fields)
-    .filter(([, v]) => String(v).trim() && !words.includes(String(v).trim()))
+    .filter(([, v]) => !fieldIsPrinted(v, printedLines))
     .map(([field, value]) => ({ field, value }));
   const unusedLogos = brief.logos.filter((l) => !logos.some((x) => x.file === l.file)).map((l) => l.file);
   const logoFacts = brief.logos.map((l) => {
