@@ -53,10 +53,12 @@
 </header>
 
 <main id="main">
+<!-- Home page only, so it is here and not in style.css (which is inlined into every page). On a phone the photos come
+     right after the headline and before the buttons, so the first screen shows the product. -->
+<style>@media (max-width:960px){.hero-in{gap:20px}.hero-copy{display:contents}.hero-copy>h1{order:1;margin-bottom:0}.hero-copy>.lede{order:2;margin:0}.hero-art{order:3}.hero-copy>.cta-row{order:4}.hero-copy>.proof{order:5}.hero-copy>.etsy-alt{order:6;margin-top:0!important}}</style>
 <section class="hero" id="top">
   <div class="wrap hero-in">
     <div class="hero-copy">
-      <img class="hero-logo" src="assets/brand/getseen-horizontal-for-dark-bg.svg" alt="Get Seen Signs: Signs · Banners · Flags · Tents" width="420" height="161">
       <h1>Signs that make people <span class="block">look twice.</span></h1>
       <p class="lede">Custom yard signs, banners, flags and tents for businesses, schools, teams and families. We design it free, you approve the proof, and it ships straight to your door.</p>
       <div class="cta-row">
