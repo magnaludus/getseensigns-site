@@ -882,11 +882,15 @@ assert len(HOME_TOP)==10 and all(k in BIZK for k in HOME_TOP)
 # One real customer photo under the hero (the same photograph and neutral caption as /portfolio/, no quote or endorsement).
 # These rules are for the home page only, so they sit in the home page and not in style.css (which is inlined into every page
 # and would re-date the whole sitemap).
-HOME_WORK='''<style>@media (min-width:1181px){.card-wide{grid-column:span 2}}.see-all{margin:28px 0 8px;text-align:center}.work{background:var(--paper2,#E9E3D6);border-bottom:2px solid var(--ink);padding:36px 0}.work-in{display:flex;align-items:center;gap:32px}.work-pic{flex:none;width:200px;border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;box-shadow:6px 6px 0 var(--ink);transform:rotate(-2deg);background:#fff}.work-pic img{display:block;width:100%;height:240px;object-fit:cover}.work-copy h2{font-size:clamp(28px,3.4vw,44px);margin:6px 0 10px}.work-copy p{margin:0 0 14px;max-width:560px}@media (max-width:600px){.work-in{gap:18px}.work-pic{width:120px}.work-pic img{height:150px}.work-copy h2{font-size:24px}}</style>
+HOME_WORK='''<style>@media (min-width:1181px){.card-wide{grid-column:span 2}}.see-all{margin:28px 0 8px;text-align:center}.work{background:var(--paper2,#E9E3D6);border-bottom:2px solid var(--ink);padding:36px 0}.work-in{display:flex;align-items:center;gap:32px}.work-pics{flex:none;display:flex;gap:12px}.work-pics picture{display:block;width:150px;border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;box-shadow:5px 5px 0 var(--ink);background:#fff}.work-pics picture:nth-child(odd){transform:rotate(-2deg)}.work-pics picture:nth-child(even){transform:rotate(1.5deg)}.work-pics img{display:block;width:100%;height:200px;object-fit:cover}.work-copy h2{font-size:clamp(28px,3.4vw,44px);margin:6px 0 10px}.work-copy p{margin:0 0 14px;max-width:560px}@media (max-width:900px){.work-in{flex-direction:column;align-items:flex-start;gap:22px}}@media (max-width:600px){.work-pics{gap:8px}.work-pics picture{width:29vw}.work-pics img{height:38vw}.work-copy h2{font-size:24px}}</style>
 <section class="work" aria-label="Customer work">
   <div class="wrap work-in">
-    <a class="work-pic" href="/portfolio/"><picture><source srcset="/assets/portfolio/rhytec-industries-event-tent-480.webp 480w, /assets/portfolio/rhytec-industries-event-tent-768.webp 768w" sizes="(max-width: 600px) 40vw, 220px" type="image/webp"><img src="/assets/portfolio/rhytec-industries-event-tent.jpg" alt="Black custom printed event tent with the Rhytec Industries logo on its valance, set up outdoors on a gravel lot" width="1200" height="1600" loading="lazy" decoding="async"></picture></a>
-    <div class="work-copy"><p class="eyebrow">Real work, real customers</p><h2>Printed, shipped and <span class="hl">set up.</span></h2><p>Rhytec Industries: custom printed event tent. A real photo from a customer, not a mockup.</p><a class="btn btn-ink btn-sm" href="/portfolio/">See our portfolio <span aria-hidden="true">→</span></a></div>
+    <a class="work-pics" href="/portfolio/">
+      <picture><source srcset="/assets/portfolio/sons-of-liberty-gun-works-event-tent-480.webp" type="image/webp"><img src="/assets/portfolio/sons-of-liberty-gun-works-event-tent.jpg" alt="Navy and red custom printed event tent for Sons of Liberty Gun Works, set up outdoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
+      <picture><source srcset="/assets/portfolio/rhytec-industries-event-tent-480.webp" type="image/webp"><img src="/assets/portfolio/rhytec-industries-event-tent.jpg" alt="Black custom printed event tent for Rhytec Industries, set up outdoors on a gravel lot" width="1200" height="1600" loading="lazy" decoding="async"></picture>
+      <picture><source srcset="/assets/portfolio/rhytec-industries-event-tent-indoor-480.webp" type="image/webp"><img src="/assets/portfolio/rhytec-industries-event-tent-indoor.jpg" alt="Black custom printed event tent for Rhytec Industries, set up indoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
+    </a>
+    <div class="work-copy"><p class="eyebrow">Real work, real customers</p><h2>Printed, shipped and <span class="hl">set up.</span></h2><p>Custom printed event tents for Sons of Liberty Gun Works and Rhytec Industries. Real photos from customers, not mockups.</p><a class="btn btn-ink btn-sm" href="/portfolio/">See our portfolio <span aria-hidden="true">→</span></a></div>
   </div>
 </section>'''
 options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<option>Election / campaign signs</option><option>Birthday or graduation sign</option><option>Something else</option>'
@@ -1178,12 +1182,18 @@ PORTFOLIO=[
     dict(base='/assets/portfolio/rhytec-industries-event-tent', w=1200, h=1600, widths=(480,768,1200),
          caption='Rhytec Industries — Custom Printed Event Tent',
          alt='Black custom printed event tent with the Rhytec Industries logo on its valance, set up outdoors on a gravel lot'),
+    dict(base='/assets/portfolio/sons-of-liberty-gun-works-event-tent', w=768, h=1024, widths=(480,768),
+         caption='Sons of Liberty Gun Works — Custom Printed Event Tent',
+         alt='Navy and red custom printed event tent with the Sons of Liberty Gun Works logo on the roof and white lettering on a red valance, set up outdoors under a blue sky'),
+    dict(base='/assets/portfolio/rhytec-industries-event-tent-indoor', w=768, h=1024, widths=(480,768),
+         caption='Rhytec Industries — Custom Printed Event Tent, Roof and Valance',
+         alt='Black custom printed event tent with the Rhytec Industries logo on the roof panel and the valance, set up indoors on a shop floor'),
 ]
 def portfolio_fig(it):
     ws=it['widths']
     srcset=', '.join(f'{it["base"]}-{w}.webp {w}w' for w in ws)
-    return f'''<figure style="aspect-ratio:auto;max-width:480px;margin:0 auto;background:#fff">
-  <picture><source srcset="{srcset}" sizes="(max-width: 600px) 92vw, 480px" type="image/webp"><img src="{it["base"]}.jpg" alt="{e(it["alt"])}" width="{it["w"]}" height="{it["h"]}" loading="lazy" decoding="async"></picture>
+    return f'''<figure style="aspect-ratio:auto;margin:0;background:#fff;border:2px solid var(--ink);border-radius:var(--r);overflow:hidden">
+  <picture><source srcset="{srcset}" sizes="(max-width: 700px) 92vw, 370px" type="image/webp"><img src="{it["base"]}.jpg" alt="{e(it["alt"])}" width="{it["w"]}" height="{it["h"]}" loading="lazy" decoding="async" style="display:block;width:100%;height:auto"></picture>
   <figcaption style="padding:14px 16px;font-weight:600;border-top:2px solid var(--ink)">{e(it["caption"])}</figcaption>
 </figure>'''
 pf_ld=[crumbs(items),{"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":pf_title,"description":pf_desc,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}]
@@ -1197,7 +1207,9 @@ pf_page=head(pf_title,pf_desc,path,ld(*pf_ld))+NAV+f'''<main id="main">
 </section>
 <section class="sec paper">
   <div class="wrap">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;align-items:start">
     {''.join(portfolio_fig(it) for it in PORTFOLIO)}
+    </div>
   </div>
 </section>
 {quote_cta("Something else")}
