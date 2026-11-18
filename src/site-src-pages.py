@@ -876,6 +876,19 @@ def hcard(k):
 </a>'''
 BIZ_EXTRA={'15-trade-show-booth-kit','16-hard-hat-decals','17-aluminum-safety-signs','18-challenge-coins','19-custom-patches','20-metal-business-cards','21-metal-a-frame-sign','22-tabletop-retractable-banner','23-table-runner'}
 BIZK=[k for k in NAMES if int(k[:2])<=10 or k in BIZ_EXTRA]; SEAK=[k for k in NAMES if int(k[:2])>10 and k not in BIZ_EXTRA]
+# The home page shows two rows of the core products; /shop/ has every product.
+HOME_TOP=[k for k in BIZK if int(k[:2])<=10]+['15-trade-show-booth-kit']
+assert len(HOME_TOP)==10 and all(k in BIZK for k in HOME_TOP)
+# One real customer photo under the hero (the same photograph and neutral caption as /portfolio/, no quote or endorsement).
+# These rules are for the home page only, so they sit in the home page and not in style.css (which is inlined into every page
+# and would re-date the whole sitemap).
+HOME_WORK='''<style>@media (min-width:1181px){.card-wide{grid-column:span 2}}.see-all{margin:28px 0 8px;text-align:center}.work{background:var(--paper2,#E9E3D6);border-bottom:2px solid var(--ink);padding:36px 0}.work-in{display:flex;align-items:center;gap:32px}.work-pic{flex:none;width:200px;border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;box-shadow:6px 6px 0 var(--ink);transform:rotate(-2deg);background:#fff}.work-pic img{display:block;width:100%;height:240px;object-fit:cover}.work-copy h2{font-size:clamp(28px,3.4vw,44px);margin:6px 0 10px}.work-copy p{margin:0 0 14px;max-width:560px}@media (max-width:600px){.work-in{gap:18px}.work-pic{width:120px}.work-pic img{height:150px}.work-copy h2{font-size:24px}}</style>
+<section class="work" aria-label="Customer work">
+  <div class="wrap work-in">
+    <a class="work-pic" href="/portfolio/"><picture><source srcset="/assets/portfolio/rhytec-industries-event-tent-480.webp 480w, /assets/portfolio/rhytec-industries-event-tent-768.webp 768w" sizes="(max-width: 600px) 40vw, 220px" type="image/webp"><img src="/assets/portfolio/rhytec-industries-event-tent.jpg" alt="Black custom printed event tent with the Rhytec Industries logo on its valance, set up outdoors on a gravel lot" width="1200" height="1600" loading="lazy" decoding="async"></picture></a>
+    <div class="work-copy"><p class="eyebrow">Real work, real customers</p><h2>Printed, shipped and <span class="hl">set up.</span></h2><p>Rhytec Industries: custom printed event tent. A real photo from a customer, not a mockup.</p><a class="btn btn-ink btn-sm" href="/portfolio/">See our portfolio <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>'''
 options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<option>Election / campaign signs</option><option>Birthday or graduation sign</option><option>Something else</option>'
 REACH_HOME=f'''<div class="reach">
         <p class="reach-kicker">Text, WhatsApp or call</p>
@@ -910,13 +923,13 @@ def quote_form(selected=''):
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>"""
 
-main=main.replace('{{QUOTE_FORM}}',quote_form()).replace('{{BIZ}}','\n'.join(hcard(k) for k in BIZK)).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options).replace('{{REACH}}',REACH_HOME)
+main=main.replace('{{QUOTE_FORM}}',quote_form()).replace('{{BIZ}}','\n'.join(hcard(k) for k in HOME_TOP)).replace('{{COUNT}}',str(len(BIZK+SEAK))).replace('{{WORK}}',HOME_WORK).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options).replace('{{REACH}}',REACH_HOME)
 GUIDESEC='''
 <section class="sec paper2" id="guides">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">Ideas and guides</p><h2>Made to order. <span class="hl">Shipped across the lower 48.</span></h2>
     <p class="sub">We're a veteran-owned, family-run online sign shop. No storefront: everything ships free to your door.</p>
-    <p class="season-strip" style="margin-top:14px;font-weight:600"><b>Seasonal:</b> <a href="/blog/thanksgiving-banner-yard-sign-ideas/">Thanksgiving signs</a> (order by Nov 13) · <a href="/blog/christmas-family-name-banner-ideas/">Christmas banners and yard signs</a> (order and approve your proof by Dec 10)</p></div>
+    <p class="season-strip" style="margin-top:14px;font-weight:600"><b>Seasonal:</b> <a href="/blog/christmas-family-name-banner-ideas/">Christmas banners and yard signs</a> (order and approve your proof by Dec 10)</p></div>
     <div class="local-grid">
       <a class="lcard" href="/tailgate-and-gameday-signs/"><h3>Tailgate &amp; gameday</h3><p>Tailgate tents, table throws, House Divided and Game Day yard signs in your colors.</p><span class="go">Gameday signs <span aria-hidden="true">→</span></span></a>
       <a class="lcard" href="/blog/christmas-family-name-banner-ideas/"><h3>Guide: Christmas sign ideas</h3><p>Family name banners and yard signs: what to print, which size fits where, and the Dec 10 order date.</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></a>
