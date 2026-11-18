@@ -43,13 +43,13 @@ export function layout({ heading, preheader, bodyHtml }) {
     '<span style="display:none;max-height:0;overflow:hidden;opacity:0">' + esc(preheader || '') + '</span>' +
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F3EFE6"><tr><td align="center" style="padding:24px 12px">' +
     '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#ffffff;border-radius:14px;overflow:hidden;border:2px solid ' + INK + '">' +
-    '<tr><td style="background:' + INK + ';padding:22px 28px"><a href="' + SITE + '/" style="text-decoration:none"><img src="' + LOGO + '" width="190" alt="Get Seen Signs" style="display:block;border:0;height:auto;width:190px"></a></td></tr>' +
+    '<tr><td bgcolor="#14161A" style="background:' + INK + ';padding:22px 28px"><a href="' + SITE + '/" style="text-decoration:none"><img src="' + LOGO + '" width="190" alt="Get Seen Signs" style="display:block;border:0;height:auto;width:190px"></a></td></tr>' +
     '<tr><td style="background:' + YELLOW + ';height:8px;line-height:8px;font-size:0">&nbsp;</td></tr>' +
     '<tr><td style="padding:30px 28px 26px;font-size:16px;line-height:1.55">' +
     '<h1 style="margin:0 0 14px;font-family:' + HEAD_FONT + ';font-weight:900;font-size:36px;line-height:1;text-transform:uppercase;color:' + INK + '">' + esc(heading) + '</h1>' +
     bodyHtml +
     '</td></tr>' +
-    '<tr><td style="background:' + INK + ';padding:24px 28px;font-size:14px;line-height:1.6;color:#BDBAB2">' +
+    '<tr><td bgcolor="#14161A" style="background:' + INK + ';padding:24px 28px;font-size:14px;line-height:1.6;color:#BDBAB2">' +
     '<div style="font-family:' + HEAD_FONT + ';font-weight:900;font-size:20px;letter-spacing:.08em;text-transform:uppercase;color:#ffffff">Get Seen Signs</div>' +
     '<div>Veteran-owned, family-run online sign shop.</div>' +
     '<div style="margin-top:8px"><a href="tel:' + SHOP_PHONE_TEL + '" style="color:#ffffff;font-weight:700;text-decoration:none">' + SHOP_PHONE + '</a> &middot; ' +
