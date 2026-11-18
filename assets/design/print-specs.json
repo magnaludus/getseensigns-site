@@ -863,7 +863,7 @@
         "length",
         "style"
       ],
-      "sides": 1,
+      "sides": "by_style",
       "overlays": [
         "trim",
         "safe"
@@ -873,13 +873,21 @@
         "status": "UX_DEFAULT",
         "note": "Standard folding table height. The front panel hangs from the table top, so the gap above the floor is the table height minus the template's front panel height."
       },
+      "panel_safe": {
+        "status": "UX_DEFAULT",
+        "note": "The printer publishes a safe area for the front panel only. For the top, the ends and the 4-sided back we keep art off the seams and hems with our own margins, in inches from the panel edge, sized from the front panel's margins (about 3 in at the sides, 4 to 4.5 in at the top and bottom). Our own default, not a printer number. A 3-sided throw is open at the back, so the end panel edge that faces the back gets extra clearance (open_hem_in).",
+        "edge_in": 3,
+        "hang_in": 4.25,
+        "hem_in": 4.5,
+        "open_hem_in": 6
+      },
       "variants": {
         "6-3": {
           "artboard": {
             "w": 72.23,
             "h": 28.33,
             "source": "printer template",
-            "note": "Editable area = the front panel of a 6 ft 3-sided throw. Top, sides and back use the background color."
+            "note": "Editable area = the front panel of a 6 ft 3-sided throw. The top, both ends and the short back strip are separate panels in the template; the back strip stays plain because the back of a 3-sided throw is open."
           },
           "bleed": {
             "in": 0,
@@ -940,7 +948,7 @@
             "w": 72.66,
             "h": 27.65,
             "source": "printer template",
-            "note": "Editable area = the front panel of a 6 ft 4-sided throw. Top, sides and back use the background color."
+            "note": "Editable area = the front panel of a 6 ft 4-sided throw. The top, both ends and the back are separate panels in the template, each with its own editable area."
           },
           "bleed": {
             "in": 0,
@@ -1001,7 +1009,7 @@
             "w": 95.92,
             "h": 28.02,
             "source": "printer template",
-            "note": "Editable area = the front panel of a 8 ft 3-sided throw. Top, sides and back use the background color."
+            "note": "Editable area = the front panel of a 8 ft 3-sided throw. The top, both ends and the short back strip are separate panels in the template; the back strip stays plain because the back of a 3-sided throw is open."
           },
           "bleed": {
             "in": 0,
@@ -1062,7 +1070,7 @@
             "w": 96.03,
             "h": 27.59,
             "source": "printer template",
-            "note": "Editable area = the front panel of a 8 ft 4-sided throw. Top, sides and back use the background color."
+            "note": "Editable area = the front panel of a 8 ft 4-sided throw. The top, both ends and the back are separate panels in the template, each with its own editable area."
           },
           "bleed": {
             "in": 0,

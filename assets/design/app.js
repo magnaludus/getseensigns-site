@@ -7,6 +7,7 @@ import { createDocument, setField, setPalette, setChoices, setQty } from './mode
 import { createStore } from './store.js';
 import { createActions } from './editor/actions.js';
 import { createStage } from './editor/stage-svg.js';
+import { createFlatMap } from './editor/flat-map.js';
 import { createViewbar } from './ui/viewbar.js';
 import { createSelbar } from './ui/selbar.js';
 import { createSheet } from './ui/sheet.js';
@@ -144,6 +145,7 @@ function startEditor(root, env, analytics, doc, opts) {
   // ---- stage area ----
   const flat = h('div', { class: 'dz-flat' });
   const stage = createStage(flat, { store, actions, announce: ctx.announce });
+  const flatMap = createFlatMap(flat, { store, env, ctx });
   const viewbar = createViewbar(ctx);
   const selbar = createSelbar(ctx);
   const view3d = createView3d(ctx);
@@ -225,7 +227,7 @@ function startEditor(root, env, analytics, doc, opts) {
   };
   document.addEventListener('keydown', onKey);
 
-  if (debug) Object.assign(debug, { store, actions, ctx, stage, view3d, env, startedAt: performance.now() });
+  if (debug) Object.assign(debug, { store, actions, ctx, stage, flatMap, view3d, env, startedAt: performance.now() });
   return {
     store, ctx,
     destroy() {

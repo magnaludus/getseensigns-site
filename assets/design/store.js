@@ -8,7 +8,7 @@ export function createStore(initialDoc, env, initialView) {
   const history = createHistory(initialDoc, { limit: 300 });
   const state = {
     doc: initialDoc,
-    view: { pi: 0, si: 0, mode: 'flat', scene: 'studio', guides: { trim: true, safe: true, valance_line: true, roof: true, outline: true, sleeve: true, grass_line: true, grommets: true, bleed: true }, tab: 'templates', sheet: 'half', simple: false, ...initialView },
+    view: { pi: 0, si: 0, mode: 'flat', scene: 'studio', guides: { trim: true, safe: true, valance_line: true, roof: true, outline: true, sleeve: true, grass_line: true, grommets: true, bleed: true }, tab: 'templates', sheet: 'half', simple: false, flatMap: 'edit', ...initialView },
     selection: [],
     editing: null,
     assets: new Map(),

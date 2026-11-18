@@ -9,7 +9,7 @@ import { createColorsTab } from './tabs/colors.js';
 import { createOptionsTab } from './tabs/options.js';
 import { createSidesTab } from './tabs/sides.js';
 import { createSendTab } from './tabs/send.js';
-import { sideNamesFor, productOf } from '../model/document.js';
+import { sideNamesFor, productOf, sideNoun } from '../model/document.js';
 
 const TABS = [
   { id: 'templates', label: 'Templates', icon: 'grid', build: createTemplatesTab },
@@ -84,6 +84,11 @@ export function createSheet(ctx) {
   function sync() {
     const vis = visibleTabs();
     const ids = new Set(vis.map((t) => t.id));
+    // the tab is "Sides" for a tent and "Panels" for a table throw
+    const noun = sideNoun(productOf(env, S.doc.project.pieces[S.view.pi].productId));
+    const word = noun === 'side' ? 'Sides' : noun[0].toUpperCase() + noun.slice(1) + 's';
+    const label = tabBtns.get('sides').querySelector('span');
+    if (label && label.textContent !== word) label.textContent = word;
     for (const t of TABS) {
       const btn = tabBtns.get(t.id);
       btn.hidden = !ids.has(t.id);

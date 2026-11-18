@@ -3,13 +3,13 @@
 import { elementItem, sideDisplay } from './displaylist.js';
 import { svg } from './svg.js';
 import { buildTemplateSide } from '../model/templates.js';
-import { specFor } from '../model/specs.js';
+import { specForSide } from '../model/specs.js';
 import { resolveColor } from '../model/color.js';
 
-// What a template would look like with the customer's current words and colors.
-export function templateThumb(doc, pi, template, env, assets) {
+// What a template would look like with the customer's current words and colors, on side `si`.
+export function templateThumb(doc, pi, template, env, assets, si = 0) {
   const piece = doc.project.pieces[pi];
-  const spec = specFor(env.specs, piece.productId, piece.choices);
+  const spec = specForSide(env.specs, piece.productId, piece.choices, si);
   const touched = doc.project.touched;
   const palette = touched.palette ? doc.project.palette : template.palette;
   const fields = touched.fields ? doc.project.fields : template.sample;

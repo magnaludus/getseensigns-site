@@ -241,7 +241,7 @@
       "page": "/table-throws/",
       "slug": "table-throw",
       "designPage": "/design/table-throw/",
-      "sides": {"mode": "fixed", "names": ["Front panel"]},
+      "sides": {"mode": "by_choice", "group": "style", "names": {"3": ["Front", "Top", "Left end", "Right end"], "4": ["Front", "Top", "Left end", "Right end", "Back"], "fitted": ["Front"]}, "panels": true, "noun": "panel"},
       "qty": {"min": 1, "max": 20, "unit": "throw"},
       "groups": [
         {"id": "length", "label": "Table", "choices": [{"id": "6", "label": "6 ft"}, {"id": "8", "label": "8 ft"}]},
@@ -256,37 +256,37 @@
           "when": {"length": "6", "style": "3"},
           "source": "table-throws",
           "offer": "6 ft, 3-sided",
-          "note": "Front panel preview. A 3-sided throw has an open back. The full-color print is on the front panel."
+          "note": "Design the front, the top and both ends. A 3-sided throw has an open back, so the short back strip stays plain."
         },
         {
           "when": {"length": "6", "style": "4"},
           "source": "table-throws",
           "offer": "6 ft, 4-sided",
-          "note": "Front panel preview. A 4-sided throw covers all the way around. The full-color print is on the front panel."
+          "note": "Design the front, the top, both ends and the back. A 4-sided throw covers all the way around."
         },
         {
           "when": {"length": "8", "style": "3"},
           "source": "table-throws",
           "offer": "8 ft, 3-sided",
-          "note": "Front panel preview. A 3-sided throw has an open back. The full-color print is on the front panel."
+          "note": "Design the front, the top and both ends. A 3-sided throw has an open back, so the short back strip stays plain."
         },
         {
           "when": {"length": "8", "style": "4"},
           "source": "table-throws",
           "offer": "8 ft, 4-sided",
-          "note": "Front panel preview. A 4-sided throw covers all the way around. The full-color print is on the front panel."
+          "note": "Design the front, the top, both ends and the back. A 4-sided throw covers all the way around."
         },
         {
           "when": {"length": "6", "style": "fitted"},
           "source": "table-throws",
           "offer": "6 ft fitted, closed back",
-          "note": "Front panel preview. A fitted cover is closed on the back. The full-color print is on the front panel, and the preview uses the 3-sided front panel size."
+          "note": "A fitted cover is closed on the back. You design the front panel, and the preview uses the 3-sided front panel size."
         },
         {
           "when": {"length": "8", "style": "fitted"},
           "source": "table-throws",
           "offer": "8 ft fitted, closed back",
-          "note": "Front panel preview. A fitted cover is closed on the back. The full-color print is on the front panel, and the preview uses the 3-sided front panel size."
+          "note": "A fitted cover is closed on the back. You design the front panel, and the preview uses the 3-sided front panel size."
         }
       ],
       "templates": ["bold-center", "split-field", "band-stripe", "badge-star"]

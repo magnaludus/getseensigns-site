@@ -7,8 +7,13 @@
 //    sides:[{id, name, templateId, edited, bg, elements:[...]}]}],
 //  palette:{primary,accent,ink}, fields:{name,line2,phone,web}, logos:[{id,name,w,h,type}],
 //  touched:{palette,fields}}}
+//
+// Most products print the same design on every side or let each side differ in content only. A table throw is
+// different: its sides are panels of different sizes (front, top, left end, right end and, on a 4-sided throw,
+// back), each with its own print area from the printer's flat. Its pieces are always sidesMode 'each', and the
+// side index is the panel (see model/throw-panels.js).
 import { uid } from './ids.js';
-import { specFor } from './specs.js';
+import { specForSide } from './specs.js';
 import { buildTemplateSide, refitText } from './templates.js';
 import { normalizeHex } from './color.js';
 
@@ -34,6 +39,18 @@ export function sideNamesFor(product, choices) {
   const s = product.sides;
   if (s.mode === 'by_choice') return s.names[choices[s.group]] || s.names[Object.keys(s.names)[0]];
   return s.names;
+}
+
+// Some products are made of pieces that differ in size and in what they are: the panels of a table throw. Each
+// panel has its own print area, is always edited on its own (never "the same on every side"), and a new panel
+// starts plain instead of copying the first.
+export const hasPanels = (product) => !!(product && product.sides && product.sides.panels);
+
+// "Front side", "Top panel": the word after the side's name.
+export const sideNoun = (product) => (product && product.sides && product.sides.noun) || 'side';
+
+export function sideLabel(product, names, si) {
+  return `${names[si]} ${sideNoun(product)}`;
 }
 
 export function templateOf(env, productId, templateId) {
@@ -63,16 +80,31 @@ function newSide(env, product, piece, name, template, fields, spec) {
   return { id: uid('s'), name, templateId: template.id, edited: false, bg: built.bg, elements: built.elements };
 }
 
+// A panel with nothing on it yet: just the background color (a gradient becomes its first color, so every panel
+// matches the front).
+export function plainBg(bg) {
+  return bg.type === 'gradient' ? { type: 'solid', color: bg.from } : JSON.parse(JSON.stringify(bg));
+}
+
+function blankSide(name, like) {
+  return { id: uid('s'), name, templateId: like.templateId, edited: false, bg: plainBg(like.bg), elements: [] };
+}
+
 export function createDocument(env, productId, opts = {}) {
   const product = productOf(env, productId);
   const choices = { ...defaultChoices(product), ...(opts.choices || {}) };
   const template = templateOf(env, productId, opts.templateId || product.templates[0]);
   const palette = { ...(opts.palette || template.palette) };
   const fields = { ...(opts.fields || template.sample) };
-  const spec = specFor(env.specs, productId, choices);
   const names = sideNamesFor(product, choices);
-  const piece = { id: uid('p'), productId, choices, qty: 1, templateId: template.id, sidesMode: 'same', sides: [] };
-  piece.sides = names.map((name) => newSide(env, product, piece, name, template, fields, spec));
+  const panels = hasPanels(product);
+  const piece = { id: uid('p'), productId, choices, qty: 1, templateId: template.id, sidesMode: panels ? 'each' : 'same', sides: [] };
+  const sides = [];
+  names.forEach((name, i) => {
+    if (panels && i > 0) sides.push(blankSide(name, sides[0]));
+    else sides.push(newSide(env, product, piece, name, template, fields, specForSide(env.specs, productId, choices, i)));
+  });
+  piece.sides = sides;
   return {
     v: DOC_VERSION,
     project: { pieces: [piece], palette, fields, logos: [], touched: { palette: false, fields: false } },
@@ -179,8 +211,22 @@ export function reorderElement(doc, pi, si, id, action) {
   });
 }
 
-export function setBackground(doc, pi, si, bg) {
-  return mapSide(doc, pi, si, (s) => editedSide(s, { bg }));
+// Take everything off one side, leaving its background.
+export function clearSide(doc, pi, si) {
+  const side = getSide(doc, pi, si);
+  if (!side.elements.length) return doc;
+  return mapSide(doc, pi, si, (s) => editedSide(s, { elements: [] }));
+}
+
+// The background of one side. On a table throw the front sets the color of the whole cover: every other panel
+// follows it (a gradient becomes its first color) until the customer gives that panel a background of its own.
+export function setBackground(doc, pi, si, bg, env) {
+  const piece = getPiece(doc, pi);
+  const panels = !!env && hasPanels(productOf(env, piece.productId));
+  const next = mapSide(doc, pi, si, (s) => editedSide(s, panels && si > 0 ? { bg, bgOwn: true } : { bg }));
+  if (!panels || si !== 0) return next;
+  const follow = plainBg(bg);
+  return mapPiece(next, pi, (p) => ({ ...p, sides: p.sides.map((s, i) => (i > 0 && !s.bgOwn ? { ...s, bg: follow } : s)) }));
 }
 
 // ---------- project-wide fields and colors ----------
@@ -237,28 +283,31 @@ export function setChoices(doc, pi, patch, env) {
   for (const g of product.groups) {
     if (patch[g.id] != null && g.choices.some((c) => c.id === patch[g.id])) choices[g.id] = patch[g.id];
   }
-  const before = specFor(env.specs, piece.productId, piece.choices);
-  const after = specFor(env.specs, piece.productId, choices);
   const names = sideNamesFor(product, choices);
   const template = templateOf(env, piece.productId, piece.templateId);
-  const resized = before.artboard.w !== after.artboard.w || before.artboard.h !== after.artboard.h;
+  const panels = hasPanels(product);
   return mapPiece(doc, pi, (p) => {
     let sides = p.sides.slice();
     while (sides.length < names.length) {
       const src = sides[0];
-      sides.push({ ...JSON.parse(JSON.stringify(src)), id: uid('s'), elements: src.elements.map((e) => ({ ...e, id: uid('e') })) });
+      // a new panel starts plain; any other new side (the back of a two-sided sign) starts as a copy of the first
+      if (panels) sides.push(blankSide(names[sides.length], src));
+      else sides.push({ ...JSON.parse(JSON.stringify(src)), id: uid('s'), elements: src.elements.map((e) => ({ ...e, id: uid('e') })) });
     }
     sides = sides.slice(0, names.length).map((s, i) => ({ ...s, name: names[i] }));
-    if (resized) {
-      sides = sides.map((s) => {
-        if (!s.edited) {
-          const tpl = templateOf(env, p.productId, s.templateId) || template;
-          const built = buildTemplateSide(tpl, after, doc.project.fields, env);
-          return { ...s, bg: built.bg, elements: built.elements };
-        }
-        return scaleSide(s, before.artboard, after.artboard, env);
-      });
-    }
+    // each side has its own print area (the panels of a throw differ), so each is compared with its own new one
+    sides = sides.map((s, i) => {
+      const before = specForSide(env.specs, p.productId, p.choices, i);
+      const after = specForSide(env.specs, p.productId, choices, i);
+      if (before.artboard.w === after.artboard.w && before.artboard.h === after.artboard.h) return s;
+      if (!s.edited) {
+        if (panels && i > 0) return s; // a plain panel has nothing to lay out again
+        const tpl = templateOf(env, p.productId, s.templateId) || template;
+        const built = buildTemplateSide(tpl, after, doc.project.fields, env);
+        return { ...s, bg: built.bg, elements: built.elements };
+      }
+      return scaleSide(s, before.artboard, after.artboard, env);
+    });
     return { ...p, choices, sides, qty: product.qty ? p.qty : 1 };
   });
 }
@@ -282,9 +331,11 @@ export function copySide(doc, pi, from, targets) {
   }));
 }
 
-export function setSidesMode(doc, pi, mode) {
+export function setSidesMode(doc, pi, mode, env) {
   const piece = getPiece(doc, pi);
   if (piece.sidesMode === mode) return doc;
+  // the panels of a throw are different pieces: they are never "the same on every side"
+  if (env && hasPanels(productOf(env, piece.productId))) return doc;
   if (mode === 'each') {
     const targets = piece.sides.map((_, i) => i).filter((i) => i > 0);
     return mapPiece(copySide(doc, pi, 0, targets), pi, (p) => ({ ...p, sidesMode: 'each' }));
@@ -292,21 +343,44 @@ export function setSidesMode(doc, pi, mode) {
   return mapPiece(doc, pi, (p) => ({ ...p, sidesMode: 'same' }));
 }
 
+// Put the customer's current words back into every text that follows a field (after the fields changed).
+function rebindFields(doc, env) {
+  const fields = doc.project.fields;
+  const pieces = doc.project.pieces.map((piece) => ({
+    ...piece,
+    sides: piece.sides.map((side) => ({
+      ...side,
+      elements: side.elements.map((e) => (e.type === 'text' && e.bind && e.text !== (fields[e.bind] || '') ? refitText({ ...e, text: fields[e.bind] || '' }, env) : e)),
+    })),
+  }));
+  return { ...doc, project: { ...doc.project, pieces } };
+}
+
 // Apply a template to one side (or to all sides when the piece is in 'same' mode). The brand colors
-// and sample wording follow the template only while the customer has not set their own.
+// and sample wording follow the template only while the customer has not set their own. The panels of a
+// throw are laid out one at a time; choosing a look for the front also sets the colors, and the plain panels
+// follow the front's background.
 export function applyTemplate(doc, pi, si, templateId, env) {
   const piece = getPiece(doc, pi);
+  const panels = hasPanels(productOf(env, piece.productId));
   const template = templateOf(env, piece.productId, templateId);
-  const spec = specFor(env.specs, piece.productId, piece.choices);
-  const global = piece.sidesMode === 'same' || piece.sides.length === 1;
+  const global = piece.sidesMode === 'same' || piece.sides.length === 1 || (panels && si === 0);
   const touched = doc.project.touched;
   const palette = !touched.palette && global ? { ...template.palette } : doc.project.palette;
   const fields = !touched.fields && global ? { ...template.sample } : doc.project.fields;
   let next = { ...doc, project: { ...doc.project, palette, fields } };
-  const targets = global ? piece.sides.map((_, i) => i) : [si];
+  const targets = panels ? [si] : global ? piece.sides.map((_, i) => i) : [si];
   for (const i of targets) {
+    const spec = specForSide(env.specs, piece.productId, piece.choices, i);
     const built = buildTemplateSide(template, spec, fields, env);
     next = mapSide(next, pi, i, (s) => ({ ...s, templateId: template.id, edited: false, bg: built.bg, elements: built.elements }));
+  }
+  if (panels) {
+    if (si === 0) {
+      const front = getSide(next, pi, 0);
+      next = mapPiece(next, pi, (p) => ({ ...p, sides: p.sides.map((s, i) => (i > 0 && !s.bgOwn ? { ...s, bg: plainBg(front.bg), templateId: s.edited ? s.templateId : template.id } : s)) }));
+    }
+    if (fields !== doc.project.fields) next = rebindFields(next, env);
   }
   return mapPiece(next, pi, (p) => ({ ...p, templateId: template.id }));
 }
@@ -348,7 +422,7 @@ export function placeLogo(doc, pi, si, logoId, env) {
     const patch = { logoId, x: cx - w / 2, y: cy - h / 2, w, h, name: 'Logo' };
     return { doc: updateElement(doc, pi, si, frame.id, patch, env), id: frame.id };
   }
-  const spec = specFor(env.specs, getPiece(doc, pi).productId, getPiece(doc, pi).choices);
+  const spec = specForSide(env.specs, getPiece(doc, pi).productId, getPiece(doc, pi).choices, si);
   const target = Math.min(spec.safe.w, spec.safe.h) * 0.34;
   let w = target;
   let h = w / aspect;
@@ -393,6 +467,7 @@ export function validateDocument(doc, env) {
     const qtyMax = product.qty ? product.qty.max : 1;
     if (!Number.isInteger(piece.qty) || piece.qty < 1 || piece.qty > qtyMax) bad('qty');
     if (piece.sidesMode !== 'same' && piece.sidesMode !== 'each') bad('sidesMode');
+    if (hasPanels(product) && piece.sidesMode !== 'each') bad('sidesMode');
     const names = sideNamesFor(product, piece.choices || {});
     if (!Array.isArray(piece.sides) || piece.sides.length !== names.length) {
       bad('side count');
@@ -426,6 +501,29 @@ export function validateDocument(doc, env) {
     }
   }
   return { ok: errors.length === 0, errors };
+}
+
+// Brings a design saved before a product had its current sides up to date: a throw saved with only a front
+// panel gets plain panels, every side is named for its place, and a throw is always edited panel by panel. Share
+// links and the proof request both pass through here, so an old link or a tab left open still works.
+export function migrateDocument(doc, env) {
+  if (!doc || !doc.project || !Array.isArray(doc.project.pieces)) return doc;
+  for (const piece of doc.project.pieces) {
+    const product = env.catalog.products.find((p) => p.id === piece.productId);
+    if (!product || !Array.isArray(piece.sides) || !piece.sides.length) continue;
+    const names = sideNamesFor(product, piece.choices || {});
+    const panels = hasPanels(product);
+    while (piece.sides.length < names.length) {
+      const src = piece.sides[0];
+      if (panels) piece.sides.push(blankSide(names[piece.sides.length], src));
+      else piece.sides.push({ ...JSON.parse(JSON.stringify(src)), id: uid('s'), elements: src.elements.map((e) => ({ ...e, id: uid('e') })) });
+    }
+    piece.sides.forEach((s, i) => {
+      if (names[i]) s.name = names[i];
+    });
+    if (panels) piece.sidesMode = 'each';
+  }
+  return doc;
 }
 
 // All text elements that carry words, flattened, for summaries.

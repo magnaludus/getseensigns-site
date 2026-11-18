@@ -6,9 +6,12 @@ import { createSummary } from './summary.js';
 import { sideThumb } from '../render/thumbs.js';
 import { sideDisplay } from '../render/displaylist.js';
 import { renderToCanvas } from '../render/canvas.js';
+import { flatSvg, flatOf, renderFlatToCanvas } from '../render/flat.js';
 import { collectWarnings } from '../model/review.js';
 import { projectTotal, money, productById } from '../model/pricing.js';
-import { sideNamesFor, productOf } from '../model/document.js';
+import { sideNamesFor, productOf, hasPanels } from '../model/document.js';
+import { previewPlan } from '../model/proof-plan.js';
+import { FLAT_NOTE } from '../model/throw-panels.js';
 
 const ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 const PHONE = '(334) 232-9003';
@@ -21,7 +24,6 @@ function makeRef() {
   return 'GS-' + [...bytes].map((b) => ALPHABET[b % 32]).join('');
 }
 
-const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const viewport = () => (window.innerWidth < 768 ? 'm' : 'd');
 
 function toBlob(canvas) {
@@ -33,21 +35,17 @@ export function createProof(ctx) {
   const S = store.state;
   let dialog = null;
 
+  // The pictures the proof request carries, in the order model/proof-plan.js lists them (the server labels them the
+  // same way). A table throw sends its whole flat first, then every panel as it reads on the table.
   async function buildPreviews() {
     const out = [];
     const doc = S.doc;
-    for (let pi = 0; pi < doc.project.pieces.length && out.length < 12; pi++) {
-      const piece = doc.project.pieces[pi];
-      const product = productOf(env, piece.productId);
-      const names = sideNamesFor(product, piece.choices);
-      const count = piece.sidesMode === 'same' ? 1 : names.length;
-      for (let si = 0; si < count && out.length < 12; si++) {
-        const display = sideDisplay(doc, pi, si, env, { region: 'trim', assets: S.assets });
-        const canvas = renderToCanvas(display, 1400, S.assets);
-        const blob = await toBlob(canvas);
-        const sideName = piece.sidesMode === 'same' && names.length > 1 ? 'all-sides' : names[si];
-        out.push({ name: `preview-${pi + 1}-${slug(product.short)}-${slug(sideName)}.png`, blob, pi, si });
-      }
+    for (const item of previewPlan(doc, env)) {
+      const canvas = item.kind === 'flat'
+        ? renderFlatToCanvas(doc, item.pi, env, 1800, S.assets)
+        : renderToCanvas(sideDisplay(doc, item.pi, item.si, env, { region: 'trim', assets: S.assets }), 1400, S.assets);
+      if (!canvas) continue;
+      out.push({ name: item.file, blob: await toBlob(canvas), pi: item.pi, si: item.si, kind: item.kind });
     }
     return out;
   }
@@ -132,8 +130,17 @@ export function createProof(ctx) {
     const thumbs = h('div', { class: 'dz-review-thumbs' });
     const doc = S.doc;
     doc.project.pieces.forEach((piece, pi) => {
-      const names = sideNamesFor(productOf(env, piece.productId), piece.choices);
+      const product = productOf(env, piece.productId);
+      const names = sideNamesFor(product, piece.choices);
       const count = piece.sidesMode === 'same' ? 1 : names.length;
+      // a table throw: the whole flat first, then each panel upright as it reads on the table
+      if (hasPanels(product) && flatOf(doc, pi, env)) {
+        const fig = h('figure', { class: 'dz-review-fig dz-review-flat' });
+        const holder = h('div', { class: 'dz-review-img' });
+        holder.innerHTML = flatSvg(doc, pi, env, { assets: S.assets, assetUrl: (id) => (S.assets.get(id) ? S.assets.get(id).url : ''), safe: false, fontIn: 4.2, label: 'The whole flat as it prints' });
+        fig.append(holder, h('figcaption', null, 'Whole flat, as it prints'), h('p', { class: 'dz-help' }, FLAT_NOTE));
+        thumbs.append(fig);
+      }
       for (let si = 0; si < count; si++) {
         const fig = h('figure', { class: 'dz-review-fig' });
         const holder = h('div', { class: 'dz-review-img' });

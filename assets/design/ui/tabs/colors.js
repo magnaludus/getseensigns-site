@@ -55,7 +55,7 @@ export function createColorsTab(ctx) {
     return bg.type === 'gradient' ? { ...bg } : { type: 'gradient', from: bg.color, to: '@accent', angle: 90 };
   };
   function setBg(bg, key) {
-    store.commit(setBackground(S.doc, S.view.pi, S.view.si, bg), { key: key + ':' + S.view.si });
+    store.commit(setBackground(S.doc, S.view.pi, S.view.si, bg, env), { key: key + ':' + S.view.si });
   }
   function setMode(mode) {
     const bg = curSide().bg;

@@ -87,11 +87,10 @@ function drawItem(ctx, it, assets) {
   ctx.restore();
 }
 
-// Draw `display` so that its area fills the canvas. scale = pixels per inch.
-export function drawDisplay(ctx, display, scale, assets) {
+// Paint `display` (its background, then its items) in the current transform. The caller has set it up so that one
+// unit is one inch; the flat of a table throw uses this to place each panel turned the way it prints.
+export function paintDisplay(ctx, display, assets) {
   const a = display.area;
-  ctx.save();
-  ctx.setTransform(scale, 0, 0, scale, -a.x * scale, -a.y * scale);
   if (display.bg.type === 'gradient') {
     const g = gradientLine(a, display.bg.angle);
     const grad = ctx.createLinearGradient(g.x1, g.y1, g.x2, g.y2);
@@ -103,6 +102,14 @@ export function drawDisplay(ctx, display, scale, assets) {
   }
   ctx.fillRect(a.x, a.y, a.w, a.h);
   for (const it of display.items) drawItem(ctx, it, assets);
+}
+
+// Draw `display` so that its area fills the canvas. scale = pixels per inch.
+export function drawDisplay(ctx, display, scale, assets) {
+  const a = display.area;
+  ctx.save();
+  ctx.setTransform(scale, 0, 0, scale, -a.x * scale, -a.y * scale);
+  paintDisplay(ctx, display, assets);
   ctx.restore();
 }
 

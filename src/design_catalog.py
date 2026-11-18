@@ -170,6 +170,39 @@ def _check_points(points, art, label):
         _fail(f'{label} points must sit inside the {art["w"]} x {art["h"]} in artboard')
 
 
+def _check_throw_panels(where, key, art, panels, page, margins):
+    """The printer's flat for a table throw: the front panel is the artboard, the top sits above it, the ends
+    beside the top and the back above the top. The editor and the 3D view place every panel from these boxes."""
+    names = ('front', 'top', 'left', 'right', 'back')
+    for name in names:
+        box = panels.get(name)
+        if not box or not all(isinstance(box.get(k), (int, float)) and box[k] >= 0 for k in 'xywh'):
+            _fail(f'{where} panels_in_template needs a {name} box with x, y, w and h in inches')
+    if page is None:
+        _fail(f'{where} has panels_in_template but template_sizes has no {key}')
+    tol = 0.05
+    front, top, left, right, back = (panels[n] for n in names)
+    if abs(front['w'] - art['w']) > tol or abs(front['h'] - art['h']) > tol:
+        _fail(f'{where} front panel must be the artboard')
+    for n in names:
+        b = panels[n]
+        if b['x'] + b['w'] > page['w'] + tol or b['y'] + b['h'] > page['h'] + tol:
+            _fail(f'{where} {n} panel must sit on the {page["w"]} x {page["h"]} in template page')
+    # the top sits right above the front, the ends right beside the top, the back right above the top row
+    if abs(top['x'] - front['x']) > tol or abs(top['w'] - front['w']) > tol or abs(top['y'] + top['h'] - front['y']) > tol:
+        _fail(f'{where} top panel must sit directly above the front panel and match its width')
+    if abs(left['x'] + left['w'] - top['x']) > tol or abs(right['x'] - (top['x'] + top['w'])) > tol:
+        _fail(f'{where} the end panels must touch the left and right edges of the top panel')
+    if abs(left['y'] - top['y']) > tol or abs(right['y'] - top['y']) > tol or abs(left['h'] - top['h']) > tol or abs(right['h'] - top['h']) > tol:
+        _fail(f'{where} the end panels must be as tall as the top panel and level with it')
+    if abs(back['y'] + back['h'] - top['y']) > tol:
+        _fail(f'{where} back panel must sit directly above the top row')
+    if back['x'] > top['x'] + tol or back['x'] + back['w'] < top['x'] + top['w'] - tol:
+        _fail(f'{where} back panel must cover at least the width of the top panel')
+    if not margins or any(not isinstance(margins.get(k), (int, float)) or margins[k] <= 0 for k in ('edge_in', 'hang_in', 'hem_in', 'open_hem_in')):
+        _fail(f'{where} needs panel_safe edge_in, hang_in, hem_in and open_hem_in (inches)')
+
+
 def build_print_specs(catalog):
     text = open(os.path.join(HERE, 'design_print_specs.json'), encoding='utf-8').read()
     _check_money(text, 'design_print_specs.json')
@@ -219,7 +252,7 @@ def build_print_specs(catalog):
                 if need and need not in var:
                     _fail(f'{where} lists overlay {ov} but has no {need} data')
         _walk_rows(spec['variants'], False, pid + '.variants', problems)
-        for extra in ('other_pieces', 'outline_shapes', 'template_sizes', 'profiles', 'table'):
+        for extra in ('other_pieces', 'outline_shapes', 'template_sizes', 'profiles', 'table', 'panel_safe'):
             if extra in spec:
                 _walk_rows(spec[extra], False, pid + '.' + extra, problems)
         for key, var in spec['variants'].items():
@@ -251,6 +284,9 @@ def build_print_specs(catalog):
             safe = var['safe']
             if 'x' in safe and not (safe['x'] >= 0 and safe['y'] >= 0 and safe['x'] + safe['w'] <= art['w'] + 0.01 and safe['y'] + safe['h'] <= art['h'] + 0.01):
                 _fail(f'{where} safe box must sit inside the artboard')
+            panels = var.get('panels_in_template')
+            if panels is not None:
+                _check_throw_panels(where, key, art, panels, spec.get('template_sizes', {}).get(key), spec.get('panel_safe'))
     if problems:
         _fail('print spec rows need a source or a status (TODO_SPEC, UX_DEFAULT): ' + ', '.join(problems[:12]))
     return specs

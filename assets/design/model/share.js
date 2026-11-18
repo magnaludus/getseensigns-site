@@ -1,7 +1,6 @@
 // No-server share links: the document, compressed, in the URL hash (#d=...). Contact details are
 // never part of the document, and logos are not included (only their place in the layout).
-import { DOC_VERSION, validateDocument, sideNamesFor } from './document.js';
-import { uid } from './ids.js';
+import { DOC_VERSION, validateDocument, migrateDocument } from './document.js';
 
 export const MAX_HASH_JSON = 200000;
 
@@ -60,15 +59,9 @@ export async function decodeDoc(hash, env) {
     for (const piece of doc.project.pieces) {
       const product = env.catalog.products.find((p) => p.id === piece.productId);
       if (!product || !piece.sides || !piece.sides.length) return null;
-      const names = sideNamesFor(product, piece.choices || {});
-      while (piece.sides.length < names.length) {
-        const src = piece.sides[0];
-        piece.sides.push({ ...JSON.parse(JSON.stringify(src)), id: uid('s'), elements: src.elements.map((e) => ({ ...e, id: uid('e') })) });
-      }
-      piece.sides.forEach((s, i) => {
-        s.name = names[i];
-      });
     }
+    // a link made when a product had fewer sides (a throw with only a front) gets the new ones, plain
+    migrateDocument(doc, env);
     doc.project.logos = [];
     const check = validateDocument(doc, env);
     return check.ok ? doc : null;

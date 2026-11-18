@@ -181,7 +181,24 @@ test('sideAzimuth maps canopy sides to the four directions and yard sides to fro
   assert.deepEqual([0, 1].map((i) => G.sideAzimuth('yard', i)), [0, 180]);
   assert.equal(G.sideAzimuth('feather', 0), null);
   assert.equal(G.sideAzimuth('banner', 0), null);
-  assert.equal(G.sideAzimuth('throw', 0), null);
+  assert.equal(G.sideAzimuth('throw', 9), null, 'a throw has five panels at most');
+});
+
+test('sideView turns the camera to each panel of a table throw: the ends and the back from outside, the top from above', () => {
+  // front, top, left end, right end, back. The camera sits at azimuth 0 in front of the table and the left end is
+  // on the left as the front of the table sees it.
+  assert.deepEqual([0, 1, 2, 3, 4].map((i) => G.sideAzimuth('throw', i)), [0, 0, 270, 90, 180]);
+  const top = G.sideView('throw', 1);
+  assert.ok(top.elevation > 45 && top.elevation <= G.EL_MAX, 'the top is seen from above');
+  // the other panels are seen from the usual height, so coming down from the top brings the camera back with it
+  for (const i of [0, 2, 3, 4]) assert.equal(G.sideView('throw', i).elevation, G.presetFor('throw', 'front').elevation, 'the other panels use the Front preset height');
+  // the camera really is outside each end: azimuth a puts it at (sin a, cos a)
+  const at = (a) => G.cameraPosition([0, 0, 0], { azimuth: a, elevation: 0, distance: 10 }).map((v) => Math.round(v * 1000) / 1000 + 0);
+  assert.deepEqual(at(G.sideAzimuth('throw', 2)), [-10, 0, 0], 'left end: camera on the left (-x)');
+  assert.deepEqual(at(G.sideAzimuth('throw', 3)), [10, 0, 0], 'right end: camera on the right (+x)');
+  assert.deepEqual(at(G.sideAzimuth('throw', 4)), [0, 0, -10], 'back: camera behind the table (-z)');
+  assert.deepEqual(G.sideView('canopy', 2), { azimuth: 180 });
+  assert.equal(G.sideView('banner', 0), null);
 });
 
 test('canopy face numbers come from the spec and the art is not stretched', () => {

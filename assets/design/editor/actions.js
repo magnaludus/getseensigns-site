@@ -6,7 +6,7 @@ import {
 } from '../model/document.js';
 import { elementBox, layoutText } from '../model/layout.js';
 import { aabb, alignArea, alignBoxes, center } from '../model/geometry.js';
-import { specFor } from '../model/specs.js';
+import { specForSide } from '../model/specs.js';
 
 const TEXT_PRESETS = {
   headline: { label: 'Headline', ref: 0.28, text: 'YOUR HEADLINE' },
@@ -24,7 +24,7 @@ export function createActions(store) {
   const where = () => [st.view.pi, st.view.si];
   const piece = () => st.doc.project.pieces[st.view.pi];
   const side = () => piece().sides[st.view.si];
-  const spec = () => specFor(env.specs, piece().productId, piece().choices);
+  const spec = () => specForSide(env.specs, piece().productId, piece().choices, st.view.si);
   const unlocked = () => st.selection.filter((id) => {
     const el = findElement(side(), id);
     return el && !el.locked;
