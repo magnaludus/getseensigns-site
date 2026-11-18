@@ -876,6 +876,23 @@ def hcard(k):
 </a>'''
 BIZ_EXTRA={'15-trade-show-booth-kit','16-hard-hat-decals','17-aluminum-safety-signs','18-challenge-coins','19-custom-patches','20-metal-business-cards','21-metal-a-frame-sign','22-tabletop-retractable-banner','23-table-runner'}
 BIZK=[k for k in NAMES if int(k[:2])<=10 or k in BIZ_EXTRA]; SEAK=[k for k in NAMES if int(k[:2])>10 and k not in BIZ_EXTRA]
+# The home page shows two rows of the core products; /shop/ has every product.
+HOME_TOP=[k for k in BIZK if int(k[:2])<=10]+['15-trade-show-booth-kit']
+assert len(HOME_TOP)==10 and all(k in BIZK for k in HOME_TOP)
+# One real customer photo under the hero (the same photograph and neutral caption as /portfolio/, no quote or endorsement).
+# These rules are for the home page only, so they sit in the home page and not in style.css (which is inlined into every page
+# and would re-date the whole sitemap).
+HOME_WORK='''<style>@media (min-width:1181px){.card-wide{grid-column:span 2}}.see-all{margin:28px 0 8px;text-align:center}.work{background:var(--paper2,#E9E3D6);border-bottom:2px solid var(--ink);padding:36px 0}.work-in{display:flex;align-items:center;gap:32px}.work-pics{flex:none;display:flex;gap:12px}.work-pics picture{display:block;width:150px;border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;box-shadow:5px 5px 0 var(--ink);background:#fff}.work-pics picture:nth-child(odd){transform:rotate(-2deg)}.work-pics picture:nth-child(even){transform:rotate(1.5deg)}.work-pics img{display:block;width:100%;height:200px;object-fit:cover}.work-copy h2{font-size:clamp(28px,3.4vw,44px);margin:6px 0 10px}.work-copy p{margin:0 0 14px;max-width:560px}@media (max-width:900px){.work-in{flex-direction:column;align-items:flex-start;gap:22px}}@media (max-width:600px){.work-pics{gap:8px}.work-pics picture{width:29vw}.work-pics img{height:38vw}.work-copy h2{font-size:24px}}</style>
+<section class="work" aria-label="Customer work">
+  <div class="wrap work-in">
+    <a class="work-pics" href="/portfolio/">
+      <picture><source srcset="/assets/portfolio/sons-of-liberty-gun-works-event-tent-480.webp" type="image/webp"><img src="/assets/portfolio/sons-of-liberty-gun-works-event-tent.jpg" alt="Navy and red custom printed event tent for Sons of Liberty Gun Works, set up outdoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
+      <picture><source srcset="/assets/portfolio/rhytec-industries-event-tent-480.webp" type="image/webp"><img src="/assets/portfolio/rhytec-industries-event-tent.jpg" alt="Black custom printed event tent for Rhytec Industries, set up outdoors on a gravel lot" width="1200" height="1600" loading="lazy" decoding="async"></picture>
+      <picture><source srcset="/assets/portfolio/rhytec-industries-event-tent-indoor-480.webp" type="image/webp"><img src="/assets/portfolio/rhytec-industries-event-tent-indoor.jpg" alt="Black custom printed event tent for Rhytec Industries, set up indoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
+    </a>
+    <div class="work-copy"><p class="eyebrow">Real work, real customers</p><h2>Printed, shipped and <span class="hl">set up.</span></h2><p>Custom printed event tents for Sons of Liberty Gun Works and Rhytec Industries. Real photos from customers, not mockups.</p><a class="btn btn-ink btn-sm" href="/portfolio/">See our portfolio <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>'''
 options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<option>Election / campaign signs</option><option>Birthday or graduation sign</option><option>Something else</option>'
 REACH_HOME=f'''<div class="reach">
         <p class="reach-kicker">Text, WhatsApp or call</p>
@@ -910,13 +927,13 @@ def quote_form(selected=''):
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>"""
 
-main=main.replace('{{QUOTE_FORM}}',quote_form()).replace('{{BIZ}}','\n'.join(hcard(k) for k in BIZK)).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options).replace('{{REACH}}',REACH_HOME)
+main=main.replace('{{QUOTE_FORM}}',quote_form()).replace('{{BIZ}}','\n'.join(hcard(k) for k in HOME_TOP)).replace('{{COUNT}}',str(len(BIZK+SEAK))).replace('{{WORK}}',HOME_WORK).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options).replace('{{REACH}}',REACH_HOME)
 GUIDESEC='''
 <section class="sec paper2" id="guides">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">Ideas and guides</p><h2>Made to order. <span class="hl">Shipped across the lower 48.</span></h2>
     <p class="sub">We're a veteran-owned, family-run online sign shop. No storefront: everything ships free to your door.</p>
-    <p class="season-strip" style="margin-top:14px;font-weight:600"><b>Seasonal:</b> <a href="/blog/thanksgiving-banner-yard-sign-ideas/">Thanksgiving signs</a> (order by Nov 13) · <a href="/blog/christmas-family-name-banner-ideas/">Christmas banners and yard signs</a> (order and approve your proof by Dec 10)</p></div>
+    <p class="season-strip" style="margin-top:14px;font-weight:600"><b>Seasonal:</b> <a href="/blog/christmas-family-name-banner-ideas/">Christmas banners and yard signs</a> (order and approve your proof by Dec 10)</p></div>
     <div class="local-grid">
       <a class="lcard" href="/tailgate-and-gameday-signs/"><h3>Tailgate &amp; gameday</h3><p>Tailgate tents, table throws, House Divided and Game Day yard signs in your colors.</p><span class="go">Gameday signs <span aria-hidden="true">→</span></span></a>
       <a class="lcard" href="/blog/christmas-family-name-banner-ideas/"><h3>Guide: Christmas sign ideas</h3><p>Family name banners and yard signs: what to print, which size fits where, and the Dec 10 order date.</p><span class="go">Read the guide <span aria-hidden="true">→</span></span></a>
@@ -1165,12 +1182,20 @@ PORTFOLIO=[
     dict(base='/assets/portfolio/rhytec-industries-event-tent', w=1200, h=1600, widths=(480,768,1200),
          caption='Rhytec Industries — Custom Printed Event Tent',
          alt='Black custom printed event tent with the Rhytec Industries logo on its valance, set up outdoors on a gravel lot'),
+    dict(base='/assets/portfolio/sons-of-liberty-gun-works-event-tent', w=768, h=1024, widths=(480,768),
+         caption='Sons of Liberty Gun Works — Custom Printed Event Tent',
+         alt='Navy and red custom printed event tent with the Sons of Liberty Gun Works logo on the roof and white lettering on a red valance, set up outdoors under a blue sky'),
+    # The one edit to any portfolio photo: the lettering on another company's sign in the background of this one is blanked.
+    # Nothing else in it is changed, and the tent is as photographed.
+    dict(base='/assets/portfolio/rhytec-industries-event-tent-indoor', w=768, h=1024, widths=(480,768),
+         caption='Rhytec Industries — Custom Printed Event Tent, Roof and Valance',
+         alt='Black custom printed event tent with the Rhytec Industries logo on the roof panel and the valance, set up indoors on a shop floor'),
 ]
 def portfolio_fig(it):
     ws=it['widths']
     srcset=', '.join(f'{it["base"]}-{w}.webp {w}w' for w in ws)
-    return f'''<figure style="aspect-ratio:auto;max-width:480px;margin:0 auto;background:#fff">
-  <picture><source srcset="{srcset}" sizes="(max-width: 600px) 92vw, 480px" type="image/webp"><img src="{it["base"]}.jpg" alt="{e(it["alt"])}" width="{it["w"]}" height="{it["h"]}" loading="lazy" decoding="async"></picture>
+    return f'''<figure style="aspect-ratio:auto;margin:0;background:#fff;border:2px solid var(--ink);border-radius:var(--r);overflow:hidden">
+  <picture><source srcset="{srcset}" sizes="(max-width: 700px) 92vw, 370px" type="image/webp"><img src="{it["base"]}.jpg" alt="{e(it["alt"])}" width="{it["w"]}" height="{it["h"]}" loading="lazy" decoding="async" style="display:block;width:100%;height:auto"></picture>
   <figcaption style="padding:14px 16px;font-weight:600;border-top:2px solid var(--ink)">{e(it["caption"])}</figcaption>
 </figure>'''
 pf_ld=[crumbs(items),{"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":pf_title,"description":pf_desc,"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}]
@@ -1184,7 +1209,9 @@ pf_page=head(pf_title,pf_desc,path,ld(*pf_ld))+NAV+f'''<main id="main">
 </section>
 <section class="sec paper">
   <div class="wrap">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;align-items:start">
     {''.join(portfolio_fig(it) for it in PORTFOLIO)}
+    </div>
   </div>
 </section>
 {quote_cta("Something else")}
