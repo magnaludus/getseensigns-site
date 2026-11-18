@@ -878,7 +878,8 @@ def hcard(k):
 BIZ_EXTRA={'15-trade-show-booth-kit','16-hard-hat-decals','17-aluminum-safety-signs','18-challenge-coins','19-custom-patches','20-metal-business-cards','21-metal-a-frame-sign','22-tabletop-retractable-banner','23-table-runner'}
 BIZK=[k for k in NAMES if int(k[:2])<=10 or k in BIZ_EXTRA]; SEAK=[k for k in NAMES if int(k[:2])>10 and k not in BIZ_EXTRA]
 # The home page shows two rows of the core products; /shop/ has every product.
-HOME_TOP=[k for k in BIZK if int(k[:2])<=10]+['15-trade-show-booth-kit']
+# Tents and table throws lead: they are what direct customers have ordered so far.
+HOME_TOP=['10-canopy-tent','09-table-throw']+[k for k in BIZK if int(k[:2])<=10 and k not in ('10-canopy-tent','09-table-throw')]+['15-trade-show-booth-kit']
 assert len(HOME_TOP)==10 and all(k in BIZK for k in HOME_TOP)
 # One real customer photo under the hero (the same photograph and neutral caption as /portfolio/, no quote or endorsement).
 # These rules are for the home page only, so they sit in the home page and not in style.css (which is inlined into every page
