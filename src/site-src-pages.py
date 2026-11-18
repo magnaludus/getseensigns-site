@@ -1185,6 +1185,8 @@ PORTFOLIO=[
     dict(base='/assets/portfolio/sons-of-liberty-gun-works-event-tent', w=768, h=1024, widths=(480,768),
          caption='Sons of Liberty Gun Works — Custom Printed Event Tent',
          alt='Navy and red custom printed event tent with the Sons of Liberty Gun Works logo on the roof and white lettering on a red valance, set up outdoors under a blue sky'),
+    # The one edit to any portfolio photo: the lettering on another company's sign in the background of this one is blanked.
+    # Nothing else in it is changed, and the tent is as photographed.
     dict(base='/assets/portfolio/rhytec-industries-event-tent-indoor', w=768, h=1024, widths=(480,768),
          caption='Rhytec Industries — Custom Printed Event Tent, Roof and Valance',
          alt='Black custom printed event tent with the Rhytec Industries logo on the roof panel and the valance, set up indoors on a shop floor'),
