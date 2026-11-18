@@ -107,7 +107,7 @@ test('a fitted table cover has a designer path too, with its own price in the de
     await page.locator('#order').scrollIntoViewIfNeeded();
     assert.equal(await page.locator('#ord-path-designer').isVisible(), true);
     await page.locator('select[data-group="style"]').selectOption('fitted');
-    assert.match(await page.locator('#ord-total').innerText(), /\$159/);
+    assert.match(await page.locator('#ord-total').innerText(), /\$119/);
     assert.equal(await page.locator('#ord-path-designer').isVisible(), true, 'fitted covers can be designed online');
     assert.equal(await page.locator('#ord-design-off').isVisible(), false);
     assert.equal(await page.locator('#ord-design').getAttribute('href'), '/design/table-throw/?length=6&style=fitted');

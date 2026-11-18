@@ -773,7 +773,7 @@
       "style": "fitted"
      },
      "sku": "fitted-6ft",
-     "price": 159
+     "price": 119
     },
     {
      "when": {
@@ -881,7 +881,20 @@
      "price": 1459
     }
    ],
-   "addons": [],
+   "addons": [
+    {
+     "id": "fullwall",
+     "label": "Extra printed full wall, 10 ft",
+     "sku": "tent-wall-full",
+     "price": 129
+    },
+    {
+     "id": "halfwall",
+     "label": "Extra printed half wall, 10 ft",
+     "sku": "tent-wall-half",
+     "price": 119
+    }
+   ],
    "options": []
   },
   "trade-show-booth-kit": {
@@ -1368,19 +1381,43 @@
    "slug": "table-runners",
    "name": "Custom Table Runner + Throw Bundle",
    "short": "Table Runner Bundle",
-   "qtyLabel": "bundles",
+   "qtyLabel": "runners",
    "maxQty": 20,
    "etsy": "4606147042",
    "uploadOnly": true,
    "designer": null,
    "designerMap": {},
    "designerOk": {},
-   "groups": [],
+   "groups": [
+    {
+     "id": "kit",
+     "label": "What you get",
+     "choices": [
+      {
+       "id": "bundle",
+       "label": "Printed runner + solid 8 ft throw"
+      },
+      {
+       "id": "runner",
+       "label": "Printed runner only"
+      }
+     ]
+    }
+   ],
    "rows": [
     {
-     "when": {},
+     "when": {
+      "kit": "bundle"
+     },
      "sku": "runner-throw-8ft",
      "price": 99
+    },
+    {
+     "when": {
+      "kit": "runner"
+     },
+     "sku": "runner-30x72",
+     "price": 49
     }
    ],
    "addons": [],
@@ -1388,7 +1425,7 @@
     {
      "id": "color",
      "label": "Throw color",
-     "note": "The throw is a solid color. The runner is printed with your design.",
+     "note": "The throw color is for the bundle. The runner is printed with your design.",
      "hide": {},
      "choices": [
       {
@@ -1638,6 +1675,8 @@
   "custom-canopy-tents|10×10 Standard": "tent-standard",
   "custom-canopy-tents|10×10 top, valance and back wall": "tent-top-wall",
   "custom-canopy-tents|Full kit: walls, feather flag and table throw": "tent-full-kit",
+  "custom-canopy-tents|Extra printed full wall, 10 ft": "tent-wall-full",
+  "custom-canopy-tents|Extra printed half wall, 10 ft": "tent-wall-half",
   "hard-hat-decals|2 in, 100 decals": "decal-2in-100",
   "hard-hat-decals|2 in, 250 decals": "decal-2in-250",
   "hard-hat-decals|2 in, 500 decals": "decal-2in-500",
@@ -1663,6 +1702,7 @@
   "metal-a-frame-signs|24×36 steel A-frame with 2 printed inserts": "aframe-24x36",
   "tabletop-retractable-banners|11.5×17.5 in tabletop stand": "tabletop-retractable",
   "table-runners|30×72 printed runner + 8 ft solid throw": "runner-throw-8ft",
+  "table-runners|30×72 printed runner only": "runner-30x72",
   "senior-night-banners|2×3 ft": "senior-2x3",
   "senior-night-banners|3×5 ft": "senior-3x5",
   "senior-night-banners|4×6 ft": "senior-4x6",
@@ -1820,6 +1860,9 @@
   "retractable-47x81": {
    "name": "Retractable Banner Stand (47x81)"
   },
+  "runner-30x72": {
+   "name": "Printed Table Runner (30x72, runner only)"
+  },
   "runner-throw-8ft": {
    "name": "Table Runner + Throw Bundle (30x72 runner, 8 ft throw)"
   },
@@ -1864,6 +1907,12 @@
   },
   "tent-top-wall": {
    "name": "Canopy Tent 10x10 (Top + Back Wall)"
+  },
+  "tent-wall-full": {
+   "name": "Canopy Tent Wall (10 ft full wall, printed)"
+  },
+  "tent-wall-half": {
+   "name": "Canopy Tent Wall (10 ft half wall, printed)"
   },
   "thanks-18x24": {
    "name": "Thanksgiving Yard Sign (18x24)"

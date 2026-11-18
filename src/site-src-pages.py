@@ -107,10 +107,11 @@ def offer(price, desc, days='3-5', ship=None, page_url=None):
     return {"@type":"Offer","price":f"{price:.2f}","priceCurrency":"USD","availability":"https://schema.org/InStock",
             "url":page_url,"description":desc,"seller":{"@id":ORG_ID},
             "hasMerchantReturnPolicy":RETURNS,"shippingDetails":shipping_details(days,*(ship or (None,None)))}
-def product(name, desc, img, url, price, etsy, base, days='3-5', offer_rows=None, ship=None):
+def product(name, desc, img, url, price, etsy, base, days='3-5', offer_rows=None, ship=None, offer_days=None):
     d={"@type":"Product","name":name,"description":desc,"image":[BASE+i for i in img],"url":BASE+url,"brand":{"@type":"Brand","name":"Get Seen Signs"}}
     if offer_rows:
-        d["offers"]=[offer(pr, text, days, ship, BASE+url) for pr, text in offer_rows]
+        # offer_days: an offer that takes longer than the rest of its page (made to order) carries its own delivery window.
+        d["offers"]=[offer(pr, text, (offer_days or {}).get(text, days), None if text in (offer_days or {}) else ship, BASE+url) for pr, text in offer_rows]
     elif price is not None:
         d["offers"]=offer(price, base, days, ship, BASE+url)
     return d
@@ -413,7 +414,7 @@ for p in P:
     if p.get('extra'):
         nodes=[product(x['name'], p['desc'], [f'/assets/img/p-{x["key"]}.jpg'], path, x['price'], x['etsy'], x['base'], p['days'], x.get('offer_rows'), ship) for x in p['extra']]
     else:
-        nodes=[product(p['name'], p['desc'], imgs, path, p['price'], p.get('etsy'), p['base'], p['days'], p.get('offer_rows'), ship)]
+        nodes=[product(p['name'], p['desc'], imgs, path, p['price'], p.get('etsy'), p['base'], p['days'], p.get('offer_rows'), ship, p.get('offer_days'))]
     nodes+= [crumbs(items), faqpage(p['faqs']), {"@type":"WebPage","@id":BASE+path,"url":BASE+path,"name":p['title'],"isPartOf":{"@id":SITE_ID},"about":{"@id":ORG_ID}}]
     if p['price']:
         design=' Design included, no design fee.' if p.get('design_included') else ''
@@ -852,11 +853,11 @@ SHORT={
  '20-metal-business-cards':('metal-business-cards','0.5 mm metal cards in steel, black, gold or rose gold. 50 to 250.'),
  '21-metal-a-frame-sign':('metal-a-frame-signs','Steel sidewalk sign with two 24×36 printed inserts.'),
  '22-tabletop-retractable-banner':('tabletop-retractable-banners','11.5×17.5 mini pull-up for counters and tables.'),
- '23-table-runner':('table-runners','Printed runner plus a solid color 8 ft throw.'),
+ '23-table-runner':('table-runners','Printed 30×72 runner, alone or with a solid color 8 ft throw.'),
  '11-christmas-family-banner':('holiday-yard-signs','Your family name, three classic styles.'),
  '12-senior-night-banner':('senior-night-banners','Photo, name and number. Team pricing for 10+.'),
  '14-thanksgiving-yard-sign':('holiday-yard-signs','Harvest or rustic, with your name.')}
-NAMES={'02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-trade-show-booth-kit':'Trade Show Booth Kit','16-hard-hat-decals':'Hard Hat Decals','17-aluminum-safety-signs':'Aluminum Safety Signs','18-challenge-coins':'Challenge Coins','19-custom-patches':'Custom Patches','20-metal-business-cards':'Metal Business Cards','21-metal-a-frame-sign':'Metal A-Frame Sign','22-tabletop-retractable-banner':'Tabletop Retractable Banner','23-table-runner':'Table Runner Bundle','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
+NAMES={'02-bulk-yard-signs':'Bulk Yard Signs','03-vinyl-banner':'Vinyl Banner','04-feather-flag':'Feather Flag Kit','05-retractable-banner':'Retractable Banner','06-car-magnet':'Car Magnet Pair','07-real-estate-sign':'Real Estate Sign','08-step-and-repeat':'Step &amp; Repeat Backdrop','09-table-throw':'Table Throw','10-canopy-tent':'10×10 Canopy Tent','15-trade-show-booth-kit':'Trade Show Booth Kit','16-hard-hat-decals':'Hard Hat Decals','17-aluminum-safety-signs':'Aluminum Safety Signs','18-challenge-coins':'Challenge Coins','19-custom-patches':'Custom Patches','20-metal-business-cards':'Metal Business Cards','21-metal-a-frame-sign':'Metal A-Frame Sign','22-tabletop-retractable-banner':'Tabletop Retractable Banner','23-table-runner':'Table Runner','11-christmas-family-banner':'Christmas Family Banner','12-senior-night-banner':'Senior Night Banner','14-thanksgiving-yard-sign':'Thanksgiving Yard Sign'}
 def price_of(k):
     for p in P:
         if p.get('extra'):

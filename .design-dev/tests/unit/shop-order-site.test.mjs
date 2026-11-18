@@ -143,8 +143,9 @@ test('the Custom Patches page: exact prices, upload-only paths, 11 to 15 day tur
 test('every SKU has a saved Stripe price, including the six Oct 30 additions', () => {
   const unsaved = Object.entries(CATALOG).filter(([, e]) => e.priceId === '').map(([sku]) => sku).sort();
   assert.deepEqual(unsaved, [...PLACEHOLDER_PRICE_IDS].sort());
-  assert.deepEqual(PLACEHOLDER_PRICE_IDS, []);
-  assert.deepEqual(unsaved, []);
+  // Nov 18, 2026: four prices are sent as name and amount until their Stripe Prices are saved (fitted 6 ft at its new $119, and three new items).
+  assert.deepEqual(unsaved, ['fitted-6ft', 'runner-30x72', 'tent-wall-full', 'tent-wall-half']);
+  assert.deepEqual(unsaved.map((s) => CATALOG[s].amount), [11900, 4900, 12900, 11900]);
   assert.deepEqual(['retractable-33x81-deluxe', 'stretch-6ft', 'stretch-8ft', 'aframe-24x36', 'tabletop-retractable', 'runner-throw-8ft'].map((s) => CATALOG[s].amount), [14900, 19900, 23900, 12900, 6900, 9900]);
   assert.deepEqual([CATALOG['patch-pvc-3in-50'].priceId, CATALOG['patch-emb-50'].priceId, CATALOG['patch-emb-100'].priceId, CATALOG['safety-12x18-5-063'].priceId], ['price_1UVNcM67epULNprTeoeIIg0R', 'price_1UVNcP67epULNprTFpBjmMvQ', 'price_1UVNcR67epULNprTbdkhaw6s', 'price_1UVNpR67epULNprTAbPoa2eq']);
   assert.ok(!('safety-12x18-5-hd' in CATALOG) && !('patch-pvc-50-3in' in CATALOG), 'old SKU names are gone');
@@ -203,7 +204,8 @@ test('tents: the $599 Standard tier is the starting price everywhere and the $64
   assert.match(text, /Start with Standard: frame, printed top and valance, for \$599/);
   assert.ok(text.includes('$849') && text.includes('$1,459'));
   const offers = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(tent)[1])['@graph'].find((n) => n['@type'] === 'Product').offers;
-  assert.deepEqual(offers.map((o) => [o.price, o.description]), [['599.00', '10×10 Standard'], ['849.00', '10×10 top, valance and back wall'], ['1459.00', 'Full kit: walls, feather flag and table throw']]);
+  assert.deepEqual(offers.map((o) => [o.price, o.description]), [['599.00', '10×10 Standard'], ['849.00', '10×10 top, valance and back wall'], ['1459.00', 'Full kit: walls, feather flag and table throw'], ['129.00', 'Extra printed full wall, 10 ft'], ['119.00', 'Extra printed half wall, 10 ft']]);
+  assert.deepEqual(order.products['custom-canopy-tents'].addons.map((a) => [a.sku, a.price]), [['tent-wall-full', 129], ['tent-wall-half', 119]]);
   assert.deepEqual(order.products['custom-canopy-tents'].rows.map((r) => [r.sku, r.price]), [['tent-standard', 599], ['tent-top-wall', 849], ['tent-full-kit', 1459]]);
   assert.match(read('index.html'), /10×10 Canopy Tent<\/h3>[\s\S]{0,260}from<\/small> \$599/);
   assert.match(read('shop/index.html'), /10×10 Canopy Tent[\s\S]{0,300}from<\/small> \$599/);
