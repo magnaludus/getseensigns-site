@@ -62,7 +62,7 @@ test('the booth bundles page links the real product pages, adds up its prices ho
   const html = read('event-booth-bundles/index.html');
   const text = body(html);
   for (const slug of ['custom-canopy-tents', 'table-throws', 'feather-flags', 'vinyl-banners', 'retractable-banners', 'tabletop-retractable-banners', 'table-runners', 'metal-a-frame-signs', 'trade-show-booth-kit']) assert.ok(html.includes(`href="/${slug}/`), slug);
-  for (const total of ['$931', '$596', '$297']) assert.ok(text.includes('Bought separately ' + total), total);
+  for (const total of ['$891', '$596', '$297']) assert.ok(text.includes('Bought separately ' + total), total);
   assert.match(html, /<link rel="canonical" href="https:\/\/getseensignsco.com\/event-booth-bundles\/">/);
   assert.ok(read('sitemap.xml').includes('<loc>https://getseensignsco.com/event-booth-bundles/</loc>'));
 });

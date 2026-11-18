@@ -217,4 +217,6 @@ PRODUCTS = [
 
 
 def start_price(slug):
-    return min(p for p, _ in BY[slug]['offer_rows'])
+    # Add-ons (a tent wall) are not what the designer page sells, so they never set its "from" price.
+    skip = set(BY[slug].get('addon_offers') or ())
+    return min(p for p, t in BY[slug]['offer_rows'] if t not in skip)

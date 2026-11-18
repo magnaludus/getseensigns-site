@@ -117,6 +117,8 @@ ORDER = {
         rows=[({'package': 'valance'}, '10×10 Standard', 'tent-standard'),
               ({'package': 'back'}, '10×10 top, valance and back wall', 'tent-top-wall'),
               ({'package': 'kit'}, 'Full kit: walls, feather flag and table throw', 'tent-full-kit')],
+        addons=[dict(id='fullwall', label='Extra printed full wall, 10 ft', offer='Extra printed full wall, 10 ft', sku='tent-wall-full'),
+                dict(id='halfwall', label='Extra printed half wall, 10 ft', offer='Extra printed half wall, 10 ft', sku='tent-wall-half')],
     ),
     'trade-show-booth-kit': dict(qtyLabel='kits', upload_only=True, groups=[], rows=[({}, None, 'booth-kit')]),
     'hard-hat-decals': dict(
@@ -157,9 +159,11 @@ ORDER = {
                                 options=[dict(id='sides', label='Inserts', choices=[('same', 'Same design front and back'), ('different', 'A different design on each side')], hide={},
                                               note='Put the wording for the front and the back in the notes.')]),
     'tabletop-retractable-banners': dict(qtyLabel='stands', upload_only=True, groups=[], rows=[({}, '11.5×17.5 in tabletop stand', 'tabletop-retractable')]),
-    'table-runners': dict(qtyLabel='bundles', upload_only=True, groups=[], rows=[({}, '30×72 printed runner + 8 ft solid throw', 'runner-throw-8ft')],
+    'table-runners': dict(qtyLabel='runners', upload_only=True,
+                          groups=[dict(id='kit', label='What you get', choices=[('bundle', 'Printed runner + solid 8 ft throw'), ('runner', 'Printed runner only')])],
+                          rows=[({'kit': 'bundle'}, '30×72 printed runner + 8 ft solid throw', 'runner-throw-8ft'), ({'kit': 'runner'}, '30×72 printed runner only', 'runner-30x72')],
                           options=[dict(id='color', label='Throw color', choices=[('black', 'Black'), ('red', 'Red'), ('yellow', 'Yellow'), ('blue', 'Blue'), ('green', 'Green')], hide={},
-                                        note='The throw is a solid color. The runner is printed with your design.')]),
+                                        note='The throw color is for the bundle. The runner is printed with your design.')]),
     'senior-night-banners': dict(
         qtyLabel='banners',
         groups=[dict(id='size', label='Size', choices=[('2x3', '2×3 ft'), ('3x5', '3×5 ft'), ('4x6', '4×6 ft')])],

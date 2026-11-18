@@ -44,7 +44,7 @@ test('the premium tent line is quote only: priced on the page, no SKU, no checko
   assert.doesNotMatch(section[1], /stripe|checkout|price_|mailto/i);
   assert.doesNotMatch(html, /mailto/i);
   const offers = jsonLd(html).find((n) => n['@type'] === 'Product').offers;
-  assert.deepEqual(offers.map((o) => o.price), ['599.00', '849.00', '1459.00']);
+  assert.deepEqual(offers.map((o) => o.price), ['599.00', '849.00', '1459.00', '129.00', '119.00']);
 });
 
 test('the premium tent quote button opens the site quote form (posts to /api/quote-request) with product, quantity and notes prefilled', () => {

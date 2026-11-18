@@ -26,7 +26,7 @@ export const CATALOG = {
   "throw-6ft-4sided": { name: "Table Throw (6 ft 4-sided)", priceId: "price_1UV28t67epULNprTBg2rLlp1", amount: 16900 },
   "throw-8ft-3sided": { name: "Table Throw (8 ft 3-sided)", priceId: "price_1UV28u67epULNprTMqxi15Sr", amount: 15900 },
   "throw-8ft-4sided": { name: "Table Throw (8 ft 4-sided)", priceId: "price_1UV28w67epULNprTxtUQ6WXQ", amount: 18900 },
-  "fitted-6ft": { name: "Fitted Table Cover (6 ft fitted)", priceId: "price_1UV27f67epULNprT3lNTGO4j", amount: 15900 },
+  "fitted-6ft": { name: "Fitted Table Cover (6 ft fitted)", priceId: "", amount: 11900 },
   "fitted-8ft": { name: "Fitted Table Cover (8 ft fitted)", priceId: "price_1UV28p67epULNprTFmBgCh4c", amount: 17900 },
   "tent-standard": { name: "Canopy Tent 10x10 (Standard)", priceId: "price_1UVP5K67epULNprTqXOOBMLs", amount: 59900 },
   "tent-top-wall": { name: "Canopy Tent 10x10 (Top + Back Wall)", priceId: "price_1UV28z67epULNprTdaehROaN", amount: 84900 },
@@ -92,7 +92,12 @@ export const CATALOG = {
   "aframe-24x36": { name: "Metal A-Frame Sidewalk Sign (24x36, 2 inserts)", priceId: "price_1UWHQz67epULNprTvLL3tFbE", amount: 12900 },
   "tabletop-retractable": { name: "Tabletop Retractable Banner (11.5x17.5)", priceId: "price_1UWHR067epULNprTzMXFvh13", amount: 6900 },
   "runner-throw-8ft": { name: "Table Runner + Throw Bundle (30x72 runner, 8 ft throw)", priceId: "price_1UWHR067epULNprTl0sOC1cQ", amount: 9900 },
+  "runner-30x72": { name: "Printed Table Runner (30x72, runner only)", priceId: "", amount: 4900 },
+  "tent-wall-full": { name: "Canopy Tent Wall (10 ft full wall, printed)", priceId: "", amount: 12900 },
+  "tent-wall-half": { name: "Canopy Tent Wall (10 ft half wall, printed)", priceId: "", amount: 11900 },
 };
 
 // SKUs that still have no saved Stripe Price (empty priceId above). Add a SKU here while its price is a placeholder, remove it once the real price id is saved.
-export const PLACEHOLDER_PRICE_IDS = [];
+// Nov 18, 2026: the fitted 6 ft cover dropped to $119 (its old saved price was $159) and three items are new. Create the four
+// prices in the live account, paste the ids above and empty this list.
+export const PLACEHOLDER_PRICE_IDS = ["fitted-6ft", "runner-30x72", "tent-wall-full", "tent-wall-half"];

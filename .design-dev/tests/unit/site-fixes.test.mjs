@@ -64,9 +64,10 @@ test('banner page lists 13 oz, 18 oz heavy duty and mesh at the approved prices'
   assert.deepEqual(offers.map((o) => o.price), ['44.00', '59.00', '89.00', '79.00', '54.00', '84.00', '149.00', '129.00', '59.00', '94.00', '149.00', '139.00']);
 });
 
-test('table page offers fitted closed-back covers at $159 and $179 and stretch spandex covers at $199 and $239', () => {
+test('table page offers fitted closed-back covers at $119 and $179 and stretch spandex covers at $199 and $239', () => {
   const html = body(read('table-throws/index.html'));
-  assert.match(html, /6 ft fitted is \$159 and 8 ft fitted is \$179/);
+  assert.match(html, /6 ft fitted is \$119 and 8 ft fitted is \$179/);
+  assert.match(html, /The 6 ft fitted cover is made to order and arrives 5-10 business days/);
   assert.match(html, /6 ft stretch is \$199 and 8 ft stretch is \$239/);
 });
 
