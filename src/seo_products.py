@@ -238,14 +238,14 @@ dict(
  material='Throws: dye-sublimated polyester, machine washable, wrinkle resistant. Fitted covers: tailored to the table, closed back. Stretch covers: spandex that pulls tight over the table.',
  included='Full-color front panel, free custom design and digital proof',
  days='3-5',
- offer_rows=[(139,'6 ft, 3-sided'),(169,'6 ft, 4-sided'),(159,'8 ft, 3-sided'),(189,'8 ft, 4-sided'),(159,'6 ft fitted, closed back'),(179,'8 ft fitted, closed back'),(199,'6 ft stretch spandex cover'),(239,'8 ft stretch spandex cover')],
+ offer_rows=[(139,'6 ft, 3-sided'),(169,'6 ft, 4-sided'),(159,'8 ft, 3-sided'),(189,'8 ft, 4-sided'),(119,'6 ft fitted, closed back'),(179,'8 ft fitted, closed back'),(199,'6 ft stretch spandex cover'),(239,'8 ft stretch spandex cover')],
  gallery_extra=[
   ('/assets/img/g-09-table-throw-stretch','Black stretch spandex table cover with a Get Seen Signs logo at an indoor trade show'),
   ('/assets/img/g-09-table-throw-stretch-2','Blue stretch spandex table cover with a Your Logo Here print at an outdoor vendor event'),
  ],
  body=[
   ('3-sided or 4-sided?', 'A 3-sided throw has an open back, so whoever sits behind the table can reach boxes and bags underneath. A 4-sided throw covers all the way around, which looks better when people walk around the table. 6 ft 3-sided is $139 and 6 ft 4-sided is $169. 8 ft 3-sided is $159 and 8 ft 4-sided is $189.'),
-  ('Fitted covers', 'A fitted, closed-back cover is tailored to the table, so it gives a cleaner look than a throw and stays put better in wind. 6 ft fitted is $159 and 8 ft fitted is $179. The back is closed, so choose a 3-sided throw if you need to reach under the table from behind.'),
+  ('Fitted covers', 'A fitted, closed-back cover is tailored to the table, so it gives a cleaner look than a throw and stays put better in wind. 6 ft fitted is $119 and 8 ft fitted is $179. The back is closed, so choose a 3-sided throw if you need to reach under the table from behind.'),
   ('Stretch spandex covers', 'A stretch cover is spandex that pulls tight over the table and legs, for a sleek, modern look with no loose fabric. 6 ft stretch is $199 and 8 ft stretch is $239.'),
   ('Where they show up', 'Vendor fairs, farmers markets, school sign-up nights, church welcome tables, career fairs and trade shows.'),
   ('Complete the booth', 'Add a <a href="/custom-canopy-tents/">custom canopy tent</a> outside or a <a href="/retractable-banners/">retractable banner</a> inside. On a budget? A <a href="/table-runners/">printed table runner with a solid throw</a> is $99. See the <a href="/event-booth-bundles/">vendor and event booth bundles</a> for full setups. The <a href="/trade-show-booth-kit/">trade show booth kit</a> is $339 and includes a 6 ft 3-sided throw, a 33×81 retractable banner and a 10.5 ft feather flag.'),
@@ -253,7 +253,7 @@ dict(
  faqs=[
   ('Will it fit my table?', 'Throws are cut for standard 6 ft and 8 ft rectangular folding tables. Pick the size that matches your table length.'),
   ('Can I wash it?', 'Yes. The throw fabric is machine washable and wrinkle resistant.'),
-  ('What is a fitted cover?', 'A fitted cover is tailored to the table and closed on the back, for a cleaner look than a throw. It is $159 for a 6 ft table and $179 for an 8 ft table.'),
+  ('What is a fitted cover?', 'A fitted cover is tailored to the table and closed on the back, for a cleaner look than a throw. It is $119 for a 6 ft table and $179 for an 8 ft table.'),
   ('What is a stretch cover?', 'A stretch cover is spandex that fits tight over the table. It is $199 for a 6 ft table and $239 for an 8 ft table.'),
   ('Is the logo printed on all sides?', 'The full-color print is on the front panel. Ask in a quote if you need more.'),
  ],

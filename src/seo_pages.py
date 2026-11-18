@@ -443,7 +443,7 @@ dict(
 <h3>Throw, 4-sided</h3>
 <p>Covers all the way around, which looks best when people can walk around the table, such as a sign-in table in the middle of a room. 6 ft: $169. 8 ft: $189.</p>
 <h3>Fitted, closed back</h3>
-<p>Tailored to the table for a cleaner look than a loose throw. The back is closed, so you can't reach under from behind. 6 ft: $159. 8 ft: $179.</p>
+<p>Tailored to the table for a cleaner look than a loose throw. The back is closed, so you can't reach under from behind. 6 ft: $119. 8 ft: $179.</p>
 <h3>Stretch spandex</h3>
 <p>Pulls tight over the table and legs for a sleek, modern look with no loose fabric. 6 ft: $199. 8 ft: $239.</p>
 <h2>Which one should you buy?</h2>
