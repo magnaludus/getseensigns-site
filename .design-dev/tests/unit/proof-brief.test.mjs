@@ -33,6 +33,27 @@ const failsAt = (input, path, fragment) => {
   return res;
 };
 
+const tentPanel = (over = {}) => ({ product: 'canopy', options: { package: 'valance' }, qty: 1, template: 'bold-center', sides_mode: 'same', panels: [{ side: 'Front', use: 'logo', ...over }] });
+const withLogos = { logos: [{ file: 'emblem.png', vector: false }, { file: 'wordmark.png', vector: false }] };
+
+test('a canopy panel takes a valance of its own: a logo, one line of words, or both', () => {
+  const ok = checkBrief(brief(tentPanel({ logo_file: 'emblem.png', valance: { use: 'logo', logo_file: 'wordmark.png' } }), withLogos), data);
+  assert.deepEqual(ok.errors, []);
+  assert.deepEqual(ok.brief.pieces[0].panels[0].valance, { use: 'logo', lines: [], logo_file: 'wordmark.png' });
+  const words = checkBrief(brief(tentPanel({ logo_file: 'emblem.png', valance: { use: 'text', lines: [' PRECISION GAS GUN '] } }), withLogos), data);
+  assert.deepEqual(words.brief.pieces[0].panels[0].valance, { use: 'text', lines: ['PRECISION GAS GUN'], logo_file: null });
+  assert.equal(checkBrief(brief(tentPanel({ logo_file: 'emblem.png' }), withLogos), data).brief.pieces[0].panels[0].valance, null);
+});
+
+test('valance mistakes are named: not a tent, with a template, a bad use, two lines, an unknown or unnamed logo', () => {
+  failsAt(brief(throwPiece({ panels: [{ side: 'Front', use: 'template' }, { side: 'Top', use: 'plain', valance: { use: 'text', lines: ['X'] } }, { side: 'Left end', use: 'plain' }, { side: 'Right end', use: 'plain' }, { side: 'Back', use: 'plain' }] })), 'pieces[0].panels[1].valance', /Only a canopy/);
+  failsAt(brief(tentPanel({ use: 'template', valance: { use: 'text', lines: ['X'] } })), 'pieces[0].panels[0].valance', /template already fills/);
+  failsAt(brief(tentPanel({ logo_file: 'emblem.png', valance: { use: 'plain' } }), withLogos), 'pieces[0].panels[0].valance.use', /text, logo, logo_and_text/);
+  failsAt(brief(tentPanel({ logo_file: 'emblem.png', valance: { use: 'text', lines: ['A', 'B'] } }), withLogos), 'pieces[0].panels[0].valance.lines', /exactly one line/);
+  failsAt(brief(tentPanel({ logo_file: 'emblem.png', valance: { use: 'logo', logo_file: 'nope.png' } }), withLogos), 'pieces[0].panels[0].valance.logo_file', /not in the brief/);
+  failsAt(brief(tentPanel({ logo_file: 'emblem.png', valance: { use: 'logo' } }), withLogos), 'pieces[0].panels[0].valance.logo_file', /more than one logo/);
+});
+
 test('the example from the bot prompt passes, whole reply or bare brief, and is normalized', () => {
   for (const input of [example, example.brief]) {
     const res = checkBrief(clone(input), data);

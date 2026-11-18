@@ -321,7 +321,8 @@ function factsFor(c, extra) {
   for (const si of sidesOf(c.piece)) {
     for (const e of c.piece.sides[si].elements) {
       if (e.hidden) continue;
-      if (e.type === 'image' && e.logoId) logos.push({ panel: c.piece.sides[si].name, in_w: e.w });
+      // on a tent side, a logo below the seam is on the valance and one above it is on the roof
+      if (e.type === 'image' && e.logoId) logos.push({ panel: c.piece.sides[si].name, in_w: e.w, in_h: e.h, where: spec.valanceLine == null ? null : e.y + e.h / 2 >= spec.valanceLine ? 'valance' : 'roof' });
       if (e.type === 'text' && String(e.text).trim()) words.push({ text: String(e.text).trim(), size: e.size, in_w: layoutOf(e, c.env.measure, c.env.fonts).widest });
     }
   }

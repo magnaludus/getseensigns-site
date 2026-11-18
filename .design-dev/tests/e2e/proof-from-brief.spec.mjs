@@ -409,3 +409,27 @@ test('every product with every template builds into a design the proof request a
     server.stop();
   }
 });
+
+test('a tent side takes a logo on the roof and its own words or logo on the valance, inside the safe line', () => {
+  const tent = (valance) => brief({
+    logos: [{ file: 'mark.svg', vector: true }],
+    pieces: [{ product: 'canopy', options: { package: 'valance' }, qty: 1, template: 'bold-center', sides_mode: 'same', panels: [{ side: 'Front', use: 'logo', valance }] }],
+  });
+  const words = run(tent({ use: 'text', lines: ['OAK STREET BAKERY'] }), { logos: { 'mark.svg': MARK } });
+  assert.equal(words.code, 0, words.stderr);
+  assert.equal(words.report.checks.safe_area, 'pass');
+  assert.equal(words.report.checks.min_text_size, 'pass', JSON.stringify(words.report.text_sizes));
+  assert.deepEqual(words.report.text_sizes.map((t) => t.text), ['OAK STREET BAKERY']);
+  const sheet = words.report.sheets[0];
+  assert.ok(sheet.text.includes('Roof logo about'), sheet.text);
+  assert.ok(sheet.text.includes('OAK STREET BAKERY'));
+  assert.deepEqual(sheet.overflow, []);
+
+  const logo = run(tent({ use: 'logo' }), { logos: { 'mark.svg': MARK } });
+  assert.equal(logo.code, 0, logo.stderr);
+  assert.equal(logo.report.logos.length, 2, 'one logo on the roof and one on the valance');
+  assert.equal(logo.report.checks.safe_area, 'pass');
+  assert.ok(/Roof logo about \d+ in wide \| Valance logo about [\d.]+ x [\d.]+ in/.test(logo.report.sheets[0].text.replace(/\s+/g, ' ')), logo.report.sheets[0].text);
+  assert.deepEqual(logo.report.blocked_requests, []);
+  assert.deepEqual(logo.report.page_problems, []);
+});

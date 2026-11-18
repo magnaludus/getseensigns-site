@@ -2,6 +2,7 @@
 // the way they write it, the colors table, the line of sizes, and that nothing a customer or a bot writes can change the
 // page. Pure: no browser. The made-up customers here are not real businesses.
 import test from 'node:test';
+import { captionLines as capLines, softLogoNote } from '../../scripts/proof-from-brief/sheet.mjs';
 import assert from 'node:assert/strict';
 import {
   formatDate, esc, colorRows, captionLines, buildSheetHtml, revisionLine,
@@ -128,4 +129,13 @@ test('nothing a customer or a bot writes can change the page', () => {
 test('the notes the tool adds for the drawing are in the reference words', () => {
   assert.equal(DRAPE_NOTE, 'Hatched corners wrap the table corners and carry no art.');
   assert.equal(STRIP_NOTE, 'The short back strip is plain: a 3-sided throw is open at the back.');
+});
+
+test('a tent side names its roof logo and its valance logo in the sizes line, and a soft logo gets a plain heads-up', () => {
+  const [line] = capLines({ size: { w: 119, h: 84.28 }, sides: 4, same: true, valance_in: 13.04, closeups: true,
+    logos: [{ in_w: 29.95, in_h: 29.7, where: 'roof' }, { in_w: 71.2, in_h: 6.6, where: 'valance' }], words: [] });
+  assert.ok(line.includes('Roof logo about 30 in wide | Valance logo about 71 x 6.6 in'), line);
+  const [plain] = capLines({ size: { w: 24, h: 18 }, sides: 1, logos: [{ in_w: 6, in_h: 6, where: null }], words: [] });
+  assert.ok(plain.includes('Logo about 6 in wide'), plain);
+  assert.equal(softLogoNote(15), 'Heads-up: your logo file is a small image, so it will print soft up close (about 15 dpi at this size). A vector file (AI, EPS, SVG or PDF) would print sharp.');
 });

@@ -12,7 +12,7 @@ import { parseArgs } from 'node:util';
 import { readFileSync, writeFileSync, mkdirSync, statSync, readdirSync, rmSync } from 'node:fs';
 import { join, resolve, sep } from 'node:path';
 import { checkBrief, loadData, CHECK_KEYS, logoTypeOf, mockupTypeOf } from './brief.mjs';
-import { buildSheetHtml, captionLines, colorRows, FLAT_NOTE, DRAPE_NOTE, STRIP_NOTE, SEAM_NOTE } from './sheet.mjs';
+import { buildSheetHtml, captionLines, colorRows, FLAT_NOTE, DRAPE_NOTE, STRIP_NOTE, SEAM_NOTE, softLogoNote } from './sheet.mjs';
 import { startServer, launch, newPage, openDesigner } from '../../tests/e2e/helpers.mjs';
 
 const HELP = `Usage: node scripts/proof-from-brief/cli.mjs --brief <file.json> --out <dir> [--logos <dir>] [--mockups <dir>] [--no-sheet] [--strict]
@@ -97,6 +97,9 @@ async function renderSheets({ browser, server, blocked, brief, data, result, moc
     if (sheet.facts.panels && !has(FLAT_NOTE)) notes.push(FLAT_NOTE);
     if (sheet.facts.drape && !has(DRAPE_NOTE)) notes.push(DRAPE_NOTE);
     if (sheet.facts.strip && !has(STRIP_NOTE)) notes.push(STRIP_NOTE);
+    // a raster logo below the green line on this piece: the lowest dpi, said once, unless the brief already raises it
+    const soft = (result.report.logos || []).filter((l) => l.piece === sheet.piece && !l.vector && l.level !== 'green' && l.dpi != null);
+    if (soft.length && !notes.some((x) => /vector file|print soft/i.test(x))) notes.push(softLogoNote(Math.min(...soft.map((l) => l.dpi))));
     if (sheet.facts.valance_in && !has(SEAM_NOTE)) notes.push(SEAM_NOTE);
     if (brief.not_included.length) notes.push(`Not included: ${brief.not_included.join('; ')}.`);
     const figures = sheet.hero.figures;
