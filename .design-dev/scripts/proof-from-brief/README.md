@@ -51,6 +51,9 @@ Exit codes: `0` done, `1` bad brief or bad usage, `2` the reply was not `ready`,
 | `logo_sharpness` | a PNG, JPG or WebP logo is below the amber dpi at the size it is placed. `n/a` when every logo is a vector | same, with the dpi worked out per logo |
 | `contrast` | text is under 3 to 1 against what is behind it | same |
 
+When a raster logo is below the green dpi line, the sheet's notes get one heads-up line for the customer with the lowest dpi
+and a request for a vector file, unless the brief's notes already say so.
+
 `report.attention` is the list of plain sentences for a person: every failed check with its panel, a soft (amber) logo, a
 word that no panel prints (a phone number with no phone line on the template), an empty logo frame, a logo in the brief
 that is on no panel, a panel left for a manual layout, a logo the brief calls vector that is not, and for each proof
@@ -104,6 +107,11 @@ its path (`pieces[0].panels[4].side`) and a plain message. Every mistake is repo
 | `logo_and_text` | Both: side by side on a wide panel, stacked on a squarer one. |
 | `plain` | The background only. |
 | `custom` | Nothing yet. The panel is left plain and listed in `report.manual` with its `note`, for a person to lay out by hand. |
+
+A canopy panel can also carry a `valance`: `{"use": "text", "lines": ["ONE LINE"]}`, `{"use": "logo", "logo_file": "wordmark.png"}` or
+`{"use": "logo_and_text", ...}`. It sets the band under the roof by itself, so the roof can carry an emblem and the valance a
+wordmark. A valance logo keeps its own shape (a wide lockup stays wide). It is not allowed with `use: "template"`, because a
+template fills the valance already.
 
 On a canopy the logo and words go in the gable's own block (the widest box that fits the safe line), on a feather flag in
 the body band, the same regions the templates use. A panel's `bg` (`primary`, `accent`, `ink` or a hex) sets its

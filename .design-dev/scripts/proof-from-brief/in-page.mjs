@@ -32,6 +32,15 @@ const SPECIAL = {
   feather: { logo: ['body', [0.1, 0.03, 0.8, 0.5]], text: ['body', [0, 0.05, 1, 0.9]], both: { logo: ['body', [0.1, 0.03, 0.8, 0.42]], text: ['body', [0, 0.52, 1, 0.44]] } },
 };
 
+// The valance region runs to the cut edge, and the safe line is about 2 in above it, so every box here stops at 0.84 of the band.
+// A canopy valance is a long low band: one line of words across it, a logo centered in it, or a logo to the left of the words.
+// The logo box is not forced square, so a wide lockup keeps its shape.
+const VALANCE = {
+  text: { text: ['valance', [0.04, 0.12, 0.92, 0.68]] },
+  logo: { logo: ['valance', [0.155, 0.04, 0.69, 0.8]] },
+  logo_and_text: { logo: ['valance', [0.14, 0.12, 0.1, 0.7]], text: ['valance', [0.26, 0.12, 0.6, 0.68]] },
+};
+
 // {logo: [region, box], text: [region, box]} for a plan's use.
 function placement(productId, use, spec) {
   const s = SPECIAL[productId];
@@ -47,7 +56,7 @@ function placement(productId, use, spec) {
 // A box much taller than wide (a flag) may wrap its line onto two.
 function defsFor(place, lines, fill, spec) {
   const defs = [];
-  if (place.logo) defs.push({ type: 'image', name: 'Logo', region: place.logo[0], box: place.logo[1], square: true });
+  if (place.logo) defs.push({ type: 'image', name: 'Logo', region: place.logo[0], box: place.logo[1], square: place.logo[0] !== 'valance' });
   if (place.text) {
     const [region, [x, y, w, h]] = place.text;
     const r = spec.regions[region];
@@ -155,6 +164,14 @@ export async function run(brief, logoFiles) {
         const spec = specForSide(env.specs, bp.product, bp.options, si);
         doc = addDefs(doc, pi, si, defsFor(placement(bp.product, plan.use, spec), plan.lines, textFill(doc, pi, si), spec), env);
         if (plan.use !== 'text') doc = fillFrames(doc, pi, si, logoId, env);
+      }
+      // the valance after the roof, so each empty logo frame takes its own logo
+      if (plan.valance) {
+        const spec = specForSide(env.specs, bp.product, bp.options, si);
+        if (spec.regions.valance) {
+          doc = addDefs(doc, pi, si, defsFor(VALANCE[plan.valance.use], plan.valance.lines, textFill(doc, pi, si), spec), env);
+          if (plan.valance.use !== 'text') doc = fillFrames(doc, pi, si, plan.valance.logo_file ? logoIds[plan.valance.logo_file] : firstLogo, env);
+        }
       }
     }
   });

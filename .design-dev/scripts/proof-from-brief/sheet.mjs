@@ -17,6 +17,8 @@ export const FLAT_NOTE = 'Side and back art is turned on the flat so it reads ri
 export const MOCKUP_MISSING = 'Mockup photo not added yet';
 export const DRAPE_NOTE = 'Hatched corners wrap the table corners and carry no art.';
 export const STRIP_NOTE = 'The short back strip is plain: a 3-sided throw is open at the back.';
+// When a logo file is too small for its printed size, the customer is told on the sheet, with the lowest figure.
+export const softLogoNote = (dpi) => `Heads-up: your logo file is a small image, so it will print soft up close (about ${dpi} dpi at this size). A vector file (AI, EPS, SVG or PDF) would print sharp.`;
 export const SEAM_NOTE = 'Dashed line = roof/valance seam (proof only, does not print).';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -70,7 +72,19 @@ export function captionLines(f) {
   const parts = [];
   if (f.size) parts.push(`About ${fmt(f.size.w)} x ${fmt(f.size.h)} in${f.sides > 1 ? (f.same ? ' per side' : ' each') : ''}`);
   if (f.valance_in) parts.push(`Valance ${fmt(f.valance_in)} in tall`);
-  if (f.logos && f.logos.length) parts.push(`Logo about ${inch(f.logos[0].in_w)} in wide`);
+  if (f.logos && f.logos.length) {
+    // one logo, or each different logo width once (a roof emblem and a valance wordmark are two sizes)
+    const widths = [...new Set(f.logos.map((l) => inch(l.in_w)))];
+    const placed = f.logos.filter((l) => l.where);
+    if (placed.length) {
+      // a tent side: say which logo is on the roof and which is on the valance (the valance one with its height too)
+      const seen = new Set();
+      for (const l of placed) {
+        const line = l.where === 'valance' ? `Valance logo about ${inch(l.in_w)} x ${fmt(l.in_h)} in` : `Roof logo about ${inch(l.in_w)} in wide`;
+        if (!seen.has(line)) { seen.add(line); parts.push(line); }
+      }
+    } else parts.push(widths.length === 1 ? `Logo about ${widths[0]} in wide` : `Logos about ${widths.slice(0, -1).join(', ')} and ${widths[widths.length - 1]} in wide`);
+  }
   for (const w of f.words || []) parts.push(`${clip(w.text, 28)} about ${inch(w.in_w)} in wide`);
   parts.push(f.closeups ? 'Close-ups not to scale' : 'To scale');
   return [parts.join(' | ')];

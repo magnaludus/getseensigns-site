@@ -7,6 +7,7 @@ import { sideNamesFor, hasPanels } from '../../../assets/design/model/document.j
 const ROOT = new URL('../../../', import.meta.url);
 
 export const USES = ['template', 'text', 'logo', 'logo_and_text', 'plain', 'custom'];
+export const VALANCE_USES = ['text', 'logo', 'logo_and_text'];
 export const LOGO_TYPES = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp', svg: 'image/svg+xml' };
 export const MAX_LOGOS = 4; // the Designer's own limit (assets/design/ui/logos.js)
 export const MAX_PIECES = 6; // the document's own limit (model/document.js)
@@ -218,7 +219,7 @@ function checkPiece(p, i, out, catalog, err, warn) {
       return;
     }
     got.push(side);
-    const norm = { side, use: null, lines: [], logo_file: null, bg: null, note: '' };
+    const norm = { side, use: null, lines: [], logo_file: null, bg: null, note: '', valance: null };
     if (!USES.includes(panel.use)) err(`${pat}.use`, `use must be one of: ${USES.join(', ')}.`);
     else norm.use = panel.use;
     if (norm.use === 'template' && panelled && names.indexOf(side) > 0) {
@@ -249,6 +250,34 @@ function checkPiece(p, i, out, catalog, err, warn) {
       if (['primary', 'accent', 'ink'].includes(panel.bg)) norm.bg = '@' + panel.bg;
       else if (typeof panel.bg === 'string' && HEX.test(panel.bg)) norm.bg = panel.bg.toUpperCase();
       else err(`${pat}.bg`, 'bg must be "primary", "accent", "ink" or a hex code.');
+    }
+    // a canopy side has a valance under the roof: its own words or logo, apart from what is on the roof
+    if (panel.valance != null) {
+      const v = panel.valance;
+      const vat = `${pat}.valance`;
+      if (product.id !== 'canopy') err(vat, 'Only a canopy tent side has a valance.');
+      else if (norm.use === 'template') err(vat, 'A template already fills the valance. Give the roof text, a logo or plain to set the valance yourself.');
+      else if (!isObj(v) || !VALANCE_USES.includes(v.use)) err(`${vat}.use`, `valance.use must be one of: ${VALANCE_USES.join(', ')}.`);
+      else {
+        const vn = { use: v.use, lines: [], logo_file: null };
+        const vl = v.lines == null ? [] : v.lines;
+        if (!Array.isArray(vl) || vl.some((l) => typeof l !== 'string')) err(`${vat}.lines`, 'lines must be a list of text lines.');
+        else if (v.use !== 'logo') {
+          const clean = vl.map((l) => l.trim()).filter(Boolean);
+          if (clean.length !== 1) err(`${vat}.lines`, 'A valance takes exactly one line of text.');
+          else if (clean[0].length > 120) err(`${vat}.lines`, 'A line is over 120 characters.');
+          else vn.lines = clean;
+        } else if (vl.length) err(`${vat}.lines`, 'lines is only for text and logo_and_text.');
+        if (v.logo_file != null) {
+          if (!out.logos.some((l) => l.file === v.logo_file)) err(`${vat}.logo_file`, `${v.logo_file} is not in the brief's logos list.`);
+          else vn.logo_file = v.logo_file;
+        } else if (v.use !== 'text') {
+          if (!out.logos.length) err(`${vat}.use`, `${v.use} needs a logo file, and the brief's logos list is empty.`);
+          else if (out.logos.length > 1) err(`${vat}.logo_file`, 'There is more than one logo, so say which file goes on the valance.');
+          else vn.logo_file = out.logos[0].file;
+        }
+        norm.valance = vn;
+      }
     }
     norm.note = str(panel.note) || '';
     if (norm.use === 'custom' && !norm.note) warn(`${pat}.note`, 'A custom panel should say what the customer wants, so Scott can design it.');
