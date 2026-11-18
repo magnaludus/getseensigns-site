@@ -227,7 +227,7 @@ function startEditor(root, env, analytics, doc, opts) {
   };
   document.addEventListener('keydown', onKey);
 
-  if (debug) Object.assign(debug, { store, actions, ctx, stage, flatMap, view3d, env, startedAt: performance.now() });
+  if (debug) Object.assign(debug, { store, actions, ctx, stage, flatMap, view3d, env, proof, startedAt: performance.now() });
   return {
     store, ctx,
     destroy() {
