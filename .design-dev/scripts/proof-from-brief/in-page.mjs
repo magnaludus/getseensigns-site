@@ -28,7 +28,7 @@ const clip = (s, n = 60) => (String(s).length > n ? String(s).slice(0, n - 1) + 
 // safe gable), and a feather flag is cut away at the pole and the bottom, so art goes in its "body" band. The templates
 // use the same regions.
 const SPECIAL = {
-  canopy: { logo: ['peak', [0.15, 0.03, 0.7, 0.94]], text: ['peak', [0.02, 0.1, 0.96, 0.8]], both: { logo: ['peak', [0.3, 0, 0.4, 0.46]], text: ['peak', [0, 0.5, 1, 0.46]] } },
+  canopy: { logo: ['peak', [0.15, -0.18, 0.7, 0.94]], text: ['peak', [0.02, 0.1, 0.96, 0.8]], both: { logo: ['peak', [0.3, 0, 0.4, 0.46]], text: ['peak', [0, 0.5, 1, 0.46]] } },
   feather: { logo: ['body', [0.1, 0.03, 0.8, 0.5]], text: ['body', [0, 0.05, 1, 0.9]], both: { logo: ['body', [0.1, 0.03, 0.8, 0.42]], text: ['body', [0, 0.52, 1, 0.44]] } },
 };
 
@@ -230,8 +230,10 @@ export async function run(brief, logoFiles) {
     logo_sharpness: !raster.length ? 'n/a' : raster.some((l) => l.level === 'red') ? 'fail' : 'pass',
     contrast: kinds.has('contrast') ? 'fail' : 'pass',
   };
+  // a logo marked has_name is a wordmark: once it is on a panel the name is printed, as part of the picture
+  const nameInLogo = brief.logos.some((l) => l.has_name && logos.some((x) => x.file === l.file));
   const unplacedFields = Object.entries(doc.project.fields)
-    .filter(([, v]) => !fieldIsPrinted(v, printedLines))
+    .filter(([f, v]) => !(f === 'name' && nameInLogo) && !fieldIsPrinted(v, printedLines))
     .map(([field, value]) => ({ field, value }));
   const unusedLogos = brief.logos.filter((l) => !logos.some((x) => x.file === l.file)).map((l) => l.file);
   const logoFacts = brief.logos.map((l) => {

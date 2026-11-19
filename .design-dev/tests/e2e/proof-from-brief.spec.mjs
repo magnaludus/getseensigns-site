@@ -432,4 +432,17 @@ test('a tent side takes a logo on the roof and its own words or logo on the vala
   assert.ok(/Roof logo about \d+ in wide \| Valance logo about [\d.]+ x [\d.]+ in/.test(logo.report.sheets[0].text.replace(/\s+/g, ' ')), logo.report.sheets[0].text);
   assert.deepEqual(logo.report.blocked_requests, []);
   assert.deepEqual(logo.report.page_problems, []);
+
+  // the roof logo sits at the middle of the whole side (peak to valance bottom), not low in the roof
+  const side = design(logo.out).project.pieces[0].sides[0];
+  const roofLogo = side.elements.filter((e) => e.type === 'image' && e.logoId).sort((x, y) => x.y - y.y)[0];
+  assert.ok(Math.abs(roofLogo.y + roofLogo.h / 2 - 84.28 / 2) < 1, `roof logo center at ${roofLogo.y + roofLogo.h / 2} in`);
+
+  // a logo marked has_name is a wordmark, so the name is not reported as missing once that logo is on a panel
+  assert.ok(logo.report.unplaced_fields.some((f) => f.field === 'name'), 'a plain logo does not print the name');
+  const marked = tent({ use: 'logo' });
+  marked.brief.logos[0].has_name = true;
+  const wordmark = run(marked, { logos: { 'mark.svg': MARK } });
+  assert.equal(wordmark.code, 0, wordmark.stderr);
+  assert.ok(!wordmark.report.unplaced_fields.some((f) => f.field === 'name'), JSON.stringify(wordmark.report.unplaced_fields));
 });

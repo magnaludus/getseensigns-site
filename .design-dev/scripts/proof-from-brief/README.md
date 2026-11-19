@@ -93,6 +93,7 @@ on it, anything that did not fit, the notes it carries and every word on the pag
 its path (`pieces[0].panels[4].side`) and a plain message. Every mistake is reported at once. A brief that is not
 `ready` is not rendered. A reply may carry other fields (`summary`, `flags`, `mockup_prompt`, ...); they are ignored.
 
+- `logos[].has_name` (optional): `true` when the business name is part of the logo picture (a wordmark). Once that logo is on a panel, the report no longer says the name is not printed.
 - `mockup_file` (optional): the finished mockup photo for this piece's sheet, a plain file name of a PNG, JPG or WebP in the `--mockups` folder. The photo comes from a separate step (a blank product photo with the real logo placed on it), so whoever runs that step adds this field.
 - `product`, `options`, `template`: ids from `assets/design/catalog.json`. Every option of the product is needed. A product with no quantity (yard signs, decals, safety signs: the pack sets the count) has `qty` 1.
 - `sides_mode`: `each` for a table throw (its panels are different pieces). `same` or `each` for products with several sides. A product with one side is just that side.
