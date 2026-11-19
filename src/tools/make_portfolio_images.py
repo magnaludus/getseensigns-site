@@ -9,7 +9,7 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, 'assets', 'portfolio')
-BASE = 'rhytec-industries-event-tent'
+BASE = 'event-tent-black-outdoor'
 WIDTHS = (480, 768, 1200)
 
 
