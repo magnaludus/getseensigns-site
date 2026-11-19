@@ -888,11 +888,11 @@ HOME_WORK='''<style>@media (min-width:1181px){.card-wide{grid-column:span 2}}.se
 <section class="work" aria-label="Customer work">
   <div class="wrap work-in">
     <a class="work-pics" href="/portfolio/">
-      <picture><source srcset="/assets/portfolio/sons-of-liberty-gun-works-event-tent-480.webp" type="image/webp"><img src="/assets/portfolio/sons-of-liberty-gun-works-event-tent.jpg" alt="Navy and red custom printed event tent for Sons of Liberty Gun Works, set up outdoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
-      <picture><source srcset="/assets/portfolio/rhytec-industries-event-tent-480.webp" type="image/webp"><img src="/assets/portfolio/rhytec-industries-event-tent.jpg" alt="Black custom printed event tent for Rhytec Industries, set up outdoors on a gravel lot" width="1200" height="1600" loading="lazy" decoding="async"></picture>
-      <picture><source srcset="/assets/portfolio/rhytec-industries-event-tent-indoor-480.webp" type="image/webp"><img src="/assets/portfolio/rhytec-industries-event-tent-indoor.jpg" alt="Black custom printed event tent for Rhytec Industries, set up indoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
+      <picture><source srcset="/assets/portfolio/event-tent-navy-red-480.webp" type="image/webp"><img src="/assets/portfolio/event-tent-navy-red.jpg" alt="Navy and red custom printed event tent, set up outdoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
+      <picture><source srcset="/assets/portfolio/event-tent-black-outdoor-480.webp" type="image/webp"><img src="/assets/portfolio/event-tent-black-outdoor.jpg" alt="Black custom printed event tent, set up outdoors on a gravel lot" width="1200" height="1600" loading="lazy" decoding="async"></picture>
+      <picture><source srcset="/assets/portfolio/event-tent-black-indoor-480.webp" type="image/webp"><img src="/assets/portfolio/event-tent-black-indoor.jpg" alt="Black custom printed event tent, set up indoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
     </a>
-    <div class="work-copy"><p class="eyebrow">Real work, real customers</p><h2>Printed, shipped and <span class="hl">set up.</span></h2><p>Custom printed event tents for Sons of Liberty Gun Works and Rhytec Industries. Real photos from customers, not mockups.</p><a class="btn btn-ink btn-sm" href="/portfolio/">See our portfolio <span aria-hidden="true">→</span></a></div>
+    <div class="work-copy"><p class="eyebrow">Real work, real customers</p><h2>Printed, shipped and <span class="hl">set up.</span></h2><p>Custom printed event tents our customers ordered. Real photos from customers, not mockups.</p><a class="btn btn-ink btn-sm" href="/portfolio/">See our portfolio <span aria-hidden="true">→</span></a></div>
   </div>
 </section>'''
 options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<option>Election / campaign signs</option><option>Birthday or graduation sign</option><option>Something else</option>'
@@ -1181,17 +1181,17 @@ path='/portfolio/'; items=[('Home','/'),('Portfolio',path)]
 pf_title='Portfolio | Get Seen Signs'
 pf_desc='Photos of custom printed signs, tents and banners made by Get Seen Signs for customers.'
 PORTFOLIO=[
-    dict(base='/assets/portfolio/rhytec-industries-event-tent', w=1200, h=1600, widths=(480,768,1200),
-         caption='Rhytec Industries — Custom Printed Event Tent',
-         alt='Black custom printed event tent with the Rhytec Industries logo on its valance, set up outdoors on a gravel lot'),
-    dict(base='/assets/portfolio/sons-of-liberty-gun-works-event-tent', w=768, h=1024, widths=(480,768),
-         caption='Sons of Liberty Gun Works — Custom Printed Event Tent',
-         alt='Navy and red custom printed event tent with the Sons of Liberty Gun Works logo on the roof and white lettering on a red valance, set up outdoors under a blue sky'),
+    dict(base='/assets/portfolio/event-tent-black-outdoor', w=1200, h=1600, widths=(480,768,1200),
+         caption='Custom Printed Event Tent, Black',
+         alt='Black custom printed event tent with a customer logo on its valance, set up outdoors on a gravel lot'),
+    dict(base='/assets/portfolio/event-tent-navy-red', w=768, h=1024, widths=(480,768),
+         caption='Custom Printed Event Tent, Navy and Red',
+         alt='Navy and red custom printed event tent with a customer logo on the roof and white lettering on a red valance, set up outdoors under a blue sky'),
     # The one edit to any portfolio photo: the lettering on another company's sign in the background of this one is blanked.
     # Nothing else in it is changed, and the tent is as photographed.
-    dict(base='/assets/portfolio/rhytec-industries-event-tent-indoor', w=768, h=1024, widths=(480,768),
-         caption='Rhytec Industries — Custom Printed Event Tent, Roof and Valance',
-         alt='Black custom printed event tent with the Rhytec Industries logo on the roof panel and the valance, set up indoors on a shop floor'),
+    dict(base='/assets/portfolio/event-tent-black-indoor', w=768, h=1024, widths=(480,768),
+         caption='Custom Printed Event Tent, Roof and Valance',
+         alt='Black custom printed event tent with a customer logo on the roof panel and the valance, set up indoors on a shop floor'),
 ]
 def portfolio_fig(it):
     ws=it['widths']

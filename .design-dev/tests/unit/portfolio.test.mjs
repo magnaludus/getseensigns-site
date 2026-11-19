@@ -10,18 +10,18 @@ const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const page = read('portfolio/index.html');
 const main = /<main id="main">([\s\S]*?)<\/main>/.exec(page)[1];
 
-test('portfolio page shows the Rhytec Industries tent with the neutral caption', () => {
-  assert.match(main, /<figcaption[^>]*>Rhytec Industries — Custom Printed Event Tent<\/figcaption>/);
-  assert.match(main, /<img src="\/assets\/portfolio\/rhytec-industries-event-tent\.jpg" alt="[^"]+" width="1200" height="1600" loading="lazy"/);
+test('portfolio page shows the black event tent with the neutral caption', () => {
+  assert.match(main, /<figcaption[^>]*>Custom Printed Event Tent, Black<\/figcaption>/);
+  assert.match(main, /<img src="\/assets\/portfolio\/event-tent-black-outdoor\.jpg" alt="[^"]+" width="1200" height="1600" loading="lazy"/);
   for (const w of [480, 768, 1200]) {
-    const f = `assets/portfolio/rhytec-industries-event-tent-${w}.webp`;
+    const f = `assets/portfolio/event-tent-black-outdoor-${w}.webp`;
     assert.ok(fs.existsSync(path.join(ROOT, f)), f);
     assert.ok(main.includes(`/${f} ${w}w`), `srcset ${w}w`);
   }
 });
 
-test('portfolio also shows the Sons of Liberty Gun Works tent and the second Rhytec photo, and the home page band links to it', () => {
-  for (const [base, caption] of [['sons-of-liberty-gun-works-event-tent', 'Sons of Liberty Gun Works — Custom Printed Event Tent'], ['rhytec-industries-event-tent-indoor', 'Rhytec Industries — Custom Printed Event Tent, Roof and Valance']]) {
+test('portfolio also shows the navy and red tent and the second black tent photo, and the home page band links to it', () => {
+  for (const [base, caption] of [['event-tent-navy-red', 'Custom Printed Event Tent, Navy and Red'], ['event-tent-black-indoor', 'Custom Printed Event Tent, Roof and Valance']]) {
     assert.ok(main.includes(`>${caption}</figcaption>`), caption);
     assert.ok(main.includes(`<img src="/assets/portfolio/${base}.jpg"`), base);
     for (const w of [480, 768]) assert.ok(fs.existsSync(path.join(ROOT, `assets/portfolio/${base}-${w}.webp`)), `${base}-${w}.webp`);
@@ -36,7 +36,7 @@ test('portfolio also shows the Sons of Liberty Gun Works tent and the second Rhy
 });
 
 test('portfolio fallback JPG is the untouched original (1200x1600 JPEG, no re-encode)', () => {
-  const jpg = fs.readFileSync(path.join(ROOT, 'assets/portfolio/rhytec-industries-event-tent.jpg'));
+  const jpg = fs.readFileSync(path.join(ROOT, 'assets/portfolio/event-tent-black-outdoor.jpg'));
   assert.deepEqual([...jpg.subarray(0, 3)], [0xff, 0xd8, 0xff]);
   assert.equal(jpg.length, 996565);
 });
