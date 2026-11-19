@@ -143,9 +143,11 @@ test('the Custom Patches page: exact prices, upload-only paths, 11 to 15 day tur
 test('every SKU has a saved Stripe price, including the six Oct 30 additions', () => {
   const unsaved = Object.entries(CATALOG).filter(([, e]) => e.priceId === '').map(([sku]) => sku).sort();
   assert.deepEqual(unsaved, [...PLACEHOLDER_PRICE_IDS].sort());
-  // Nov 18, 2026: four prices are sent as name and amount until their Stripe Prices are saved (fitted 6 ft at its new $119, and three new items).
-  assert.deepEqual(unsaved, ['fitted-6ft', 'runner-30x72', 'tent-wall-full', 'tent-wall-half']);
-  assert.deepEqual(unsaved.map((s) => CATALOG[s].amount), [11900, 4900, 12900, 11900]);
+  // Nov 19, 2026: the four Nov 18 prices are saved in Stripe (fitted 6 ft at its new $119, and three new items).
+  assert.deepEqual(unsaved, []);
+  const nov18 = ['fitted-6ft', 'runner-30x72', 'tent-wall-full', 'tent-wall-half'];
+  assert.deepEqual(nov18.map((s) => CATALOG[s].amount), [11900, 4900, 12900, 11900]);
+  assert.deepEqual(nov18.map((s) => CATALOG[s].priceId), ['price_1Udahl67epULNprTKdtP9MHU', 'price_1Udaj067epULNprTGPgV6hIo', 'price_1Udaj367epULNprTSAMTQSVQ', 'price_1Udaj567epULNprTovrrceqa']);
   assert.deepEqual(['retractable-33x81-deluxe', 'stretch-6ft', 'stretch-8ft', 'aframe-24x36', 'tabletop-retractable', 'runner-throw-8ft'].map((s) => CATALOG[s].amount), [14900, 19900, 23900, 12900, 6900, 9900]);
   assert.deepEqual([CATALOG['patch-pvc-3in-50'].priceId, CATALOG['patch-emb-50'].priceId, CATALOG['patch-emb-100'].priceId, CATALOG['safety-12x18-5-063'].priceId], ['price_1UVNcM67epULNprTeoeIIg0R', 'price_1UVNcP67epULNprTFpBjmMvQ', 'price_1UVNcR67epULNprTbdkhaw6s', 'price_1UVNpR67epULNprTAbPoa2eq']);
   assert.ok(!('safety-12x18-5-hd' in CATALOG) && !('patch-pvc-50-3in' in CATALOG), 'old SKU names are gone');
