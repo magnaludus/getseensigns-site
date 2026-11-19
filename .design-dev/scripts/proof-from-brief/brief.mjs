@@ -126,7 +126,7 @@ export function checkBrief(input, data) {
         else if (seen.has(file.toLowerCase())) err(`logos[${i}].file`, `${file} is listed twice.`);
         else {
           seen.add(file.toLowerCase());
-          out.logos.push({ file, type: logoTypeOf(file), claimed_vector: typeof l.vector === 'boolean' ? l.vector : null });
+          out.logos.push({ file, type: logoTypeOf(file), claimed_vector: typeof l.vector === 'boolean' ? l.vector : null, has_name: l.has_name === true });
         }
       });
     }

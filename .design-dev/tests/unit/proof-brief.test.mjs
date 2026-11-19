@@ -130,6 +130,8 @@ test('logo files are plain names of image files, listed once, at most four', () 
   failsAt(brief(throwPiece(), { logos: 'a.svg' }), 'logos');
   const res = checkBrief(brief(throwPiece(), { logos: [{ file: 'Mark (1).JPG', vector: false }, { file: 'x.webp' }] }), data);
   assert.deepEqual(res.brief.logos.map((l) => [l.file, l.type, l.claimed_vector]), [['Mark (1).JPG', 'image/jpeg', false], ['x.webp', 'image/webp', null]]);
+  const named = checkBrief(brief(throwPiece(), { logos: [{ file: 'a.svg', has_name: true }, { file: 'b.svg', has_name: 'yes' }] }), data);
+  assert.deepEqual(named.brief.logos.map((l) => l.has_name), [true, false]);
 });
 
 test('a piece needs a real product, every option, a quantity in range and one of the product\'s templates', () => {
