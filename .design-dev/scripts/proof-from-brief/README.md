@@ -157,6 +157,14 @@ Designer page for the first piece's product, and calls `run()` in `in-page.mjs`.
 Designer itself is that `assets/design/app.js` now lists `proof` on the `window.GSSDesigner` test hook, next to `store`
 and `stage`.
 
+## The bot prompt
+
+The system prompt for the bot that writes briefs lives in `prompt/`. `template.md` holds the instructions, and `build.mjs`
+fills in every product, option, side, size, template, palette and font from the Designer's own data, then writes
+`proof-bot-prompt.md`, the file to paste into the bot. After a catalog or brief change, run
+`node scripts/proof-from-brief/prompt/build.mjs`. A unit test fails when the built file is out of date, when it has a
+character outside plain ASCII, or when one of its example replies no longer passes `brief.mjs`.
+
 ## What it does not do
 
 It does not make the photo mockup (a blank product photo with the real logo placed on it): that is a separate step, and
