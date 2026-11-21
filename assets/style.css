@@ -359,3 +359,53 @@ h2{font-size:clamp(42px,5.6vw,76px)}
   body:has(.designer) .chat-fab{display:none}
 }
 @media print{.chat-fab{display:none}}
+/* Clean look (Nov 21, 2026). Scott: the site read as loud and cartoonish; shoppers want simple, like the big tent
+   sites. Calmer type, white pages, soft cards and flat buttons. Brand yellow stays for buttons and accents only. */
+:root{--paper:#FFFFFF;--paper2:#F4F5F7;--line:#E3E5E8;--r:10px}
+h1,h2,h3,h4{text-transform:none;font-weight:800;letter-spacing:0;line-height:1.05}
+.eyebrow{font-family:var(--bd);font-weight:700;letter-spacing:.08em;font-size:13px}
+.block{display:inline;background:none;color:inherit;padding:0;transform:none;box-shadow:none;margin:0}
+.ink .block,.hero .block{color:var(--y)}
+.hl{background:none;padding:0}
+.hero::before,.hero::after{display:none}
+.btn{font-family:var(--bd);font-weight:700;text-transform:none;letter-spacing:0;font-size:17px;padding:14px 22px;border-radius:8px;border-width:2px}
+.btn:hover{transform:none}
+.btn-y,.btn-y:hover{box-shadow:none}.btn-y:hover{background:#F2C600}
+.btn-ink,.btn-ink:hover{box-shadow:none;color:#fff}.btn-ink:hover{background:#2A2D33}
+.btn-sm{font-size:15px;padding:9px 14px}
+.card{border:1px solid var(--line);box-shadow:0 1px 2px rgba(20,22,26,.06)}
+.card:hover{transform:none;box-shadow:0 6px 18px rgba(20,22,26,.12)}
+.card-img{border-bottom:1px solid var(--line)}
+.card:hover .card-img img{transform:none}
+.card h3{font-family:var(--bd);font-weight:700;font-size:18px;line-height:1.25}
+.price{font-family:var(--bd);font-weight:700;font-size:20px}
+.price small{font-weight:500;text-transform:none;letter-spacing:0}
+.go{background:none;font-family:var(--bd);font-weight:600;text-transform:none;letter-spacing:0;padding:0;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.tag{font-family:var(--bd);font-weight:700;text-transform:none;letter-spacing:0}
+.card-cta{background:var(--paper2)}
+.final::before,.phero::before{display:none}
+.phero.ink{background:#F4F5F7;color:var(--ink);border-bottom:1px solid var(--line);padding:30px 0 48px}
+.phero h1{font-size:clamp(34px,4vw,52px);line-height:1.05;margin-bottom:14px}
+.phero .h1-post{font-size:inherit}
+.phero .block,.phero.ink .block{font-size:1em;color:var(--ink)}
+.phero-img{border:1px solid var(--line);box-shadow:0 8px 24px rgba(20,22,26,.12);transform:none;background:#fff}
+.phero .btn-ghost{color:var(--ink);border-color:#C8CBD0;background:#fff}.phero .btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+.phero .proof{color:var(--muted)}.phero .proof b{color:var(--ink)}
+.phero .proof li::before{content:"✓";width:auto;height:auto;background:none;transform:none;color:#1F8A4C;font-weight:700}
+.phero .bc ol{color:var(--muted)}.phero .bc a{color:var(--ink)}
+.phero .pp .price{font-size:38px;color:var(--ink)}.phero .pp .price small,.phero .pp-note{color:var(--muted)}
+.phero .etsy-alt{color:var(--muted)!important}
+.phero.ink a:not(.btn){color:var(--ink)}
+.phero .lede{color:var(--muted)}
+h2{font-size:clamp(28px,3vw,40px)}
+.chat-fab-btn{border:1px solid rgba(20,22,26,.2);box-shadow:0 6px 18px rgba(20,22,26,.25);font-family:var(--bd);font-weight:700;text-transform:none;letter-spacing:0;font-size:16px}
+.chat-fab-btn:hover{transform:none}
+.chat-fab-panel{border:1px solid var(--line);box-shadow:0 10px 30px rgba(20,22,26,.2)}
+.chat-fab-title,.chat-fab-panel a{font-family:var(--bd);text-transform:none;letter-spacing:0}
+.chat-fab-panel a{border:1px solid var(--line);font-weight:600}
+.card,.quote-form,.bundle,.gal figure,.buy,.lcard,.post{border:1px solid var(--line)!important;box-shadow:0 1px 3px rgba(20,22,26,.08)!important}
+.card:hover,.buy:hover,.lcard:hover,.post:hover{transform:none!important;box-shadow:0 6px 18px rgba(20,22,26,.12)!important}
+.sec.yellow{background:#FFF7D1}
+.steps .num{font-family:var(--bd);font-weight:700}
+.final h2{font-size:clamp(32px,4vw,52px)}
+.phero-img:has(.phero-cap){aspect-ratio:auto}.phero-cap{font-size:13px;color:var(--muted);padding:8px 12px;background:#fff;border-top:1px solid var(--line)}

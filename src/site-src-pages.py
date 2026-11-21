@@ -383,17 +383,23 @@ ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per 
  '22-tabletop-retractable-banner':('Tabletop retractable banner reading Scan to Pay with a QR code on a shop counter',None),
  '23-table-runner':('Blue table throw with a white printed logo runner at an indoor expo',None),
 }
+# Hero photos that are catalog-style sample designs get a caption under the photo.
+SAMPLE_CAP={
+ '04-feather-flag':'Sample design. Shown in three sizes with cross bases.',
+ '09-table-throw':'Sample design. Shown as a table throw on a 6 ft table. Fitted and stretch covers are also available.',
+ '10-canopy-tent':'Sample design. Shown with optional walls, a table cover and a feather flag.',
+}
 # Alt text for the current Etsy listing main photo (p-*.jpg). Gallery shots that Etsy did not expose stay on their own alts above.
 HERO_ALT={
  '02-bulk-yard-signs':'Five Vote Maria Lopez school board yard signs with eagles lined along a suburban sidewalk',
  '03-vinyl-banner':'Riverside Tigers 12U baseball champions vinyl banner zip-tied to a ballfield fence',
- '04-feather-flag':'Two orange Taco Loco Now Open feather flags outside a strip-mall storefront',
+ '04-feather-flag':'Sample design: three orange and black Taco Loco Now Open feather flags in small, medium and large sizes on black cross bases',
  '05-retractable-banner':'Aqua Pro Plumbing retractable banner stand at an indoor expo',
  '06-car-magnet':'Bulldog Lawn Care car magnet on a white pickup truck door',
  '07-real-estate-sign':'Lionheart Realty for-sale sign with an Open House Sunday rider in a front yard',
  '08-step-and-repeat':'Purple Westview Wolves Spring Gala 2026 step and repeat backdrop on a red carpet in a gym',
- '09-table-throw':'Yellow Buzz Bros Honey table throw at an outdoor vendor market',
- '10-canopy-tent':'Green Northside Hornets soccer canopy tent with a Go Hornets back wall at a tournament',
+ '09-table-throw':'Sample design: navy table throw on a 6 ft table with a Honey Badger Coffee Co. logo on the front',
+ '10-canopy-tent':'Sample design: maroon and black Copperleaf Kickers soccer club 10×10 canopy tent with printed walls, a matching table cover and a feather flag',
  '11-christmas-family-banner':'Merry Christmas from the Martinez Family snowman banner on a decorated porch rail',
  '12-senior-night-banner':'Senior night banner for Jake Morrison, number 12, Oak Ridge Rams, on a football field fence',
  '14-thanksgiving-yard-sign':'Happy Thanksgiving yard sign for the Johnsons in a leafy fall yard',
@@ -486,7 +492,7 @@ for p in P:
         <ul class="proof" style="margin-top:20px"><li><b>Free proof</b>, 3 revisions</li><li><b>No payment</b> until you approve</li><li><b>Secure</b> Stripe checkout</li><li><b>10% off</b> your first order: code <b>FIRST10</b></li></ul>
         {etsy_alt}
       </div>
-      <figure class="phero-img sq">{hero_img}</figure>
+      <figure class="phero-img sq">{hero_img}{'<figcaption class="phero-cap">'+SAMPLE_CAP[k]+'</figcaption>' if k in SAMPLE_CAP else ''}</figure>
     </div>
   </div>
 </section>
@@ -956,7 +962,6 @@ GUIDESEC='''
 </section>
 '''
 main=main.replace('<section class="final ink">',GUIDESEC+'<section class="final ink">')
-main=main.replace('<h1>Signs that make people <span class="block">look twice.</span></h1>','<h1>Custom signs that make people <span class="block">look twice.</span></h1>')
 import re as _re
 home_faqs=[(html.unescape(_re.sub('<[^>]+>','',q)),a) for q,a in _re.findall(r'<details[^>]*><summary>(.*?)</summary><p>(.*?)</p></details>',main)]
 title='Custom Yard Signs, Banners, Flags & Tents | Get Seen Signs'
