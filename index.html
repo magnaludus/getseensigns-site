@@ -59,17 +59,19 @@
   </div>
 </header>
 <main id="main">
-<!-- Home page only, so it is here and not in style.css (which is inlined into every page). On a phone the photos come
-     right after the headline and before the buttons, so the first screen shows the product. -->
-<style>@media (max-width:960px){.hero-in{gap:20px}.hero-copy{display:contents}.hero-copy>h1{order:1;margin-bottom:0}.hero-copy>.lede{order:2;margin:0}.hero-art{order:3}.hero-copy>.cta-row{order:4}.hero-copy>.proof{order:5}.hero-copy>.etsy-alt{order:6;margin-top:0!important}}</style>
+<!-- Home page only, so it is here and not in style.css (which is inlined into every page). The hero is kept short so
+     the products for sale start on the first screen, the way shoppers expect. On a phone one photo comes right after
+     the headline, then the buttons, then the products. -->
+<style>.hero-in{padding:44px 20px 56px;gap:40px}.hero h1{font-size:clamp(44px,5.6vw,76px);margin-bottom:16px}.hero-art{height:400px}.hero .proof{margin-top:22px}#products{padding-top:36px}#products .sec-head{margin-bottom:20px}#products .shop-h{font-size:clamp(30px,3.2vw,40px);margin:0 0 6px}.hero-art{height:360px}
+@media (max-width:960px){.hero-in{gap:16px;padding:24px 20px 36px}.hero h1{font-size:40px}.hero-copy{display:contents}.hero-copy>h1{order:1;margin-bottom:0}.hero-copy>.lede{order:2;margin:0;font-size:16px}.hero-art{order:3;aspect-ratio:auto;height:210px;max-width:420px}.hero-art .ha-1{width:100%;height:100%;aspect-ratio:auto;transform:none}.hero-art .ha-2,.hero-art .ha-3,.hero-art .sticker{display:none}.hero-copy>.cta-row{order:4}.hero-copy>.proof{display:none}.hero-copy>.etsy-alt{display:none}#products{padding-top:32px}}</style>
 <section class="hero" id="top">
   <div class="wrap hero-in">
     <div class="hero-copy">
       <h1>Custom signs that make people <span class="block">look twice.</span></h1>
-      <p class="lede">Custom yard signs, banners, flags and tents for businesses, schools, teams and families. We design it free, you approve the proof, and it ships straight to your door.</p>
+      <p class="lede">Custom canopy tents, table covers, flags and banners for vendors, teams and businesses. We design it free, you approve the proof, and it ships to your door.</p>
       <div class="cta-row">
-        <a class="btn btn-y" href="/shop/">Shop custom signs <span aria-hidden="true">→</span></a>
-        <a class="btn btn-ghost" href="/design/">Design yours online</a>
+        <a class="btn btn-y" href="#quote">Get a free design mockup <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="/shop/">Shop all products</a>
       </div>
       <ul class="proof">
         <li><b>Free</b> design proof</li>
@@ -89,30 +91,14 @@
   </div>
 </section>
 
-<div class="ticker" aria-hidden="true"><div class="ticker-track">
-  <span>Yard signs</span><span>Banners</span><span>Feather flags</span><span>Canopy tents</span><span>Car magnets</span><span>Backdrops</span><span>Table throws</span><span>Real estate</span><span>Senior night</span><span>Hard hat decals</span><span>Safety signs</span><span>Challenge coins</span><span>Custom patches</span><span>Metal business cards</span>
-  <span>Yard signs</span><span>Banners</span><span>Feather flags</span><span>Canopy tents</span><span>Car magnets</span><span>Backdrops</span><span>Table throws</span><span>Real estate</span><span>Senior night</span><span>Hard hat decals</span><span>Safety signs</span><span>Challenge coins</span><span>Custom patches</span><span>Metal business cards</span>
-</div></div>
 
-<style>@media (min-width:1181px){.card-wide{grid-column:span 2}}.see-all{margin:28px 0 8px;text-align:center}.work{background:var(--paper2,#E9E3D6);border-bottom:2px solid var(--ink);padding:36px 0}.work-in{display:flex;align-items:center;gap:32px}.work-pics{flex:none;display:flex;gap:12px}.work-pics picture{display:block;width:150px;border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;box-shadow:5px 5px 0 var(--ink);background:#fff}.work-pics picture:nth-child(odd){transform:rotate(-2deg)}.work-pics picture:nth-child(even){transform:rotate(1.5deg)}.work-pics img{display:block;width:100%;height:200px;object-fit:cover}.work-copy h2{font-size:clamp(28px,3.4vw,44px);margin:6px 0 10px}.work-copy p{margin:0 0 14px;max-width:560px}@media (max-width:900px){.work-in{flex-direction:column;align-items:flex-start;gap:22px}}@media (max-width:600px){.work-pics{gap:8px}.work-pics picture{width:29vw}.work-pics img{height:38vw}.work-copy h2{font-size:24px}}</style>
-<section class="work" aria-label="Customer work">
-  <div class="wrap work-in">
-    <a class="work-pics" href="/portfolio/">
-      <picture><source srcset="/assets/portfolio/event-tent-navy-red-480.webp" type="image/webp"><img src="/assets/portfolio/event-tent-navy-red.jpg" alt="Navy and red custom printed event tent, set up outdoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
-      <picture><source srcset="/assets/portfolio/event-tent-black-outdoor-480.webp" type="image/webp"><img src="/assets/portfolio/event-tent-black-outdoor.jpg" alt="Black custom printed event tent, set up outdoors on a gravel lot" width="1200" height="1600" loading="lazy" decoding="async"></picture>
-      <picture><source srcset="/assets/portfolio/event-tent-black-indoor-480.webp" type="image/webp"><img src="/assets/portfolio/event-tent-black-indoor.jpg" alt="Black custom printed event tent, set up indoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
-    </a>
-    <div class="work-copy"><p class="eyebrow">Real work, real customers</p><h2>Printed, shipped and <span class="hl">set up.</span></h2><p>Custom printed event tents our customers ordered. Real photos from customers, not mockups.</p><a class="btn btn-ink btn-sm" href="/portfolio/">See our portfolio <span aria-hidden="true">→</span></a></div>
-  </div>
-</section>
+
 <section class="sec paper" id="products">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">The lineup</p>
-      <h2>Pick it. We print it. <span class="hl">It ships.</span></h2>
-      <p class="sub">Design included, no design fee. Every price includes a free custom design proof within 12 hours and free shipping in the lower 48. Tap a product for sizes, materials and FAQs, then start your order or get a quote. Want to see your words on it first? <a href="/design/">Design yours online</a>.</p>
+      <h2 class="shop-h">Shop best sellers</h2>
+      <p class="sub">Free design proof and free shipping in the lower 48 on every order. Tap a product for sizes and prices.</p>
     </div>
-    <h3 class="group">Start here</h3>
     <div class="grid">
 <a class="card" href="/custom-canopy-tents/">
   <div class="card-img sq"><picture><source srcset="/assets/img/p-10-canopy-tent-sm.webp 400w, /assets/img/p-10-canopy-tent.webp 1024w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 30vw, 230px" type="image/webp"><img src="/assets/img/p-10-canopy-tent.jpg" alt="Green Northside Hornets soccer canopy tent with a Go Hornets back wall at a tournament" width="1024" height="1024" loading="lazy" decoding="async"></picture><span class="tag">Ships in 5-10 days</span></div>
@@ -166,7 +152,30 @@
 </a>
     </div>
     <p class="see-all"><a class="btn btn-ink" href="/shop/">See all 21 products <span aria-hidden="true">→</span></a></p>
-    <h3 class="group">Seasonal &amp; personal</h3>
+  </div>
+</section>
+
+<style>@media (min-width:1181px){.card-wide{grid-column:span 2}}.see-all{margin:28px 0 8px;text-align:center}.work{background:var(--paper2,#E9E3D6);border-bottom:2px solid var(--ink);padding:36px 0}.work-in{display:flex;align-items:center;gap:32px}.work-pics{flex:none;display:flex;gap:12px}.work-pics picture{display:block;width:150px;border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;box-shadow:5px 5px 0 var(--ink);background:#fff}.work-pics picture:nth-child(odd){transform:rotate(-2deg)}.work-pics picture:nth-child(even){transform:rotate(1.5deg)}.work-pics img{display:block;width:100%;height:200px;object-fit:cover}.work-copy h2{font-size:clamp(28px,3.4vw,44px);margin:6px 0 10px}.work-copy p{margin:0 0 14px;max-width:560px}@media (max-width:900px){.work-in{flex-direction:column;align-items:flex-start;gap:22px}}@media (max-width:600px){.work-pics{gap:8px}.work-pics picture{width:29vw}.work-pics img{height:38vw}.work-copy h2{font-size:24px}}</style>
+<section class="work" aria-label="Customer work">
+  <div class="wrap work-in">
+    <a class="work-pics" href="/portfolio/">
+      <picture><source srcset="/assets/portfolio/event-tent-navy-red-480.webp" type="image/webp"><img src="/assets/portfolio/event-tent-navy-red.jpg" alt="Navy and red custom printed event tent, set up outdoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
+      <picture><source srcset="/assets/portfolio/event-tent-black-outdoor-480.webp" type="image/webp"><img src="/assets/portfolio/event-tent-black-outdoor.jpg" alt="Black custom printed event tent, set up outdoors on a gravel lot" width="1200" height="1600" loading="lazy" decoding="async"></picture>
+      <picture><source srcset="/assets/portfolio/event-tent-black-indoor-480.webp" type="image/webp"><img src="/assets/portfolio/event-tent-black-indoor.jpg" alt="Black custom printed event tent, set up indoors" width="768" height="1024" loading="lazy" decoding="async"></picture>
+    </a>
+    <div class="work-copy"><p class="eyebrow">Real work, real customers</p><h2>Printed, shipped and <span class="hl">set up.</span></h2><p>Custom printed event tents our customers ordered. Real photos from customers, not mockups.</p><a class="btn btn-ink btn-sm" href="/portfolio/">See our portfolio <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+<section class="sec ink" id="booth">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Booth packages</p><h2>Your whole booth, <span class="hl">matched.</span></h2>
+    <p class="sub" style="color:#C9CCD1">A tent, a table cover, a feather flag and a banner, all designed to match from one logo. One free proof for every piece, and nothing prints until you approve.</p></div>
+    <div class="cta-row"><a class="btn btn-y" href="/event-booth-bundles/">See booth packages <span aria-hidden="true">→</span></a><a class="btn btn-ghost" href="/custom-canopy-tents/">Shop canopy tents</a></div>
+  </div>
+</section>
+<section class="sec paper" id="seasonal">
+  <div class="wrap">
+    <h3 class="group" style="margin-top:0">Seasonal &amp; personal</h3>
     <div class="grid">
 <a class="card" href="/holiday-yard-signs/">
   <div class="card-img sq"><picture><source srcset="/assets/img/p-11-christmas-family-banner-sm.webp 400w, /assets/img/p-11-christmas-family-banner.webp 1024w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 30vw, 230px" type="image/webp"><img src="/assets/img/p-11-christmas-family-banner.jpg" alt="Merry Christmas from the Martinez Family snowman banner on a decorated porch rail" width="1024" height="1024" loading="lazy" decoding="async"></picture></div>
@@ -189,7 +198,6 @@
     </div>
   </div>
 </section>
-
 <section class="sec ink" id="how">
   <div class="wrap">
     <div class="sec-head">

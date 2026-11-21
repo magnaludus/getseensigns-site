@@ -249,3 +249,17 @@
     });
   });
 })();
+
+// Black Friday to Cyber Monday 2026 (Scott, Nov 21): a bar above the header from 12:00 AM ET Nov 27 until the end of
+// Nov 30 ET. It lives here, not in the page HTML, so pages are not re-dated for a four-day sale. Remove after Dec 1.
+(function () {
+  var start = Date.parse('2026-11-27T05:00:00Z'), end = Date.parse('2026-12-01T05:00:00Z'), now = Date.now();
+  if (now < start || now >= end || !document.body) return;
+  var bar = document.createElement('div');
+  bar.className = 'bf-bar';
+  bar.setAttribute('role', 'region');
+  bar.setAttribute('aria-label', 'Black Friday sale');
+  bar.style.cssText = 'background:#FFD100;color:#14161A;text-align:center;font-weight:600;font-size:15px;line-height:1.35;padding:9px 16px;border-bottom:2px solid #14161A';
+  bar.innerHTML = 'Black Friday to Cyber Monday: <b>$50 off</b> orders of $500 or more with code <b>BLACKFRIDAY50</b> at checkout. Ends Nov 30.';
+  document.body.insertBefore(bar, document.body.firstChild);
+})();

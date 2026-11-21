@@ -1,4 +1,4 @@
-// Heavy-duty .080 safety sign pack (a normal checkout SKU) and the premium canopy tent line (quote only).
+// Heavy-duty .080 safety sign pack (a normal checkout SKU) and the stronger tent frame (quote only, any quantity).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -32,32 +32,63 @@ test('the safety page lists the .080 pack everywhere it lists pack prices', () =
   assert.ok(read('design/safety-sign/index.html').includes('(.080)'));
 });
 
-test('the premium tent line is quote only: priced on the page, no SKU, no checkout, no offer, no mailto', () => {
-  assert.deepEqual(Object.keys(CATALOG).filter((k) => /premium|elite/i.test(k + CATALOG[k].name)), []);
+test('the stronger tent frame is quote only: no price, no SKU, no checkout, no offer, no mailto, minimum 1 tent', () => {
+  assert.deepEqual(Object.keys(CATALOG).filter((k) => /premium|elite|commercial/i.test(k + CATALOG[k].name)), []);
   assert.doesNotMatch(JSON.stringify(order), /premium|elite/i);
   const html = read('custom-canopy-tents/index.html');
-  const section = /<section class="sec paper" id="premium-tents">([\s\S]*?)<\/section>/.exec(html);
-  assert.ok(section, 'premium tent section exists');
-  assert.match(section[1], /Premium<\/dt><dd>\$1,099 each/);
-  assert.match(section[1], /Elite<\/dt><dd>\$1,849 each/);
-  assert.match(section[1], /Minimum<\/dt><dd>6 tents/);
+  assert.doesNotMatch(html, /premium-tents|\$1,099|\$1,849|Elite/, 'the old 6+ premium line is gone');
+  const section = /<section class="sec paper" id="stronger-frame">([\s\S]*?)<\/section>/.exec(html);
+  assert.ok(section, 'stronger frame section exists');
+  assert.match(section[1], /Standard<\/dt><dd>\$599, order below/);
+  assert.match(section[1], /Commercial grade<\/dt><dd>Quote/);
+  assert.match(section[1], /Minimum<\/dt><dd>1 tent</);
   assert.doesNotMatch(section[1], /stripe|checkout|price_|mailto/i);
   assert.doesNotMatch(html, /mailto/i);
   const offers = jsonLd(html).find((n) => n['@type'] === 'Product').offers;
   assert.deepEqual(offers.map((o) => o.price), ['599.00', '849.00', '1459.00', '129.00', '119.00']);
 });
 
-test('the premium tent quote button opens the site quote form (posts to /api/quote-request) with product, quantity and notes prefilled', () => {
+test('the stronger frame quote button opens the site quote form (posts to /api/quote-request) with product, quantity and notes prefilled', () => {
   const html = read('custom-canopy-tents/index.html');
-  const href = /<a class="btn btn-ink" href="(\/quote\?[^"#]*)#quote">Request a premium tent quote/.exec(html);
+  const href = /<a class="btn btn-ink" href="(\/quote\?[^"#]*)#quote">Request a stronger frame quote/.exec(html);
   assert.ok(href, 'CTA found');
   const q = new URL(href[1].replace(/&amp;/g, '&'), 'https://getseensignsco.com').searchParams;
   assert.equal(q.get('product'), '10×10 Canopy Tent');
-  assert.equal(q.get('quantity'), '6');
-  assert.match(q.get('details'), /Premium canopy tent/);
+  assert.equal(q.get('quantity'), '1');
+  assert.match(q.get('details'), /stronger, commercial-grade frame/);
   const quote = read('quote.html');
   assert.ok(quote.includes('data-endpoint="/api/quote-request"') && quote.includes('<option>10×10 Canopy Tent</option>'));
   const js = read('assets/site.js');
   assert.match(js, /\['quantity','size','details'\]/);
   assert.doesNotMatch(js, /mailto/i);
+});
+
+test('the Black Friday bar comes from site.js, shows only Nov 27 12:00 AM ET to the end of Nov 30 ET, and names the real code', () => {
+  const js = read('assets/site.js');
+  assert.match(js, /Date\.parse\('2026-11-27T05:00:00Z'\)/);
+  assert.match(js, /Date\.parse\('2026-12-01T05:00:00Z'\)/);
+  assert.equal(Date.parse('2026-11-27T05:00:00Z'), Date.parse('2026-11-27T00:00:00-05:00'));
+  assert.equal(Date.parse('2026-12-01T05:00:00Z'), Date.parse('2026-12-01T00:00:00-05:00'));
+  assert.match(js, /\$50 off<\/b> orders of \$500 or more with code <b>BLACKFRIDAY50<\/b>/);
+  for (const page of ['index.html', 'custom-canopy-tents/index.html', 'event-booth-bundles/index.html']) {
+    const html = read(page);
+    assert.ok(html.includes('site.js'), `${page} loads site.js`);
+    assert.doesNotMatch(html, /BLACKFRIDAY50/, `${page} itself is unchanged by the sale`);
+  }
+});
+
+test('the home page leads with the free mockup and links the booth packages', () => {
+  const html = read('index.html');
+  assert.match(html, /<a class="btn btn-y" href="#quote">Get a free design mockup/);
+  assert.match(html, /<section class="sec ink" id="booth">[\s\S]*?href="\/event-booth-bundles\/">See booth packages/);
+});
+
+test('the home page shows products right after the hero: no scrolling ticker, best sellers before the work photos and seasonal cards', () => {
+  const html = read('index.html');
+  assert.doesNotMatch(html, /class="ticker"/);
+  const at = (s) => html.indexOf(s);
+  assert.ok(at('class="hero"') > 0 && at('id="products"') > at('class="hero"'));
+  assert.ok(at('id="products"') < at('class="work"'), 'best sellers come before the work photos');
+  assert.ok(at('class="work"') < at('id="booth"') && at('id="booth"') < at('id="seasonal"'));
+  assert.match(html, /<h2 class="shop-h">Shop best sellers<\/h2>/);
 });

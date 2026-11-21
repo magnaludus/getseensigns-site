@@ -133,7 +133,7 @@ test('the Custom Patches page: exact prices, upload-only paths, 11 to 15 day tur
   const shop = read('shop/index.html');
   assert.ok(shop.includes('href="/custom-patches/#order"') && shop.includes('<a href="/custom-patches/">Custom Patches</a>'));
   assert.ok(JSON.stringify(shop).includes('https://getseensignsco.com/custom-patches/'), 'shop ItemList');
-  assert.ok(read('index.html').includes('href="/custom-patches/"') && read('index.html').includes('<span>Custom patches</span>') && read('index.html').includes('<option>Custom Patches</option>'));
+  assert.ok(read('index.html').includes('href="/custom-patches/"') && read('index.html').includes('<option>Custom Patches</option>'));
   assert.ok(read('404.html').includes('href="/custom-patches/"'));
   assert.ok(read('terms.html').includes('<a href="/custom-patches/">Custom Patches</a>'), 'footer product list');
   assert.ok(read('custom-patches/index.html').includes('<a href="/custom-patches/">Custom Patches</a>'));
@@ -194,7 +194,7 @@ test('the Metal Business Cards page: seven exact prices, upload-only paths, 2 to
   assert.ok(read('sitemap.xml').includes('<loc>https://getseensignsco.com/metal-business-cards/</loc>'));
   const shop = read('shop/index.html');
   assert.ok(shop.includes('href="/metal-business-cards/#order"') && shop.includes('<a href="/metal-business-cards/">Metal Business Cards</a>'));
-  assert.ok(read('index.html').includes('href="/metal-business-cards/"') && read('index.html').includes('<span>Metal business cards</span>') && read('index.html').includes('<option>Metal Business Cards</option>') && read('index.html').includes('metal business cards take 2 to 3 weeks'));
+  assert.ok(read('index.html').includes('href="/metal-business-cards/"') && read('index.html').includes('<option>Metal Business Cards</option>') && read('index.html').includes('metal business cards take 2 to 3 weeks'));
   assert.ok(read('404.html').includes('href="/metal-business-cards/"'));
   assert.ok(read('terms.html').includes('<a href="/metal-business-cards/">Metal Business Cards</a>'));
   assert.ok(PAGES.includes('metal-business-cards'));
