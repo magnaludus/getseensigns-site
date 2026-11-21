@@ -393,7 +393,7 @@ HERO_ALT={
  '07-real-estate-sign':'Lionheart Realty for-sale sign with an Open House Sunday rider in a front yard',
  '08-step-and-repeat':'Purple Westview Wolves Spring Gala 2026 step and repeat backdrop on a red carpet in a gym',
  '09-table-throw':'Yellow Buzz Bros Honey table throw at an outdoor vendor market',
- '10-canopy-tent':'Green Northside Hornets soccer canopy tent with a Go Hornets back wall at a tournament',
+ '10-canopy-tent':'Sample design: maroon and black Copperleaf Kickers soccer club 10×10 canopy tent with printed walls, a matching table cover and a feather flag',
  '11-christmas-family-banner':'Merry Christmas from the Martinez Family snowman banner on a decorated porch rail',
  '12-senior-night-banner':'Senior night banner for Jake Morrison, number 12, Oak Ridge Rams, on a football field fence',
  '14-thanksgiving-yard-sign':'Happy Thanksgiving yard sign for the Johnsons in a leafy fall yard',
@@ -486,7 +486,7 @@ for p in P:
         <ul class="proof" style="margin-top:20px"><li><b>Free proof</b>, 3 revisions</li><li><b>No payment</b> until you approve</li><li><b>Secure</b> Stripe checkout</li><li><b>10% off</b> your first order: code <b>FIRST10</b></li></ul>
         {etsy_alt}
       </div>
-      <figure class="phero-img sq">{hero_img}</figure>
+      <figure class="phero-img sq">{hero_img}{'<figcaption class="phero-cap">Sample design. Shown with optional walls, a table cover and a feather flag.</figcaption>' if k=='10-canopy-tent' else ''}</figure>
     </div>
   </div>
 </section>

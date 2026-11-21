@@ -408,3 +408,4 @@ h2{font-size:clamp(28px,3vw,40px)}
 .sec.yellow{background:#FFF7D1}
 .steps .num{font-family:var(--bd);font-weight:700}
 .final h2{font-size:clamp(32px,4vw,52px)}
+.phero-img:has(.phero-cap){aspect-ratio:auto}.phero-cap{font-size:13px;color:var(--muted);padding:8px 12px;background:#fff;border-top:1px solid var(--line)}
