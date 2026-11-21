@@ -70,6 +70,7 @@ test('the Black Friday bar comes from site.js, shows only Nov 27 12:00 AM ET to 
   assert.equal(Date.parse('2026-11-27T05:00:00Z'), Date.parse('2026-11-27T00:00:00-05:00'));
   assert.equal(Date.parse('2026-12-01T05:00:00Z'), Date.parse('2026-12-01T00:00:00-05:00'));
   assert.match(js, /\$50 off<\/b> orders of \$500 or more with code <b>BLACKFRIDAY50<\/b>/);
+  assert.match(js, /<b>free 6 ft table cover<\/b> printed to match every canopy tent/);
   for (const page of ['index.html', 'custom-canopy-tents/index.html', 'event-booth-bundles/index.html']) {
     const html = read(page);
     assert.ok(html.includes('site.js'), `${page} loads site.js`);
