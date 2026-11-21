@@ -53,14 +53,16 @@
 </header>
 
 <main id="main">
-<!-- Home page only, so it is here and not in style.css (which is inlined into every page). On a phone the photos come
-     right after the headline and before the buttons, so the first screen shows the product. -->
-<style>@media (max-width:960px){.hero-in{gap:20px}.hero-copy{display:contents}.hero-copy>h1{order:1;margin-bottom:0}.hero-copy>.lede{order:2;margin:0}.hero-art{order:3}.hero-copy>.cta-row{order:4}.hero-copy>.proof{order:5}.hero-copy>.etsy-alt{order:6;margin-top:0!important}}</style>
+<!-- Home page only, so it is here and not in style.css (which is inlined into every page). The hero is kept short so
+     the products for sale start on the first screen, the way shoppers expect. On a phone one photo comes right after
+     the headline, then the buttons, then the products. -->
+<style>.hero-in{padding:44px 20px 56px;gap:40px}.hero h1{font-size:clamp(44px,5.6vw,76px);margin-bottom:16px}.hero-art{height:400px}.hero .proof{margin-top:22px}#products{padding-top:36px}#products .sec-head{margin-bottom:20px}#products .shop-h{font-size:clamp(30px,3.2vw,40px);margin:0 0 6px}.hero-art{height:360px}
+@media (max-width:960px){.hero-in{gap:16px;padding:24px 20px 36px}.hero h1{font-size:40px}.hero-copy{display:contents}.hero-copy>h1{order:1;margin-bottom:0}.hero-copy>.lede{order:2;margin:0;font-size:16px}.hero-art{order:3;aspect-ratio:auto;height:210px;max-width:420px}.hero-art .ha-1{width:100%;height:100%;aspect-ratio:auto;transform:none}.hero-art .ha-2,.hero-art .ha-3,.hero-art .sticker{display:none}.hero-copy>.cta-row{order:4}.hero-copy>.proof{display:none}.hero-copy>.etsy-alt{display:none}#products{padding-top:32px}}</style>
 <section class="hero" id="top">
   <div class="wrap hero-in">
     <div class="hero-copy">
       <h1>Signs that make people <span class="block">look twice.</span></h1>
-      <p class="lede">Custom canopy tents, table covers, flags and banners for vendors, teams, schools and businesses. Send your logo or just your words. We design it free, you approve the proof, and it ships straight to your door.</p>
+      <p class="lede">Custom canopy tents, table covers, flags and banners for vendors, teams and businesses. We design it free, you approve the proof, and it ships to your door.</p>
       <div class="cta-row">
         <a class="btn btn-y" href="#quote">Get a free design mockup <span aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="/shop/">Shop all products</a>
@@ -83,25 +85,25 @@
   </div>
 </section>
 
-<div class="ticker" aria-hidden="true"><div class="ticker-track">
-  <span>Yard signs</span><span>Banners</span><span>Feather flags</span><span>Canopy tents</span><span>Car magnets</span><span>Backdrops</span><span>Table throws</span><span>Real estate</span><span>Senior night</span><span>Hard hat decals</span><span>Safety signs</span><span>Challenge coins</span><span>Custom patches</span><span>Metal business cards</span>
-  <span>Yard signs</span><span>Banners</span><span>Feather flags</span><span>Canopy tents</span><span>Car magnets</span><span>Backdrops</span><span>Table throws</span><span>Real estate</span><span>Senior night</span><span>Hard hat decals</span><span>Safety signs</span><span>Challenge coins</span><span>Custom patches</span><span>Metal business cards</span>
-</div></div>
 
-{{WORK}}
+
 <section class="sec paper" id="products">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">The lineup</p>
-      <h2>Pick it. We print it. <span class="hl">It ships.</span></h2>
-      <p class="sub">Design included, no design fee. Every price includes a free custom design proof within 12 hours and free shipping in the lower 48. Tap a product for sizes, materials and FAQs, then start your order or get a quote. Want to see your words on it first? <a href="/design/">Design yours online</a>.</p>
+      <h2 class="shop-h">Shop best sellers</h2>
+      <p class="sub">Free design proof and free shipping in the lower 48 on every order. Tap a product for sizes and prices.</p>
     </div>
-    <h3 class="group">Start here</h3>
     <div class="grid">
 {{BIZ}}
     </div>
     <p class="see-all"><a class="btn btn-ink" href="/shop/">See all {{COUNT}} products <span aria-hidden="true">→</span></a></p>
-    <h3 class="group">Seasonal &amp; personal</h3>
+  </div>
+</section>
+
+{{WORK}}
+<section class="sec paper" id="seasonal">
+  <div class="wrap">
+    <h3 class="group" style="margin-top:0">Seasonal &amp; personal</h3>
     <div class="grid">
 {{SEA}}
       <a class="card card-cta card-wide" href="#quote">
@@ -110,7 +112,6 @@
     </div>
   </div>
 </section>
-
 <section class="sec ink" id="how">
   <div class="wrap">
     <div class="sec-head">

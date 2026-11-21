@@ -82,3 +82,13 @@ test('the home page leads with the free mockup and links the booth packages', ()
   assert.match(html, /<a class="btn btn-y" href="#quote">Get a free design mockup/);
   assert.match(html, /<section class="sec ink" id="booth">[\s\S]*?href="\/event-booth-bundles\/">See booth packages/);
 });
+
+test('the home page shows products right after the hero: no scrolling ticker, best sellers before the work photos and seasonal cards', () => {
+  const html = read('index.html');
+  assert.doesNotMatch(html, /class="ticker"/);
+  const at = (s) => html.indexOf(s);
+  assert.ok(at('class="hero"') > 0 && at('id="products"') > at('class="hero"'));
+  assert.ok(at('id="products"') < at('class="work"'), 'best sellers come before the work photos');
+  assert.ok(at('class="work"') < at('id="booth"') && at('id="booth"') < at('id="seasonal"'));
+  assert.match(html, /<h2 class="shop-h">Shop best sellers<\/h2>/);
+});
