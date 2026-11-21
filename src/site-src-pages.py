@@ -448,12 +448,12 @@ for p in P:
     quote_line_html=''
     if ql:
         _qs=urllib.parse.urlencode({'product':p['short'],'quantity':ql['minimum'],'details':ql['prefill']},quote_via=urllib.parse.quote_plus)
-        _rows=''.join(f'<div><dt>{e(n)}</dt><dd>{money(v)} each</dd></div>' for n,v in ql['tiers'])
-        quote_line_html=f'''<section class="sec paper" id="premium-tents">
+        _rows=''.join(f'<div><dt>{e(n)}</dt><dd>{e(v) if isinstance(v,str) else money(v)+" each"}</dd></div>' for n,v in ql['tiers'])
+        quote_line_html=f'''<section class="sec paper" id="stronger-frame">
   <div class="wrap prose">
     <h2>{e(ql["heading"])}</h2>
     <p>{e(ql["intro"])}</p>
-    <dl class="spec">{_rows}<div><dt>Minimum</dt><dd>{ql["minimum"]} tents</dd></div></dl>
+    <dl class="spec">{_rows}<div><dt>Minimum</dt><dd>{ql["minimum"]} tent{"" if ql["minimum"]==1 else "s"}</dd></div></dl>
     <p style="margin-top:18px">{e(ql["note"])}</p>
     <div class="cta-row"><a class="btn btn-ink" href="/quote?{e(_qs)}#quote">{e(ql["cta"])} <span aria-hidden="true">→</span></a></div>
   </div>
@@ -895,6 +895,14 @@ HOME_WORK='''<style>@media (min-width:1181px){.card-wide{grid-column:span 2}}.se
     <div class="work-copy"><p class="eyebrow">Real work, real customers</p><h2>Printed, shipped and <span class="hl">set up.</span></h2><p>Custom printed event tents our customers ordered. Real photos from customers, not mockups.</p><a class="btn btn-ink btn-sm" href="/portfolio/">See our portfolio <span aria-hidden="true">→</span></a></div>
   </div>
 </section>'''
+HOME_BOOTH='''
+<section class="sec ink" id="booth">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Booth packages</p><h2>Your whole booth, <span class="hl">matched.</span></h2>
+    <p class="sub" style="color:#C9CCD1">A tent, a table cover, a feather flag and a banner, all designed to match from one logo. One free proof for every piece, and nothing prints until you approve.</p></div>
+    <div class="cta-row"><a class="btn btn-y" href="/event-booth-bundles/">See booth packages <span aria-hidden="true">→</span></a><a class="btn btn-ghost" href="/custom-canopy-tents/">Shop canopy tents</a></div>
+  </div>
+</section>'''
 options=''.join(f'<option>{html.unescape(NAMES[k])}</option>' for k in NAMES)+'<option>Election / campaign signs</option><option>Birthday or graduation sign</option><option>Something else</option>'
 REACH_HOME=f'''<div class="reach">
         <p class="reach-kicker">Text, WhatsApp or call</p>
@@ -929,7 +937,7 @@ def quote_form(selected=''):
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>"""
 
-main=main.replace('{{QUOTE_FORM}}',quote_form()).replace('{{BIZ}}','\n'.join(hcard(k) for k in HOME_TOP)).replace('{{COUNT}}',str(len(BIZK+SEAK))).replace('{{WORK}}',HOME_WORK).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options).replace('{{REACH}}',REACH_HOME)
+main=main.replace('{{QUOTE_FORM}}',quote_form()).replace('{{BIZ}}','\n'.join(hcard(k) for k in HOME_TOP)).replace('{{COUNT}}',str(len(BIZK+SEAK))).replace('{{WORK}}',HOME_WORK+HOME_BOOTH).replace('{{SEA}}','\n'.join(hcard(k) for k in SEAK)).replace('{{OPTIONS}}',options).replace('{{REACH}}',REACH_HOME)
 GUIDESEC='''
 <section class="sec paper2" id="guides">
   <div class="wrap">
