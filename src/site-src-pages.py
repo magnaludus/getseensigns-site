@@ -956,7 +956,6 @@ GUIDESEC='''
 </section>
 '''
 main=main.replace('<section class="final ink">',GUIDESEC+'<section class="final ink">')
-main=main.replace('<h1>Signs that make people <span class="block">look twice.</span></h1>','<h1>Custom signs that make people <span class="block">look twice.</span></h1>')
 import re as _re
 home_faqs=[(html.unescape(_re.sub('<[^>]+>','',q)),a) for q,a in _re.findall(r'<details[^>]*><summary>(.*?)</summary><p>(.*?)</p></details>',main)]
 title='Custom Yard Signs, Banners, Flags & Tents | Get Seen Signs'

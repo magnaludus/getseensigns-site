@@ -78,9 +78,12 @@ test('the Black Friday bar comes from site.js, shows only Nov 27 12:00 AM ET to 
   }
 });
 
-test('the home page leads with the free mockup and links the booth packages', () => {
+test('the home page hero is simple: shop button first, free mockup second, no photo collage; booth packages linked', () => {
   const html = read('index.html');
-  assert.match(html, /<a class="btn btn-y" href="#quote">Get a free design mockup/);
+  const hero = html.slice(html.indexOf('class="hero"'), html.indexOf('id="products"'));
+  assert.match(hero, /<a class="btn btn-y" href="\/shop\/">Shop all products<\/a>/);
+  assert.match(hero, /<a class="btn btn-ghost" href="#quote">Get a free design mockup<\/a>/);
+  assert.doesNotMatch(hero, /hero-art|sticker|<img/);
   assert.match(html, /<section class="sec ink" id="booth">[\s\S]*?href="\/event-booth-bundles\/">See booth packages/);
 });
 

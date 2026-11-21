@@ -214,7 +214,9 @@ test('sitemap lastmod and blog dateModified come from git (the last commit that 
     const want = committedDate(file);
     if (want) assert.equal(lastmod(path), want, path + ' is dated by its last commit');
   }
-  assert.ok(new Set(dates.map((m) => m[2])).size > 1, 'pages carry different dates, not one build date');
+  // A site-wide style change (style.css is inlined into every page) legitimately re-dates every page, so one shared
+  // date is allowed; the per-page checks above are what prove the dates come from git and not from the build.
+  for (const m of dates) assert.match(m[2], /^20\d\d-\d\d-\d\d$/);
   for (const b of ['vinyl-banner-size-guide', 'feather-flag-size-guide']) {
     const want = committedDate(`blog/${b}/index.html`);
     const mod = read(`blog/${b}/index.html`).match(/"dateModified":"(\d{4}-\d{2}-\d{2})"/)[1];
@@ -314,11 +316,8 @@ test('the booth kit images and video use the trade-show-booth-kit file names (ke
   assert.ok(!/15-vendor-booth-kit/.test(html + read('index.html') + read('shop/index.html')));
 });
 
-test('mobile image weight: responsive hero srcset, WebP video posters, lazy gallery images', () => {
-  const home = read('index.html');
-  assert.match(home, /srcset="\/assets\/img\/hero-tent-480\.webp 480w, \/assets\/img\/hero-tent-768\.webp 768w, \/assets\/img\/hero-tent\.webp 900w" sizes="[^"]+"/);
-  assert.match(home, /srcset="\/assets\/img\/hero-banner-320\.webp 320w, \/assets\/img\/hero-banner-480\.webp 480w, \/assets\/img\/hero-banner\.webp 700w" sizes="[^"]+"/);
-  assert.match(home, /srcset="\/assets\/img\/hero-yard-320\.webp 320w, \/assets\/img\/hero-yard-480\.webp 480w, \/assets\/img\/hero-yard\.webp 700w" sizes="[^"]+"/);
+test('mobile image weight: the old hero images keep small sizes, WebP video posters, lazy gallery images', () => {
+  // The home hero no longer shows photos (Nov 21 clean-up); the files stay for when a showcase image returns.
   const size = (f) => statSync(new URL('assets/img/' + f, root)).size;
   assert.ok(size('hero-tent-480.webp') < size('hero-tent.webp') / 2 && size('hero-banner-320.webp') < size('hero-banner.webp') / 2);
   for (const f of readdirSync(new URL('assets/video', root)).filter((n) => n.endsWith('-poster.webp'))) {
