@@ -386,7 +386,7 @@ ALT2={ # alt text for the in-use example photo (2.jpg) and close-up (3.jpg) per 
 # Hero photos that are catalog-style sample designs get a caption under the photo.
 SAMPLE_CAP={
  '04-feather-flag':'Sample design. Shown in three sizes with cross bases.',
- '09-table-throw':'Sample design. Shown as a table throw on a 6 ft table. Fitted and stretch covers are also available.',
+ '09-table-throw':'Sample design. Shown as a 6 ft fitted cover with a printed logo.',
  '10-canopy-tent':'Sample design. Shown with optional walls, a table cover and a feather flag.',
 }
 # Alt text for the current Etsy listing main photo (p-*.jpg). Gallery shots that Etsy did not expose stay on their own alts above.
@@ -398,7 +398,7 @@ HERO_ALT={
  '06-car-magnet':'Bulldog Lawn Care car magnet on a white pickup truck door',
  '07-real-estate-sign':'Lionheart Realty for-sale sign with an Open House Sunday rider in a front yard',
  '08-step-and-repeat':'Purple Westview Wolves Spring Gala 2026 step and repeat backdrop on a red carpet in a gym',
- '09-table-throw':'Sample design: navy table throw on a 6 ft table with a Honey Badger Coffee Co. logo on the front',
+ '09-table-throw':'Sample design: navy 6 ft fitted table cover with a Honey Badger Coffee Co. logo on the front',
  '10-canopy-tent':'Sample design: maroon and black Copperleaf Kickers soccer club 10×10 canopy tent with printed walls, a matching table cover and a feather flag',
  '11-christmas-family-banner':'Merry Christmas from the Martinez Family snowman banner on a decorated porch rail',
  '12-senior-night-banner':'Senior night banner for Jake Morrison, number 12, Oak Ridge Rams, on a football field fence',
