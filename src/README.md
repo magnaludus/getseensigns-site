@@ -44,6 +44,17 @@ Run it from anywhere; paths are relative to the repo root. Output is written to 
 The sitemap `lastmod` (for pages without an explicit date) and the blog `dateModified` use today's date in America/New_York at build time. Set `BUILD_DATE=YYYY-MM-DD` to fix it, for example `BUILD_DATE=2026-10-28 python3 src/site-src-pages.py`. Nothing else in a page depends on the date, so a rebuild on a new day only changes `sitemap.xml` and the four blog pages.
 Then check `git diff`: only the pages you meant to change should differ.
 
+On Windows run it as `py src/site-src-pages.py` and set `BUILD_DATE`: Windows Python has no time zone data unless `tzdata` is installed.
+
+### Image URLs carry a content hash
+
+Every `/assets/img/` and `/assets/brand/` file a built page links to (`src`, `srcset`, `preload`, meta tags, JSON-LD) ends in `?v=<10 hex characters>`, the start of that file's SHA-256 (`version_assets()` in `src/site-src-pages.py`). Cloudflare and browsers keep those two folders for 7 days, so a photo swapped in under the same file name used to keep showing the old picture until that ran out. Now replacing a photo and rebuilding gives every page that shows it a new URL, and HTML is revalidated on every visit, so visitors see the new photo with no cache purge.
+
+- The build stops if a page names an image that is not in the folder.
+- Not versioned: `assets/fonts`, `assets/video`, `assets/portfolio`, `assets/og-image.jpg`, the Merchant Center feed, `admin/` and the order emails and pages made by Functions.
+- `.design-dev/tests/unit/asset-versions.test.mjs` fails when a photo changed and the pages were not rebuilt.
+- Text files (the `.svg` logos) are hashed with LF line endings, so a Windows checkout and the Linux build agree.
+
 ## Checklist before every PR
 
 - Keep the canonical tag (`https://getseensignsco.com/<slug>/`, https, bare domain, trailing slash) on every page.
@@ -52,6 +63,7 @@ Then check `git diff`: only the pages you meant to change should differ.
 - No trademarks: keep the line that buyers own the artwork they send and we don't print team names or logos.
 - Keep the sitemap entry and breadcrumb for every page. Keep `privacy.html`, `terms.html` and `contact.html` as the file names (they serve at /privacy, /terms and /contact). Terms and privacy body copy comes from `src/legal/terms.md` and `src/legal/privacy.md`. Do not reword that copy.
 - Never hand-edit a built page; the next rebuild overwrites it. Edit `src/` and rebuild.
+- Replaced or added a photo in `assets/img/` or `assets/brand/`? Rebuild and commit the changed pages with it (the `?v=` hash changes).
 - Nothing private goes in this repo: no costs, margins, supplier names or quotes, passwords, tokens or account details.
 
 ## Online designer (`/design/`)
