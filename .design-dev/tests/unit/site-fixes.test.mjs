@@ -299,7 +299,8 @@ test('audit fixes: meta descriptions under 160 characters, brand in the tailgate
   }
   assert.match(read('tailgate-and-gameday-signs/index.html'), /<title>Tailgate Tents &amp; Gameday Signs \| Get Seen Signs<\/title>/);
   const org = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(read('index.html'))[1])['@graph'].find((n) => n['@type'] === 'Organization');
-  assert.equal(org.logo, 'https://getseensignsco.com/assets/brand/getseen-horizontal-for-dark-bg.png');
+  // image URLs carry ?v=<content hash> (see asset-versions.test.mjs)
+  assert.match(org.logo, /^https:\/\/getseensignsco\.com\/assets\/brand\/getseen-horizontal-for-dark-bg\.png\?v=[0-9a-f]{10}$/);
   assert.ok(existsSync(new URL('assets/brand/getseen-horizontal-for-dark-bg.png', root)));
   const html = read('index.html');
   assert.ok(html.includes('aria-label="Text us at (334) 232-9003"') && html.includes('aria-label="Chat on WhatsApp with Get Seen Signs"'));
@@ -330,7 +331,7 @@ test('mobile image weight: the old hero images keep small sizes, WebP video post
   for (const slug of ['vinyl-banners', 'trade-show-booth-kit', 'custom-canopy-tents']) {
     const html = read(`${slug}/index.html`);
     // the hero is eager and preloaded; every gallery picture below the fold is lazy
-    assert.match(html, /<link rel="preload" as="image" href="\/assets\/img\/p-[^"]+\.webp" type="image\/webp" fetchpriority="high">/);
+    assert.match(html, /<link rel="preload" as="image" href="\/assets\/img\/p-[^"?]+\.webp\?v=[0-9a-f]{10}" type="image\/webp" fetchpriority="high">/);
     const gallery = /<div class="gal">([\s\S]*?)<\/div>\s*<\/div>\s*<\/section>/.exec(html)[1];
     for (const img of gallery.match(/<img [^>]*>/g)) assert.match(img, /loading="lazy"/, slug);
   }

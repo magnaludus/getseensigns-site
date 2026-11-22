@@ -256,9 +256,30 @@ def quote_cta(product_label, extra=''):
     <p class="reach-line">Or <a href="{SMS_HREF}" aria-label="Text us at {PHONE_DISPLAY}">text us</a>, <a href="{WA_HREF}" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Get Seen Signs">chat on WhatsApp</a>, or call <a href="{TEL_HREF}" >{PHONE_DISPLAY}</a>.</p>
   </div>
 </section>'''
+# ---------- versioned image URLs ----------
+# The Cloudflare headers file lets browsers and the edge keep /assets/img/* and /assets/brand/* for 7 days, so a photo swapped in
+# place under the same filename kept showing the old picture until that ran out. Every page reference to one of those
+# files therefore carries ?v=<first 10 hex chars of the file's SHA-256>. Replace a photo and every page that shows it
+# gets a new URL (a new cache entry) once the HTML is rebuilt; HTML is revalidated on every visit, so visitors follow.
+# Keep these two directories in step with the long-cache rules in that file.
+import hashlib
+_ASSET_URL=_r0.compile(r'(/assets/(?:img|brand)/[A-Za-z0-9_.\-]+\.(?:jpe?g|png|webp|gif|svg|avif))(?![A-Za-z0-9_.\-?])')
+_asset_ver={}
+def asset_version(url_path, where=''):
+    if url_path not in _asset_ver:
+        try:
+            with open(SITE+url_path,'rb') as f: data=f.read()
+        except OSError:
+            raise SystemExit('%s refers to %s, which does not exist' % (where or 'a page', url_path))
+        if url_path.endswith('.svg'): data=data.replace(b'\r\n',b'\n')  # a Windows checkout turns text files into CRLF; hash what git stores
+        _asset_ver[url_path]=hashlib.sha256(data).hexdigest()[:10]
+    return _asset_ver[url_path]
+def version_assets(s, where=''):
+    """Append ?v=<hash> to every /assets/img/ and /assets/brand/ file URL in s (relative, absolute, src, srcset, JSON-LD)."""
+    return _ASSET_URL.sub(lambda m: m.group(1)+'?v='+asset_version(m.group(1), where), s)
 def write(path, s):
     full=SITE+path+('index.html' if path.endswith('/') else '')
-    os.makedirs(os.path.dirname(full), exist_ok=True); open(full,'w').write(s)
+    os.makedirs(os.path.dirname(full), exist_ok=True); open(full,'w').write(version_assets(s, path))
 
 import subprocess
 def _git(*args):
@@ -284,7 +305,7 @@ def write_dated(path, render):
     if that is byte-identical to the file on disk the page did not change and keeps its date, otherwise it is
     written with the build date."""
     old=file_lastmod(path)
-    if old!=TODAY and open(SITE+'/'+_page_rel(path),encoding='utf-8').read()==render(old):
+    if old!=TODAY and open(SITE+'/'+_page_rel(path),encoding='utf-8').read()==version_assets(render(old), path):
         return old
     write(path, render(TODAY)); return TODAY
 
@@ -637,7 +658,7 @@ def design_modules(entry='assets/design/main.js'):
         seen.append(rel)
         src=open(f'{SITE}/{rel}',encoding='utf-8').read()
         for m in pat.finditer(src):
-            queue.append(os.path.normpath(os.path.join(os.path.dirname(rel), m.group(1) or m.group(2))))
+            queue.append(os.path.normpath(os.path.join(os.path.dirname(rel), m.group(1) or m.group(2))).replace(os.sep,'/'))
     return seen
 
 _dcss=_r0.sub(r'/\*.*?\*/','',open(SITE+'/assets/design/editor.css',encoding='utf-8').read(),flags=_r0.S)
@@ -1063,7 +1084,7 @@ nf=head('Page not found | Get Seen Signs','That page is not here. Browse custom 
 nf=nf.replace('<meta name="robots" content="index,follow,max-image-preview:large">','<meta name="robots" content="noindex">').replace('<link rel="canonical" href="'+BASE+'/404.html">\n','')
 links=''.join(f'<a href="/{p["slug"]}/">{p["name"]}</a>' for p in P)
 nf+=NAV+f'<main id="main"><section class="phero ink"><div class="wrap"><h1>Page not <span class="block">found.</span></h1><p class="lede">That page isn\'t here. Try one of these:</p><div class="cta-row"><a class="btn btn-y" href="/">Home</a><a class="btn btn-ghost" href="/design/">Design online</a><a class="btn btn-ghost" href="/#quote">Get a quote</a></div></div></section><section class="sec paper"><div class="wrap"><div class="link-cloud">{links}</div></div></section></main>'+foot()
-open(SITE+'/404.html','w').write(nf)
+write('/404.html',nf)
 print('home ok')
 
 # ---------- /event-booth-bundles/: vendor and event booth setups built from the real product prices ----------
